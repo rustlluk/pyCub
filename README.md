@@ -73,7 +73,7 @@
 
         mv SOME_PATH/pycub SOME_PATH/pycub_ws
 
-  - run the docker (see [Docker how-to](#docker-how-to) for more parameters)  
+  - run the docker (see [Parameters](#deploy-parameters) for more parameters)  
    
         cd SOME_PATH/pycub_ws/Docker
 
@@ -101,7 +101,7 @@ Common steps:
        'Include system environment variables'. Every new configuration will have that settings from now
        - if you already have configuration created before doing the above -> delete it and create again, or change it manually
     
-### Deploy.py Parameters
+### Deploy Parameters
   - `cd` to folder with Dockerfile
   - `./deploy.py`
     - `-b` or `--build` when building
