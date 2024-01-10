@@ -1,0 +1,13 @@
+right_foot;r_foot
+torso;chest
+left_leg_upper;l_upper_leg
+right_arm;r_upper_arm
+left_arm;l_upper_arm
+right_leg_lower;r_lower_leg
+left_hand;l_hand
+left_forearm;l_forearm
+left_foot;l_foot
+right_forearm;r_forearm
+right_leg_upper;r_upper_leg
+right_hand;r_hand
+left_leg_lower;l_lower_leg
