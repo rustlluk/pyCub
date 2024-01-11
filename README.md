@@ -33,6 +33,7 @@
     of collision state
 
 ## Docker
+[https://github.com/rustlluk/easy-docker](https://github.com/rustlluk/easy-docker) is utilized to use Docker
 ### Installation  
   - install [docker-engine](https://docs.docker.com/engine/install/ubuntu/)
     (**DO NOT INSTALL DOCKER DESKTOP**), do [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
