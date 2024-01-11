@@ -8,15 +8,20 @@
 
 ## Installation  
 
-1. Use Docker  
-   - see [Docker](#docker) section
-2. or install python3 and `pip3 install pybullet numpy scipy open3d`
+1. Install dependencies
+   - use Docker  
+      - see [Docker](#docker) section
+   - or install python3 and `pip3 install pybullet numpy scipy open3d`
+2. Pull this repository
+3. try run some example, e.g., `python3 PATH_TO_THE_REPOSITORY/icub_pybullet/examples/push_the_ball_cartesian.py`
 
 ## Examples
 - [push_the_ball_pure_joints.py](icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
   shows how to control the robot in joint space
 - [push_the_ball_cartesian.py](icub_pybullet/examples/push_the_ball_cartesian.py) contains an example that
   shows how to control the robot in Cartesian space
+- [skin_test.py](icub_pybullet/examples/skin_test.py) contains an example with balls falling the robot and skin 
+  should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)
 
 ## Information
 - documentation can be found at [lukasrustler.cz/pycub](https://lukasrustler.cz/pycub) or in [pyCub.pdf](documentation/pyCub.pdf)
@@ -31,6 +36,8 @@
     ocurred. If collision, the variable pycub.collision_during_movement is set. You can also run
     pycub.motion_done() with check_collision=False to ignore collision checks, e.g., to get out
     of collision state
+- until the repository is installed as a packages, examples contains line `sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))`
+  so that python can find the necessary modules. To avoid that, you can run all codes from `icub_pybullet` folder or use PyCharm (or other IDE)
 
 ## Docker
 [https://github.com/rustlluk/easy-docker](https://github.com/rustlluk/easy-docker) is utilized to use Docker
