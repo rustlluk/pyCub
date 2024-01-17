@@ -55,7 +55,7 @@ simulation_step: 240   # during each simulation step, the simulation time will a
                        # float
                        # the higher, the more precise simulation, but slower simulation
                        # values lower than 200 will most probably break the simulation
-self_collisions: False # Whether to detect self collisions of the links of the robot
+self_collisions: True # Whether to detect self collisions of the links of the robot
                        # default: True
                        # True, False
 eyes: # Whether to show output from eye
