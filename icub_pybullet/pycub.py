@@ -131,15 +131,12 @@ class pyCub(BulletClient):
                 # if "leg" not in pc_path:
                 #     continue
                 pc = o3d.io.read_point_cloud(pc_path)
+                if "foot" not in pc_path:
+                    pc.scale(1.05, pc.get_center())
                 skin_part = skin_config[os.path.basename(pc_path).split(".")[0]]
                 self.skin_point_clouds[skin_part] = pc
                 self.skin[skin_part] = [np.asarray(pc.points), np.asarray(pc.normals)]
                 self.skin_activations[skin_part] = np.zeros((len(pc.points), ))
-
-                # self.neighbour_links[link.robot_joint_id] = []
-                # for c in close_points:
-                #     self.neighbour_links[link.robot_joint_id].append(c[4])
-                # self.neighbour_links[link.robot_joint_id] = np.unique(self.neighbour_links[link.robot_joint_id])
 
         if self.config.log.log:
             self.file_logger = logging.getLogger("pycub_file_logger")
@@ -311,7 +308,7 @@ class pyCub(BulletClient):
         for l in links_to_test:
             for ll in self.links:
                 if l == ll.name:
-                    bboxes.append(self.scale_bbox(self.getAABB(self.robot, ll.robot_joint_id), 0.8))
+                    bboxes.append(self.scale_bbox(self.getAABB(self.robot, ll.robot_link_id), 0.8))
                     break
 
         for fo_id, fo in enumerate(self.free_objects):
@@ -335,7 +332,7 @@ class pyCub(BulletClient):
                 if link.name == skin_part:
                     break
 
-            linkState = self.getLinkState(self.robot, link.robot_joint_id,
+            linkState = self.getLinkState(self.robot, link.robot_link_id,
                                           computeLinkVelocity=0, computeForwardKinematics=0)
             ori = linkState[self.linkInfo["URDFORI"]]
             pos = linkState[self.linkInfo["URDFPOS"]]
@@ -364,7 +361,7 @@ class pyCub(BulletClient):
                 points = np.vstack((points, points_))
                 normals = np.vstack((normals, normals_))
 
-            temp.append((link.robot_joint_id, skin_part, points_.shape[0]))
+            temp.append((link.robot_link_id, skin_part, points_.shape[0]))
         if points is not None:
             contacts = self.rayTestBatch(points, points + self.config.skin.radius*normals,
                                          numThreads=self.config.skin.num_cores)
@@ -677,12 +674,12 @@ class pyCub(BulletClient):
                         body_b = name
                         break
             for link in self.links:
-                if link.robot_joint_id == c[self.contactPoints['INDEXA']]:
+                if link.robot_link_id == c[self.contactPoints['INDEXA']]:
                     break
             link_a = link.name
             if c[self.contactPoints['IDB']] == self.robot:
                 for link in self.links:
-                    if link.robot_joint_id == c[self.contactPoints['INDEXB']]:
+                    if link.robot_link_id == c[self.contactPoints['INDEXB']]:
                         break
                 link_b = link.name
             else:
@@ -734,19 +731,19 @@ class Joint:
 
 
 class Link:
-    def __init__(self, name, robot_joint_id, urdf_link):
+    def __init__(self, name, robot_link_id, urdf_link):
         """
         Help function to encapsulate link information
 
         :param name: name of the link
         :type name: str
-        :param robot_joint_id: id of the link in pybullet
-        :type robot_joint_id: int
+        :param robot_link_id: id of the link in pybullet
+        :type robot_link_id: int
         :param urdf_link: id of the link in pycub.urdfs["robot"].links
         :type urdf_link: int
         """
         self.name = name
-        self.robot_joint_id = robot_joint_id
+        self.robot_link_id = robot_link_id
         self.urdf_link = urdf_link
 
 

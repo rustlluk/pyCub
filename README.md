@@ -1,6 +1,5 @@
 # README
-- this repo contains code for iCub simulation in PyBullet
-- it provides also dockerfile for easy setup of the environment
+pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for simulation and Open3D for visualization.
 
 ## Known bugs
 - visualization with skin dies after ~65k steps
@@ -11,9 +10,13 @@
 1. Install dependencies
    - use Docker  
       - see [Docker](#docker) section
-   - or install python3 and `pip3 install pybullet numpy scipy open3d`
+   - or install python3 (3.8 and higher; tested in 3.11) and `python3 -m pip install pybullet numpy scipy open3d`
+     - open3d 0.16.0 and higher is required 
+       - you may need to upgrade pip first: `python3 -m pip install --upgrade pip`
 2. Pull this repository
 3. try run some example, e.g., `python3 PATH_TO_THE_REPOSITORY/icub_pybullet/examples/push_the_ball_cartesian.py`
+4. (optional, but recommended) add `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file  
+   - this will allow you to run scripts from any location
 
 ## Examples
 - [push_the_ball_pure_joints.py](icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
@@ -24,7 +27,8 @@
   should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)
 
 ## Information
-- documentation can be found at [lukasrustler.cz/pycub](https://lukasrustler.cz/pycub) or in [pyCub.pdf](documentation/pyCub.pdf)
+- documentation can be found at [lukasrustler.cz/pycub](https://lukasrustler.cz/pycub) or in [pyCub.pdf](https://github.com/rustlluk/pyCub/blob/master/documentation/pyCub.pdf)
+- presentation with description of functionality can be found at [pyCub presentation](https://lukasrustler.cz/pycub/pyCub_presentation.pdf)
 - simulator code is in [pycub.py](icub_pybullet/pycub.py)
   - it uses PyBullet for simulation and provides high-level interface
 - visualization code in [visualizer.py](icub_pybullet/visualizer.py)
@@ -36,8 +40,10 @@
     ocurred. If collision, the variable pycub.collision_during_movement is set. You can also run
     pycub.motion_done() with check_collision=False to ignore collision checks, e.g., to get out
     of collision state
-- until the repository is installed as a packages, examples contains line `sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))`
-  so that python can find the necessary modules. To avoid that, you can run all codes from `icub_pybullet` folder or use PyCharm (or other IDE)
+- until you add `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file 
+  (or change PYTHONPATH everytime you open a new terminal) you have to add something like `sys.path.append(0, "PATH_TO_THE_REPOSITORY/icub_pybullet")`
+  to every file you want to run
+  - scripts in [examples](icub_pybullet/examples) folder already contain such line, so the examples can be run easily 
 
 ## Docker
 [https://github.com/rustlluk/easy-docker](https://github.com/rustlluk/easy-docker) is utilized to use Docker
@@ -79,21 +85,25 @@
         git clone https://github.com/rustlluk/pyCub.git
   - (optionally) rename it to be called the same as in docker
 
-        mv SOME_PATH/pycub SOME_PATH/pycub_ws
+        mv PATH_TO_THE_REPOSITORY/pycub SOME_PATH/pycub_ws
 
-  - run the docker (see [Parameters](#deploy-parameters) for more parameters)  
+  - build the docker (see [Parameters](#deploy-parameters) for more parameters)  
    
         cd SOME_PATH/pycub_ws/Docker
+        ./deploy.py -b -p PATH_TO_THE_REPOSITORY/pycub_ws -c pycub
 
-    - to build it on your computer:  
-    
-       ```
-       ./deploy.py -b -p SOME_PATH/pycub_ws -c pycub
-       ```
+  - after you built the container, you can run it next time as 
+  
+        ./deploy.py -e -c pycub
+
+  - if you want to open new terminal in existing container, run
+
+        ./deploy.py -c pycub -t
 
 ### Docker + PyCharm
+You have two option:
 1. Either run pycharm from docker
-2. In your local docker:
+2. Open your pycharm on your host machine:
    - add ssh interpreter
      - user docker
      - ip can be localhost or ip where you run the docker
