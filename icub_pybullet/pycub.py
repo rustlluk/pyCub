@@ -4,8 +4,8 @@ import numpy as np
 import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
 import os
-from visualizer import Visualizer
-from utils import Config, URDF, Pose, CustomFormatter
+from icub_pybullet.visualizer import Visualizer
+from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter
 import open3d as o3d
 import logging
 import datetime
@@ -43,8 +43,7 @@ class pyCub(BulletClient):
         :type config: str, optional, default="default.yaml"
         """
         super().__init__(p.DIRECT)
-
-        self.parent_name = os.path.basename(inspect.stack()[1][0].f_locals["__file__"])
+        self.parent_name = os.path.basename(inspect.stack()[1].filename)
 
         self.file_dir = os.path.dirname(os.path.abspath(__file__))
         self.config = Config(os.path.join(self.file_dir, "configs", config))
