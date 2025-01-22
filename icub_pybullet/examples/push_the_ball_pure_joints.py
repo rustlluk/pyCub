@@ -14,7 +14,7 @@ except:
     from pycub import pyCub
 
 
-def push_the_ball():
+def push_the_ball(client):
     """
     Function to push the ball from the table
     """
@@ -35,12 +35,16 @@ def push_the_ball():
     client.logger.info("Moved the ball!")
 
 
-if __name__ == "__main__":
+def main():
     # load the robot with correct world/config
     client = pyCub(config="with_ball.yaml")
 
-    push_the_ball()
+    push_the_ball(client)
 
     # just wait until the gui is closed
     while client.is_alive():
         client.update_simulation()
+
+
+if __name__ == "__main__":
+    main()
