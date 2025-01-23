@@ -43,10 +43,15 @@ class pyCub(BulletClient):
         :type config: str, optional, default="default.yaml"
         """
         super().__init__(p.DIRECT)
+
         self.parent_name = os.path.basename(inspect.stack()[1].filename)
 
         self.file_dir = os.path.dirname(os.path.abspath(__file__))
-        self.config = Config(os.path.join(self.file_dir, "configs", config))
+
+        for c_path in [os.path.join(self.file_dir, "configs", config), config,
+                       os.path.join(os.getcwd(), os.path.dirname(inspect.stack()[1].filename), config)]:
+            if os.path.exists(c_path):
+                self.config = Config(c_path)
         self.config.simulation_step = 1/self.config.simulation_step
         self.setTimeStep(self.config.simulation_step)
         self.gui = self.config.gui

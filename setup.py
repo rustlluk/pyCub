@@ -10,7 +10,7 @@ sub_path = {}
 
 for folder in folders_to_copy:
     for path in Path(folder).rglob('*'):
-        if os.path.isfile(path) and ".py" not in os.path.basename(path):
+        if os.path.isfile(path) and ".py" not in os.path.basename(path) and ".pyc" not in os.path.basename(path):
             if os.path.dirname(path) not in sub_path:
                 sub_path[os.path.dirname(path)] = [os.path.normpath(path)]
             else:
