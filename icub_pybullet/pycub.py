@@ -65,6 +65,12 @@ class pyCub(BulletClient):
         stream_handler.setFormatter(CustomFormatter())
         self.logger.addHandler(stream_handler)
 
+        if hasattr(self.config, "log_pose"):
+            self.log_pose = True
+            self.pose_logger = []
+        else:
+            self.log_pose = False
+
         self.gravity = False
 
         self.urdf_path = os.path.join(self.file_dir, self.config.robot_urdf_path)
@@ -254,6 +260,9 @@ class pyCub(BulletClient):
             if self.config.log.log and time.time()-self.last_log > self.config.log.period:
                 self.file_logger.info(self.prepare_log())
                 self.last_log = time.time()
+
+            if self.log_pose:
+                self.pose_logger.append(self.end_effector.get_position())
 
         if self.gui and time.time()-self.last_render > 0.01 and self.visualizer.is_alive:
             self.visualizer.render()

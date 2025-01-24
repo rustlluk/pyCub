@@ -301,6 +301,9 @@ class Pose:
     def __str__(self):
         return f"position: {self.pos}, orientation: {self.ori}"
 
+    def to_string(self):
+        return ";".join(map(str, self.pos)) + ";" + ";".join(map(str, self.ori))
+
 
 class CustomFormatter(logging.Formatter):
     """
