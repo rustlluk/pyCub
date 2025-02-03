@@ -57,6 +57,7 @@ class Visualizer:
         self.show_menu = gui.Menu()
         self.show_menu.add_item("l_eye", menu_counter)
         self.show_menu.add_item("r_eye", menu_counter + 1)
+
         self.menu.add_menu("Show", self.show_menu)
 
         self.file_menu.add_item("Stream l_eye to file", menu_counter + 2)
@@ -70,6 +71,10 @@ class Visualizer:
             if menu_id in [6, 7]:
                 show_callbacks.append(c)
             self.window.set_on_menu_item_activated(menu_id, c)
+
+        self.show_menu.add_item("Coordination Frame", menu_counter+4)
+        show_callbacks.append(self.MenuCallback(menu_counter+4, self))
+        self.window.set_on_menu_item_activated(menu_counter+4, show_callbacks[-1])
 
         self.window.add_child(self.scene)
 
@@ -107,6 +112,7 @@ class Visualizer:
             show_callbacks[0]()
         if self.client.config.eyes.r_eye:
             show_callbacks[1]()
+
 
     def show_first(self, urdf_name="robot"):
         """
@@ -308,6 +314,11 @@ class Visualizer:
             elif self.id in [8, 9]:
                 eye = "l_eye" if self.id == 8 else "r_eye"
                 self.parent.eye_windows[eye].save_images_bool = not self.parent.eye_windows[eye].save_images_bool
+            elif self.id == 10:
+                if self.parent.menu.is_checked(self.id):
+                    self.parent.vis.add_geometry("coordination_frame", o3d.geometry.TriangleMesh.create_coordinate_frame(size=1), self.parent.mat)
+                else:
+                    self.parent.vis.remove_geometry("coordination_frame")
 
         def save_image(self, im, mode):
             """
