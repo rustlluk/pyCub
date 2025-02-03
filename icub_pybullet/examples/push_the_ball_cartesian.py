@@ -3,14 +3,18 @@ Example of moving the robot in cartesian space to push the ball. It is more robu
 
 :Author: Lukas Rustler
 """
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pycub import pyCub
-from utils import Pose
+try:
+    from icub_pybullet.pycub import pyCub
+except:
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    from icub_pybullet.pycub import pyCub
+
+from icub_pybullet.utils import Pose
 
 
-def push_the_ball():
+def push_the_ball(client):
     """
     Function to move the ball with cartesian control. The robot is moved 15cm lower and 10cm closer and the moved left to
     push the ball.
@@ -44,13 +48,16 @@ def push_the_ball():
 
     client.logger.info("Moved the ball!")
 
-
-if __name__ == "__main__":
+def main():
     # load the robot with correct world/config
     client = pyCub(config="with_ball.yaml")
 
-    push_the_ball()
+    push_the_ball(client)
 
     # just wait until the gui is closed
     while client.is_alive():
         client.update_simulation()
+
+
+if __name__ == "__main__":
+    main()

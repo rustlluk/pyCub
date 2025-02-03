@@ -6,17 +6,25 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
   - e.g., [https://github.com/isl-org/Open3D/issues/4992](https://github.com/isl-org/Open3D/issues/4992) 
 
 ## Installation  
-
-1. Install dependencies
-   - use Docker  
-      - see [Docker](#docker) section
-   - or install python3 (3.8 and higher; tested in 3.11) and `python3 -m pip install pybullet numpy scipy open3d`
-     - open3d 0.16.0 and higher is required 
-       - you may need to upgrade pip first: `python3 -m pip install --upgrade pip`
-2. Pull this repository
-3. try run some example, e.g., `python3 PATH_TO_THE_REPOSITORY/icub_pybullet/examples/push_the_ball_cartesian.py`
-4. (optional, but recommended) add `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file  
-   - this will allow you to run scripts from any location
+- Requires python3.8 and newer (tested on 3.8 and 3.11)
+- (Recommended) Virtual environment + package install
+  - Pull this repository  
+  - ```
+    python3 -m venv pycub_venv
+    source pycub_venv/bin/activate
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r requirements.txt
+    python3 setup.py install
+    ```
+- system-wide install + package install
+  - Pull this repository 
+  - ```
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r requirements.txt
+    python3 setup.py install
+    ```
+- use Docker  
+   - see [Docker](#docker) section
 
 ## Examples
 - [push_the_ball_pure_joints.py](icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
@@ -40,9 +48,10 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
     ocurred. If collision, the variable pycub.collision_during_movement is set. You can also run
     pycub.motion_done() with check_collision=False to ignore collision checks, e.g., to get out
     of collision state
-- until you add `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file 
-  (or change PYTHONPATH everytime you open a new terminal) you have to add something like `sys.path.append(0, "PATH_TO_THE_REPOSITORY/icub_pybullet")`
-  to every file you want to run
+- when not installing the package with `python3 setup.py install` you need to add 
+  `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file 
+  (or change PYTHONPATH everytime you open a new terminal) you have to add something like 
+  `sys.path.append(0, "PATH_TO_THE_REPOSITORY/icub_pybullet")` to every file you want to run
   - scripts in [examples](icub_pybullet/examples) folder already contain such line, so the examples can be run easily 
 
 ## Docker

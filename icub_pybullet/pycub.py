@@ -1,17 +1,19 @@
+import copy
 import glob
 import time
 import numpy as np
 import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
 import os
-from visualizer import Visualizer
-from utils import Config, URDF, Pose, CustomFormatter
+from icub_pybullet.visualizer import Visualizer
+from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter
 import open3d as o3d
 import logging
 import datetime
 import inspect
 from subprocess import call
 import atexit
+import roboticstoolbox as rtb
 
 
 class pyCub(BulletClient):
@@ -44,10 +46,14 @@ class pyCub(BulletClient):
         """
         super().__init__(p.DIRECT)
 
-        self.parent_name = os.path.basename(inspect.stack()[1][0].f_locals["__file__"])
+        self.parent_name = os.path.basename(inspect.stack()[1].filename)
 
         self.file_dir = os.path.dirname(os.path.abspath(__file__))
-        self.config = Config(os.path.join(self.file_dir, "configs", config))
+
+        for c_path in [os.path.join(self.file_dir, "configs", config), config,
+                       os.path.join(os.getcwd(), os.path.dirname(inspect.stack()[1].filename), config)]:
+            if os.path.exists(c_path):
+                self.config = Config(c_path)
         self.config.simulation_step = 1/self.config.simulation_step
         self.setTimeStep(self.config.simulation_step)
         self.gui = self.config.gui
@@ -60,6 +66,12 @@ class pyCub(BulletClient):
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(CustomFormatter())
         self.logger.addHandler(stream_handler)
+
+        if hasattr(self.config, "log_pose"):
+            self.log_pose = True
+            self.pose_logger = []
+        else:
+            self.log_pose = False
 
         self.gravity = False
 
@@ -120,6 +132,8 @@ class pyCub(BulletClient):
             self.skin_point_clouds = {}
             self.skin = {}
             self.skin_activations = {}
+            self.activated_skin_points = {}
+            self.activated_skin_normals = {}
             with open(os.path.join(self.file_dir, "..", "iCub/skin/point_clouds/config.txt"), "r") as f:
                 skin_config = {_.split(";")[0]: _.split(";")[1] for _ in f.read().splitlines()}
             if len(self.config.skin.skin_parts) == 0:
@@ -131,6 +145,7 @@ class pyCub(BulletClient):
                 # if "leg" not in pc_path:
                 #     continue
                 pc = o3d.io.read_point_cloud(pc_path)
+                pc.normalize_normals()
                 if "foot" not in pc_path:
                     pc.scale(1.05, pc.get_center())
                 skin_part = skin_config[os.path.basename(pc_path).split(".")[0]]
@@ -158,9 +173,70 @@ class pyCub(BulletClient):
             self.visualizer = Visualizer(self)
             self.last_render = time.time()
 
+        rtb_links, rtb_name, rtb_urdf_string, rtb_urdf_file_path = rtb.robot.Robot.URDF_read(self.urdf_path)
+        self.rtb_robot = rtb.robot.Robot(rtb_links, name=rtb_name.upper(), manufacturer="IIT",
+                                         urdf_string=rtb_urdf_string, urdf_filepath=rtb_urdf_file_path,)
+
+        # chains, chains_joints = self.get_all_chains(self.urdfs["robot"].joints[0], [], [], [], [])
+
+        self.chains, self.chains_joints = self.get_chains()
+
         self.collision_during_motion = False
         self.steps_done = 0
         self.toggle_gravity()
+
+    def get_chains(self):
+        chains = {"left_arm": ['chest', 'l_shoulder_1', 'l_shoulder_2', 'l_shoulder_3',
+                                    'l_upper_arm', 'l_elbow_1', 'l_forearm', 'l_wrist_1', 'l_hand'],
+                       "right_arm": ['chest', 'r_shoulder_1', 'r_shoulder_2', 'r_shoulder_3',
+                                    'r_upper_arm', 'r_elbow_1', 'r_forearm', 'r_wrist_1', 'r_hand'],
+                       "left_leg": ['root_link', 'l_hip_1', 'l_hip_2', 'l_hip_3', 'l_upper_leg', 'l_lower_leg',
+                                    'l_ankle_1', 'l_ankle_2', 'l_foot', 'l_foot_dh_frame'],
+                       "right_leg": ['root_link', 'r_hip_1', 'r_hip_2', 'r_hip_3', 'r_upper_leg', 'r_lower_leg',
+                                     'r_ankle_1', 'r_ankle_2', 'r_foot', 'r_foot_dh_frame'],
+                       "head": ['chest', 'neck_1', 'neck_2', 'head'],
+                       "torso": ['root_link', 'torso_1', 'torso_2', 'chest']}
+        chains_joints = {"left_arm": np.array(['l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_arm_ft_sensor',
+                                      'l_elbow', 'l_wrist_prosup', 'l_wrist_pitch', 'l_wrist_yaw']),
+                         "right_arm": np.array(['r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_arm_ft_sensor',
+                                       'r_elbow', 'r_wrist_prosup', 'r_wrist_pitch', 'r_wrist_yaw']),
+                         "right_leg": np.array(['r_hip_pitch', 'r_hip_roll', 'r_leg_ft_sensor', 'r_hip_yaw', 'r_knee',
+                                      'r_ankle_pitch', 'r_ankle_roll', 'r_foot_ft_sensor', 'r_foot_dh_frame_fixed_joint']),
+                         "left_leg": np.array(['l_hip_pitch', 'l_hip_roll', 'l_leg_ft_sensor', 'l_hip_yaw', 'l_knee',
+                                       'l_ankle_pitch', 'l_ankle_roll', 'l_foot_ft_sensor', 'l_foot_dh_frame_fixed_joint']),
+                         "head": np.array(['neck_pitch', 'neck_roll', 'neck_yaw']),
+                         "torso": np.array(['torso_pitch', 'torso_roll', 'torso_yaw'])}
+        return chains, chains_joints
+
+    def get_all_chains(self, joint, chain, chains, chain_joint, chains_joints):
+        while hasattr(joint, "child"):
+            chain.append(joint.child.name)
+            chain_joint.append(joint.name)
+            if hasattr(joint.child, "joint"):
+                joints = joint.child.joint
+                if len(joints) == 1:
+                    joint = joints[0]
+                else:
+                    for joint in joints:
+                        self.get_all_chains(joint, copy.deepcopy(chain), chains, copy.deepcopy(chain_joint), chains_joints)
+                    break
+            else:
+                chains.append(chain)
+                chains_joints.append(chain_joint)
+                break
+        return chains, chains_joints
+
+    def compute_jacobian(self, chain, start=None, end=None):
+        if start is None:
+            start = self.chains[chain][0]
+        if end is None:
+            end = self.chains[chain][-1]
+            end_id = 0
+        else:
+            end_id = self.chains[chain].index(end)
+
+        q = self.get_joint_state(self.chains_joints[chain], allow_error=True)[:end_id]
+        return self.rtb_robot.jacob0(q, end, start), self.chains_joints[chain][:end_id][np.array(q) != 0]
 
     def get_camera_images(self):
         """
@@ -251,6 +327,9 @@ class pyCub(BulletClient):
                 self.file_logger.info(self.prepare_log())
                 self.last_log = time.time()
 
+            if self.log_pose:
+                self.pose_logger.append(self.end_effector.get_position())
+
         if self.gui and time.time()-self.last_render > 0.01 and self.visualizer.is_alive:
             self.visualizer.render()
             self.last_render = time.time()
@@ -327,6 +406,8 @@ class pyCub(BulletClient):
         for skin_part, pc in self.skin.items():
             use_skin = False
             self.skin_activations[skin_part].fill(0)
+            self.activated_skin_points[skin_part] = []
+            self.activated_skin_normals[skin_part] = []
 
             for link in self.links:
                 if link.name == skin_part:
@@ -372,6 +453,8 @@ class pyCub(BulletClient):
                     if c[1] == link_id:
                         continue
                     self.skin_activations[skin_part][c_id] = 1 - c[2]
+                    self.activated_skin_points[skin_part].append(points[start_id+c_id])
+                    self.activated_skin_normals[skin_part].append(normals[start_id+c_id])
                 start_id += num_points
 
     def prepare_log(self):
@@ -409,7 +492,7 @@ class pyCub(BulletClient):
         :param check_collision: whether to check for collision during motion
         :type check_collision: bool, optional, default=True
         """
-        if not isinstance(joints, list):
+        if isinstance(joints, int) or isinstance(joints, str):
             positions = [positions]
             joints = [joints]
 
@@ -433,14 +516,13 @@ class pyCub(BulletClient):
     def move_velocity(self, joints, velocities):
         """
         Move the specified joints with the specified velocity
-        IT IS HERE, BUT NOT IN WORKING STATE
 
         :param joints: joint or list of joints to move
         :type joints: int or list
         :param velocities: velocity or list of velocities to move the joints to
         :type velocities: float or list
         """
-        if not isinstance(joints, list):
+        if isinstance(joints, int) or isinstance(joints, str):
             velocities = [velocities]
             joints = [joints]
 
@@ -450,13 +532,13 @@ class pyCub(BulletClient):
             if np.abs(velocity) > self.joints[joint_id].max_velocity:
                 self.logger.warning(f"Joint {joint} cannot be moved with velocity {velocity} as it is over the max velocity "
                                     f"{self.joints[joint_id].max_velocity}")
-                continue
             self.setJointMotorControl2(self.robot, robot_joint_id,
                                        controlMode=self.VELOCITY_CONTROL, targetVelocity=velocity,
-                                       force=10,
-                                       maxVelocity=1)
+                                       force=1 if velocity != 0 else 100,
+                                       maxVelocity=self.joints[joint_id].max_velocity)
+            self.joints[joint_id].set_point = "vel"
 
-    def get_joint_state(self, joints=None):
+    def get_joint_state(self, joints=None, allow_error=False):
         """
         Get the state of the specified joints
 
@@ -467,12 +549,20 @@ class pyCub(BulletClient):
         """
         if joints is None:
             joints = [joint.name for joint in self.joints]
-        elif not isinstance(joints, list):
+        elif isinstance(joints, int) or isinstance(joints, str):
             joints = [joints]
 
         states = []
         for joint in joints:
-            robot_joint_id, joint_id = self.find_joint_id(joint)
+            try:
+                robot_joint_id, joint_id = self.find_joint_id(joint)
+            except Exception as e:
+                if allow_error:
+                    states.append(0)
+                    continue
+                else:
+                    raise e
+
             states.append(self.getJointState(self.robot, robot_joint_id)[self.jointStates["POSITION"]])
 
         return states
@@ -505,7 +595,7 @@ class pyCub(BulletClient):
         for joint in joints:
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
-            if self.joints[joint_id].set_point is not None:
+            if self.joints[joint_id].set_point is not None and self.joints[joint_id].set_point != "vel":
                 if np.abs(state[self.jointStates["POSITION"]] - self.joints[joint_id].set_point) > self.joint_tolerance:
                     return False
 
@@ -534,7 +624,10 @@ class pyCub(BulletClient):
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
             if self.joints[joint_id].set_point is not None:
-                self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
+                if self.joints[joint_id].set_point == "vel":
+                    self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
+                else:
+                    self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
                 self.joints[joint_id].set_point = None
 
     def move_cartesian(self, pose, wait=True, velocity=1, check_collision=True):
