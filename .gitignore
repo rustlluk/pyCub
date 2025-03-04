@@ -4,3 +4,4 @@
 *_build*
 *.csv
 *docs*
+pycub_venv/
