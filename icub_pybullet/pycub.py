@@ -1,6 +1,7 @@
 import copy
 import glob
 import time
+from typing import Literal
 import numpy as np
 import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
@@ -14,6 +15,17 @@ import inspect
 from subprocess import call
 import atexit
 import roboticstoolbox as rtb
+
+ROBOT_JOINTS = Literal['l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_arm_ft_sensor',
+    'l_elbow', 'l_wrist_prosup', 'l_wrist_pitch', 'l_wrist_yaw',
+    'r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_arm_ft_sensor',
+    'r_elbow', 'r_wrist_prosup', 'r_wrist_pitch', 'r_wrist_yaw',
+    'r_hip_pitch', 'r_hip_roll', 'r_leg_ft_sensor', 'r_hip_yaw', 'r_knee',
+    'r_ankle_pitch', 'r_ankle_roll', 'r_foot_ft_sensor', 'r_foot_dh_frame_fixed_joint',
+    'l_hip_pitch', 'l_hip_roll', 'l_leg_ft_sensor', 'l_hip_yaw', 'l_knee',
+    'l_ankle_pitch', 'l_ankle_roll', 'l_foot_ft_sensor', 'l_foot_dh_frame_fixed_joint',
+    'neck_pitch', 'neck_roll', 'neck_yaw',
+    'torso_pitch', 'torso_roll', 'torso_yaw']
 
 
 class pyCub(BulletClient):
@@ -475,7 +487,7 @@ class pyCub(BulletClient):
                 s += ";" + ",".join([str(_) for _ in activations])
         return s
 
-    def move_position(self, joints, positions, wait=True, velocity=1, set_col_state=True, check_collision=True):
+    def move_position(self, joints: ROBOT_JOINTS | int | list[ROBOT_JOINTS] | list[int], positions, wait=True, velocity=1, set_col_state=True, check_collision=True):
         """
         Move the specified joints to the given positions
 
@@ -513,12 +525,12 @@ class pyCub(BulletClient):
         if wait:
             self.wait_motion_done(check_collision=check_collision)
 
-    def move_velocity(self, joints, velocities):
+    def move_velocity(self, joints: ROBOT_JOINTS | int | list[ROBOT_JOINTS] | list[int], velocities):
         """
         Move the specified joints with the specified velocity
 
         :param joints: joint or list of joints to move
-        :type joints: int or list
+        :type joints: int, list, str
         :param velocities: velocity or list of velocities to move the joints to
         :type velocities: float or list
         """
@@ -538,12 +550,12 @@ class pyCub(BulletClient):
                                        maxVelocity=self.joints[joint_id].max_velocity)
             self.joints[joint_id].set_point = "vel"
 
-    def get_joint_state(self, joints=None, allow_error=False):
+    def get_joint_state(self, joints: ROBOT_JOINTS | int | list[ROBOT_JOINTS] | list[int] | None = None, allow_error=False):
         """
         Get the state of the specified joints
 
         :param joints: joint or list of joints to get the state of
-        :type joints: int or list, optional, default=None
+        :type joints: int, list, str, optional, default=None
         :return: list of states of the joints
         :rtype: list
         """
@@ -567,12 +579,12 @@ class pyCub(BulletClient):
 
         return states
 
-    def motion_done(self, joints=None, check_collision=True):
+    def motion_done(self, joints: ROBOT_JOINTS | int | list[ROBOT_JOINTS] | list[int] | None = None, check_collision=True):
         """
         Checks whether the motion is done.
 
         :param joints: joint or list of joints to get the state of
-        :type joints: int or list, optional, default=None
+        :type joints: int, list, str, optional, default=None
         :param check_collision: whether to check for collision during motion
         :type check_collision: bool, optional, default=True
         :return: True when motion is done, false otherwise
@@ -653,7 +665,7 @@ class pyCub(BulletClient):
         if wait:
             self.wait_motion_done(check_collision=check_collision)
 
-    def find_joint_id(self, joint_name):
+    def find_joint_id(self, joint_name: ROBOT_JOINTS | int):
         """
         Help function to get indexes from joint name of joint index in self.joints list
 
