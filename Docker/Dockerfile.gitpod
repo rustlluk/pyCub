@@ -57,9 +57,6 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/novnc && \
     git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify && \
     echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; url=vnc.html?autoconnect=true&reconnect=true&reconnect_delay=1000&resize=scale&quality=9\"></head></html>" > /opt/novnc/index.html
 
-# Install informative git for bash
-RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/gitpod/.bash-git-prompt --depth=1
-
 # Set up script to launch graphics and vnc
 COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
 RUN chmod +x /usr/bin/start-vnc-session.sh && \
@@ -81,19 +78,21 @@ RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip i
 RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash gitpod && \
     echo 'gitpod:gitpod' | chpasswd && usermod -aG sudo gitpod && \
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "gitpod  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/gitpod/Desktop \
+    echo "gitpod  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN echo "alias vnc='export DISPLAY=\$VNC_DISPLAY'" >> /home/gitpod/.bashrc
+# Install informative git for bash
+RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/gitpod/.bash-git-prompt --depth=1
+
+RUN echo "alias vnc='export DISPLAY=:1'" >> /home/gitpod/.bashrc
 RUN echo "export PORT=5901" >> /home/gitpod/.bashrc
+
 USER gitpod
 # Set up VSCode launcher
 COPY ["additional_files/Visual Studio Code.desktop", "/home/gitpod/Desktop/Visual Studio Code.desktop"]
-RUN chown gitpod:gitpod "/home/gitpod/Desktop/Visual Studio Code.desktop" && chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop" && \
-    dos2unix "/home/gitpod/Desktop/Visual Studio Code.desktop"
+RUN sudo chown gitpod:gitpod "/home/gitpod/Desktop/Visual Studio Code.desktop" && chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop"
 COPY ["additional_files/PyCharm.desktop", "/home/gitpod/Desktop/PyCharm.desktop"]
 
-RUN chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop" && \
-    dos2unix "/home/gitpod/Desktop/PyCharm.desktop" \
+RUN sudo chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop"
 
 RUN cd /home/gitpod && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
 
@@ -101,8 +100,8 @@ RUN cd /home/gitpod && git clone https://github.com/rustlluk/pyCub.git && cd pyC
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/gitpod/.bashrc
 RUN echo "export BROWSER=/usr/bin/firefox" >> /home/gitpod/.bashrc
-ENV VNC_DISPLAY=:99
-ENV DISPLAY=:99
+ENV DISPLAY=:1
+
 # Clean up unnecessary installation products
 RUN sudo rm -Rf /var/lib/apt/lists/*
 

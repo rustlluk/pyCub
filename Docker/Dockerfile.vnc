@@ -57,9 +57,6 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/novnc && \
     git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify && \
     echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; url=vnc.html?autoconnect=true&reconnect=true&reconnect_delay=1000&resize=scale&quality=9\"></head></html>" > /opt/novnc/index.html
 
-# Install informative git for bash
-RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/docker/.bash-git-prompt --depth=1
-
 # Set up script to launch graphics and vnc
 COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
 RUN chmod +x /usr/bin/start-vnc-session.sh && \
@@ -81,19 +78,20 @@ RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -
 RUN useradd -l -u 33333 -G sudo -md /home/docker -s /bin/bash docker && \
     echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/docker/Desktop \
+    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Install informative git for bash
+RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/docker/.bash-git-prompt --depth=1
 
 RUN echo "alias vnc='export DISPLAY=:99'" >> /home/docker/.bashrc
 RUN echo "export PORT=5999" >> /home/docker/.bashrc
 USER docker
 # Set up VSCode launcher
 COPY ["additional_files/Visual Studio Code.desktop", "/home/docker/Desktop/Visual Studio Code.desktop"]
-RUN chown docker:docker "/home/docker/Desktop/Visual Studio Code.desktop" && chmod +x "/home/docker/Desktop/Visual Studio Code.desktop" && \
-    dos2unix "/home/docker/Desktop/Visual Studio Code.desktop"
+RUN sudo chown docker:docker "/home/docker/Desktop/Visual Studio Code.desktop" && chmod +x "/home/docker/Desktop/Visual Studio Code.desktop"
 
 COPY ["additional_files/PyCharm.desktop", "/home/docker/Desktop/PyCharm.desktop"]
-RUN chown docker:docker "/home/docker/Desktop/PyCharm.desktop" && chmod +x "/home/docker/Desktop/PyCharm.desktop" && \
-    dos2unix "/home/docker/Desktop/PyCharm.desktop"
+RUN sudo chown docker:docker "/home/docker/Desktop/PyCharm.desktop" && chmod +x "/home/docker/Desktop/PyCharm.desktop"
 
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
 
