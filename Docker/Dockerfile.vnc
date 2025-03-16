@@ -5,6 +5,7 @@ LABEL maintainer "Lukas Rustler <rustlluk@fel.cvut.cz>"
 
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
+ARG TARGETPLATFORM
 #Change for other python; 3.11 may be too much right now
 ARG PYTHON_VER=3.11
 
@@ -25,11 +26,19 @@ RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python$PYTHON_VER &&  \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.8
 
 #Add docker user with correct UID and GID; and add him to sudoers
-RUN useradd -l -u 3333 -G sudo -md /home/docker -s /bin/bash docker && \
+RUN useradd -l -u 33333 -G sudo -md /home/docker -s /bin/bash docker && \
     echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
     echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/docker/Desktop
-RUN wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868 && gdebi -n code.deb && rm code.deb
+
+# VSCode
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       wget -O code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"; \
+    else \
+       wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868; \
+    fi
+
+RUN gdebi -n code.deb && rm code.deb
 
 # Install graphics
 RUN apt install -y xfce4 xfce4-goodies xserver-xorg-video-dummy xserver-xorg-legacy x11vnc firefox && \

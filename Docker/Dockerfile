@@ -5,6 +5,7 @@ LABEL maintainer="Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 
 #Non-interactive mode
 ENV DEBIAN_FRONTEND='noninteractive'
+ARG TARGETPLATFORM
 
 #Change for other python; 3.11 may be too much right now
 ARG PYTHON_VER=3.11
@@ -36,7 +37,14 @@ RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker
     echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # VSCode
-RUN wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868 && gdebi -n code.deb && rm code.deb
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       wget -O code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"; \
+    else \
+       wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868; \
+    fi
+
+RUN gdebi -n code.deb && rm code.deb
+
 
 #Pycharm
 ARG PYCHARM_VER=2024.3.4
@@ -48,7 +56,7 @@ RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf 
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 # pybullet, robot_description, numpy, etc.
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install pybullet "numpy<=2" scipy cython matplotlib roboticstoolbox-python --ignore-installed --verbose --no-cache-dir
+RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install pybullet "numpy<2" scipy cython matplotlib roboticstoolbox-python --ignore-installed --verbose --no-cache-dir
 
 # Delete thingies from aptitude
 RUN rm -Rf /var/lib/apt/lists/*
