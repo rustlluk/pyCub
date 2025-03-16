@@ -24,28 +24,30 @@ jobs:
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
     - name: Build and Push Gitpod Image
-      working-directory: Docker
       uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64
         push: true
         file: Dockerfile.gitpod
         tags: rustlluk/pycub:gitpod
+      working-directory: Docker
+
 
     - name: Build and Push VNC Image
-      working-directory: Docker
       uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         push: true
         file: Dockerfile.vnc
         tags: rustlluk/pycub:vnc
+      working-directory: Docker
+
 
     - name: Build and Push Standard Image
-      working-directory: Docker
       uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
         push: true
         file: Dockerfile
         tags: rustlluk/pycub:latest
+      working-directory: Docker
