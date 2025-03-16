@@ -2,6 +2,7 @@ import copy
 import glob
 import time
 import numpy as np
+import psutil
 import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
 import os
@@ -11,11 +12,9 @@ import open3d as o3d
 import logging
 import datetime
 import inspect
-from subprocess import call
+import psutil
 import atexit
 import roboticstoolbox as rtb
-import signal
-import psutil
 
 
 class pyCub(BulletClient):
@@ -262,10 +261,21 @@ class pyCub(BulletClient):
             images.append(np.asarray(ew.last_image))
         return images
 
+    def find_processes_by_name(self):
+        matching_pids = []
+        for process in psutil.process_iter(attrs=['pid', 'name', 'cmdline']):
+            try:
+                if self.parent_name in ' '.join(process.info['cmdline']):
+                    matching_pids.append(process.info['pid'])
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                pass
+        return matching_pids
+
     def kill_open3d(self):
-        # a bit of a workaround to kill open3d, that seems to hang for some reason
-        for _ in os.popen("pgrep -f " + self.parent_name).read().strip().splitlines():
-            call("kill -9 " + _, shell=True)
+        # a bit of a workaround to kill open3d, that seems to hang for some
+        for _ in self.find_processes_by_name():
+            psutil.Process(_).kill()
+
 
     def init_robot(self):
         """

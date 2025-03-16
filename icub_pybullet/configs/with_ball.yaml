@@ -12,7 +12,7 @@ robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub
                                      # default: "../iCub/full.urdf"
                                      # str
 gui:
-  standard: False
+  standard: True
   web: False
 tolerance:
   joint: 1e-3 # circa 2 degrees

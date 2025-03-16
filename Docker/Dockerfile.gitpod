@@ -93,9 +93,11 @@ RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -
 
 USER gitpod
 RUN cd /home/gitpod && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
+RUN python$PYTHON_VER -m pip install psutil --force-reinstall
 
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/gitpod/.bashrc
+RUN echo "export BROWSER=/usr/bin/firefox" >> /home/gitpod/.bashrc
 
 # Clean up unnecessary installation products
 RUN sudo rm -Rf /var/lib/apt/lists/*
