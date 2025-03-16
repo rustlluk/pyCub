@@ -41,7 +41,7 @@ RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYC
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
 RUN apt remove python3-psutil -y
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython psutil open3d pybullet roboticstoolbox-python --ignore-installed  --no-cache-dir
+RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython psutil open3d pybullet roboticstoolbox-python --ignore-installed  --no-cache-dir
 
 # Install graphics
 RUN apt install -y xfce4 xfce4-goodies xserver-xorg-video-dummy xserver-xorg-legacy x11vnc firefox && \
