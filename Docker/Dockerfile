@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 
-LABEL maintainer="Lukas Rustler <lukas.rustler@fel.cvut.cz>"
+LABEL maintainer "Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
@@ -41,7 +41,7 @@ RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYC
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
 RUN apt remove python3-psutil -y
-RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython psutil open3d pybullet roboticstoolbox-python --ignore-installed  --no-cache-dir
+RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python psutil --ignore-installed --no-cache-dir
 
 #Default args, that can be changed during build
 ARG UID=1000
