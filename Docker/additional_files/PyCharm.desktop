@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PyCharm
+Comment=Code Editing. Redefined.
+Exec=pycharm.sh %F
+Icon=/root/pycharm/bin/pycharm.png
+Path=
+Terminal=false
+StartupNotify=false
+Name[en_US]=PyCharm.desktop

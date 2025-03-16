@@ -1,0 +1,19 @@
+name: Build and Push Docker Image to correct tags
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    - name: Build the Docker image
+      working-directory: Docker
+      run: |
+        docker build --file Dockerfile.gitpod --tag rustlluk/pycub:gitpod .
+        docker push rustlluk/pycub:gitpod
