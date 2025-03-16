@@ -21,8 +21,8 @@ for sp in sub_path:
 
 setup(
     name=app_name,
-    version="0.0.1",
-    description="Your application description",
+    version="1.0.0",
+    description="pyCub - iCub in PyBullet",
     package_dir={"": "."},
     data_files=files_to_copy
 )

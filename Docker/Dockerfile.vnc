@@ -84,7 +84,7 @@ RUN chmod +x "/home/docker/Desktop/PyCharm.desktop" && \
 # Manage ports
 EXPOSE 5901 6080 8888 10000/tcp 10000/udp
 
-RUN echo "alias vnc='export DISPLAY=\$VNC_DISPLAY'" >> /home/docker/.bashrc
+RUN echo "alias vnc='export DISPLAY=:99'" >> /home/docker/.bashrc
 RUN echo "export PORT=5999" >> /home/docker/.bashrc
 
 RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install numpy cython open3d pybullet roboticstoolbox-python --ignore-installed

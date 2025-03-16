@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nvidia/cuda:11.0.3-devel-ubuntu20.04
+ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 
 LABEL maintainer="Lukas Rustler <lukas.rustler@fel.cvut.cz>"
@@ -33,23 +33,22 @@ RUN apt install openssh-server -y && sed -i 's/\(^Port\)/#\1/' /etc/ssh/sshd_con
 RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker -s /bin/bash docker && \
     echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "docker  ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers
+    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# PyCharm
-ARG PYCHARM_VER=2023.2.3
+# VSCode
+RUN wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868 && gdebi -n code.deb && rm code.deb
+
+#Pycharm
+ARG PYCHARM_VER=2024.3.4
 RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VER.tar.gz &&  \
     tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
-RUN ln -sf /usr/bin/python$PYTHON_VER /usr/bin/python && ln -sf /usr/bin/python$PYTHON_VER /usr/bin/python3 &&  \
-    ln -sf /usr/local/lib/python$PYTHON_VER/dist-packages/pip /usr/bin/pip3 && ln -sf /usr/bin/pip3 /usr/bin/pip
+RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
+RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 # pybullet, robot_description, numpy, etc.
-RUN MAKEFLAGS="-j$((`nproc`-2))" python3 -m pip install pybullet numpy scipy cython matplotlib --verbose --no-cache-dir
-# open3D for 3.11 now only through development packages
-RUN python3 -m pip install -U --trusted-host www.open3d.org -f http://www.open3d.org/docs/latest/getting_started.html open3d --ignore-installed --no-cache-dir
-RUN python3 -m pip install sphinx sphinx_rtd_theme m2r2 && echo "export PATH=$PATH:/home/docker/.local/bin" >> /home/docker/.bashrc
-RUN apt update && apt install latexmk texlive-latex-extra -y
+RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install pybullet numpy scipy cython matplotlib roboticstoolbox-python --ignore-installed --verbose --no-cache-dir
 
 # Delete thingies from aptitude
 RUN rm -Rf /var/lib/apt/lists/*

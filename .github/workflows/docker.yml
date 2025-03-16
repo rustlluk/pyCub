@@ -22,5 +22,11 @@ jobs:
     - name: Build and Push VNC Image
       working-directory: Docker
       run: |
-        docker build --file Dockerfile.gitpod --tag rustlluk/pycub:vnc .
+        docker build --file Dockerfile.vnc --tag rustlluk/pycub:vnc .
         docker push rustlluk/pycub:vnc
+
+    - name: Build and Push Standard Image
+      working-directory: Docker
+      run: |
+        docker build --file Dockerfile --tag rustlluk/pycub:latest .
+        docker push rustlluk/pycub:latest
