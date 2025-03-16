@@ -1,9 +1,9 @@
+import webbrowser
 import open3d as o3d
 import os
 import numpy as np
 import open3d.visualization.gui as gui
 import open3d.visualization.rendering as rendering
-
 
 class Visualizer:
     """Class to help with custom rendering"""
@@ -15,6 +15,9 @@ class Visualizer:
         :type client: int, optional, default=None
         """
         self.client = client
+
+        if self.client.config.gui.web:
+            o3d.visualization.webrtc_server.enable_webrtc()
         self.meshes = {}
 
         self.meshes = {}
@@ -112,7 +115,8 @@ class Visualizer:
             show_callbacks[0]()
         if self.client.config.eyes.r_eye:
             show_callbacks[1]()
-
+        if self.client.config.gui.web:
+            webbrowser.open("http://localhost:8888", new=0)
 
     def show_first(self, urdf_name="robot"):
         """

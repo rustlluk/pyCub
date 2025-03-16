@@ -3,15 +3,8 @@ Example of moving the robot in cartesian space to push the ball. It is more robu
 
 :Author: Lukas Rustler
 """
-try:
-    from icub_pybullet.pycub import pyCub
-except:
-    import sys
-    import os
-    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    from icub_pybullet.pycub import pyCub
 
-from icub_pybullet.utils import Pose
+from icub_pybullet.pycub import pyCub, Pose
 
 
 def push_the_ball(client):
@@ -54,7 +47,7 @@ def main():
 
     push_the_ball(client)
 
-    # just wait until the gui is closed
+    # # just wait until the gui is closed
     while client.is_alive():
         client.update_simulation()
 

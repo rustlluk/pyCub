@@ -2,7 +2,6 @@ import open3d as o3d
 import xml.etree.ElementTree as ET
 from collections import namedtuple, _tuplegetter
 import yaml
-import copy
 import os
 import re
 import numpy as np
@@ -243,7 +242,7 @@ class Config:
             self.set_attribute(attr, value, self)
 
         required_attributes = {"vhacd": ["use_vhacd", "force_vhacd", "force_vhacd_urdf"],
-                               "robot_urdf_path": [], "gui": [], "tolerance": ["joint"],
+                               "robot_urdf_path": [], "gui": ["standard", "web"], "tolerance": ["joint"],
                                "skin": ["use", "radius", "num_cores", "skin_parts"],
                                "collision_tolerance": [], "end_effector": [], "debug": [],
                                "log": ["log", "period"], "simulation_step": [], "self_collisions": [],

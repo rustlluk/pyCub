@@ -14,6 +14,8 @@ import inspect
 from subprocess import call
 import atexit
 import roboticstoolbox as rtb
+import signal
+import psutil
 
 
 class pyCub(BulletClient):
@@ -56,10 +58,20 @@ class pyCub(BulletClient):
                 self.config = Config(c_path)
         self.config.simulation_step = 1/self.config.simulation_step
         self.setTimeStep(self.config.simulation_step)
-        self.gui = self.config.gui
+        if self.config.gui.standard or self.config.gui.web:
+            self.gui = True
+            if self.config.gui.standard and self.config.gui.web:
+                self.config.gui.web = False
+        else:
+            self.gui = False
 
         if self.gui:
             atexit.register(self.kill_open3d)
+
+        if self.gui:
+            self.default_step = 0.01
+        else:
+            self.default_step = None
 
         self.logger = logging.getLogger("pycub_logger")
         self.logger.setLevel(logging.DEBUG if self.config.debug else logging.INFO)
@@ -68,7 +80,7 @@ class pyCub(BulletClient):
         self.logger.addHandler(stream_handler)
 
         if hasattr(self.config, "log_pose"):
-            self.log_pose = True
+            self.log_pose = self.config.log_pose
             self.pose_logger = []
         else:
             self.log_pose = False
@@ -176,8 +188,8 @@ class pyCub(BulletClient):
         rtb_links, rtb_name, rtb_urdf_string, rtb_urdf_file_path = rtb.robot.Robot.URDF_read(self.urdf_path)
         self.rtb_robot = rtb.robot.Robot(rtb_links, name=rtb_name.upper(), manufacturer="IIT",
                                          urdf_string=rtb_urdf_string, urdf_filepath=rtb_urdf_file_path,)
-
-        # chains, chains_joints = self.get_all_chains(self.urdfs["robot"].joints[0], [], [], [], [])
+        #
+        chains, chains_joints = self.get_all_chains(self.urdfs["robot"].joints[0], [], [], [], [])
 
         self.chains, self.chains_joints = self.get_chains()
 
@@ -307,32 +319,36 @@ class pyCub(BulletClient):
             return False
         return True if self._client >= 0 else False
 
-    def update_simulation(self, sleep_duration=0.01):
+    def update_simulation(self, sleep_duration=-1):
         """
         Updates the simulation
 
         :param sleep_duration: duration to sleep before the next simulation step
-        :type sleep_duration: float, optional, default=0.01
+        :type sleep_duration: float, optional, default=-1
         """
 
+        if sleep_duration == -1:
+            sleep_duration = self.default_step
+
         # This is here to keep events and everything in open3D work even if we want slower simulation
-        if sleep_duration is None or time.time()-self.last_step > sleep_duration:
+        cur_time = time.time()
+        if sleep_duration is None or cur_time-self.last_step > sleep_duration:
             self.stepSimulation()
             if self.config.skin.use:
                 self.compute_skin()
-            self.last_step = time.time()
+            self.last_step = cur_time
             self.steps_done += 1
 
-            if self.config.log.log and time.time()-self.last_log > self.config.log.period:
+            if self.config.log.log and cur_time-self.last_log > self.config.log.period:
                 self.file_logger.info(self.prepare_log())
-                self.last_log = time.time()
+                self.last_log = cur_time
 
             if self.log_pose:
                 self.pose_logger.append(self.end_effector.get_position())
 
-        if self.gui and time.time()-self.last_render > 0.01 and self.visualizer.is_alive:
+        if self.gui and cur_time-self.last_render > 0.01 and self.visualizer.is_alive:
             self.visualizer.render()
-            self.last_render = time.time()
+            self.last_render = cur_time
     
     def toggle_gravity(self):
         """
