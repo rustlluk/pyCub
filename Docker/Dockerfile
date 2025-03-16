@@ -48,7 +48,7 @@ RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf 
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 # pybullet, robot_description, numpy, etc.
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install pybullet numpy scipy cython matplotlib roboticstoolbox-python --ignore-installed --verbose --no-cache-dir
+RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install pybullet "numpy<=2" scipy cython matplotlib roboticstoolbox-python --ignore-installed --verbose --no-cache-dir
 
 # Delete thingies from aptitude
 RUN rm -Rf /var/lib/apt/lists/*

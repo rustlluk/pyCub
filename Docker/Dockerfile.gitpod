@@ -68,7 +68,7 @@ RUN chmod +x /usr/bin/start-vnc-session.sh && \
 
 # Set up VSCode launcher
 COPY ["additional_files/Visual Studio Code.desktop", "/home/gitpod/Desktop/Visual Studio Code.desktop"]
-RUN chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop" && \
+RUN chown gitpod:gitpod "/home/gitpod/Desktop/Visual Studio Code.desktop" && chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop" && \
     dos2unix "/home/gitpod/Desktop/Visual Studio Code.desktop"
 
 # PyCharm
@@ -79,7 +79,8 @@ RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYC
 
 
 COPY ["additional_files/PyCharm.desktop", "/home/gitpod/Desktop/PyCharm.desktop"]
-RUN chmod +x "/home/gitpod/Desktop/PyCharm.desktop" && \
+
+RUN chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop" && \
     dos2unix "/home/gitpod/Desktop/PyCharm.desktop"
 
 # Manage ports
@@ -88,7 +89,7 @@ EXPOSE 5901 6080 8888 10000/tcp 10000/udp
 RUN echo "alias vnc='export DISPLAY=\$VNC_DISPLAY'" >> /home/gitpod/.bashrc
 RUN echo "export PORT=5901" >> /home/gitpod/.bashrc
 
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install numpy cython open3d pybullet roboticstoolbox-python --ignore-installed
+RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install "numpy<=2" cython open3d pybullet roboticstoolbox-python --ignore-installed
 
 USER gitpod
 RUN cd /home/gitpod && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER setup.py install --user
