@@ -35,7 +35,7 @@ jobs:
     - name: Build and Push VNC Image
       uses: docker/build-push-action@v6
       with:
-        platforms: linux/amd64
+        platforms: linux/amd64, linux/arm64
         context: ./Docker
         push: true
         file: ./Docker/Dockerfile.vnc
@@ -44,7 +44,7 @@ jobs:
     - name: Build and Push Standard Image
       uses: docker/build-push-action@v6
       with:
-        platforms: linux/amd64
+        platforms: linux/amd64, linux/arm64
         context: ./Docker
         push: true
         file: ./Docker/Dockerfile

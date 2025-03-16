@@ -198,7 +198,7 @@ def main():
                f'-v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev '
                f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
     else:
-        cmd = f"docker run -it -e DISPLAY=:99 --name {container} -p 6080:680 -p 8888:8888 -v {path}:/home/docker/pycub_ws {image}"
+        cmd = f"docker run -it -e DISPLAY=:99 --name {container} -p 6080:6080 -p 8888:8888 -v {path}:/home/docker/pycub_ws {image}"
 
     # add nvidia runtime if needed
     if nvidia:
