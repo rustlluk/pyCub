@@ -5,6 +5,7 @@ LABEL maintainer "Lukas Rustler <rustlluk@fel.cvut.cz>"
 
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
+ARG TARGETPLATFORM
 #Change for other python; 3.11 may be too much right now
 ARG PYTHON_VER=3.11
 
@@ -24,12 +25,14 @@ RUN locale-gen en_US.UTF-8
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python$PYTHON_VER &&  \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.8
 
-#Add gitpod user with correct UID and GID; and add him to sudoers
-RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash gitpod && \
-    echo 'gitpod:gitpod' | chpasswd && usermod -aG sudo gitpod && \
-    sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "gitpod  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/gitpod/Desktop
-RUN wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868 && gdebi -n code.deb && rm code.deb
+# VSCode
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       wget -O code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"; \
+    else \
+       wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868; \
+    fi
+
+RUN gdebi -n code.deb && rm code.deb
 
 # Install graphics
 RUN apt install -y xfce4 xfce4-goodies xserver-xorg-video-dummy xserver-xorg-legacy x11vnc firefox && \
@@ -54,10 +57,6 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/novnc && \
     git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify && \
     echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; url=vnc.html?autoconnect=true&reconnect=true&reconnect_delay=1000&resize=scale&quality=9\"></head></html>" > /opt/novnc/index.html
 
-# Set environmental variables
-ENV DISPLAY=:1
-ENV VNC_DISPLAY=:1
-
 # Install informative git for bash
 RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/gitpod/.bash-git-prompt --depth=1
 
@@ -66,39 +65,44 @@ COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
 RUN chmod +x /usr/bin/start-vnc-session.sh && \
     dos2unix /usr/bin/start-vnc-session.sh
 
-# Set up VSCode launcher
-COPY ["additional_files/Visual Studio Code.desktop", "/home/gitpod/Desktop/Visual Studio Code.desktop"]
-RUN chown gitpod:gitpod "/home/gitpod/Desktop/Visual Studio Code.desktop" && chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop" && \
-    dos2unix "/home/gitpod/Desktop/Visual Studio Code.desktop"
-
 # PyCharm
 ARG PYCHARM_VER=2024.3.4
 RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VER.tar.gz &&  \
     tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
-
-COPY ["additional_files/PyCharm.desktop", "/home/gitpod/Desktop/PyCharm.desktop"]
-
-RUN chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop" && \
-    dos2unix "/home/gitpod/Desktop/PyCharm.desktop"
-
 # Manage ports
 EXPOSE 5901 6080 8888 10000/tcp 10000/udp
 
+RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python --ignore-installed
+RUN python$PYTHON_VER -m pip install psutil --force-reinstall
+
+#Add gitpod user with correct UID and GID; and add him to sudoers
+RUN useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash gitpod && \
+    echo 'gitpod:gitpod' | chpasswd && usermod -aG sudo gitpod && \
+    sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
+    echo "gitpod  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/gitpod/Desktop \
+
 RUN echo "alias vnc='export DISPLAY=\$VNC_DISPLAY'" >> /home/gitpod/.bashrc
 RUN echo "export PORT=5901" >> /home/gitpod/.bashrc
-
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python --ignore-installed
-
 USER gitpod
+# Set up VSCode launcher
+COPY ["additional_files/Visual Studio Code.desktop", "/home/gitpod/Desktop/Visual Studio Code.desktop"]
+RUN chown gitpod:gitpod "/home/gitpod/Desktop/Visual Studio Code.desktop" && chmod +x "/home/gitpod/Desktop/Visual Studio Code.desktop" && \
+    dos2unix "/home/gitpod/Desktop/Visual Studio Code.desktop"
+COPY ["additional_files/PyCharm.desktop", "/home/gitpod/Desktop/PyCharm.desktop"]
+
+RUN chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop" && \
+    dos2unix "/home/gitpod/Desktop/PyCharm.desktop" \
+
 RUN cd /home/gitpod && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
-RUN python$PYTHON_VER -m pip install psutil --force-reinstall
+
 
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/gitpod/.bashrc
 RUN echo "export BROWSER=/usr/bin/firefox" >> /home/gitpod/.bashrc
-
+ENV VNC_DISPLAY=:99
+ENV DISPLAY=:99
 # Clean up unnecessary installation products
 RUN sudo rm -Rf /var/lib/apt/lists/*
 

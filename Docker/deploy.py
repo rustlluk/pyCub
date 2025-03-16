@@ -163,9 +163,10 @@ def main():
             if inp.lower() not in ["y", "yes"]:
                 return 0
 
-    # create correct xauth file for usage with graphics and over SSH
-    print("Creating xauth")
-    create_xauth.main()
+    if not vnc:
+        # create correct xauth file for usage with graphics and over SSH
+        print("Creating xauth")
+        create_xauth.main()
 
     if pull:
         if not vnc:
@@ -192,15 +193,12 @@ def main():
     cmd = "docker stop " + container + " && docker rm " + container
     call(cmd, shell=True, stderr=PIPE, stdout=PIPE)
 
-    # command to run a new container with all necessary arguments
-    if vnc:
-        display = "-e DISPLAY=:99"
+    if not vnc:
+        cmd = (f'docker run -it "-u $(id -u):$(id -g) -e DISPLAY -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" '
+               f'-v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev '
+               f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
     else:
-        display = "-e DISPLAY"
-
-    cmd = (f'docker run -it {"" if vnc else "-u $(id -u):$(id -g) "}{display} -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" '
-           f'-v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev '
-           f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
+        cmd = f"docker run -it -e DISPLAY=:99 --name {container} -p 6080:680 -p 8888:8888 -v {path}:/home/docker/pycub_ws {image}"
 
     # add nvidia runtime if needed
     if nvidia:

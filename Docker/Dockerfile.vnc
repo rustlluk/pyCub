@@ -25,12 +25,6 @@ RUN locale-gen en_US.UTF-8
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python$PYTHON_VER &&  \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.8
 
-#Add docker user with correct UID and GID; and add him to sudoers
-RUN useradd -l -u 33333 -G sudo -md /home/docker -s /bin/bash docker && \
-    echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
-    sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/docker/Desktop
-
 # VSCode
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
        wget -O code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"; \
@@ -63,9 +57,6 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/novnc && \
     git clone https://github.com/novnc/websockify /opt/novnc/utils/websockify && \
     echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; url=vnc.html?autoconnect=true&reconnect=true&reconnect_delay=1000&resize=scale&quality=9\"></head></html>" > /opt/novnc/index.html
 
-# Set environmental variables
-RUN echo "export DISPLAY=:99" >> /home/docker/.bashrc
-
 # Install informative git for bash
 RUN git clone https://github.com/magicmonty/bash-git-prompt.git /home/docker/.bash-git-prompt --depth=1
 
@@ -74,37 +65,44 @@ COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
 RUN chmod +x /usr/bin/start-vnc-session.sh && \
     dos2unix /usr/bin/start-vnc-session.sh
 
-# Set up VSCode launcher
-COPY ["additional_files/Visual Studio Code.desktop", "/home/docker/Desktop/Visual Studio Code.desktop"]
-RUN chown docker:docker "/home/docker/Desktop/Visual Studio Code.desktop" && chmod +x "/home/docker/Desktop/Visual Studio Code.desktop" && \
-    dos2unix "/home/docker/Desktop/Visual Studio Code.desktop"
-
 # PyCharm
 ARG PYCHARM_VER=2024.3.4
 RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VER.tar.gz &&  \
     tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
+# Manage ports
+EXPOSE 5901 6080 8888 10000/tcp 10000/udp
+
+RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python --ignore-installed
+RUN python$PYTHON_VER -m pip install psutil --force-reinstall
+
+
+#Add docker user with correct UID and GID; and add him to sudoers
+RUN useradd -l -u 33333 -G sudo -md /home/docker -s /bin/bash docker && \
+    echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
+    sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
+    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers && mkdir -p /home/docker/Desktop \
+
+RUN echo "alias vnc='export DISPLAY=:99'" >> /home/docker/.bashrc
+RUN echo "export PORT=5999" >> /home/docker/.bashrc
+USER docker
+# Set up VSCode launcher
+COPY ["additional_files/Visual Studio Code.desktop", "/home/docker/Desktop/Visual Studio Code.desktop"]
+RUN chown docker:docker "/home/docker/Desktop/Visual Studio Code.desktop" && chmod +x "/home/docker/Desktop/Visual Studio Code.desktop" && \
+    dos2unix "/home/docker/Desktop/Visual Studio Code.desktop"
 
 COPY ["additional_files/PyCharm.desktop", "/home/docker/Desktop/PyCharm.desktop"]
 RUN chown docker:docker "/home/docker/Desktop/PyCharm.desktop" && chmod +x "/home/docker/Desktop/PyCharm.desktop" && \
     dos2unix "/home/docker/Desktop/PyCharm.desktop"
 
-# Manage ports
-EXPOSE 5901 6080 8888 10000/tcp 10000/udp
-
-RUN echo "alias vnc='export DISPLAY=:99'" >> /home/docker/.bashrc
-RUN echo "export PORT=5999" >> /home/docker/.bashrc
-
-RUN python$PYTHON_VER -m pip install --user --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python --ignore-installed
-
-USER docker
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
-RUN python$PYTHON_VER -m pip install psutil --force-reinstall
 
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 RUN echo "export BROWSER=/usr/bin/firefox" >> /home/docker/.bashrc
+# Set environmental variables
+RUN echo "export DISPLAY=:99" >> /home/docker/.bashrc
 
 # Clean up unnecessary installation products
 RUN sudo rm -Rf /var/lib/apt/lists/*
