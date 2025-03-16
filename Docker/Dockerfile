@@ -40,7 +40,6 @@ RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYC
     tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
-
 RUN apt remove python3-psutil -y
 RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython psutil open3d pybullet roboticstoolbox-python --ignore-installed  --no-cache-dir
 
@@ -61,10 +60,11 @@ RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
+USER docker
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && git checkout dev && python$PYTHON_VER setup.py install --user
 
 # Delete thingies from aptitude
-RUN rm -Rf /var/lib/apt/lists/*
+RUN sudo rm -Rf /var/lib/apt/lists/*
 
 WORKDIR /home/docker
 ENTRYPOINT sudo service ssh start >> /dev/null && /bin/bash

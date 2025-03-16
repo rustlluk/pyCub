@@ -194,7 +194,7 @@ def main():
     call(cmd, shell=True, stderr=PIPE, stdout=PIPE)
 
     if not vnc:
-        cmd = (f'docker run -it "-u $(id -u):$(id -g) -e DISPLAY -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" '
+        cmd = (f'docker run -it -u $(id -u):$(id -g) -e "DISPLAY" -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" '
                f'-v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev '
                f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
     else:
