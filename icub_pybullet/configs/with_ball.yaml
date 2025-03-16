@@ -11,9 +11,9 @@ vhacd: # global vhacd
 robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub.py
                                      # default: "../iCub/full.urdf"
                                      # str
-gui: True # whether to sho GUI
-          # default: True
-          # True, False
+gui:
+  standard: False
+  web: False
 tolerance:
   joint: 1e-3 # circa 2 degrees
 end_effector: "r_hand" # end effector name
@@ -43,7 +43,7 @@ skin: # skin settings
 collision_tolerance: 0.001
 debug: True
 log: # log settings
-  log: True # whether to log data
+  log: False # whether to log data
             # default: True
             # True, False
   period: 0.01 # period of logging
@@ -63,3 +63,4 @@ eyes: # Whether to show output from eye
       # True, False
   l_eye: False
   r_eye: False
+log_pose: False
