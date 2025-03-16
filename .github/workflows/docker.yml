@@ -29,7 +29,7 @@ jobs:
         platforms: linux/amd64
         context: ./Docker
         push: true
-        file: Dockerfile.gitpod
+        file: ./Docker/Dockerfile.gitpod
         tags: rustlluk/pycub:gitpod
 
     - name: Build and Push VNC Image
@@ -38,7 +38,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
         context: ./Docker
         push: true
-        file: Dockerfile.vnc
+        file: ./Docker/Dockerfile.vnc
         tags: rustlluk/pycub:vnc
 
     - name: Build and Push Standard Image
@@ -47,5 +47,5 @@ jobs:
         platforms: linux/amd64,linux/arm64
         context: ./Docker
         push: true
-        file: Dockerfile
+        file: ./Docker/Dockerfile
         tags: rustlluk/pycub:latest
