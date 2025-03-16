@@ -1,9 +1,7 @@
 name: Build and Push Docker Image to correct tags
 
 on:
-  push:
-    branches:
-      - dev
+  workflow_dispatch:
 
 jobs:
   build:
