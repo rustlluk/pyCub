@@ -11,10 +11,10 @@ vhacd: # global vhacd
 robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub.py
                                      # default: "../iCub/full.urdf"
                                      # str
-gui:
-  standard: True
-  web: False
-tolerance:
+gui: # GUI settings
+  standard: True # standard (and better) visualization using standalone window with openGL
+  web: False # fallback web visualizer (the same, but slower and running in your browser)
+tolerance: # goal tolerance for each joint
   joint: 1e-3 # circa 2 degrees
 end_effector: "r_hand" # end effector name
                        # default: "l_hand"
@@ -63,4 +63,4 @@ eyes: # Whether to show output from eye
       # True, False
   l_eye: False
   r_eye: False
-log_pose: False
+log_pose: False # Whether to log pose into variable of client

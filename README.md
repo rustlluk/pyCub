@@ -1,30 +1,32 @@
 # README
 pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for simulation and Open3D for visualization.
 
-## Known bugs
-- visualization with skin dies after ~65k steps
-  - e.g., [https://github.com/isl-org/Open3D/issues/4992](https://github.com/isl-org/Open3D/issues/4992) 
-
 ## Installation  
-- Requires python3.8 and newer (tested on 3.8 and 3.11)
-- (Recommended) Virtual environment + package install
-  - Pull this repository  
+- Requires python3.8 to python3.11
+  - newer python versions are now not supported due to incompatible with some dependencies 
+- We recommend using virtual environment when installing from PyPi or from source
   - ```
-    python3 -m venv pycub_venv
-    source pycub_venv/bin/activate
-    python3 -m pip install --upgrade pip
-    python3 -m pip install -r requirements.txt
-    python3 setup.py install
+    python3 -m venv pycub_venc
+    source pycub_venc/bin/activate
+    OTHER_COMMANDS
     ```
-- system-wide install + package install
-  - Pull this repository 
-  - ```
-    python3 -m pip install --upgrade pip
-    python3 -m pip install -r requirements.txt
-    python3 setup.py install
-    ```
-- use Docker  
-   - see [Docker](#docker) section
+1. **(Recommended)** Install from PyPi (not yet available)  
+    - ```python3 -m pip install icub_pybullet```
+2. Install from source  
+    - Pull this repository  
+    - ```
+      cd PATH_TO_THE_REPOSITORY
+      python3 -m pip install --upgrade pip
+      python3 -m pip install -r requirements.txt
+      python3 setup.py install
+      ```
+3. Native Docker (GNU/Linux only)
+   - see [Docker Native Version](#native-version) section
+4. VNC Docker 
+    - see [Docker VNC Version](#vnc-version) section
+5. Gitpod
+    - open [https://gitpod.io/#github.com/rustlluk/pycub](https://gitpod.io/#github.com/rustlluk/pycub) 
+      and log in with GitHub account
 
 ## Examples
 - [push_the_ball_pure_joints.py](icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
@@ -35,81 +37,76 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
   should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)
 
 ## Information
-- documentation can be found at [lukasrustler.cz/pycub](https://lukasrustler.cz/pycub) or in [pyCub.pdf](https://github.com/rustlluk/pyCub/blob/master/documentation/pyCub.pdf)
-- presentation with description of functionality can be found at [pyCub presentation](https://lukasrustler.cz/pycub/pyCub_presentation.pdf)
+- documentation can be found at [https://lukasrustler.cz/pycub_documentation](https://lukasrustler.cz/pycub_documentation) or in [pycub.pdf](https://lukasrustler.cz/pycub_documentation/pycub.pdf)
+- presentation with description of functionality can be found at [pyCub presentation](https://lukasrustler.cz/pycub_documentation/pyCub_presentation.pdf)
 - simulator code is in [pycub.py](icub_pybullet/pycub.py)
   - it uses PyBullet for simulation and provides high-level interface
 - visualization code in [visualizer.py](icub_pybullet/visualizer.py)
   - it uses Open3D for visualization as it is much more customizable than PyBullet default GUI
-- movement is done using position control. You can either use position control directly
-  (pycub.move_position()) or use cartesian control (pycub.move_cartesian())
-  - **Neither of these check for collision before movement!**
-  - Function pycub.motion_done() check whether all joints reached the target or whether collision
-    ocurred. If collision, the variable pycub.collision_during_movement is set. You can also run
-    pycub.motion_done() with check_collision=False to ignore collision checks, e.g., to get out
-    of collision state
-- when not installing the package with `python3 setup.py install` you need to add 
-  `export PYTHONPATH=$PYTHONPATH:PATH_TO_THE_REPOSITORY/icub_pybullet` to your `~/.bashrc` file 
-  (or change PYTHONPATH everytime you open a new terminal) you have to add something like 
-  `sys.path.append(0, "PATH_TO_THE_REPOSITORY/icub_pybullet")` to every file you want to run
-  - scripts in [examples](icub_pybullet/examples) folder already contain such line, so the examples can be run easily 
+
+## FAQ
+
+1. You get some kind of error with the visualization, e.g., segmentation fault. 
+
+   1. Try to check graphics mesa/opengl/nvidia drivers as those are the most common source of problems for the openGL visualization
+   2. Try Native Docker
+   3. In given config your load set in GUI standard=False; web=True to enable web visualization
+   4. Try VNC Docker
+   5. Try Gitpod Docker
+
+2. You get import errors, e.g. cannot load pycub from icub_pybullet
+   1. Install from pip with `python3 -m pip install icub_pybullet`
+   2. Install the package correctly with `python3 setup.py install` from root directory of this repository
+   3. put icub_pybullet directory to your PYTHONPATH
 
 ## Docker
-[https://github.com/rustlluk/easy-docker](https://github.com/rustlluk/easy-docker) is utilized to use Docker
-### Installation  
-  - install [docker-engine](https://docs.docker.com/engine/install/ubuntu/)
-    (**DO NOT INSTALL DOCKER DESKTOP**), do [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
-    and (optional) install [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
-    for GPU support
-  - For ubuntu (and Mint, but you have) users:  
-
-    - if you are a mint user, change VERSION_CODENAME to UBUNTU_CODENAME  
-    
-    ```
-    sudo apt-get update
-    sudo apt-get install ca-certificates curl gnupg
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-    echo \
-      "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    ```  
-    
-    - and post-installation to use docker without sudo:
-    
-    ```
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    ```
-    - and restart your computer
-
-  - clone this repository
-        
+### Native Version
+  - version with native GUI; useful when you have problems with OpenGL (e.g., usually some driver issues)
+  - only for GNU/Linux systems (Ubuntu, Mint, Arch, etc.)
+1. install [docker-engine](https://docs.docker.com/engine/install/ubuntu/)
+    (**DO NOT INSTALL DOCKER DESKTOP**)
+    - **perform** [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
+2. Build/Pull the Docker Image
+    - clone this repository
+        ```
         cd SOME_PATH
         git clone https://github.com/rustlluk/pyCub.git
-  - (optionally) rename it to be called the same as in docker
-
-        mv PATH_TO_THE_REPOSITORY/pycub SOME_PATH/pycub_ws
-
-  - build the docker (see [Parameters](#deploy-parameters) for more parameters)  
-   
+       ```
+    - pull the docker image (see [Parameters](#deploy-parameters) for more parameters)  
+        ```
+        cd SPATH_TO_THE_REPOSITORY/Docker
+        ./deploy.py -p PATH_TO_THE_REPOSITORY -c pycub -pu
+        ```
+    - or, build the docker (see [Parameters](#deploy-parameters) for more parameters)  
+        ```
         cd SOME_PATH/pycub_ws/Docker
-        ./deploy.py -b -p PATH_TO_THE_REPOSITORY/pycub_ws -c pycub
-
-  - after you built the container, you can run it next time as 
-  
-        ./deploy.py -e -c pycub
-
-  - if you want to open new terminal in existing container, run
-
+        ./deploy.py -p PATH_TO_THE_REPOSITORY -c pycub -b 
+        ```
+    - after you pull or build the container, you can run it next time as 
+        ```
+        ./deploy.py -c pycub -e
+        ```
+    - if you want to open new terminal in existing container, run
+        ```
         ./deploy.py -c pycub -t
+        ```
+
+### VNC Version
+  - this version works also on Windows and MacOS because it uses VNC server to show the GUI, i.e., the output will be 
+    shown on [http://localhost:6080](http://localhost:6080)
+1. Install [docker-engine](https://docs.docker.com/engine/install/ubuntu/) (GNU/Linux only) or 
+   [docker-desktop](https://docs.docker.com/desktop/) (all systems)
+   - **perform** [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
+2. The same as for [Native Version](#native-version), but use  `-vnc` option, e.g., to pull and run the image
+     ```
+         cd PATH_TO_THE_REPOSITORY/Docker
+        ./deploy.py -p PATH_TO_THE_REPOSITORY -c pycub -pu -vnc
+     ```
+3. run `start-vnc-sessions.sh` script in the container
+4. Open [http://localhost:6080](http://localhost:6080)
 
 ### Docker + PyCharm
+#### Native Version:
 You have two option:
 1. Either run pycharm from docker
 2. Open your pycharm on your host machine:
@@ -119,49 +116,37 @@ You have two option:
      - port 2222
    - uncheck automatic upload to remote folder
    - change remote path to /home/docker/pycub_ws  
+#### VNC/Gitpod version
+1. open pycharm from inside the container
 
-Common steps:
-   - mark all folder icub_pybullet as Source Root
-   - for X11 forwarding:  
-     - Click on configurations drop menu -> Edit Configurations -> Edit configuration templates -> 
-       Python -> Edit environment variables -> add DISPLAY with the same value as in docker and uncheck 
-       'Include system environment variables'. Every new configuration will have that settings from now
-       - if you already have configuration created before doing the above -> delete it and create again, or change it manually
-    
 ### Deploy Parameters
   - `cd` to folder with Dockerfile
   - `./deploy.py`
     - `-b` or `--build` when building
       - default: False
-    - `-nv` or `--nvidia` when you want to use your Nvidia card
-      - you have to use it when creating a new container
-      - default: False
     - `-e` if you just want to run existing docker without building
       - default: False
     - `-p` or `--path` with path to current folder
       - default: ""
-    - `c` or `--container` with desired name of the new, created container
+    - `-pu` or `--pull` to pull the image from dockerhub
+      - default: False
+    - `-c` or `--container` with desired name of the new, created container
       - default: my_new_docker
-    - `t` or `--terminal` to run new terminal in running docker session
+    - `-t` or `--terminal` to run new terminal in running docker session
       - default: False
     - `-pv` or `--python-version` to specify addition python version to install
       - default: 3.11
     - `-pcv` or `--pycharm-version` to specify version of pycharm to use
       - default: 2023.2.3
     - `-bi` or `--base-image` to specify base image that will be used
-      - default: nvidia/cuda:11.0.3-devel-ubuntu20.04
+      - default: ubuntu:20.04
       - other can be found at hub.docker.com
     
   Do this on computer where you will run the code. If you have a server
   you have to run it on the server over SSH to make things work
   properly.
 
-### FAQ
-  - **applications do not run on your screen** (or you have some strange screen
-    related errors)
-    - in another terminal run `xhost local:docker`
-      - if it does not work, try `xhost +`
-        - if this does not work, nothing can be done
+### Docker FAQ
   - **you get error of not being in sudo group when running image**
     - check output of `id -u` command. If the output is not 1000 you have to build the image
       by yourself and can not pull it
@@ -169,3 +154,7 @@ Common steps:
   - **`sudo apt install something` does not work**
     - you need to run `sudo apt update` first after you run the container for the first time
       - apt things are removed in Dockerfile, so it does not take unnecessary space in the image
+
+## Known bugs
+- visualization with skin dies after ~65k steps
+  - e.g., [https://github.com/isl-org/Open3D/issues/4992](https://github.com/isl-org/Open3D/issues/4992) 

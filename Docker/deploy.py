@@ -26,16 +26,6 @@ def parse():
     )
 
     parser.add_argument(
-        "--nvidia",
-        "-nv",
-        dest="nvidia",
-        action="store_true",
-        required=False,
-        default=False,
-        help="whether to use nvidia support; default False"
-    )
-
-    parser.add_argument(
         "--existing",
         "-e",
         dest="existing",
@@ -122,13 +112,13 @@ def parse():
     )
 
     args = parser.parse_args()
-    return args.build, args.nvidia, args.existing, args.path, args.container, args.python_ver, args.pycharm_ver, \
+    return args.build, args.existing, args.path, args.container, args.python_ver, args.pycharm_ver, \
            args.terminal, args.base_image, args.vnc, args.pull
 
 
 def main():
     # get parameters
-    build, nvidia, existing, path, container, python_ver, pycharm_ver, terminal, base_image, vnc, pull = parse()
+    build, existing, path, container, python_ver, pycharm_ver, terminal, base_image, vnc, pull = parse()
 
     image = container+"_image"
 
@@ -199,10 +189,6 @@ def main():
                f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
     else:
         cmd = f"docker run -it -e DISPLAY=:99 --name {container} -p 6080:6080 -p 8888:8888 -v {path}:/home/docker/pycub_ws {image}"
-
-    # add nvidia runtime if needed
-    if nvidia:
-        cmd = cmd.replace(image, '--runtime=nvidia '+image)
 
     # start it
     print("Starting the container")

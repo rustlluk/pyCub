@@ -6,12 +6,21 @@ own experiments.
 :Author: Lukas Rustler
 """
 from icub_pybullet.pycub import pyCub
+from typing import NoReturn
 
 
-def push_the_ball(client):
+def push_the_ball(client: pyCub) -> None:
     """
-    Function to push the ball from the table
+    Example function to push the ball from the table with joint control.
+
+    :param client: instance of pyCub
+    :type client: icub_pybullet.pycub.pyCub
+    :return:
+    :rtype:
     """
+    """
+    """
+
     # move torso pitch so the robot bends over the table
     client.move_position("torso_pitch", 0.325)
 
@@ -30,7 +39,13 @@ def push_the_ball(client):
     client.logger.info("Moved the ball!")
 
 
-def main():
+def main() -> NoReturn:
+    """
+    Main function to run the example
+
+    :return:
+    :rtype:
+    """
     # load the robot with correct world/config
     client = pyCub(config="with_ball.yaml")
 

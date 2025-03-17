@@ -3,16 +3,20 @@ Example of moving the robot in cartesian space to push the ball. It is more robu
 
 :Author: Lukas Rustler
 """
-
 from icub_pybullet.pycub import pyCub, Pose
+from typing import NoReturn
 
 
-def push_the_ball(client):
+def push_the_ball(client: pyCub) -> None:
     """
-    Function to move the ball with cartesian control. The robot is moved 15cm lower and 10cm closer and the moved left to
-    push the ball.
+    Example function to move the ball with cartesian control.
 
+    :param client: instance of pyCub
+    :type client: icub_pybullet.pycub.pyCub
+    :return:
+    :rtype:
     """
+
     # Get current pose
     cur_pose = client.end_effector.get_position()
 
@@ -26,10 +30,13 @@ def push_the_ball(client):
 
     # get current pose
     pose = client.end_effector.get_position()
+
     # assign straight to it to move hand left
     pose.pos[1] -= 0.2
+
     # move; do not wait for completion; and move a bit faster
     client.move_cartesian(pose, wait=False, velocity=2)
+
     # wait manually
     while not client.motion_done():
         client.update_simulation()
@@ -41,7 +48,13 @@ def push_the_ball(client):
 
     client.logger.info("Moved the ball!")
 
-def main():
+def main() -> NoReturn:
+    """
+    Main function to run the example
+
+    :return:
+    :rtype:
+    """
     # load the robot with correct world/config
     client = pyCub(config="with_ball.yaml")
 

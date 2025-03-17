@@ -1,11 +1,15 @@
+import xml.etree.ElementTree
+
 import open3d as o3d
 import xml.etree.ElementTree as ET
 from collections import namedtuple, _tuplegetter
+from typing import Any, Optional
 import yaml
 import os
 import re
 import numpy as np
 import logging
+from typing import Literal
 
 
 class URDF:
@@ -14,7 +18,7 @@ class URDF:
     """
     ROOT_TAGS = []
 
-    def __init__(self, path):
+    def __init__(self, path: str):
         """
 
         :param path: path to the URDF file
@@ -36,14 +40,16 @@ class URDF:
                 self.joints.append(namedtuple(child.attrib["name"], []))
                 self.read(child, self.joints[-1])
 
+        self.find_root_tags()
         self.new_urdf = ''
         self.fix_urdf()
         self.make_references()
-        self.find_root_tags()
 
-    def find_root_tags(self):
+    def find_root_tags(self) -> None:
         """
         Finds tags that are 'root', i.e., they have child 'inside'
+
+
         """
         with open(self.path, "r") as f:
             data = f.read()
@@ -51,10 +57,9 @@ class URDF:
         x = np.unique(x).tolist()
         self.ROOT_TAGS = x
 
-    def read(self, el, parent):
+    def read(self, el: xml.etree.ElementTree.Element, parent: xml.etree.ElementTree.Element) -> None:
         """
-        Recursive function to read the URDF file. When there are no children,
-        it reads the attributes and saves them.
+        Recursive function to read the URDF file. When there are no children, it reads the attributes and saves them.
 
         :param el: The current element in the XML tree.
         :type el: xml.etree.ElementTree.Element
@@ -83,7 +88,7 @@ class URDF:
                     attr_val = attr_val[0]
             setattr(parent, attr, attr_val)
 
-    def dereference(self):
+    def dereference(self) -> None:
         """
         Make parent/child again as names to allow urdf write
 
@@ -99,7 +104,7 @@ class URDF:
             if hasattr(l, "joint"):
                 delattr(l, "joint")
 
-    def make_references(self):
+    def make_references(self) -> None:
         """
         Make parent/child in joint list as references to the given link
 
@@ -121,7 +126,7 @@ class URDF:
                         j.child = l
                         break
 
-    def fix_urdf(self):
+    def fix_urdf(self) -> None:
         """
         Fix the URDF file by converting non-mesh geometries to mesh and saving them as .obj files.
         If changes were made, write the new URDF to a file.
@@ -135,11 +140,17 @@ class URDF:
                     if not hasattr(geom, "mesh"):
                         if hasattr(geom, "box"):
                             mesh = o3d.geometry.TriangleMesh().create_box(*geom.box.size)
+                            mesh.translate([0, 0, 0], relative=False)
+
                             delattr(geom, "box")
                         elif hasattr(geom, "cylinder"):
                             mesh = o3d.geometry.TriangleMesh().create_cylinder(radius=geom.cylinder.radius,
                                                                                height=geom.cylinder.length)
+
+                            # mesh.translate([geom.cylinder.radius, geom.cylinder.radius, geom.cylinder.length/2], relative=False)
+
                             delattr(geom, "cylinder")
+
                         elif hasattr(geom, "sphere"):
                             mesh = o3d.geometry.TriangleMesh().create_sphere(radius=geom.sphere.radius)
                             delattr(geom, "sphere")
@@ -152,12 +163,14 @@ class URDF:
                         o3d.io.write_triangle_mesh(geom.mesh.filename, mesh)
                         something_changed = True
         if something_changed:
+            if "mesh" not in self.ROOT_TAGS:
+                self.ROOT_TAGS.append("mesh")
             self.write_urdf()
             with open(self.path.replace(".urdf", "_fixed.urdf"), "w") as f:
                 f.write(self.new_urdf)
                 self.path = self.path.replace(".urdf", "_fixed.urdf")
 
-    def write_attr(self, attr_name, attr, level=1, skip_header=False):
+    def write_attr(self, attr_name: str, attr: Any, level: Optional[int] = 1, skip_header: Optional[bool] = False) -> None:
         """
         Write an attribute to the new URDF string.
 
@@ -199,9 +212,10 @@ class URDF:
         elif not skip_header:
             self.new_urdf += ' ' * level * 4 + '</' + attr_name + '>\n'
 
-    def write_urdf(self):
+    def write_urdf(self) -> None:
         """
         Write the URDF object to a string.
+
         """
         self.dereference()
 
@@ -230,7 +244,7 @@ class Config:
     """
     Class to parse and keep the config loaded from yaml file
     """
-    def __init__(self, config_path):
+    def __init__(self, config_path:str ):
         """
         :param config_path: path to the config file
         :type config_path: str
@@ -254,7 +268,7 @@ class Config:
                 if not hasattr(getattr(self, attr), sub_attr):
                     raise AttributeError(f"Missing attribute {attr}.{sub_attr} in config file {config_path}")
 
-    def set_attribute(self, attr, value, reference):
+    def set_attribute(self, attr:str , value: Any, reference: int) -> int:
         """
         Function to recursively fill the instance variables from dictionary. When value is non-dict, it is directly
         assigned to a variable. Else, the dict is recursively parsed.
@@ -285,7 +299,7 @@ class Pose:
     """
     Mini help class for Pose representation
     """
-    def __init__(self, pos, ori):
+    def __init__(self, pos: list, ori: list):
         """
         Init function that takes position and orientation and saves them as attributes
 
@@ -297,10 +311,10 @@ class Pose:
         self.pos = pos
         self.ori = ori
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"position: {self.pos}, orientation: {self.ori}"
 
-    def to_string(self):
+    def to_string(self) -> str:
         return ";".join(map(str, self.pos)) + ";" + ";".join(map(str, self.ori))
 
 
@@ -325,7 +339,28 @@ class CustomFormatter(logging.Formatter):
         logging.CRITICAL: bold_red + format + reset
     }
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         log_fmt = self.FORMATS.get(record.levelno)
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
+
+JOINTS = Literal['r_hip_pitch', 'r_hip_roll', 'r_hip_yaw', 'r_knee', 'r_ankle_pitch', 'r_ankle_roll', 'l_hip_pitch',
+'l_hip_roll', 'l_hip_yaw', 'l_knee', 'l_ankle_pitch', 'l_ankle_roll', 'torso_pitch', 'torso_roll', 'torso_yaw',
+'r_shoulder_pitch', 'r_shoulder_roll', 'r_shoulder_yaw', 'r_elbow', 'r_wrist_prosup', 'r_wrist_pitch', 'r_wrist_yaw',
+'r_hand_thumb_0_joint', 'r_hand_thumb_1_joint', 'r_hand_thumb_2_joint', 'r_hand_thumb_3_joint', 'r_hand_index_0_joint',
+'r_hand_index_1_joint', 'r_hand_index_2_joint', 'r_hand_index_3_joint', 'r_hand_middle_0_joint',
+'r_hand_middle_1_joint', 'r_hand_middle_2_joint', 'r_hand_middle_3_joint', 'r_hand_ring_0_joint',
+'r_hand_ring_1_joint', 'r_hand_ring_2_joint', 'r_hand_ring_3_joint', 'r_hand_little_0_joint', 'r_hand_little_1_joint',
+'r_hand_little_2_joint', 'r_hand_little_3_joint', 'l_shoulder_pitch', 'l_shoulder_roll', 'l_shoulder_yaw', 'l_elbow',
+'l_wrist_prosup', 'l_wrist_pitch', 'l_wrist_yaw', 'l_hand_thumb_0_joint', 'l_hand_thumb_1_joint',
+'l_hand_thumb_2_joint', 'l_hand_thumb_3_joint', 'l_hand_index_0_joint', 'l_hand_index_1_joint', 'l_hand_index_2_joint',
+'l_hand_index_3_joint', 'l_hand_middle_0_joint', 'l_hand_middle_1_joint', 'l_hand_middle_2_joint',
+'l_hand_middle_3_joint', 'l_hand_ring_0_joint', 'l_hand_ring_1_joint', 'l_hand_ring_2_joint', 'l_hand_ring_3_joint',
+'l_hand_little_0_joint', 'l_hand_little_1_joint', 'l_hand_little_2_joint', 'l_hand_little_3_joint', 'neck_pitch',
+'neck_roll', 'neck_yaw', 'eyes_tilt', 'l_eye_pan_joint', 'r_eye_pan_joint']
+
+JOINTS_IDS = Literal[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56,
+57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74]
+
+CHAINS = Literal["left_arm", "right_arm", "left_leg", "right_leg", "torso", "head"]
