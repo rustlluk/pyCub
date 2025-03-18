@@ -1,5 +1,8 @@
-import xml.etree.ElementTree
+"""
+Utils for pyCub simulator
 
+:Author: Lukas Rustler
+"""
 import open3d as o3d
 import xml.etree.ElementTree as ET
 from collections import namedtuple, _tuplegetter
@@ -57,7 +60,7 @@ class URDF:
         x = np.unique(x).tolist()
         self.ROOT_TAGS = x
 
-    def read(self, el: xml.etree.ElementTree.Element, parent: xml.etree.ElementTree.Element) -> None:
+    def read(self, el: ET, parent: ET) -> None:
         """
         Recursive function to read the URDF file. When there are no children, it reads the attributes and saves them.
 
@@ -324,7 +327,7 @@ class CustomFormatter(logging.Formatter):
     From https://stackoverflow.com/a/56944256
     """
 
-    grey = "\x1b[38;20m"
+    grey = "\x1b[97;10m"
     yellow = "\x1b[33;20m"
     red = "\x1b[31;20m"
     bold_red = "\x1b[31;1m"

@@ -1,3 +1,8 @@
+"""
+The main class and utils for pyCub simulator
+
+:Author: Lukas Rustler
+"""
 from __future__ import annotations
 import glob
 import time

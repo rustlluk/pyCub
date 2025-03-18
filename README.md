@@ -38,7 +38,7 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
 
 ## Information
 - documentation can be found at [https://lukasrustler.cz/pycub_documentation](https://lukasrustler.cz/pycub_documentation) or in [pycub.pdf](https://lukasrustler.cz/pycub_documentation/pycub.pdf)
-- presentation with description of functionality can be found at [pyCub presentation](https://lukasrustler.cz/pycub_documentation/pyCub_presentation.pdf)
+- presentation with description of functionality can be found at [pycub presentation](https://lukasrustler.cz/pycub_documentation/pycub_presentation.pdf)
 - simulator code is in [pycub.py](icub_pybullet/pycub.py)
   - it uses PyBullet for simulation and provides high-level interface
 - visualization code in [visualizer.py](icub_pybullet/visualizer.py)

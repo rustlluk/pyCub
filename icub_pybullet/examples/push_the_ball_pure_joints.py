@@ -14,7 +14,7 @@ def push_the_ball(client: pyCub) -> None:
     Example function to push the ball from the table with joint control.
 
     :param client: instance of pyCub
-    :type client: icub_pybullet.pycub.pyCub
+    :type client: pyCub
     :return:
     :rtype:
     """

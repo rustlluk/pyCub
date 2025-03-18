@@ -12,7 +12,7 @@ def push_the_ball(client: pyCub) -> None:
     Example function to move the ball with cartesian control.
 
     :param client: instance of pyCub
-    :type client: icub_pybullet.pycub.pyCub
+    :type client: pyCub
     :return:
     :rtype:
     """

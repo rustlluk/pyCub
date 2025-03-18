@@ -1,3 +1,9 @@
+"""
+Visualization utils for pyCub simulator
+
+:Author: Lukas Rustler
+"""
+from __future__ import annotations
 import webbrowser
 import open3d as o3d
 import os
@@ -6,14 +12,15 @@ import open3d.visualization.gui as gui
 import open3d.visualization.rendering as rendering
 from typing import Optional, Tuple
 
+
 class Visualizer:
     """Class to help with custom rendering"""
 
-    def __init__(self, client: int):
+    def __init__(self, client: pyCub):
         """
 
-        :param client: Pointer to the PyCub class instance
-        :type client: int
+        :param client: pyCub instance
+        :type client: pyCub
         """
         self.client = client
 
@@ -281,7 +288,7 @@ class Visualizer:
         """
         Class to handle menu callbacks.
         """
-        def __init__(self, menu_id: int, parent: int):
+        def __init__(self, menu_id: int, parent: Visualizer):
             """
             Initialize the MenuCallback class.
 
@@ -424,14 +431,14 @@ class Visualizer:
         MENU_IDS = {"l_eye": [2, 3, 8], "r_eye": [4, 5, 9]}
         POSITIONS = {"l_eye": [320, 560], "r_eye": [0, 560]}
 
-        def __init__(self, eye: str, parent: int) -> None:
+        def __init__(self, eye: str, parent: Visualizer) -> None:
             """
             Class to handle windows for eye rendering
 
             :param eye: name of the eye
             :type eye: str
             :param parent: The parent class (Visualizer).
-            :type parent: int
+            :type parent: Visualizer
             """
             self.eye = eye
             self.link_name = self.eye + "_pupil"
