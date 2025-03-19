@@ -29,19 +29,19 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
       and log in with GitHub account
 
 ## Examples
-- [push_the_ball_pure_joints.py](icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
+- [push_the_ball_pure_joints.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that
   shows how to control the robot in joint space
-- [push_the_ball_cartesian.py](icub_pybullet/examples/push_the_ball_cartesian.py) contains an example that
+- [push_the_ball_cartesian.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py) contains an example that
   shows how to control the robot in Cartesian space
-- [skin_test.py](icub_pybullet/examples/skin_test.py) contains an example with balls falling the robot and skin 
+- [skin_test.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/skin_test.py) contains an example with balls falling the robot and skin 
   should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)
 
 ## Information
 - documentation can be found at [https://lukasrustler.cz/pycub_documentation](https://lukasrustler.cz/pycub_documentation) or in [pycub.pdf](https://lukasrustler.cz/pycub_documentation/pycub.pdf)
 - presentation with description of functionality can be found at [pycub presentation](https://lukasrustler.cz/pycub_documentation/pycub_presentation.pdf)
-- simulator code is in [pycub.py](icub_pybullet/pycub.py)
+- simulator code is in [pycub.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py)
   - it uses PyBullet for simulation and provides high-level interface
-- visualization code in [visualizer.py](icub_pybullet/visualizer.py)
+- visualization code in [visualizer.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py)
   - it uses Open3D for visualization as it is much more customizable than PyBullet default GUI
 
 ## FAQ

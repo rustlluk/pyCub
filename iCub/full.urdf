@@ -642,7 +642,7 @@
   </link>
   <joint name="r_shoulder_pitch" type="revolute">
     <origin xyz="-0.120015999809 0.0928 0.0079693" rpy="0 -0.523598883792 3.14159265359"/>
-    <axis xyz="-0.965925926173 0.0 0.258819275525"/>
+    <axis xyz="-0.9659257753743923 0.0 0.25881923511860305"/>
     <parent link="chest"/>
     <child link="r_shoulder_1"/>
     <limit effort="50000" lower="-1.66678943565" upper="0.174532925199" velocity="50000"/>
@@ -672,7 +672,7 @@
   </link>
   <joint name="r_shoulder_roll" type="revolute">
     <origin xyz="-0.00758046573227 0 0.0142102463639" rpy="-0.270597611583 -0.252680154648 -1.50155680035"/>
-    <axis xyz="-0.258819 -2.77555756156e-17 -0.965926"/>
+    <axis xyz="-0.2588189595935754 0 -0.9659258492011169"/>
     <parent link="r_shoulder_1"/>
     <child link="r_shoulder_2"/>
     <limit effort="50000" lower="0.0" upper="2.80648943721" velocity="50000"/>
@@ -702,7 +702,7 @@
   </link>
   <joint name="r_shoulder_yaw" type="revolute">
     <origin xyz="-0.0253460713232 2.32750427306e-07 -0.00538764806457" rpy="-0.252689546175 0.0085186183214 0.067039889142"/>
-    <axis xyz="0.965925843882 -2.22044604925e-16 -0.258818979447"/>
+    <axis xyz="0.9659258492011169 0 -0.2588189595935754"/>
     <parent link="r_shoulder_2"/>
     <child link="r_shoulder_3"/>
     <limit effort="50000" lower="-0.645771823238" upper="1.3962634016" velocity="50000"/>
@@ -790,7 +790,7 @@
   </link>
   <joint name="r_wrist_prosup" type="revolute">
     <origin xyz="-0.0384624299027 0.0224999 -0.00522316819403" rpy="0 0 0"/>
-    <axis xyz="0.965925843882 -2.22044604925e-16 -0.258818979447"/>
+    <axis xyz="0.9659258492011169 0 -0.2588189595935754"/>
     <parent link="r_elbow_1"/>
     <child link="r_forearm"/>
     <limit effort="50000" lower="-1.0471975512" upper="1.0471975512" velocity="50000"/>
@@ -832,7 +832,7 @@
   </link>
   <joint name="r_wrist_pitch" type="revolute">
     <origin xyz="-0.103505208873 7.00000000002e-06 0.0251977029936" rpy="0 0 0"/>
-    <axis xyz="0.258818979447 0.0 0.965925843882"/>
+    <axis xyz="0.25881895959357540 0 0.9659258492011169"/>
     <parent link="r_forearm"/>
     <child link="r_wrist_1"/>
     <limit effort="50000" lower="-1.3962634016" upper="0.436332312999" velocity="50000"/>
@@ -1586,7 +1586,7 @@
   </link>
   <joint name="l_shoulder_pitch" type="revolute">
     <origin xyz="0.120016000191 0.0928 0.0079693" rpy="0 0 0"/>
-    <axis xyz="0.965926 0.0 0.258819"/>
+    <axis xyz="0.9659258492011169 0 0.25881895959357540"/>
     <parent link="chest"/>
     <child link="l_shoulder_1"/>
     <limit effort="50000" lower="-1.66678943565" upper="0.174532925199" velocity="50000"/>
@@ -1616,7 +1616,7 @@
   </link>
   <joint name="l_shoulder_roll" type="revolute">
     <origin xyz="-0.013671 0 0.0085204" rpy="0.270597317916 0.252680177542 -1.50155688559"/>
-    <axis xyz="-0.258819 2.77555756156e-17 0.965926"/>
+    <axis xyz="-0.2588189595935754 0 0.9659258492011169"/>
     <parent link="l_shoulder_1"/>
     <child link="l_shoulder_2"/>
     <limit effort="50000" lower="0.0" upper="2.80648943721" velocity="50000"/>
@@ -1646,7 +1646,7 @@
   </link>
   <joint name="l_shoulder_yaw" type="revolute">
     <origin xyz="0.0253143468312 1.11636438205e-07 -0.00540061656265" rpy="-0.252689546175 -0.0085186183214 -0.067039889142"/>
-    <axis xyz="0.965925843882 2.22044604925e-16 0.258818979447"/>
+    <axis xyz="0.9659258492011169 0 0.2588189595935754"/>
     <parent link="l_shoulder_2"/>
     <child link="l_shoulder_3"/>
     <limit effort="50000" lower="-0.645771823238" upper="1.3962634016" velocity="50000"/>
@@ -1734,7 +1734,7 @@
   </link>
   <joint name="l_wrist_prosup" type="revolute">
     <origin xyz="0.0384624299027 0.0339999 -0.00522316819403" rpy="0 0 0"/>
-    <axis xyz="0.965925843882 2.22044604925e-16 0.258818979447"/>
+    <axis xyz="0.9659258492011169 0 0.2588189595935754"/>
     <parent link="l_elbow_1"/>
     <child link="l_forearm"/>
     <limit effort="50000" lower="-1.0471975512" upper="1.0471975512" velocity="50000"/>
@@ -1776,7 +1776,7 @@
   </link>
   <joint name="l_wrist_pitch" type="revolute">
     <origin xyz="0.103427563179 7.00000000002e-06 0.0254874807467" rpy="0 0 0"/>
-    <axis xyz="0.258818979447 0.0 -0.965925843882"/>
+    <axis xyz="0.2588189595935754 0.0 -0.9659258492011169"/>
     <parent link="l_forearm"/>
     <child link="l_wrist_1"/>
     <limit effort="50000" lower="-1.3962634016" upper="0.436332312999" velocity="50000"/>
