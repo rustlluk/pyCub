@@ -192,6 +192,7 @@ class pyCub(BulletClient):
                 pc.normalize_normals()
                 if "foot" not in pc_path:
                     pc.scale(1.05, pc.get_center())
+
                 skin_part = skin_config[os.path.basename(pc_path).split(".")[0]]
                 self.skin_point_clouds[skin_part] = pc
                 self.skin[skin_part] = [np.asarray(pc.points), np.asarray(pc.normals)]
@@ -611,6 +612,8 @@ class pyCub(BulletClient):
             for link_id, skin_part, num_points in temp:
                 # contacts = intersection of raycast and object
                 for c_id, c in enumerate(contacts[start_id:start_id+num_points]):
+                    if c[0] == -1: # the raytestbatch still returns contact event hough there is none
+                        continue
                     # TODO: Fix this somehow more elegant. Some meshes are not smooth and skin collides with it
                     if c[1] == link_id:
                         continue
@@ -618,6 +621,11 @@ class pyCub(BulletClient):
                     self.activated_skin_points[skin_part].append(points[start_id+c_id])
                     self.activated_skin_normals[skin_part].append(normals[start_id+c_id])
                 start_id += num_points
+            # for sp in self.skin_activations.keys():
+            #     if np.any(np.isnan(self.activated_skin_points[sp])):
+            #         self.skin_activations[sp].fill(0)
+            #         self.activated_skin_points[sp] = []
+            #         self.activated_skin_normals[sp] = []
 
     def prepare_log(self) -> str:
         """
@@ -790,19 +798,23 @@ class pyCub(BulletClient):
         while not self.motion_done(check_collision=check_collision):
             self.update_simulation(sleep_duration)
 
-    def stop_robot(self) -> None:
+    def stop_robot(self, joints: Optional[JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS]] = None) -> None:
         """
         Stops the robot
 
         """
-        joints = [joint.name for joint in self.joints]
+        if joints is None:
+            joints = [joint.name for joint in self.joints]
+        else:
+            if isinstance(joints, str) or isinstance(joints, int):
+                joints = [joints]
         for joint in joints:
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
             if self.joints[joint_id].set_point is not None:
                 # I do not know what is the difference now???
                 if self.joints[joint_id].set_point == "vel":
-                    self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
+                    self.move_velocity(joint, 0)
                 else:
                     self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
                 self.joints[joint_id].set_point = None

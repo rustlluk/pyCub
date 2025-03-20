@@ -203,10 +203,13 @@
         </material>
     </visual>
     <collision>
-        <origin xyz="0.03 0.005 0.014" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.047209015 -0.070099992 -0.647438000286" rpy="-1.57079632679 0.0 -1.57079632679"/>
         <geometry>
-            <mesh filename="package://iCub/meshes/vhacd/r_foot_vhacd.obj" scale="1.0 1.0 1.0"/>
+            <mesh filename="package://iCub/meshes/vhacd/sim_sea_2-5_r_sole_prt-binary_vhacd.obj" scale="0.001 0.001 0.001"/>
         </geometry>
+        <material name="r_foot_color">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
     </collision>
 </link>
 <link name="l_hip_1">
@@ -385,10 +388,13 @@
         </material>
     </visual>
     <collision>
-        <origin xyz="0.03 -0.005 0.014" rpy="0.0 0.0 0.0"/>
+        <origin xyz="0.0472090612 0.0701000248 -0.647438000286" rpy="-1.57079632679 0.0 -1.57079632679"/>
         <geometry>
-            <mesh filename="package://iCub/meshes/vhacd/l_foot_vhacd.obj" scale="1.0 1.0 1.0"/>
+            <mesh filename="package://iCub/meshes/vhacd/sim_sea_2-5_l_sole_prt-binary_vhacd.obj" scale="0.001 0.001 0.001"/>
         </geometry>
+        <material name="l_foot_color">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
     </collision>
 </link>
 <link name="torso_1">
