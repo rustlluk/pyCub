@@ -51,6 +51,8 @@ class Joint:
         self.max_force = max_force
         self.max_velocity = max_velocity
         self.set_point = None
+        self.start_time = None
+        self.timeout = None
 
     def __repr__(self) -> str:
         return f"Joint {self.name} with id {self.robot_joint_id}"
@@ -158,8 +160,8 @@ class pyCub(BulletClient):
 
         # prepare IK config so we can utilize null space
         self.IK_config = {"movable_joints": [_.joints_id for _ in self.joints if "_hand_" not in _.name],
-                          "lower_limits": [_.lower_limit for _ in self.joints],
-                          "upper_limits": [_.upper_limit for _ in self.joints],
+                          "lower_limits": [_.lower_limit + 0.025*_.lower_limit for _ in self.joints],
+                          "upper_limits": [_.upper_limit - 0.025*_.upper_limit for _ in self.joints],
                           "joint_ranges": [np.abs(_.upper_limit - _.lower_limit) for _ in self.joints],
                           "rest_poses": [0 if not hasattr(self.config.initial_joint_angles, _.name)
                                          else np.deg2rad(getattr(self.config.initial_joint_angles, _.name))
@@ -282,16 +284,46 @@ class pyCub(BulletClient):
         q = self.get_joint_state(self.chains_joints[chain], allow_error=True)[:end_id]
         return self.rtb_robot.jacob0(q, end, start), self.chains_joints[chain][:end_id][np.array(q) != 0]
 
-    def get_camera_images(self) -> List[np.array]:
+    def get_camera_images(self, eyes: Optional[str | List[str]] = None) -> dict:
         """
         Gets the images from enabled eye cameras
 
-        :return: list of images from enabled cameras
-        :rtype: list of numpy array
+        :param eyes: name of eye/eyes to get images for
+        :type eyes: str or list of str, optional
+        :return: dictionary with eye as keys and np.array of images as values
+        :rtype: dict
         """
-        images = []
-        for ew in self.visualizer.eye_windows.values():
-            images.append(np.asarray(ew.last_image))
+
+        if eyes is None:
+            eyes = self.visualizer.eye_windows.keys()
+        if isinstance(eyes, str):
+            eyes = [eyes]
+
+        images = {}
+        for eye in eyes:
+            ew = self.visualizer.eye_windows[eye]
+            images[ew.eye] = np.asarray(ew.last_image)
+        return images
+
+    def get_camera_depth_images(self, eyes: Optional[str | List[str]] = None) -> dict:
+        """
+        Gets the images from enabled eye cameras
+
+        :param eyes: name of eye/eyes to get images for
+        :type eyes: str or list of str, optional
+        :return: dictionary with eye as keys and np.array of images as values
+        :rtype: dict
+        """
+
+        if eyes is None:
+            eyes = self.visualizer.eye_windows.keys()
+        if isinstance(eyes, str):
+            eyes = [eyes]
+
+        images = {}
+        for eye in eyes:
+            ew = self.visualizer.eye_windows[eye]
+            images[ew.eye] = np.asarray(ew.last_depth_image)
         return images
 
     def find_processes_by_name(self) -> List[int]:
@@ -647,7 +679,8 @@ class pyCub(BulletClient):
 
     def move_position(self, joints: JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS],
                       positions: float | List[float], wait: Optional[bool] = True, velocity: Optional[float] = 1,
-                      set_col_state: Optional[bool] = True, check_collision: Optional[bool] = True) -> None:
+                      set_col_state: Optional[bool] = True, check_collision: Optional[bool] = True,
+                      timeout: Optional[float] = None) -> None:
         """
         Move the specified joints to the given positions
 
@@ -663,6 +696,8 @@ class pyCub(BulletClient):
         :type set_col_state: bool, optional, default=True
         :param check_collision: whether to check for collision during motion
         :type check_collision: bool, optional, default=True
+        :param timeout: timeout for the motion
+        :type timeout: float, optional, default=10
         """
         # if joints is not a list (or iterable in general), make it a list
         if isinstance(joints, int) or isinstance(joints, str):
@@ -677,8 +712,11 @@ class pyCub(BulletClient):
             if not (self.joints[joint_id].lower_limit <= position <= self.joints[joint_id].upper_limit):
                 self.logger.warning(f"Joint {joint} cannot be moved to {position} as it is out of bounds "
                                     f"({self.joints[joint_id].lower_limit}, {self.joints[joint_id].upper_limit}).")
-                continue
+                position = np.clip(position, self.joints[joint_id].lower_limit, self.joints[joint_id].upper_limit)
+                # continue
             self.joints[joint_id].set_point = position
+            self.joints[joint_id].start_time = time.time()
+            self.joints[joint_id].timeout = timeout
             self.setJointMotorControl2(self.robot, robot_joint_id,
                                        controlMode=self.POSITION_CONTROL, targetPosition=position,
                                        force=self.joints[joint_id].max_force,
@@ -763,7 +801,6 @@ class pyCub(BulletClient):
             joints = [joint.name for joint in self.joints]
         elif not isinstance(joints, list):
             joints = [joints]
-
         if check_collision:
             contacts = self.getContactPoints(self.robot)
             for c in contacts:
@@ -774,11 +811,15 @@ class pyCub(BulletClient):
                     self.logger.warning("Collision detected during motion!")
                     self.print_collision_info()
                     return True
+        cur_time = time.time()
         # check whether all joints are in joint tolerance; if not return False
         for joint in joints:
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
             if self.joints[joint_id].set_point is not None and self.joints[joint_id].set_point != "vel":
+                if self.joints[joint_id].timeout is not None and cur_time  - self.joints[joint_id].start_time > self.joints[joint_id].timeout:
+                    self.stop_robot()
+                    return True
                 if np.abs(state[self.jointStates["POSITION"]] - self.joints[joint_id].set_point) > self.joint_tolerance:
                     return False
 
@@ -818,9 +859,11 @@ class pyCub(BulletClient):
                 else:
                     self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
                 self.joints[joint_id].set_point = None
+                self.joints[joint_id].start_time = None
+                self.joints[joint_id].timeout = None
 
     def move_cartesian(self, pose: Pose, wait: Optional[bool] = True, velocity: Optional[float] = 1,
-                       check_collision: Optional[bool] = True) -> None:
+                       check_collision: Optional[bool] = True, timeout: Optional[float] = None) -> None:
         """
         Move the robot in cartesian space by computing inverse kinematics and running position control
 
@@ -832,6 +875,8 @@ class pyCub(BulletClient):
         :type velocity: float, optional, default=1
         :param check_collision: whether to check for collisions during motion
         :type check_collision: bool, optional, default=True
+        :param timeout: timeout for the motion
+        :type timeout: float, optional, default=10
         """
         ik_solution = np.array(self.calculateInverseKinematics(self.robot, self.end_effector.link_id, pose.pos, pose.ori,
                                                                lowerLimits=self.IK_config["lower_limits"],
@@ -839,7 +884,7 @@ class pyCub(BulletClient):
                                                                jointRanges=self.IK_config["joint_ranges"],
                                                                restPoses=self.IK_config["rest_poses"]))
         self.move_position(self.IK_config["movable_joints"], ik_solution[self.IK_config["movable_joints"]], wait=False,
-                           velocity=velocity)
+                           velocity=velocity, timeout=timeout)
         if wait:
             self.wait_motion_done(check_collision=check_collision)
 

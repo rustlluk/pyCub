@@ -2646,6 +2646,16 @@
             <color rgba="0.1 0.1 0.1 1"/>
           </material>
     </visual>
+
+    <collision>
+          <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+          <geometry>
+            <mesh filename="package://iCub/meshes/visual/l_eye_pupil.obj" scale="1.0 1.0 1.0"/>
+          </geometry>
+          <material name="l_eye_pupil_color">
+            <color rgba="0.1 0.1 0.1 1"/>
+          </material>
+    </collision>
   </link>
   <joint name="l_eye_pan_joint" type="revolute">
     <origin xyz="0.0 0.0 -0.034" rpy="0.0 -1.5707963267949 0.0"/>
@@ -2689,6 +2699,15 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.03" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://iCub/meshes/visual/r_eye_pupil.obj" scale="1.0 1.0 1.0"/>
+      </geometry>
+      <material name="r_eye_pupil_color">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </collision>
   </link>
   <joint name="r_eye_pan_joint" type="revolute">
     <origin xyz="0.0 0.0 0.034" rpy="0.0 -1.5707963267949 0.0"/>

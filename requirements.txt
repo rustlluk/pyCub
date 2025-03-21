@@ -4,3 +4,4 @@ scipy
 pybullet
 roboticstoolbox-python
 scipy
+opencv-python

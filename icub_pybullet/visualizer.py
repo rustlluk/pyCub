@@ -269,15 +269,16 @@ class Visualizer:
         self.show_mesh()
 
         for obj_id, _, fixed, _, _ in self.client.other_objects:
-            if not fixed:
-                self.read_info(obj_id)
-                self.show_mesh()
+            # if not fixed:
+            self.read_info(obj_id)
+            self.show_mesh()
 
         self.window.post_redraw()
         for ew in self.eye_windows.values():
             ew.scene.look_at(ew.center + ew.dir, ew.center, [0, 0, 1])
             ew.window.post_redraw()
             ew.get_image()
+            ew.get_depth_image()
             if ew.save_images_bool:
                 ew.save_images()
         if not self.gui.run_one_tick():
@@ -465,6 +466,7 @@ class Visualizer:
             self.img_counter = 0
             self.save_images_bool = False
             self.last_image = None
+            self.last_depth_image = None
 
             for menu_id in self.MENU_IDS[self.eye]:
                 self.parent.file_menu.set_enabled(menu_id, True)
@@ -505,6 +507,15 @@ class Visualizer:
             """
             self.vis.scene.render_to_image(self.save_image)
 
+        def get_depth_image(self) -> None:
+            """
+            Small function to get image from open3d
+
+            :return:
+            :rtype:
+            """
+            self.vis.scene.render_to_depth_image(self.save_depth_image)
+
         def save_images(self) -> None:
             """
             Function to save stream of images to file
@@ -526,3 +537,16 @@ class Visualizer:
             """
 
             self.last_image = im
+
+        def save_depth_image(self, im: o3d.geometry.Image) -> None:
+            """
+            Callback to get images from open3d
+
+            :param im: the image to be saves
+            :type im: o3d.geometry.Image
+            """
+
+            self.last_depth_image = im
+
+        def unproject(self, u, v, d):
+            return self.vis.camera.unproject(u, v, d, self.window.size.width, self.window.size.height)

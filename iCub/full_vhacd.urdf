@@ -1961,6 +1961,15 @@
             <color rgba="0.1 0.1 0.1 1.0"/>
         </material>
     </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="package://iCub/meshes/vhacd/l_eye_pupil_vhacd.obj" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="l_eye_pupil_color">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+    </collision>
 </link>
 <link name="r_eye">
     <inertial>
@@ -1993,6 +2002,15 @@
             <color rgba="0.1 0.1 0.1 1.0"/>
         </material>
     </visual>
+    <collision>
+        <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <mesh filename="package://iCub/meshes/vhacd/r_eye_pupil_vhacd.obj" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="r_eye_pupil_color">
+            <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+    </collision>
 </link>
 <link name="l_foot_dh_frame">
     <inertial>
