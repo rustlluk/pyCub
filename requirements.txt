@@ -3,5 +3,5 @@ open3d>=0.16.0
 scipy
 pybullet
 roboticstoolbox-python
-scipy
 opencv-python
+psutil

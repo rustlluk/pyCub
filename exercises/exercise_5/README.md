@@ -23,7 +23,6 @@ The class Grasper contains several helpful methods, e.g., to get RGB and Depth i
 
 The ball is always green (0, 255, 0) and it's radius is 2.5cm.
 
-
 ## Scoring
  - If the ball is 5cm above the table and in the hand of the robot after you return from grasp(), you passed the test
 
