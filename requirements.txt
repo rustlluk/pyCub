@@ -3,3 +3,6 @@ open3d>=0.16.0
 scipy
 pybullet
 roboticstoolbox-python
+opencv-python
+psutil
+transforms3d

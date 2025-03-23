@@ -26,16 +26,6 @@ def parse():
     )
 
     parser.add_argument(
-        "--nvidia",
-        "-nv",
-        dest="nvidia",
-        action="store_true",
-        required=False,
-        default=False,
-        help="whether to use nvidia support; default False"
-    )
-
-    parser.add_argument(
         "--existing",
         "-e",
         dest="existing",
@@ -69,8 +59,8 @@ def parse():
         "-bi",
         dest="base_image",
         required=False,
-        default="nvidia/cuda:11.0.3-devel-ubuntu20.04",
-        help="which image use as base; default 'nvidia/cuda:11.0.3-devel-ubuntu20.04'"
+        default="ubuntu:20.04",
+        help="which image use as base; default 'ubuntu:20.04'"
     )
 
     parser.add_argument(
@@ -78,8 +68,8 @@ def parse():
         "-c",
         dest="container",
         required=False,
-        default="my_new_docker",
-        help="name of the container; default 'my_new_docker'"
+        default="pycub",
+        help="name of the container; default 'pycub'"
     )
 
     parser.add_argument(
@@ -92,6 +82,17 @@ def parse():
     )
 
     parser.add_argument(
+        "--pull",
+        "-pu",
+        dest="pull",
+        action="store_true",
+        required=False,
+        default=False,
+        help="whether to pull the image; default False"
+    )
+
+
+    parser.add_argument(
         "--pycharm-ver",
         "-pcv",
         dest="pycharm_ver",
@@ -100,15 +101,25 @@ def parse():
         help="pycharm version to be used; default 2023.2.3"
     )
 
+    parser.add_argument(
+        "--vnc",
+        "-vnc",
+        dest="vnc",
+        action="store_true",
+        required=False,
+        default=False,
+        help="whether run in VNC mode"
+    )
+
     args = parser.parse_args()
-    return args.build, args.nvidia, args.existing, args.path, args.container, args.python_ver, args.pycharm_ver, \
-           args.terminal, args.base_image
+    return args.build, args.existing, args.path, args.container, args.python_ver, args.pycharm_ver, \
+           args.terminal, args.base_image, args.vnc, args.pull
 
 
 def main():
     # get parameters
-    build, nvidia, existing, path, container, python_ver, pycharm_ver, terminal, base_image = parse()
-    # set image name with "_image" suffix for easier
+    build, existing, path, container, python_ver, pycharm_ver, terminal, base_image, vnc, pull = parse()
+
     image = container+"_image"
 
     # if we want to only open new terminal in opened container -> use 'docker run'
@@ -126,7 +137,11 @@ def main():
 
         # build with correct arguments and plain prorgess
         print("Building")
-        cmd = "docker build -t "+image+" --build-arg UID=$(id -u) --build-arg GID=$(id -g)" \
+        if vnc:
+            df = "Dockerfile.vnc"
+        else:
+            df = "Dockerfile"
+        cmd = "docker build -f "+df+" -t "+image+" --build-arg UID=$(id -u) --build-arg GID=$(id -g)" \
               " --build-arg PYTHON_VER="+python_ver+" --build-arg PYCHARM_VER="+pycharm_ver + \
               " --build-arg BASE_IMAGE="+base_image+" --progress=plain ."
         call(cmd, shell=True)
@@ -138,9 +153,22 @@ def main():
             if inp.lower() not in ["y", "yes"]:
                 return 0
 
-    # create correct xauth file for usage with graphics and over SSH
-    print("Creating xauth")
-    create_xauth.main()
+    if not vnc:
+        # create correct xauth file for usage with graphics and over SSH
+        print("Creating xauth")
+        create_xauth.main()
+
+    if pull:
+        if not vnc:
+            print("Pulling the non-vnc image may not work properly; build your own in case of problems")
+            tag = "latest"
+        else:
+            tag = "vnc"
+        print("Pulling the image")
+        cmd = f"docker pull rustlluk/pycub:{tag} && docker tag rustlluk/pycub:{tag} {image}"
+        print(cmd)
+        call(cmd, shell=True)
+
 
     if existing:
         # just run existing docker and return
@@ -155,15 +183,12 @@ def main():
     cmd = "docker stop " + container + " && docker rm " + container
     call(cmd, shell=True, stderr=PIPE, stdout=PIPE)
 
-    # command to run a new container with all necessary arguments
-    cmd = '''docker run -it -u $(id -u):$(id -g) -e "DISPLAY" -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" \
-             -v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev \
-             -v /etc/hosts:/etc/hosts --network host --privileged --name '''+container+''' \
-             -v '''+path+':/home/docker/pycub_ws '+image
-
-    # add nvidia runtime if needed
-    if nvidia:
-        cmd = cmd.replace(image, '--runtime=nvidia '+image)
+    if not vnc:
+        cmd = (f'docker run -it -u $(id -u):$(id -g) -e "DISPLAY" -e "QT_X11_NO_MITSHM=1" -e "XAUTHORITY=/tmp/.docker.xauth" '
+               f'-v /tmp/.docker.xauth:/tmp/.docker.xauth:rw -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v /dev:/dev '
+               f'-v /etc/hosts:/etc/hosts --network host --privileged --name {container} -v {path}:/home/docker/pycub_ws {image}')
+    else:
+        cmd = f"docker run -it -e DISPLAY=:99 --name {container} -p 6080:6080 -p 8888:8888 -v {path}:/home/docker/pycub_ws {image}"
 
     # start it
     print("Starting the container")

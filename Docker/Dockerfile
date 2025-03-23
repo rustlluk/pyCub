@@ -1,11 +1,11 @@
-ARG BASE_IMAGE=nvidia/cuda:11.0.3-devel-ubuntu20.04
+ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 
-LABEL maintainer="Lukas Rustler <lukas.rustler@fel.cvut.cz>"
+LABEL maintainer "Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 
-#Non-interactive mode
-ENV DEBIAN_FRONTEND='noninteractive'
-
+# Non-interactive installation mode
+ENV DEBIAN_FRONTEND=noninteractive
+ARG TARGETPLATFORM
 #Change for other python; 3.11 may be too much right now
 ARG PYTHON_VER=3.11
 
@@ -14,12 +14,34 @@ RUN apt update -y && apt install software-properties-common -y && add-apt-reposi
     && apt update && apt install python$PYTHON_VER wget sudo gedit unzip apt-utils curl \
     python$PYTHON_VER-venv nano mesa-utils curl htop net-tools sshfs python$PYTHON_VER-distutils  \
     screen git python$PYTHON_VER-dev libpng-dev libqhull-dev libfreetype6-dev libfreetype6  \
-    pkg-config python3.8-venv python3.8-dev -y
+    pkg-config python3.8-venv python3.8-dev apt-transport-https psmisc tmux gdb gitk autoconf locales gdebi  \
+    terminator meld dos2unix -y
+
+# Set the locale
+RUN locale-gen en_US.UTF-8
 
 #Install pips
 # 3.8 is default at Ubuntu 20.04 and is fine for thing that do not work on newer versions
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python$PYTHON_VER &&  \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3.8
+
+# VSCode
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       wget -O code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64"; \
+    else \
+       wget -O code.deb https://go.microsoft.com/fwlink/?LinkID=760868; \
+    fi
+
+RUN gdebi -n code.deb && rm code.deb
+
+# PyCharm
+ARG PYCHARM_VER=2024.3.4
+RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VER.tar.gz &&  \
+    tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
+    mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
+
+RUN apt remove python3-psutil -y
+RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python psutil --ignore-installed --no-cache-dir
 
 #Default args, that can be changed during build
 ARG UID=1000
@@ -33,26 +55,17 @@ RUN apt install openssh-server -y && sed -i 's/\(^Port\)/#\1/' /etc/ssh/sshd_con
 RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker -s /bin/bash docker && \
     echo 'docker:docker' | chpasswd && usermod -aG sudo docker && \
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
-    echo "docker  ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers
+    echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# PyCharm
-ARG PYCHARM_VER=2023.2.3
-RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYCHARM_VER.tar.gz &&  \
-    tar -xvf pycharm-community-$PYCHARM_VER.tar.gz && rm pycharm-community-$PYCHARM_VER.tar.gz &&  \
-    mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
+RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
+RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
-RUN ln -sf /usr/bin/python$PYTHON_VER /usr/bin/python && ln -sf /usr/bin/python$PYTHON_VER /usr/bin/python3 &&  \
-    ln -sf /usr/local/lib/python$PYTHON_VER/dist-packages/pip /usr/bin/pip3 && ln -sf /usr/bin/pip3 /usr/bin/pip
-
-# pybullet, robot_description, numpy, etc.
-RUN MAKEFLAGS="-j$((`nproc`-2))" python3 -m pip install pybullet numpy scipy cython matplotlib --verbose --no-cache-dir
-# open3D for 3.11 now only through development packages
-RUN python3 -m pip install -U --trusted-host www.open3d.org -f http://www.open3d.org/docs/latest/getting_started.html open3d --ignore-installed --no-cache-dir
-RUN python3 -m pip install sphinx sphinx_rtd_theme m2r2 && echo "export PATH=$PATH:/home/docker/.local/bin" >> /home/docker/.bashrc
-RUN apt update && apt install latexmk texlive-latex-extra -y
+USER docker
+RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER pip install . --no-cache-dir && \
+    cd /home/docker && rm -Rf pyCub
 
 # Delete thingies from aptitude
-RUN rm -Rf /var/lib/apt/lists/*
+RUN sudo rm -Rf /var/lib/apt/lists/*
 
 WORKDIR /home/docker
 ENTRYPOINT sudo service ssh start >> /dev/null && /bin/bash

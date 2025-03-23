@@ -1,4 +1,9 @@
-import copy
+"""
+The main class and utils for pyCub simulator
+
+:Author: Lukas Rustler
+"""
+from __future__ import annotations
 import glob
 import time
 import numpy as np
@@ -6,14 +11,68 @@ import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
 import os
 from icub_pybullet.visualizer import Visualizer
-from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter
+from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter, JOINTS, JOINTS_IDS, CHAINS
 import open3d as o3d
 import logging
 import datetime
 import inspect
-from subprocess import call
+import psutil
 import atexit
 import roboticstoolbox as rtb
+from typing import Tuple, Optional, List
+
+
+class Joint:
+    def __init__(self, name: str, robot_joint_id: int, joints_id: int, lower_limit: float, upper_limit: float,
+                 max_force: float, max_velocity: float):
+        """
+        Help class to encapsulate joint information
+
+        :param name: name of the joint
+        :type name: str
+        :param robot_joint_id: id of the joint in pybullet
+        :type robot_joint_id: int
+        :param joints_id: id of the joint in pycub.joints
+        :type joints_id: int
+        :param lower_limit: lower limit of the joint
+        :type lower_limit: float
+        :param upper_limit: upper limit of the joint
+        :type upper_limit: float
+        :param max_force: max force of the joint
+        :type max_force: float
+        :param max_velocity: max velocity of the joint
+        :type max_velocity: float
+        """
+        self.name = name
+        self.robot_joint_id = robot_joint_id
+        self.joints_id = joints_id
+        self.lower_limit = lower_limit
+        self.upper_limit = upper_limit
+        self.max_force = max_force
+        self.max_velocity = max_velocity
+        self.set_point = None
+        self.start_time = None
+        self.timeout = None
+
+    def __repr__(self) -> str:
+        return f"Joint {self.name} with id {self.robot_joint_id}"
+
+
+class Link:
+    def __init__(self, name: str, robot_link_id: int, urdf_link: int):
+        """
+        Help function to encapsulate link information
+
+        :param name: name of the link
+        :type name: str
+        :param robot_link_id: id of the link in pybullet
+        :type robot_link_id: int
+        :param urdf_link: id of the link in pycub.urdfs["robot"].links
+        :type urdf_link: int
+        """
+        self.name = name
+        self.robot_link_id = robot_link_id
+        self.urdf_link = urdf_link
 
 
 class pyCub(BulletClient):
@@ -39,8 +98,9 @@ class pyCub(BulletClient):
     visualShapeData = {name: i for i, name in enumerate(["ID", "LINK", "GEOMTYPE", "DIMS", "FILE", "POS", "ORI",
                                                          "COLOR", "TEXTURE"])}
 
-    def __init__(self, config="default.yaml"):
+    def __init__(self, config: Optional[str] = "default.yaml"):
         """
+
         :param config: path to the config file
         :type config: str, optional, default="default.yaml"
         """
@@ -56,10 +116,20 @@ class pyCub(BulletClient):
                 self.config = Config(c_path)
         self.config.simulation_step = 1/self.config.simulation_step
         self.setTimeStep(self.config.simulation_step)
-        self.gui = self.config.gui
+        if self.config.gui.standard or self.config.gui.web:
+            self.gui = True
+            if self.config.gui.standard and self.config.gui.web:
+                self.config.gui.web = False
+        else:
+            self.gui = False
 
         if self.gui:
             atexit.register(self.kill_open3d)
+
+        if self.gui:
+            self.default_step = 0.01
+        else:
+            self.default_step = None
 
         self.logger = logging.getLogger("pycub_logger")
         self.logger.setLevel(logging.DEBUG if self.config.debug else logging.INFO)
@@ -68,7 +138,7 @@ class pyCub(BulletClient):
         self.logger.addHandler(stream_handler)
 
         if hasattr(self.config, "log_pose"):
-            self.log_pose = True
+            self.log_pose = self.config.log_pose
             self.pose_logger = []
         else:
             self.log_pose = False
@@ -79,43 +149,19 @@ class pyCub(BulletClient):
 
         self.urdfs = {"robot": URDF(self.urdf_path)}
 
-        self.other_objects = []
-
-        if hasattr(self.config, "urdfs"):
-            for obj_id, urdf, fixed, color in zip(np.arange(len(self.config.urdfs.paths)), self.config.urdfs.paths, self.config.urdfs.fixed, self.config.urdfs.color):
-                suffix = ""
-                if os.path.basename(urdf).split(".")[-1] == "obj":
-                    obj_name = os.path.basename(urdf).split(".")[0]
-                    while obj_name in self.urdfs:
-                        suffix += "_"
-                        obj_name = obj_name+suffix
-                    self.create_urdf(urdf, fixed, color, suffix)
-                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf.replace(".obj", suffix+".urdf")))
-                elif os.path.basename(urdf).split(".")[-1] == "urdf":
-                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf))
-                else:
-                    raise ValueError("Objects must be .obj or .urdf!")
-                self.urdfs[os.path.basename(urdf).split(".")[0]] = URDF(urdf)
-                self.config.urdfs.paths[obj_id] = urdf
-
         if self.config.vhacd.use_vhacd:
             self.run_vhacd()
-        self.free_objects = []
-        if hasattr(self.config, "urdfs"):
-            for urdf, pos, fixed in zip(self.config.urdfs.paths, self.config.urdfs.positions, self.config.urdfs.fixed):
-                obj_name = os.path.basename(urdf).split(".")[0]
-                urdf = self.urdfs[obj_name].path
-                self.other_objects.append((self.loadURDF(urdf, pos), obj_name, fixed))
-                if not fixed:
-                    self.free_objects.append(self.other_objects[-1][0])
 
         self.urdf_path = self.urdfs["robot"].path
+        self.other_objects = []
+        self.free_objects = []
+
         self.robot, self.joints, self.links = self.init_robot()
 
         # prepare IK config so we can utilize null space
         self.IK_config = {"movable_joints": [_.joints_id for _ in self.joints if "_hand_" not in _.name],
-                          "lower_limits": [_.lower_limit for _ in self.joints],
-                          "upper_limits": [_.upper_limit for _ in self.joints],
+                          "lower_limits": [_.lower_limit + 0.025*_.lower_limit for _ in self.joints],
+                          "upper_limits": [_.upper_limit - 0.025*_.upper_limit for _ in self.joints],
                           "joint_ranges": [np.abs(_.upper_limit - _.lower_limit) for _ in self.joints],
                           "rest_poses": [0 if not hasattr(self.config.initial_joint_angles, _.name)
                                          else np.deg2rad(getattr(self.config.initial_joint_angles, _.name))
@@ -148,6 +194,7 @@ class pyCub(BulletClient):
                 pc.normalize_normals()
                 if "foot" not in pc_path:
                     pc.scale(1.05, pc.get_center())
+
                 skin_part = skin_config[os.path.basename(pc_path).split(".")[0]]
                 self.skin_point_clouds[skin_part] = pc
                 self.skin[skin_part] = [np.asarray(pc.points), np.asarray(pc.normals)]
@@ -177,15 +224,20 @@ class pyCub(BulletClient):
         self.rtb_robot = rtb.robot.Robot(rtb_links, name=rtb_name.upper(), manufacturer="IIT",
                                          urdf_string=rtb_urdf_string, urdf_filepath=rtb_urdf_file_path,)
 
-        # chains, chains_joints = self.get_all_chains(self.urdfs["robot"].joints[0], [], [], [], [])
-
         self.chains, self.chains_joints = self.get_chains()
 
         self.collision_during_motion = False
         self.steps_done = 0
         self.toggle_gravity()
 
-    def get_chains(self):
+    @staticmethod
+    def get_chains() -> Tuple[dict, dict]:
+        """
+        Function to get chains (and corresponding chains of joints) of the robot
+
+        :return: chains of links and chains of joints
+        :rtype: dict, dict
+        """
         chains = {"left_arm": ['chest', 'l_shoulder_1', 'l_shoulder_2', 'l_shoulder_3',
                                     'l_upper_arm', 'l_elbow_1', 'l_forearm', 'l_wrist_1', 'l_hand'],
                        "right_arm": ['chest', 'r_shoulder_1', 'r_shoulder_2', 'r_shoulder_3',
@@ -208,25 +260,19 @@ class pyCub(BulletClient):
                          "torso": np.array(['torso_pitch', 'torso_roll', 'torso_yaw'])}
         return chains, chains_joints
 
-    def get_all_chains(self, joint, chain, chains, chain_joint, chains_joints):
-        while hasattr(joint, "child"):
-            chain.append(joint.child.name)
-            chain_joint.append(joint.name)
-            if hasattr(joint.child, "joint"):
-                joints = joint.child.joint
-                if len(joints) == 1:
-                    joint = joints[0]
-                else:
-                    for joint in joints:
-                        self.get_all_chains(joint, copy.deepcopy(chain), chains, copy.deepcopy(chain_joint), chains_joints)
-                    break
-            else:
-                chains.append(chain)
-                chains_joints.append(chain_joint)
-                break
-        return chains, chains_joints
+    def compute_jacobian(self, chain: CHAINS, start: Optional[str] = None, end: Optional[str] = None) -> Tuple[np.array, np.array]:
+        """
+        Help function to compute a Jacobian using RTB of a given chain with optional start and end
 
-    def compute_jacobian(self, chain, start=None, end=None):
+        :param chain: name of the chain
+        :type chain: str
+        :param start: name of the start link
+        :type start: str
+        :param end: name of the end link
+        :type end: str
+        :return: Jacobian and list of joints used
+        :rtype: np.array, np.array
+        """
         if start is None:
             start = self.chains[chain][0]
         if end is None:
@@ -238,35 +284,88 @@ class pyCub(BulletClient):
         q = self.get_joint_state(self.chains_joints[chain], allow_error=True)[:end_id]
         return self.rtb_robot.jacob0(q, end, start), self.chains_joints[chain][:end_id][np.array(q) != 0]
 
-    def get_camera_images(self):
+    def get_camera_images(self, eyes: Optional[str | List[str]] = None) -> dict:
         """
         Gets the images from enabled eye cameras
 
-        :return: list of numpy arrays
-        :rtype: list
+        :param eyes: name of eye/eyes to get images for
+        :type eyes: str or list of str, optional
+        :return: dictionary with eye as keys and np.array of images as values
+        :rtype: dict
         """
-        images = []
-        for ew in self.visualizer.eye_windows.values():
-            images.append(np.asarray(ew.last_image))
+
+        if eyes is None:
+            eyes = self.visualizer.eye_windows.keys()
+        if isinstance(eyes, str):
+            eyes = [eyes]
+
+        images = {}
+        for eye in eyes:
+            ew = self.visualizer.eye_windows[eye]
+            images[ew.eye] = np.asarray(ew.last_image)
         return images
 
-    def kill_open3d(self):
-        # a bit of a workaround to kill open3d, that seems to hang for some reason
-        for _ in os.popen("pgrep -f " + self.parent_name).read().strip().splitlines():
-            call("kill -9 " + _, shell=True)
+    def get_camera_depth_images(self, eyes: Optional[str | List[str]] = None) -> dict:
+        """
+        Gets the images from enabled eye cameras
 
-    def init_robot(self):
+        :param eyes: name of eye/eyes to get images for
+        :type eyes: str or list of str, optional
+        :return: dictionary with eye as keys and np.array of images as values
+        :rtype: dict
+        """
+
+        if eyes is None:
+            eyes = self.visualizer.eye_windows.keys()
+        if isinstance(eyes, str):
+            eyes = [eyes]
+
+        images = {}
+        for eye in eyes:
+            ew = self.visualizer.eye_windows[eye]
+            images[ew.eye] = np.asarray(ew.last_depth_image)
+        return images
+
+    def find_processes_by_name(self) -> List[int]:
+        """
+        Help function to find PIDs of processes with the parent name
+
+        :return: list of matching PIDs
+        :rtype: list of ints
+        """
+        matching_pids = []
+        for process in psutil.process_iter(attrs=['pid', 'name', 'cmdline']):
+            try:
+                if self.parent_name in ' '.join(process.info['cmdline']):
+                    matching_pids.append(process.info['pid'])
+            except:
+                pass
+        return matching_pids
+
+    def kill_open3d(self) -> None:
+        """
+        A bit of a workaround to kill open3d, that seems to hang for some reason.
+
+        :return:
+        :rtype:
+        """
+        for _ in self.find_processes_by_name():
+            psutil.Process(_).kill()
+
+
+    def init_robot(self) -> Tuple[int, List[Joint], List[Link]]:
         """
         Load the robot URDF and get its joints' information
 
-        :return: robot and its joints
-        :rtype: int or list
+        :return: robot, its joints and links
+        :rtype: int, list of Joint, list of Link
         """
         if self.config.self_collisions:
             robot = self.loadURDF(self.urdf_path, useFixedBase=True, flags=self.URDF_USE_SELF_COLLISION)
         else:
             robot = self.loadURDF(self.urdf_path, useFixedBase=True)
 
+        # get all moveable joints
         joints = []
         for joint in range(self.getNumJoints(robot)):
             info = self.getJointInfo(robot, joint)
@@ -278,12 +377,15 @@ class pyCub(BulletClient):
                 if hasattr(self.config.initial_joint_angles, joint.name):
                     self.resetJointState(robot, joint.robot_joint_id, np.deg2rad(getattr(self.config.initial_joint_angles, joint.name)))
 
+        # get all links with collision geometry (these are usually able to move)
         links = []
         for link in self.urdfs["robot"].links:
             if hasattr(link, "collision"):
                 link_id = self.find_link_id(os.path.basename(link.collision.geometry.mesh.filename), robot=robot)
                 link = Link(link.name, link_id, link)
                 links.append(link)
+
+        self.init_urdfs()
 
         # perform one step of collision detection
         self.stepSimulation()
@@ -296,7 +398,55 @@ class pyCub(BulletClient):
 
         return robot, joints, links
 
-    def is_alive(self):
+    def init_urdfs(self) -> None:
+        """
+        Function to load URDFs of other objects
+
+        :return:
+        :rtype:
+        """
+
+        if hasattr(self.config, "urdfs"):
+            # for object_id, urdf path, whether it should be fixed and the color
+            for obj_id, urdf, fixed, color in zip(np.arange(len(self.config.urdfs.paths)), self.config.urdfs.paths, self.config.urdfs.fixed, self.config.urdfs.color):
+                suffix = ""
+
+                # if obj file, convert it to URDF (and, optionaly, add suffix so the same .obj can be used multiple times)
+                if os.path.basename(urdf).split(".")[-1] == "obj":
+                    obj_name = os.path.basename(urdf).split(".")[0]
+                    while obj_name in self.urdfs:
+                        suffix += "_"
+                        obj_name = obj_name+suffix
+                    self.create_urdf(urdf, fixed, color, suffix)
+                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf.replace(".obj", suffix+".urdf")))
+                # if URDF, just load it
+                elif os.path.basename(urdf).split(".")[-1] == "urdf":
+                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf))
+                else:
+                    raise ValueError("Objects must be .obj or .urdf!")
+                # Parse the URDF
+                self.urdfs[os.path.basename(urdf).split(".")[0]] = URDF(urdf)
+                self.config.urdfs.paths[obj_id] = urdf
+
+        # RUN vhacd on the URDF objects if required
+        if self.config.vhacd.use_vhacd:
+            self.run_vhacd(robot=False)
+
+        if hasattr(self.config, "urdfs"):
+            for urdf_id, urdf, pos, color, fixed in zip(range(len(self.config.urdfs.paths)), self.config.urdfs.paths, self.config.urdfs.positions, self.config.urdfs.color, self.config.urdfs.fixed):
+                obj_name = os.path.basename(urdf).split(".")[0]
+                urdf = self.urdfs[obj_name].path
+                # apped to other objects list
+                self.other_objects.append((self.loadURDF(urdf, pos), obj_name, fixed, color, urdf.split("other_meshes/")[1].replace(".urdf", ".obj")))
+                if not fixed:
+                    self.free_objects.append(self.other_objects[-1][0])
+                # Put the specified force (or 0.25N) to each joint so the objects moves "naturally"
+                f = 0.25 if not hasattr(self.config.urdfs, "force") else self.config.urdfs.force[urdf_id]
+                for joint in range(self.getNumJoints(self.other_objects[-1][0])):
+                    self.setJointMotorControl2(self.other_objects[-1][0], joint, self.POSITION_CONTROL, targetPosition=0,
+                                               targetVelocity=0, force=f)
+
+    def is_alive(self) -> bool:
         """
         Checks whether the engine is still running
 
@@ -307,34 +457,38 @@ class pyCub(BulletClient):
             return False
         return True if self._client >= 0 else False
 
-    def update_simulation(self, sleep_duration=0.01):
+    def update_simulation(self, sleep_duration: Optional[float | None] = -1) -> None:
         """
         Updates the simulation
 
         :param sleep_duration: duration to sleep before the next simulation step
-        :type sleep_duration: float, optional, default=0.01
+        :type sleep_duration: float or None, optional, default=-1
         """
 
+        if sleep_duration == -1:
+            sleep_duration = self.default_step
+
         # This is here to keep events and everything in open3D work even if we want slower simulation
-        if sleep_duration is None or time.time()-self.last_step > sleep_duration:
+        cur_time = time.time()
+        if sleep_duration is None or cur_time-self.last_step > sleep_duration:
             self.stepSimulation()
             if self.config.skin.use:
                 self.compute_skin()
-            self.last_step = time.time()
+            self.last_step = cur_time
             self.steps_done += 1
 
-            if self.config.log.log and time.time()-self.last_log > self.config.log.period:
+            if self.config.log.log and cur_time-self.last_log > self.config.log.period:
                 self.file_logger.info(self.prepare_log())
-                self.last_log = time.time()
+                self.last_log = cur_time
 
             if self.log_pose:
                 self.pose_logger.append(self.end_effector.get_position())
 
-        if self.gui and time.time()-self.last_render > 0.01 and self.visualizer.is_alive:
+        if self.gui and cur_time-self.last_render > 0.01 and self.visualizer.is_alive:
             self.visualizer.render()
-            self.last_render = time.time()
+            self.last_render = cur_time
     
-    def toggle_gravity(self):
+    def toggle_gravity(self) -> None:
         """
         Toggles the gravity
 
@@ -346,7 +500,7 @@ class pyCub(BulletClient):
             self.gravity = False
             self.setGravity(0, 0, 0)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """
         Destructor to make sure the engine is closed
 
@@ -354,7 +508,17 @@ class pyCub(BulletClient):
         self.disconnect()
 
     @staticmethod
-    def scale_bbox(bbox, scale):
+    def scale_bbox(bbox: list, scale: float) -> Tuple[np.array, np.array]:
+        """
+        Function to scale the bounding box
+
+        :param bbox: list of min and max bbox
+        :type bbox: list
+        :param scale: scale factor
+        :type scale: float
+        :return: new min and max bbox
+        :rtype: list, list
+        """
         com = (np.array(bbox[0]) + bbox[1]) / 2
         vec = np.array(bbox[0]) - bbox[1]
         norm = np.linalg.norm(vec)
@@ -362,10 +526,24 @@ class pyCub(BulletClient):
         new_norm = scale * norm
         bbox_min = com + new_norm / 2 * vec
         bbox_max = com - new_norm / 2 * vec
-        return (bbox_min, bbox_max)
+        return bbox_min, bbox_max
 
     @staticmethod
-    def bbox_overlap(b1_min, b1_max, b2_min, b2_max):
+    def bbox_overlap(b1_min: list, b1_max: list, b2_min: list, b2_max: list) -> bool:
+        """
+        Function to check whether two bounding boxes overlap
+
+        :param b1_min: min bbox 1
+        :type b1_min: list
+        :param b1_max: max bbox 1
+        :type b1_max: list
+        :param b2_min: min bbox 2
+        :type b2_min: list
+        :param b2_max: max bbox 2
+        :type b2_max: list
+        :return: whether the boxes overlap
+        :rtype: bool
+        """
         for min1, max1, min2, max2 in zip(b1_min, b1_max, b2_min, b2_max):
             if min1 >= max2:
                 return False
@@ -373,7 +551,7 @@ class pyCub(BulletClient):
                 return False
         return True
 
-    def compute_skin(self):
+    def compute_skin(self) -> None:
         """
         Function to emulate skin activations using ray casting.
 
@@ -383,17 +561,23 @@ class pyCub(BulletClient):
         normals = None
         links_to_test = ["l_hand", "r_hand", "l_forearm", "r_forearm", "l_upper_arm", "r_upper_arm", "chest",
                          "l_upper_leg", "r_upper_leg", "l_lower_leg", "r_lower_leg", "l_foot", "r_foot", "head"]
+
+        # Get all overlapping bboxes for robot with robot
         bboxes = []
         for l in links_to_test:
             for ll in self.links:
                 if l == ll.name:
+                    # Make the bboxes smaller as bullet makes the bigger by default
                     bboxes.append(self.scale_bbox(self.getAABB(self.robot, ll.robot_link_id), 0.8))
                     break
 
-        for fo_id, fo in enumerate(self.free_objects):
-            bboxes.append(self.scale_bbox(self.getAABB(fo), 0.8))
-            links_to_test.append("free_object_"+str(fo_id))
+        # Get all overlapping bboxes for robot with free objects
+        for fo_id, fo in enumerate(self.other_objects):
+            # Make the bboxes smaller as bullet makes the bigger by default
+            bboxes.append(self.scale_bbox(self.getAABB(fo[0]), 0.8))
+            links_to_test.append("other_object_"+str(fo_id))
 
+        # All allowed collisions -> usually neighbouring links that cannot touch
         allowed_collisions = {"r_hand": ["r_hand", "r_forearm"], "r_upper_leg": ["r_lower_leg", "r_upper_leg", "r_foot"],
                               "l_forearm": ["l_hand", "l_forearm", "l_upper_arm"],
                               "l_upper_leg": ["l_lower_leg", "l_upper_leg", "l_foot"],
@@ -403,8 +587,11 @@ class pyCub(BulletClient):
                               "r_lower_leg": ["r_lower_leg", "r_upper_leg", "r_foot"], "l_lower_leg": ["l_lower_leg", "l_upper_leg", "l_foot"],
                               "r_forearm": ["r_hand", "r_forearm", "r_upper_arm"], "l_hand": ["l_hand", "l_forearm"],
                               "head": ["head", "chest", "l_upper_arm", "r_upper_arm"]}
+
+        # for every skin part
         for skin_part, pc in self.skin.items():
             use_skin = False
+            # deactivate from the last run
             self.skin_activations[skin_part].fill(0)
             self.activated_skin_points[skin_part] = []
             self.activated_skin_normals[skin_part] = []
@@ -413,6 +600,7 @@ class pyCub(BulletClient):
                 if link.name == skin_part:
                     break
 
+            # get position and orientation of the skin patch
             linkState = self.getLinkState(self.robot, link.robot_link_id,
                                           computeLinkVelocity=0, computeForwardKinematics=0)
             ori = linkState[self.linkInfo["URDFORI"]]
@@ -425,9 +613,11 @@ class pyCub(BulletClient):
             points_ = (R @ np.hstack((pc[0], np.ones((len(pc[0]), 1)))).T)[:3, :].T
             normals_ = (R @ np.hstack((pc[1], np.ones((len(pc[0]), 1)))).T)[:3, :].T
 
+            # create oriented bbox
             bbox = (np.min(points_, axis=0),  np.max(points_, axis=0))
             bbox_min, bbox_max = self.scale_bbox(bbox, 1)
 
+            # check for overlaps of skin and object/robot links
             for bb_i, bb in enumerate(bboxes):
                 if self.bbox_overlap(bb[0], bb[1], bbox_min, bbox_max) and links_to_test[bb_i] not in allowed_collisions[skin_part]:
                     use_skin = True
@@ -435,6 +625,7 @@ class pyCub(BulletClient):
             if not use_skin:
                 continue
 
+            # if any overlap found compute position and normals of individual sensors
             if points is None:
                 points = points_
                 normals = normals_
@@ -443,12 +634,18 @@ class pyCub(BulletClient):
                 normals = np.vstack((normals, normals_))
 
             temp.append((link.robot_link_id, skin_part, points_.shape[0]))
+
+        # if any overlap in total over all skin parts
         if points is not None:
+            # raycasting from each sensor to self.config.skin.radius distance
             contacts = self.rayTestBatch(points, points + self.config.skin.radius*normals,
                                          numThreads=self.config.skin.num_cores)
             start_id = 0
             for link_id, skin_part, num_points in temp:
+                # contacts = intersection of raycast and object
                 for c_id, c in enumerate(contacts[start_id:start_id+num_points]):
+                    if c[0] == -1: # the raytestbatch still returns contact event hough there is none
+                        continue
                     # TODO: Fix this somehow more elegant. Some meshes are not smooth and skin collides with it
                     if c[1] == link_id:
                         continue
@@ -456,8 +653,13 @@ class pyCub(BulletClient):
                     self.activated_skin_points[skin_part].append(points[start_id+c_id])
                     self.activated_skin_normals[skin_part].append(normals[start_id+c_id])
                 start_id += num_points
+            # for sp in self.skin_activations.keys():
+            #     if np.any(np.isnan(self.activated_skin_points[sp])):
+            #         self.skin_activations[sp].fill(0)
+            #         self.activated_skin_points[sp] = []
+            #         self.activated_skin_normals[sp] = []
 
-    def prepare_log(self):
+    def prepare_log(self) -> str:
         """
         Prepares the log string
 
@@ -475,14 +677,17 @@ class pyCub(BulletClient):
                 s += ";" + ",".join([str(_) for _ in activations])
         return s
 
-    def move_position(self, joints, positions, wait=True, velocity=1, set_col_state=True, check_collision=True):
+    def move_position(self, joints: JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS],
+                      positions: float | List[float], wait: Optional[bool] = True, velocity: Optional[float] = 1,
+                      set_col_state: Optional[bool] = True, check_collision: Optional[bool] = True,
+                      timeout: Optional[float] = None) -> None:
         """
         Move the specified joints to the given positions
 
         :param joints: joint or list of joints to move
-        :type joints: int, list, str
+        :type joints: int, str, list of int, list of str
         :param positions: position or list of positions to move the joints to
-        :type positions: float or list
+        :type positions: float or list; same length as joints
         :param wait: whether to wait until the motion is done
         :type wait: bool, optional, default=True
         :param velocity: velocity to move the joints with
@@ -491,36 +696,46 @@ class pyCub(BulletClient):
         :type set_col_state: bool, optional, default=True
         :param check_collision: whether to check for collision during motion
         :type check_collision: bool, optional, default=True
+        :param timeout: timeout for the motion
+        :type timeout: float, optional, default=10
         """
+        # if joints is not a list (or iterable in general), make it a list
         if isinstance(joints, int) or isinstance(joints, str):
             positions = [positions]
             joints = [joints]
 
+
         for joint, position in zip(joints, positions):
 
+            # find id in robot space from name or id from joint space
             robot_joint_id, joint_id = self.find_joint_id(joint)
             if not (self.joints[joint_id].lower_limit <= position <= self.joints[joint_id].upper_limit):
                 self.logger.warning(f"Joint {joint} cannot be moved to {position} as it is out of bounds "
                                     f"({self.joints[joint_id].lower_limit}, {self.joints[joint_id].upper_limit}).")
-                continue
+                position = np.clip(position, self.joints[joint_id].lower_limit, self.joints[joint_id].upper_limit)
+                # continue
             self.joints[joint_id].set_point = position
+            self.joints[joint_id].start_time = time.time()
+            self.joints[joint_id].timeout = timeout
             self.setJointMotorControl2(self.robot, robot_joint_id,
                                        controlMode=self.POSITION_CONTROL, targetPosition=position,
                                        force=self.joints[joint_id].max_force,
                                        maxVelocity=velocity)
+        # if set_col_state is True, reset collision state from last movement
         if set_col_state:
             self.collision_during_motion = False
         if wait:
             self.wait_motion_done(check_collision=check_collision)
 
-    def move_velocity(self, joints, velocities):
+    def move_velocity(self, joints: JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS],
+                      velocities: float | List[float]) -> None:
         """
         Move the specified joints with the specified velocity
 
         :param joints: joint or list of joints to move
         :type joints: int or list
         :param velocities: velocity or list of velocities to move the joints to
-        :type velocities: float or list
+        :type velocities: float or list; same length as joints
         """
         if isinstance(joints, int) or isinstance(joints, str):
             velocities = [velocities]
@@ -538,12 +753,15 @@ class pyCub(BulletClient):
                                        maxVelocity=self.joints[joint_id].max_velocity)
             self.joints[joint_id].set_point = "vel"
 
-    def get_joint_state(self, joints=None, allow_error=False):
+    def get_joint_state(self, joints: Optional[JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS]] = None,
+                        allow_error: Optional[bool] = False) -> List[list]:
         """
         Get the state of the specified joints
 
         :param joints: joint or list of joints to get the state of
         :type joints: int or list, optional, default=None
+        :param allow_error: whether to allow errors (non-existing joints); useful for Jacobian computation
+        :type allow_error: bool, optional, default=False
         :return: list of states of the joints
         :rtype: list
         """
@@ -558,7 +776,7 @@ class pyCub(BulletClient):
                 robot_joint_id, joint_id = self.find_joint_id(joint)
             except Exception as e:
                 if allow_error:
-                    states.append(0)
+                    states.append(0) # add 0; needed for Jacobian that needs all joints, not only moveable ones
                     continue
                 else:
                     raise e
@@ -567,7 +785,8 @@ class pyCub(BulletClient):
 
         return states
 
-    def motion_done(self, joints=None, check_collision=True):
+    def motion_done(self, joints: Optional[JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS]] = None,
+                    check_collision=True) -> bool:
         """
         Checks whether the motion is done.
 
@@ -582,27 +801,33 @@ class pyCub(BulletClient):
             joints = [joint.name for joint in self.joints]
         elif not isinstance(joints, list):
             joints = [joints]
-
         if check_collision:
             contacts = self.getContactPoints(self.robot)
             for c in contacts:
+                # if contact is not with free object (e.g., ball) and is in collision tolerance -> stop
                 if c[self.contactPoints["IDB"]] not in self.free_objects and c[self.contactPoints["DISTANCE"]] < self.config.collision_tolerance:
                     self.collision_during_motion = True
                     self.stop_robot()
                     self.logger.warning("Collision detected during motion!")
                     self.print_collision_info()
                     return True
+        cur_time = time.time()
+        # check whether all joints are in joint tolerance; if not return False
         for joint in joints:
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
             if self.joints[joint_id].set_point is not None and self.joints[joint_id].set_point != "vel":
+                if self.joints[joint_id].timeout is not None and cur_time  - self.joints[joint_id].start_time > self.joints[joint_id].timeout:
+                    self.stop_robot()
+                    return True
                 if np.abs(state[self.jointStates["POSITION"]] - self.joints[joint_id].set_point) > self.joint_tolerance:
                     return False
 
         self.stop_robot()
         return True
 
-    def wait_motion_done(self, sleep_duration=0.01, check_collision=True):
+    def wait_motion_done(self, sleep_duration: Optional[float] = 0.01,
+                         check_collision: Optional[bool] = True) -> None:
         """
         Help function to wait for motion to be done. Can sleep for a specific duration
 
@@ -614,23 +839,31 @@ class pyCub(BulletClient):
         while not self.motion_done(check_collision=check_collision):
             self.update_simulation(sleep_duration)
 
-    def stop_robot(self):
+    def stop_robot(self, joints: Optional[JOINTS | List[JOINTS] | JOINTS_IDS | List[JOINTS_IDS]] = None) -> None:
         """
         Stops the robot
 
         """
-        joints = [joint.name for joint in self.joints]
+        if joints is None:
+            joints = [joint.name for joint in self.joints]
+        else:
+            if isinstance(joints, str) or isinstance(joints, int):
+                joints = [joints]
         for joint in joints:
             robot_joint_id, joint_id = self.find_joint_id(joint)
             state = self.getJointState(self.robot, robot_joint_id)
             if self.joints[joint_id].set_point is not None:
+                # I do not know what is the difference now???
                 if self.joints[joint_id].set_point == "vel":
-                    self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
+                    self.move_velocity(joint, 0)
                 else:
                     self.move_position(joint, state[self.jointStates["POSITION"]], wait=False, set_col_state=False)
                 self.joints[joint_id].set_point = None
+                self.joints[joint_id].start_time = None
+                self.joints[joint_id].timeout = None
 
-    def move_cartesian(self, pose, wait=True, velocity=1, check_collision=True):
+    def move_cartesian(self, pose: Pose, wait: Optional[bool] = True, velocity: Optional[float] = 1,
+                       check_collision: Optional[bool] = True, timeout: Optional[float] = None) -> None:
         """
         Move the robot in cartesian space by computing inverse kinematics and running position control
 
@@ -642,6 +875,8 @@ class pyCub(BulletClient):
         :type velocity: float, optional, default=1
         :param check_collision: whether to check for collisions during motion
         :type check_collision: bool, optional, default=True
+        :param timeout: timeout for the motion
+        :type timeout: float, optional, default=10
         """
         ik_solution = np.array(self.calculateInverseKinematics(self.robot, self.end_effector.link_id, pose.pos, pose.ori,
                                                                lowerLimits=self.IK_config["lower_limits"],
@@ -649,11 +884,11 @@ class pyCub(BulletClient):
                                                                jointRanges=self.IK_config["joint_ranges"],
                                                                restPoses=self.IK_config["rest_poses"]))
         self.move_position(self.IK_config["movable_joints"], ik_solution[self.IK_config["movable_joints"]], wait=False,
-                           velocity=velocity)
+                           velocity=velocity, timeout=timeout)
         if wait:
             self.wait_motion_done(check_collision=check_collision)
 
-    def find_joint_id(self, joint_name):
+    def find_joint_id(self, joint_name: JOINTS | JOINTS_IDS) -> Tuple[int, int]:
         """
         Help function to get indexes from joint name of joint index in self.joints list
 
@@ -666,7 +901,7 @@ class pyCub(BulletClient):
             if joint_name in [joint.name, joint.joints_id]:
                 return joint.robot_joint_id, joint.joints_id
 
-    def find_link_id(self, mesh_name, robot=None, urdf_name="robot"):
+    def find_link_id(self, mesh_name: str, robot: Optional[int] = None, urdf_name: Optional[str] = "robot") -> int:
         """
         Help function to find link id from mesh name
 
@@ -688,13 +923,17 @@ class pyCub(BulletClient):
                 if mesh_name == os.path.basename(cs[0][4].decode("utf-8")):
                     return link_id
 
-    def run_vhacd(self):
+    def run_vhacd(self, robot: Optional[bool] = True) -> None:
         """
         Function to run VHACD on all objects in loaded URDFs, and to create new URDFs with changed collision meshes
 
+        :param robot: whether to run VHACD on the robot
+        :type robot: bool, optional, default=True
         """
         something_changed = False
         for obj_name, obj in self.urdfs.items():
+            if not robot and "robot" in obj_name:
+                continue
             for link in obj.links:
                 if hasattr(link, "collision"):
                     if hasattr(link.collision.geometry, "mesh"):
@@ -707,13 +946,14 @@ class pyCub(BulletClient):
                         if self.config.vhacd.force_vhacd_urdf or not os.path.exists(vhacd_path):
                             something_changed = True
                         link.collision.geometry.mesh.filename = col_path_ori.replace("visual", "vhacd").replace(".obj", "_vhacd.obj")
-            if something_changed or self.config.vhacd.force_vhacd_urdf or not obj.path.replace(".urdf", "_vhacd.urdf"):
+            obj.path = obj.path.replace("_fixed", "").replace(".urdf", "_vhacd.urdf")
+            if something_changed or self.config.vhacd.force_vhacd_urdf or not os.path.exists(obj.path):
                 obj.write_urdf()
-                obj.path = obj.path.replace("_fixed", "").replace(".urdf", "_vhacd.urdf")
+
                 with open(obj.path, "w") as f:
                     f.write(obj.new_urdf)
 
-    def create_urdf(self, object_path, fixed, color, suffix=""):
+    def create_urdf(self, object_path: str, fixed: bool, color: List[float], suffix: Optional[str] = ""):
         """
         Creates a URDF for the given .obj file
 
@@ -723,7 +963,8 @@ class pyCub(BulletClient):
         :type fixed: bool
         :param color: color of the object
         :type color: list of 3 floats
-
+        :param suffix: suffix to add to the object name
+        :type suffix: str, optional, default=""
         """
         with open(os.path.join(self.file_dir, "..", "other_meshes", "object_default.urdf"), "r") as f:
             urdf = f.read()
@@ -747,11 +988,11 @@ class pyCub(BulletClient):
         with open(object_path.replace(".obj", ".urdf"), "w") as f:
             f.write(urdf)
 
-    def print_collision_info(self, c=None):
+    def print_collision_info(self, c: Optional[list] = None):
         """
         Help function to print collision info
 
-        :param c: one collision
+        :param c: one collision; if None print all collisions
         :type c: list, optional, default=None
         """
         if c is None:
@@ -762,7 +1003,7 @@ class pyCub(BulletClient):
             if c[self.contactPoints['IDB']] == self.robot:
                 body_b = "robot"
             else:
-                for obj, name, _ in self.other_objects:
+                for obj, name, _, _, _ in self.other_objects:
                     if c[self.contactPoints['IDB']] == obj:
                         body_b = name
                         break
@@ -790,58 +1031,8 @@ class pyCub(BulletClient):
                              f"Friction dir 2: {c[self.contactPoints['FRICTIONDIR2']]}\n")
 
 
-class Joint:
-    def __init__(self, name, robot_joint_id, joints_id, lower_limit, upper_limit, max_force, max_velocity):
-        """
-        Help class to encapsulate joint information
-
-        :param name: name of the joint
-        :type name: str
-        :param robot_joint_id: id of the joint in pybullet
-        :type robot_joint_id: int
-        :param joints_id: id of the joint in pycub.joints
-        :type joints_id: int
-        :param lower_limit: lower limit of the joint
-        :type lower_limit: float
-        :param upper_limit: upper limit of the joint
-        :type upper_limit: float
-        :param max_force: max force of the joint
-        :type max_force: float
-        :param max_velocity: max velocity of the joint
-        :type max_velocity: float
-        """
-        self.name = name
-        self.robot_joint_id = robot_joint_id
-        self.joints_id = joints_id
-        self.lower_limit = lower_limit
-        self.upper_limit = upper_limit
-        self.max_force = max_force
-        self.max_velocity = max_velocity
-        self.set_point = None
-
-    def __repr__(self):
-        return f"Joint {self.name} with id {self.robot_joint_id}"
-
-
-class Link:
-    def __init__(self, name, robot_link_id, urdf_link):
-        """
-        Help function to encapsulate link information
-
-        :param name: name of the link
-        :type name: str
-        :param robot_link_id: id of the link in pybullet
-        :type robot_link_id: int
-        :param urdf_link: id of the link in pycub.urdfs["robot"].links
-        :type urdf_link: int
-        """
-        self.name = name
-        self.robot_link_id = robot_link_id
-        self.urdf_link = urdf_link
-
-
 class EndEffector:
-    def __init__(self, name, client):
+    def __init__(self, name: str, client: int):
         """
         Help function for end-effector encapsulaation
 
@@ -857,9 +1048,10 @@ class EndEffector:
                 self.link_id = self.client.find_link_id(os.path.basename(link.collision.geometry.mesh.filename))
                 break
 
-    def get_position(self):
+    def get_position(self) -> Pose:
         """
         Function to get current position of the end-effector
+
         """
         state = self.client.getLinkState(self.client.robot, self.link_id)
         pos = list(state[self.client.linkInfo["URDFPOS"]])

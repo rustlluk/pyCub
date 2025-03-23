@@ -1,4 +1,4 @@
-vhacd: # global vhacd
+vhacd: # global vhacd settings
   use_vhacd: True # whether to use VHACD for collision detection
                     # default: True
                     # True, False
@@ -9,12 +9,12 @@ vhacd: # global vhacd
                          # default: True
                          # False, True
 robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub.py
-                               # default: "../iCub/full.urdf"
-                               # str
-gui: True # whether to sho GUI
-          # default: True
-          # True, False
-tolerance:
+                                     # default: "../iCub/full.urdf"
+                                     # str
+gui: # GUI settings
+  standard: True # standard (and better) visualization using standalone window with openGL
+  web: False # fallback web visualizer (the same, but slower and running in your browser)
+tolerance: # goal tolerance for each joint
   joint: 1e-3 # circa 2 degrees
 end_effector: "r_hand" # end effector name
                        # default: "l_hand"
@@ -23,7 +23,7 @@ initial_joint_angles: {"r_shoulder_pitch": -34, "r_shoulder_roll": 30,
                         "r_shoulder_yaw": 0, "r_elbow": 50, "r_wrist_prosup": 0,
                         "r_wrist_pitch": 0, "r_wrist_yaw": 0, "l_shoulder_pitch": -34,
                         "l_shoulder_roll": 30, "l_shoulder_yaw": 0, "l_elbow": 50,
-                        "l_wrist_prosup": 0, "l_wrist_pitch": 0, "l_wrist_yaw": 0}
+                        "l_wrist_prosup": 0, "l_wrist_pitch": 0, "l_wrist_yaw": 0} # other joints can be added/removed
 urdfs: # other than robot urdfs or .obj files
   paths: [plane/plane.obj] # path to files relative "other_meshes" directory
   positions: [[-5, -5, -0.65]] # position of the mesh/urdf base link in the world frame
@@ -41,9 +41,9 @@ skin: # skin settings
                # int
   skin_parts: []
 collision_tolerance: 0.001
-debug: False
+debug: True
 log: # log settings
-  log: True # whether to log data
+  log: False # whether to log data
             # default: True
             # True, False
   period: 0.01 # period of logging
@@ -63,3 +63,4 @@ eyes: # Whether to show output from eye
       # True, False
   l_eye: False
   r_eye: False
+log_pose: False # Whether to log pose into variable of client

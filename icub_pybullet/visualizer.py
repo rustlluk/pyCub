@@ -1,22 +1,35 @@
+"""
+Visualization utils for pyCub simulator
+
+:Author: Lukas Rustler
+"""
+from __future__ import annotations
+import webbrowser
 import open3d as o3d
 import os
 import numpy as np
 import open3d.visualization.gui as gui
 import open3d.visualization.rendering as rendering
+from typing import Optional, Tuple
 
 
 class Visualizer:
     """Class to help with custom rendering"""
 
-    def __init__(self, client=None):
+    def __init__(self, client: pyCub):
         """
 
-        :param client: The client to be used for the visualizer.
-        :type client: int, optional, default=None
+        :param client: pyCub instance
+        :type client: pyCub
         """
         self.client = client
-        self.meshes = {}
 
+        # if the web gui is enabled, enable webrtc server
+        if self.client.config.gui.web:
+            o3d.visualization.webrtc_server.enable_webrtc()
+
+        # prepare empty dictionaries
+        self.meshes = {}
         self.meshes = {}
         self.R_urdf = {}
 
@@ -99,22 +112,28 @@ class Visualizer:
             m.transform(np.linalg.inv(R))
         bbox = scene_mesh.get_axis_aligned_bounding_box()
         center = bbox.get_center()
+
         # look at the center
         self.scene.look_at(center, center+[-1, 0, 0], [0, 0, 1])
         self.scene.center_of_rotation = center
 
-        for obj_id, obj_name, _ in self.client.other_objects:
+        # show all "other objects" -> non-robot
+        for obj_id, obj_name, _, _, _ in self.client.other_objects:
             self.read_info(obj_id)
             self.show_first(urdf_name=obj_name)
             self.show_mesh()
+
         self.is_alive = True
         if self.client.config.eyes.l_eye:
             show_callbacks[0]()
         if self.client.config.eyes.r_eye:
             show_callbacks[1]()
 
+        # Open new tab (or new window) of default browser with the web gui
+        if self.client.config.gui.web:
+            webbrowser.open("http://localhost:8888", new=0)
 
-    def show_first(self, urdf_name="robot"):
+    def show_first(self, urdf_name: Optional[str] = "robot") -> None:
         """
         Show the first batch of meshes in the visualizer. It loads the meshes and saves the to dict for quicker use later
 
@@ -158,7 +177,7 @@ class Visualizer:
                 else:
                     self.fpath_to_skin[f_path] = None
 
-    def show_mesh(self):
+    def show_mesh(self) -> None:
         """
         Function to parse info about meshes from PyBullet
 
@@ -195,7 +214,7 @@ class Visualizer:
                 self.vis.add_geometry(f_path+"_skin", geometry=self.client.skin_point_clouds[self.fpath_to_skin[f_path]], material=self.mat)
                 self.vis.set_geometry_transform(f_path+"_skin", R)
 
-    def read_info(self, obj_id):
+    def read_info(self, obj_id: int) -> int:
         """
         Read info from PyBullet
 
@@ -239,7 +258,7 @@ class Visualizer:
 
         return 0
 
-    def render(self):
+    def render(self) -> None:
         """
         Render all the things
 
@@ -249,16 +268,17 @@ class Visualizer:
         # add new
         self.show_mesh()
 
-        for obj_id, _, fixed in self.client.other_objects:
-            if not fixed:
-                self.read_info(obj_id)
-                self.show_mesh()
+        for obj_id, _, fixed, _, _ in self.client.other_objects:
+            # if not fixed:
+            self.read_info(obj_id)
+            self.show_mesh()
 
         self.window.post_redraw()
         for ew in self.eye_windows.values():
             ew.scene.look_at(ew.center + ew.dir, ew.center, [0, 0, 1])
             ew.window.post_redraw()
             ew.get_image()
+            ew.get_depth_image()
             if ew.save_images_bool:
                 ew.save_images()
         if not self.gui.run_one_tick():
@@ -269,7 +289,7 @@ class Visualizer:
         """
         Class to handle menu callbacks.
         """
-        def __init__(self, menu_id, parent):
+        def __init__(self, menu_id: int, parent: Visualizer):
             """
             Initialize the MenuCallback class.
 
@@ -320,13 +340,13 @@ class Visualizer:
                 else:
                     self.parent.vis.remove_geometry("coordination_frame")
 
-        def save_image(self, im, mode):
+        def save_image(self, im: o3d.geometry.Image, mode: int) -> None:
             """
             Save the image. It shows FileDialog to find path for image save. It saves it with the current resolution
             of the window.
 
             :param im: The image to be saved.
-            :type im: open3d.geometry.Image
+            :type im: o3d.geometry.Image
             :param mode: The mode of the image. 0 for RGB, 1 for depth.
             :type mode: int
             """
@@ -352,7 +372,7 @@ class Visualizer:
             self.parent.client.logger.info(f"File saved to {self.path}")
             self.path = None
 
-        def wait_for_dialog_completion(self):
+        def wait_for_dialog_completion(self) -> None:
             """
             Help function to keep the gui loop running
 
@@ -361,13 +381,31 @@ class Visualizer:
                 self.parent.window.post_redraw()
                 self.parent.gui.run_one_tick()
 
-        def input_completed(self, text=None):
+        def input_completed(self, text: Optional[str] = None):
+            """
+            Callback for the dialog
+
+            :param text: input text
+            :type text: str
+            :return:
+            :rtype:
+            """
             self.path = text
             self.dialog_opened = False
 
-    def find_xyz_rpy(self, mesh_name, urdf_name="robot"):
+    def find_xyz_rpy(self, mesh_name: str, urdf_name: Optional[str] = "robot") -> Tuple[list, list, float, str]:
         """
         Find the xyz, rpy and scales values.
+
+        :param mesh_name: The name of the mesh.
+        :type mesh_name: str
+        :param urdf_name: The name of the urdf.
+        :type urdf_name: str, optional, default="robot"
+        :return: The xyz, rpy, and scales, link_name
+        :rtype: list, list, float, str
+        """
+        """
+        
 
         :param mesh_name: The name of the mesh.
         :type mesh_name: str
@@ -382,7 +420,10 @@ class Visualizer:
                     if os.path.basename(link.visual.geometry.mesh.filename) == mesh_name:
                         xyz = link.visual.origin.xyz
                         rpy = link.visual.origin.rpy
-                        scale = link.visual.geometry.mesh.scale[0]
+                        if hasattr(link.visual.geometry.mesh, "scale"):
+                            scale = link.visual.geometry.mesh.scale[0]
+                        else:
+                            scale = 1
                         link_name = link.name
                         return xyz, rpy, scale, link_name
 
@@ -391,14 +432,14 @@ class Visualizer:
         MENU_IDS = {"l_eye": [2, 3, 8], "r_eye": [4, 5, 9]}
         POSITIONS = {"l_eye": [320, 560], "r_eye": [0, 560]}
 
-        def __init__(self, eye, parent):
+        def __init__(self, eye: str, parent: Visualizer) -> None:
             """
             Class to handle windows for eye rendering
 
             :param eye: name of the eye
             :type eye: str
             :param parent: The parent class (Visualizer).
-            :type parent: int
+            :type parent: Visualizer
             """
             self.eye = eye
             self.link_name = self.eye + "_pupil"
@@ -425,6 +466,7 @@ class Visualizer:
             self.img_counter = 0
             self.save_images_bool = False
             self.last_image = None
+            self.last_depth_image = None
 
             for menu_id in self.MENU_IDS[self.eye]:
                 self.parent.file_menu.set_enabled(menu_id, True)
@@ -437,7 +479,7 @@ class Visualizer:
 
             self.parent.eye_windows[self.eye] = self
 
-        def on_close(self):
+        def on_close(self) -> bool:
             """
             Small function to delete the window from the parent class
 
@@ -447,7 +489,7 @@ class Visualizer:
             del self.parent.eye_windows[self.eye]
             return True
 
-        def on_mouse(self, event):
+        def on_mouse(self, event: gui.MouseEvent) -> int:
             """
             Small function to ignore mouse events
 
@@ -456,10 +498,25 @@ class Visualizer:
             """
             return self.scene.EventCallbackResult.CONSUMED
 
-        def get_image(self):
+        def get_image(self) -> None:
+            """
+            Small function to get image from open3d
+
+            :return:
+            :rtype:
+            """
             self.vis.scene.render_to_image(self.save_image)
 
-        def save_images(self):
+        def get_depth_image(self) -> None:
+            """
+            Small function to get image from open3d
+
+            :return:
+            :rtype:
+            """
+            self.vis.scene.render_to_depth_image(self.save_depth_image)
+
+        def save_images(self) -> None:
             """
             Function to save stream of images to file
 
@@ -471,7 +528,7 @@ class Visualizer:
             self.img_counter += 1
             o3d.io.write_image(p, self.last_image)
 
-        def save_image(self, im):
+        def save_image(self, im: o3d.geometry.Image) -> None:
             """
             Callback to get images from open3d
             
@@ -480,3 +537,16 @@ class Visualizer:
             """
 
             self.last_image = im
+
+        def save_depth_image(self, im: o3d.geometry.Image) -> None:
+            """
+            Callback to get images from open3d
+
+            :param im: the image to be saves
+            :type im: o3d.geometry.Image
+            """
+
+            self.last_depth_image = im
+
+        def unproject(self, u, v, d):
+            return self.vis.camera.unproject(u, v, d, self.window.size.width, self.window.size.height)

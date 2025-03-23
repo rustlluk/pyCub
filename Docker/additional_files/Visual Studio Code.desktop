@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Visual Studio Code
+Comment=Code Editing. Redefined.
+Exec=/usr/share/code/code --no-sandbox --unity-launch %F
+Icon=/usr/share/pixmaps/com.visualstudio.code.png
+Path=
+Terminal=false
+StartupNotify=false

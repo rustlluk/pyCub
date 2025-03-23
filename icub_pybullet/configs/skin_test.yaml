@@ -9,12 +9,12 @@ vhacd: # global vhacd
                          # default: True
                          # False, True
 robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub.py
-                               # default: "../iCub/full.urdf"
-                               # str
-gui: True # whether to sho GUI
-          # default: True
-          # True, False
-tolerance:
+                                     # default: "../iCub/full.urdf"
+                                     # str
+gui: # GUI settings
+  standard: True # standard (and better) visualization using standalone window with openGL
+  web: False # fallback web visualizer (the same, but slower and running in your browser)
+tolerance: # goal tolerance for each joint
   joint: 1e-3 # circa 2 degrees
 end_effector: "r_hand" # end effector name
                        # default: "l_hand"
@@ -42,12 +42,12 @@ skin: # skin settings
                # int
   skin_parts: []
 collision_tolerance: 0.001
-debug: False
+debug: True
 log: # log settings
   log: False # whether to log data
             # default: True
             # True, False
-  period: 0.01 # period of logging
+  period: 0.005 # period of logging
             # default: 0.01
             # float; 0 for logging as fast as every simulation step
             # it will never log faster than the simulation step
@@ -64,3 +64,4 @@ eyes: # Whether to show output from eye
       # True, False
   l_eye: False
   r_eye: False
+log_pose: False # Whether to log pose into variable of client
