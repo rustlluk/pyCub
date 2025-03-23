@@ -42,7 +42,7 @@ setup(
     classifiers=[
         # While there is no official classifier for CC BY 4.0 in the PyPI list,
         # you can include a custom classifier or use a more generic one.
-        "License :: Creative Commons Attribution 4.0 International (CC BY 4.0)",
+        "License :: Other/Proprietary License",
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
