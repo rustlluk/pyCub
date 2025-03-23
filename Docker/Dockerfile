@@ -41,7 +41,7 @@ RUN cd /opt && wget https://download.jetbrains.com/python/pycharm-community-$PYC
     mv pycharm-community-$PYCHARM_VER pycharm && ln -s /opt/pycharm/bin/pycharm.sh /usr/bin/pycharm && chmod +x /usr/bin/pycharm
 
 RUN apt remove python3-psutil -y
-RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython open3d pybullet roboticstoolbox-python psutil --ignore-installed --no-cache-dir
+RUN python$PYTHON_VER -m pip install --upgrade pip && python$PYTHON_VER -m pip install "numpy<2" cython "open3d>0.16.0" scipy opencv-python transforms3d pybullet roboticstoolbox-python psutil --ignore-installed --no-cache-dir
 
 #Default args, that can be changed during build
 ARG UID=1000
@@ -61,7 +61,7 @@ RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf 
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 USER docker
-RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER pip install . && \
+RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER -m pip install . && \
     cd /home/docker && rm -Rf pyCub
 
 # Delete thingies from aptitude
