@@ -29,7 +29,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name=app_name,
-    version="1.0.3",
+    version="1.0.4",
     description="pyCub - iCub in PyBullet",
     package_dir={"": "."},
     data_files=files_to_copy,
@@ -49,5 +49,5 @@ setup(
     long_description=long_description,  # Full description from README.md
     long_description_content_type="text/markdown",  # Specify Markdown format
     platforms=["any"],
-    python_requires=">=3.8, <=3.11"
+    python_requires=">=3.8, <3.12"
 )
