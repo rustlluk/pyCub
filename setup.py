@@ -10,6 +10,8 @@ sub_path = {}
 
 # Get the correct site-packages path dynamically
 site_packages_path = sysconfig.get_path("purelib").split("/lib/")[1]
+if "dist-packages" in site_packages_path:
+    site_packages_path = site_packages_path.replace("dist-packages", "site-packages")
 
 # Collect non-Python files
 for folder in folders_to_copy:
@@ -18,6 +20,7 @@ for folder in folders_to_copy:
             folder_path = os.path.join("lib", site_packages_path, os.path.normpath(path.parent))
             file_path = os.path.normpath(path)
             sub_path.setdefault(folder_path, []).append(file_path)
+
 
 files_to_copy.extend(sub_path.items())
 
@@ -29,7 +32,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name=app_name,
-    version="1.0.4",
+    version="1.0.5",
     description="pyCub - iCub in PyBullet",
     package_dir={"": "."},
     data_files=files_to_copy,
