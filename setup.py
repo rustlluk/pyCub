@@ -29,7 +29,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name=app_name,
-    version="1.0.2",
+    version="1.0.3",
     description="pyCub - iCub in PyBullet",
     package_dir={"": "."},
     data_files=files_to_copy,
@@ -37,6 +37,7 @@ setup(
     author="Lukas Rustler",
     author_email="lukas.rustler@fel.cvut.cz",
     url="https://www.lukasrustler.cz/pycub",
+    license="Creative Commons Attribution 4.0 International (CC BY 4.0)",
     license_files="LICENSE",  # Include the LICENSE file in the distribution
     classifiers=[
         # While there is no official classifier for CC BY 4.0 in the PyPI list,
