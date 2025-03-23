@@ -29,7 +29,7 @@ with open("README.md", encoding="utf-8") as f:
 
 setup(
     name=app_name,
-    version="1.0.1",
+    version="1.0.2",
     description="pyCub - iCub in PyBullet",
     package_dir={"": "."},
     data_files=files_to_copy,
