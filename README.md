@@ -17,8 +17,7 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
     - ```
       cd PATH_TO_THE_REPOSITORY
       python3 -m pip install --upgrade pip
-      python3 -m pip install -r requirements.txt
-      python3 setup.py install
+      python3 -m pip install .
       ```
 3. Native Docker (GNU/Linux only)
    - see [Docker Native Version](#native-version) section
@@ -56,7 +55,7 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
 
 2. You get import errors, e.g. cannot load pycub from icub_pybullet
    1. Install from pip with `python3 -m pip install icub_pybullet`
-   2. Install the package correctly with `python3 setup.py install` from root directory of this repository
+   2. Install the package correctly with `python3 -m pip install .` from root directory of this repository
    3. put icub_pybullet directory to your PYTHONPATH
 
 ## Docker

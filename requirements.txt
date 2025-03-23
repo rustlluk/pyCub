@@ -5,3 +5,4 @@ pybullet
 roboticstoolbox-python
 opencv-python
 psutil
+transforms3d
