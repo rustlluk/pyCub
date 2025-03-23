@@ -94,8 +94,8 @@ COPY ["additional_files/PyCharm.desktop", "/home/gitpod/Desktop/PyCharm.desktop"
 
 RUN sudo chown gitpod:gitpod "/home/gitpod/Desktop/PyCharm.desktop" && chmod +x "/home/gitpod/Desktop/PyCharm.desktop"
 
-RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER pip install .
-
+RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER pip install . --no-cache-dir && \
+    cd /home/docker && rm -Rf pyCub
 
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/gitpod/.bashrc
