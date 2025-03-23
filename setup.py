@@ -37,7 +37,6 @@ setup(
     author="Lukas Rustler",
     author_email="lukas.rustler@fel.cvut.cz",
     url="https://www.lukasrustler.cz/pycub",
-    license="Creative Commons Attribution 4.0 International (CC BY 4.0)",
     license_files="LICENSE",  # Include the LICENSE file in the distribution
     classifiers=[
         # While there is no official classifier for CC BY 4.0 in the PyPI list,
