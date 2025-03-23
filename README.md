@@ -10,7 +10,7 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
     source pycub_venc/bin/activate
     OTHER_COMMANDS
     ```
-1. **(Recommended)** Install from PyPi (not yet available)  
+1. **(Recommended)** Install from PyPi
     - ```python3 -m pip install icub_pybullet```
 2. Install from source  
     - Pull this repository  
