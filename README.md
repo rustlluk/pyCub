@@ -36,8 +36,8 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
   should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)
 
 ## Information
-- documentation can be found at [https://lukasrustler.cz/pycub/documentation](https://lukasrustler.cz/pycub/documentation) or in [pycub.pdf](https://lukasrustler.cz/pycub/documentation/pycub.pdf)
-- presentation with description of functionality can be found at [pycub presentation](https://lukasrustler.cz/pycub/documentation/pycub_presentation.pdf)
+- documentation can be found at [https://lukasrustler.cz/pyCub/documentation](https://lukasrustler.cz/pyCub/documentation) or in [pycub.pdf](https://lukasrustler.cz/pyCub/documentation/pycub.pdf)
+- presentation with description of functionality can be found at [pycub presentation](https://lukasrustler.cz/pyCub/documentation/pycub_presentation.pdf)
 - simulator code is in [pycub.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py)
   - it uses PyBullet for simulation and provides high-level interface
 - visualization code in [visualizer.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py)
