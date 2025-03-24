@@ -1,0 +1,653 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyCub Documentation &mdash; pyCub  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Push the Ball" href="exercise_1.html" />
+    <link rel="prev" title="Welcome to pyCub’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyCub Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#information">Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">FAQ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#native-version">Native Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vnc-version">VNC Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-pycharm">Docker + PyCharm</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Native Version:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-parameters">Deploy Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-faq">Docker FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#known-bugs">Known bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#exercises">Exercises</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html">Push the Ball</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Smooth movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Gaze control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Resolved-Rate Motion Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Grasp It!</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#icub-pybullet">icub_pybullet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycub.html">pyCub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">visualizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id7">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_cartesian.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_pure_joints.html">push_the_ball_pure_joints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skin_test.html">skin_test</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pyCub Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pycub-documentation">
+<h1>pyCub Documentation<a class="headerlink" href="#pycub-documentation" title="Permalink to this heading"></a></h1>
+<p>pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for simulation and Open3D for visualization.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<ul>
+<li><p>Requires python3.8 to python3.11</p>
+<ul class="simple">
+<li><p>newer python versions are now not supported due to incompatible with some dependencies</p></li>
+</ul>
+</li>
+<li><p>We recommend using virtual environment when installing from PyPi or from source</p>
+<ul>
+<li><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">venv</span> <span class="n">pycub_venv</span>
+<span class="n">source</span> <span class="n">pycub_venv</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+<span class="n">OTHER_COMMANDS</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<ol class="arabic">
+<li><p><strong>(Recommended)</strong> Install from PyPi</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">icub_pybullet</span></code></p></li>
+</ul>
+</li>
+<li><p>Install from source</p>
+<ul>
+<li><p>Pull this repository</p></li>
+<li><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">PATH_TO_THE_REPOSITORY</span><span class="o">/</span><span class="n">icub_pybullet</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">pip</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Native Docker (GNU/Linux only)</p>
+<ul class="simple">
+<li><p>see <a class="reference external" href="#native-version">Docker Native Version</a> section</p></li>
+</ul>
+</li>
+<li><p>VNC Docker</p>
+<ul class="simple">
+<li><p>see <a class="reference external" href="#vnc-version">Docker VNC Version</a> section</p></li>
+</ul>
+</li>
+<li><p>Gitpod</p>
+<ul class="simple">
+<li><p>open <a class="reference external" href="https://gitpod.io/#github.com/rustlluk/pycub">https://gitpod.io/#github.com/rustlluk/pycub</a>
+and log in with GitHub account</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py">push_the_ball_pure_joints.py</a> contains an example that
+shows how to control the robot in joint space</p></li>
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py">push_the_ball_cartesian.py</a> contains an example that
+shows how to control the robot in Cartesian space</p></li>
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/skin_test.py">skin_test.py</a> contains an example with balls falling the robot and skin
+should turn green on the places where contact occurs. You may want to slow the simulation a little bit to see that :)</p></li>
+</ul>
+</section>
+<section id="information">
+<h2>Information<a class="headerlink" href="#information" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>documentation can be found at <a class="reference external" href="https://lukasrustler.cz/pycub/documentation">https://lukasrustler.cz/pycub/documentation</a> or in <a class="reference external" href="https://lukasrustler.cz/pycub/documentation/pycub.pdf">pycub.pdf</a></p></li>
+<li><p>presentation with description of functionality can be found at <a class="reference external" href="https://lukasrustler.cz/pycub/documentation/pycub_presentation.pdf">pycub presentation</a></p></li>
+<li><p>simulator code is in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py">pycub.py</a></p>
+<ul>
+<li><p>it uses PyBullet for simulation and provides high-level interface</p></li>
+</ul>
+</li>
+<li><p>visualization code in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py">visualizer.py</a></p>
+<ul>
+<li><p>it uses Open3D for visualization as it is much more customizable than PyBullet default GUI</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>You get some kind of error with the visualization, e.g., segmentation fault.</p>
+<ol class="arabic simple">
+<li><p>Try to check graphics mesa/opengl/nvidia drivers as those are the most common source of problems for the openGL visualization</p></li>
+<li><p>Try Native Docker</p></li>
+<li><p>In given config your load set in GUI standard=False; web=True to enable web visualization</p></li>
+<li><p>Try VNC Docker</p></li>
+<li><p>Try Gitpod Docker</p></li>
+</ol>
+</li>
+<li><p>You get import errors, e.g. cannot load pycub from icub_pybullet</p>
+<ol class="arabic simple">
+<li><p>Install from pip with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">icub_pybullet</span></code></p></li>
+<li><p>Install the package correctly with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> from icub_pybullet directory of this repository</p></li>
+<li><p>put icub_pybullet directory to your PYTHONPATH</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h2>
+<section id="native-version">
+<h3>Native Version<a class="headerlink" href="#native-version" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>version with native GUI; useful when you have problems with OpenGL (e.g., usually some driver issues)</p></li>
+<li><p>only for GNU/Linux systems (Ubuntu, Mint, Arch, etc.)</p>
+<ol class="arabic simple">
+<li><p>install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">docker-engine</a>
+(<strong>DO NOT INSTALL DOCKER DESKTOP</strong>)</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>perform</strong> <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall/">post-installation steps</a></p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Build/Pull the Docker Image</p></li>
+</ol>
+<ul>
+<li><p>clone this repository</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">SOME_PATH</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rustlluk</span><span class="o">/</span><span class="n">pyCub</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</li>
+<li><p>pull the docker image (see <a class="reference external" href="#deploy-parameters">Parameters</a> for more parameters)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">SPATH_TO_THE_REPOSITORY</span><span class="o">/</span><span class="n">Docker</span>
+<span class="o">./</span><span class="n">deploy</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">p</span> <span class="n">PATH_TO_THE_REPOSITORY</span> <span class="o">-</span><span class="n">c</span> <span class="n">pycub</span> <span class="o">-</span><span class="n">pu</span>
+</pre></div>
+</div>
+</li>
+<li><p>or, build the docker (see <a class="reference external" href="#deploy-parameters">Parameters</a> for more parameters)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">SOME_PATH</span><span class="o">/</span><span class="n">pycub_ws</span><span class="o">/</span><span class="n">Docker</span>
+<span class="o">./</span><span class="n">deploy</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">p</span> <span class="n">PATH_TO_THE_REPOSITORY</span> <span class="o">-</span><span class="n">c</span> <span class="n">pycub</span> <span class="o">-</span><span class="n">b</span>
+</pre></div>
+</div>
+</li>
+<li><p>after you pull or build the container, you can run it next time as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">deploy</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">pycub</span> <span class="o">-</span><span class="n">e</span>
+</pre></div>
+</div>
+</li>
+<li><p>if you want to open new terminal in existing container, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">deploy</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">c</span> <span class="n">pycub</span> <span class="o">-</span><span class="n">t</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="vnc-version">
+<h3>VNC Version<a class="headerlink" href="#vnc-version" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p>this version works also on Windows and MacOS because it uses VNC server to show the GUI, i.e., the output will be
+shown on <a class="reference external" href="http://localhost:6080">http://localhost:6080</a></p>
+<ol class="arabic simple">
+<li><p>Install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">docker-engine</a> (GNU/Linux only) or
+<a class="reference external" href="https://docs.docker.com/desktop/">docker-desktop</a> (all systems)</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>perform</strong> <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall/">post-installation steps</a></p></li>
+</ul>
+<ol class="arabic">
+<li><p>The same as for <a class="reference external" href="#native-version">Native Version</a>, but use  <code class="docutils literal notranslate"><span class="pre">-vnc</span></code> option, e.g., to pull and run the image</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">cd</span> <span class="n">PATH_TO_THE_REPOSITORY</span><span class="o">/</span><span class="n">Docker</span>
+<span class="o">./</span><span class="n">deploy</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">p</span> <span class="n">PATH_TO_THE_REPOSITORY</span> <span class="o">-</span><span class="n">c</span> <span class="n">pycub</span> <span class="o">-</span><span class="n">pu</span> <span class="o">-</span><span class="n">vnc</span>
+</pre></div>
+</div>
+</li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">start-vnc-sessions.sh</span></code> script in the container</p></li>
+<li><p>Open <a class="reference external" href="http://localhost:6080">http://localhost:6080</a></p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="docker-pycharm">
+<h3>Docker + PyCharm<a class="headerlink" href="#docker-pycharm" title="Permalink to this heading"></a></h3>
+<section id="id6">
+<h4>Native Version:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<p>You have two option:</p>
+<ol class="arabic simple">
+<li><p>Either run pycharm from docker</p></li>
+<li><p>Open your pycharm on your host machine:</p>
+<ul class="simple">
+<li><p>add ssh interpreter</p>
+<ul>
+<li><p>user docker</p></li>
+<li><p>ip can be localhost or ip where you run the docker</p></li>
+<li><p>port 2222</p></li>
+</ul>
+</li>
+<li><p>uncheck automatic upload to remote folder</p></li>
+<li><p>change remote path to /home/docker/pycub_ws<span class="raw-html-m2r"><br></span>
+#### VNC/Gitpod version</p></li>
+</ul>
+</li>
+<li><p>open pycharm from inside the container</p></li>
+</ol>
+</section>
+</section>
+<section id="deploy-parameters">
+<h3>Deploy Parameters<a class="headerlink" href="#deploy-parameters" title="Permalink to this heading"></a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code> to folder with Dockerfile</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./deploy.py</span></code></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-b</span></code> or <code class="docutils literal notranslate"><span class="pre">--build</span></code> when building</p>
+<ul>
+<li><p>default: False</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-e</span></code> if you just want to run existing docker without building</p>
+<ul>
+<li><p>default: False</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-p</span></code> or <code class="docutils literal notranslate"><span class="pre">--path</span></code> with path to current folder</p>
+<ul>
+<li><p>default: “”</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pu</span></code> or <code class="docutils literal notranslate"><span class="pre">--pull</span></code> to pull the image from dockerhub</p>
+<ul>
+<li><p>default: False</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-c</span></code> or <code class="docutils literal notranslate"><span class="pre">--container</span></code> with desired name of the new, created container</p>
+<ul>
+<li><p>default: my_new_docker</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-t</span></code> or <code class="docutils literal notranslate"><span class="pre">--terminal</span></code> to run new terminal in running docker session</p>
+<ul>
+<li><p>default: False</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pv</span></code> or <code class="docutils literal notranslate"><span class="pre">--python-version</span></code> to specify addition python version to install</p>
+<ul>
+<li><p>default: 3.11</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pcv</span></code> or <code class="docutils literal notranslate"><span class="pre">--pycharm-version</span></code> to specify version of pycharm to use</p>
+<ul>
+<li><p>default: 2023.2.3</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-bi</span></code> or <code class="docutils literal notranslate"><span class="pre">--base-image</span></code> to specify base image that will be used</p>
+<ul>
+<li><p>default: ubuntu:20.04</p></li>
+<li><p>other can be found at hub.docker.com</p></li>
+</ul>
+</li>
+</ul>
+<p>Do this on computer where you will run the code. If you have a server
+you have to run it on the server over SSH to make things work
+properly.</p>
+</li>
+</ul>
+</section>
+<section id="docker-faq">
+<h3>Docker FAQ<a class="headerlink" href="#docker-faq" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>you get error of not being in sudo group when running image</strong></p>
+<ul>
+<li><p>check output of <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">-u</span></code> command. If the output is not 1000 you have to build the image
+by yourself and can not pull it</p>
+<ul>
+<li><p>this happens when your account is not the first one created on your computer</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>``sudo apt install something`` does not work</strong></p>
+<ul>
+<li><p>you need to run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update</span></code> first after you run the container for the first time</p>
+<ul>
+<li><p>apt things are removed in Dockerfile, so it does not take unnecessary space in the image</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="known-bugs">
+<h2>Known bugs<a class="headerlink" href="#known-bugs" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>visualization with skin dies after ~65k steps</p>
+<ul>
+<li><p>e.g., <a class="reference external" href="https://github.com/isl-org/Open3D/issues/4992">https://github.com/isl-org/Open3D/issues/4992</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<p>`
+.. image:: <a class="reference external" href="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg">https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg</a></p>
+<blockquote>
+<div><blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">target<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg">https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg</a></p>
+</dd>
+<dt class="field-even">alt<span class="colon">:</span></dt>
+<dd class="field-even"><p>CC BY 4.0</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>&lt;<a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</a>&gt;`_</p>
+</div></blockquote>
+<p>This work is licensed under a
+<a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<p>`
+.. image:: <a class="reference external" href="https://i.creativecommons.org/l/by/4.0/88x31.png">https://i.creativecommons.org/l/by/4.0/88x31.png</a></p>
+<blockquote>
+<div><blockquote>
+<div><dl class="field-list simple">
+<dt class="field-odd">target<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://i.creativecommons.org/l/by/4.0/88x31.png">https://i.creativecommons.org/l/by/4.0/88x31.png</a></p>
+</dd>
+<dt class="field-even">alt<span class="colon">:</span></dt>
+<dd class="field-even"><p>CC BY 4.0</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>&lt;<a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</a>&gt;`_</p>
+</div></blockquote>
+</section>
+</section>
+<section id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="exercise_1.html">Push the Ball</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html#requirements">Requirements:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercise_2.html">Smooth movements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html#requirements">Requirements:</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercise_3.html">Gaze control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html#requirements">Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercise_4.html">Resolved-Rate Motion Control</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html#requirements">Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercise_5.html">Grasp It!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html#task">Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html#requirements">Requirements</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="icub-pybullet">
+<h1>icub_pybullet<a class="headerlink" href="#icub-pybullet" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pycub.html">pyCub</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.EndEffector"><code class="docutils literal notranslate"><span class="pre">EndEffector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.EndEffector.get_position"><code class="docutils literal notranslate"><span class="pre">EndEffector.get_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.Joint"><code class="docutils literal notranslate"><span class="pre">Joint</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.Link"><code class="docutils literal notranslate"><span class="pre">Link</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub"><code class="docutils literal notranslate"><span class="pre">pyCub</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.bbox_overlap"><code class="docutils literal notranslate"><span class="pre">pyCub.bbox_overlap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.compute_jacobian"><code class="docutils literal notranslate"><span class="pre">pyCub.compute_jacobian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.compute_skin"><code class="docutils literal notranslate"><span class="pre">pyCub.compute_skin()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.contactPoints"><code class="docutils literal notranslate"><span class="pre">pyCub.contactPoints</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.create_urdf"><code class="docutils literal notranslate"><span class="pre">pyCub.create_urdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.dynamicsInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.dynamicsInfo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.find_joint_id"><code class="docutils literal notranslate"><span class="pre">pyCub.find_joint_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.find_link_id"><code class="docutils literal notranslate"><span class="pre">pyCub.find_link_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.find_processes_by_name"><code class="docutils literal notranslate"><span class="pre">pyCub.find_processes_by_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.get_camera_depth_images"><code class="docutils literal notranslate"><span class="pre">pyCub.get_camera_depth_images()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.get_camera_images"><code class="docutils literal notranslate"><span class="pre">pyCub.get_camera_images()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.get_chains"><code class="docutils literal notranslate"><span class="pre">pyCub.get_chains()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.get_joint_state"><code class="docutils literal notranslate"><span class="pre">pyCub.get_joint_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.init_robot"><code class="docutils literal notranslate"><span class="pre">pyCub.init_robot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.init_urdfs"><code class="docutils literal notranslate"><span class="pre">pyCub.init_urdfs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.is_alive"><code class="docutils literal notranslate"><span class="pre">pyCub.is_alive()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.jointInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.jointInfo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.jointStates"><code class="docutils literal notranslate"><span class="pre">pyCub.jointStates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.kill_open3d"><code class="docutils literal notranslate"><span class="pre">pyCub.kill_open3d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.linkInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.linkInfo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.motion_done"><code class="docutils literal notranslate"><span class="pre">pyCub.motion_done()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.move_cartesian"><code class="docutils literal notranslate"><span class="pre">pyCub.move_cartesian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.move_position"><code class="docutils literal notranslate"><span class="pre">pyCub.move_position()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.move_velocity"><code class="docutils literal notranslate"><span class="pre">pyCub.move_velocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.prepare_log"><code class="docutils literal notranslate"><span class="pre">pyCub.prepare_log()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.print_collision_info"><code class="docutils literal notranslate"><span class="pre">pyCub.print_collision_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.run_vhacd"><code class="docutils literal notranslate"><span class="pre">pyCub.run_vhacd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.scale_bbox"><code class="docutils literal notranslate"><span class="pre">pyCub.scale_bbox()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.stop_robot"><code class="docutils literal notranslate"><span class="pre">pyCub.stop_robot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.toggle_gravity"><code class="docutils literal notranslate"><span class="pre">pyCub.toggle_gravity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.update_simulation"><code class="docutils literal notranslate"><span class="pre">pyCub.update_simulation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.visualShapeData"><code class="docutils literal notranslate"><span class="pre">pyCub.visualShapeData</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycub.html#icub_pybullet.pycub.pyCub.wait_motion_done"><code class="docutils literal notranslate"><span class="pre">pyCub.wait_motion_done()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#icub_pybullet.utils.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.Config.set_attribute"><code class="docutils literal notranslate"><span class="pre">Config.set_attribute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter"><code class="docutils literal notranslate"><span class="pre">CustomFormatter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.FORMATS"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.FORMATS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.bold_red"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.bold_red</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.format"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.grey"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.grey</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.red"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.red</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.reset"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.reset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.CustomFormatter.yellow"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.yellow</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#icub_pybullet.utils.Pose"><code class="docutils literal notranslate"><span class="pre">Pose</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.Pose.to_string"><code class="docutils literal notranslate"><span class="pre">Pose.to_string()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF"><code class="docutils literal notranslate"><span class="pre">URDF</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.ROOT_TAGS"><code class="docutils literal notranslate"><span class="pre">URDF.ROOT_TAGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.dereference"><code class="docutils literal notranslate"><span class="pre">URDF.dereference()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.find_root_tags"><code class="docutils literal notranslate"><span class="pre">URDF.find_root_tags()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.fix_urdf"><code class="docutils literal notranslate"><span class="pre">URDF.fix_urdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.make_references"><code class="docutils literal notranslate"><span class="pre">URDF.make_references()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.read"><code class="docutils literal notranslate"><span class="pre">URDF.read()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.write_attr"><code class="docutils literal notranslate"><span class="pre">URDF.write_attr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#icub_pybullet.utils.URDF.write_urdf"><code class="docutils literal notranslate"><span class="pre">URDF.write_urdf()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="visualizer.html">visualizer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer"><code class="docutils literal notranslate"><span class="pre">Visualizer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.MENU_IDS"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.MENU_IDS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.POSITIONS"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.POSITIONS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.get_depth_image"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.get_depth_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.get_image"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.get_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.on_close"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.on_close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.on_mouse"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.on_mouse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.save_depth_image"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.save_depth_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.save_image"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.save_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.save_images"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.save_images()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.EyeWindow.unproject"><code class="docutils literal notranslate"><span class="pre">Visualizer.EyeWindow.unproject()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.MenuCallback"><code class="docutils literal notranslate"><span class="pre">Visualizer.MenuCallback</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.MenuCallback.input_completed"><code class="docutils literal notranslate"><span class="pre">Visualizer.MenuCallback.input_completed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.MenuCallback.save_image"><code class="docutils literal notranslate"><span class="pre">Visualizer.MenuCallback.save_image()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.MenuCallback.wait_for_dialog_completion"><code class="docutils literal notranslate"><span class="pre">Visualizer.MenuCallback.wait_for_dialog_completion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.find_xyz_rpy"><code class="docutils literal notranslate"><span class="pre">Visualizer.find_xyz_rpy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.read_info"><code class="docutils literal notranslate"><span class="pre">Visualizer.read_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.render"><code class="docutils literal notranslate"><span class="pre">Visualizer.render()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.show_first"><code class="docutils literal notranslate"><span class="pre">Visualizer.show_first()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="visualizer.html#icub_pybullet.visualizer.Visualizer.show_mesh"><code class="docutils literal notranslate"><span class="pre">Visualizer.show_mesh()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="id7">
+<h1>Examples<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="push_the_ball_cartesian.html">push_the_ball_cartesian</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_cartesian.html#icub_pybullet.examples.push_the_ball_cartesian.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_cartesian.html#icub_pybullet.examples.push_the_ball_cartesian.push_the_ball"><code class="docutils literal notranslate"><span class="pre">push_the_ball()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="push_the_ball_pure_joints.html">push_the_ball_pure_joints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_pure_joints.html#icub_pybullet.examples.push_the_ball_pure_joints.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="push_the_ball_pure_joints.html#icub_pybullet.examples.push_the_ball_pure_joints.push_the_ball"><code class="docutils literal notranslate"><span class="pre">push_the_ball()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="skin_test.html">skin_test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="skin_test.html#icub_pybullet.examples.skin_test.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to pyCub’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_1.html" class="btn btn-neutral float-right" title="Push the Ball" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

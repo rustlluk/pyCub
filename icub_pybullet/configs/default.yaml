@@ -8,8 +8,8 @@ vhacd: # global vhacd settings
   force_vhacd_urdf: True # whether to force creation of URDF with paths changed to VHACD meshes if it are already exists
                          # default: True
                          # False, True
-robot_urdf_path: "../iCub/full.urdf" # path to Robot URDF file relative to pycub.py
-                                     # default: "../iCub/full.urdf"
+robot_urdf_path: "iCub/full.urdf" # path to Robot URDF file relative to pycub.py
+                                     # default: "iCub/full.urdf"
                                      # str
 gui: # GUI settings
   standard: True # standard (and better) visualization using standalone window with openGL

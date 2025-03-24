@@ -3,4 +3,4 @@
 *.ipynb*
 *_build*
 *.csv
-*docs*
+*docs_*

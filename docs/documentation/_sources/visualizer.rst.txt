@@ -1,0 +1,7 @@
+visualizer
+=================
+
+.. automodule:: icub_pybullet.visualizer
+   :members:
+   :undoc-members:
+   :show-inheritance:

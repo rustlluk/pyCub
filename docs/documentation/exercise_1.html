@@ -1,0 +1,170 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Push the Ball &mdash; pyCub  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Smooth movements" href="exercise_2.html" />
+    <link rel="prev" title="pyCub Documentation" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyCub Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#exercises">Exercises</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Push the Ball</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#task">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Smooth movements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Gaze control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Resolved-Rate Motion Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Grasp It!</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#icub-pybullet">icub_pybullet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#id7">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pyCub Documentation</a></li>
+      <li class="breadcrumb-item active">Push the Ball</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/exercise_1.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="push-the-ball">
+<h1>Push the Ball<a class="headerlink" href="#push-the-ball" title="Permalink to this heading"></a></h1>
+<p>The goal is to hit the ball to push it as far as possible from <strong>any part</strong> of the table.
+The ball will always spawn at the same place. The robot can be moved with position or cartesian control.
+The trajectories should be collision free and max allowed velocity is 10 (rad/s).</p>
+<p>The resulting distance is checked after 2 seconds.</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_1/exercise_1.gif"><img alt="Push the Ball!" src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_1/exercise_1.gif" /></a>
+<section id="task">
+<h2>Task<a class="headerlink" href="#task" title="Permalink to this heading"></a></h2>
+<p>Implement <code class="docutils literal notranslate"><span class="pre">push_the_ball</span></code> function in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1.py">exercise_1.py</a> that will push the ball as far as possible from the table.</p>
+<ul class="simple">
+<li><p>the function takes one argument:</p>
+<ul>
+<li><p>client - instance of pycub class that controls the simulation</p>
+<ul>
+<li><p>do not create new one in your code!</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="scoring">
+<h2>Scoring<a class="headerlink" href="#scoring" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>points for distance are computed as: min(3, distance*2)</p>
+<ul>
+<li><p>i.e., you get max 3 points if you push the ball 1.5m away</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="requirements">
+<h2>Requirements:<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<p><strong>Those apply mainly for</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1_tester.py">exercise_1_tester.py</a> <strong>to work correctly</strong>:</p>
+<ul class="simple">
+<li><p>do not create new client instance, use the one that is passed as an argument</p></li>
+<li><p>do not rename the function or file</p></li>
+<li><p><strong>Do not</strong> introduce artificial delays in the code, e.g., sleep() or using update_simulation() after the movement is done</p></li>
+</ul>
+<p><strong>Those apply so that you fulfill the exercise as intended:</strong></p>
+<ul class="simple">
+<li><p>Trajectories must be collision free with the table (self-collisions of the robot are allowed)</p></li>
+<li><p>Max allowed velocity is 10 (rad/s)</p></li>
+<li><p><strong>Do not</strong> turn of gravity</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="pyCub Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_2.html" class="btn btn-neutral float-right" title="Smooth movements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

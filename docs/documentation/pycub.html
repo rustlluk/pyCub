@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyCub &mdash; pyCub  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=888ff710"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="utils" href="utils.html" />
+    <link rel="prev" title="Grasp It!" href="exercise_5.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyCub Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#exercises">Exercises</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html#icub-pybullet">icub_pybullet</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyCub</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#icub_pybullet.pycub.EndEffector"><code class="docutils literal notranslate"><span class="pre">EndEffector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.EndEffector.get_position"><code class="docutils literal notranslate"><span class="pre">EndEffector.get_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#icub_pybullet.pycub.Joint"><code class="docutils literal notranslate"><span class="pre">Joint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#icub_pybullet.pycub.Link"><code class="docutils literal notranslate"><span class="pre">Link</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#icub_pybullet.pycub.pyCub"><code class="docutils literal notranslate"><span class="pre">pyCub</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.bbox_overlap"><code class="docutils literal notranslate"><span class="pre">pyCub.bbox_overlap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.compute_jacobian"><code class="docutils literal notranslate"><span class="pre">pyCub.compute_jacobian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.compute_skin"><code class="docutils literal notranslate"><span class="pre">pyCub.compute_skin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.contactPoints"><code class="docutils literal notranslate"><span class="pre">pyCub.contactPoints</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.create_urdf"><code class="docutils literal notranslate"><span class="pre">pyCub.create_urdf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.dynamicsInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.dynamicsInfo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.find_joint_id"><code class="docutils literal notranslate"><span class="pre">pyCub.find_joint_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.find_link_id"><code class="docutils literal notranslate"><span class="pre">pyCub.find_link_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.find_processes_by_name"><code class="docutils literal notranslate"><span class="pre">pyCub.find_processes_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.get_camera_depth_images"><code class="docutils literal notranslate"><span class="pre">pyCub.get_camera_depth_images()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.get_camera_images"><code class="docutils literal notranslate"><span class="pre">pyCub.get_camera_images()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.get_chains"><code class="docutils literal notranslate"><span class="pre">pyCub.get_chains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.get_joint_state"><code class="docutils literal notranslate"><span class="pre">pyCub.get_joint_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.init_robot"><code class="docutils literal notranslate"><span class="pre">pyCub.init_robot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.init_urdfs"><code class="docutils literal notranslate"><span class="pre">pyCub.init_urdfs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.is_alive"><code class="docutils literal notranslate"><span class="pre">pyCub.is_alive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.jointInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.jointInfo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.jointStates"><code class="docutils literal notranslate"><span class="pre">pyCub.jointStates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.kill_open3d"><code class="docutils literal notranslate"><span class="pre">pyCub.kill_open3d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.linkInfo"><code class="docutils literal notranslate"><span class="pre">pyCub.linkInfo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.motion_done"><code class="docutils literal notranslate"><span class="pre">pyCub.motion_done()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.move_cartesian"><code class="docutils literal notranslate"><span class="pre">pyCub.move_cartesian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.move_position"><code class="docutils literal notranslate"><span class="pre">pyCub.move_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.move_velocity"><code class="docutils literal notranslate"><span class="pre">pyCub.move_velocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.prepare_log"><code class="docutils literal notranslate"><span class="pre">pyCub.prepare_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.print_collision_info"><code class="docutils literal notranslate"><span class="pre">pyCub.print_collision_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.run_vhacd"><code class="docutils literal notranslate"><span class="pre">pyCub.run_vhacd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.scale_bbox"><code class="docutils literal notranslate"><span class="pre">pyCub.scale_bbox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.stop_robot"><code class="docutils literal notranslate"><span class="pre">pyCub.stop_robot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.toggle_gravity"><code class="docutils literal notranslate"><span class="pre">pyCub.toggle_gravity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.update_simulation"><code class="docutils literal notranslate"><span class="pre">pyCub.update_simulation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.visualShapeData"><code class="docutils literal notranslate"><span class="pre">pyCub.visualShapeData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#icub_pybullet.pycub.pyCub.wait_motion_done"><code class="docutils literal notranslate"><span class="pre">pyCub.wait_motion_done()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualizer.html">visualizer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#id7">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pyCub Documentation</a></li>
+      <li class="breadcrumb-item active">pyCub</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycub.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-icub_pybullet.pycub">
+<span id="pycub"></span><h1>pyCub<a class="headerlink" href="#module-icub_pybullet.pycub" title="Permalink to this heading"></a></h1>
+<p>The main class and utils for pyCub simulator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lukas Rustler</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.EndEffector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.pycub.</span></span><span class="sig-name descname"><span class="pre">EndEffector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#EndEffector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.EndEffector" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Help function for end-effector encapsulaation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the end-effector</p></li>
+<li><p><strong>client</strong> (<em>pointer to pyCub instance</em>) – parent client</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.EndEffector.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="utils.html#icub_pybullet.utils.Pose" title="icub_pybullet.utils.Pose"><span class="pre">Pose</span></a></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#EndEffector.get_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.EndEffector.get_position" title="Permalink to this definition"></a></dt>
+<dd><p>Function to get current position of the end-effector</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.Joint">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.pycub.</span></span><span class="sig-name descname"><span class="pre">Joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot_joint_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joints_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#Joint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.Joint" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Help class to encapsulate joint information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the joint</p></li>
+<li><p><strong>robot_joint_id</strong> (<em>int</em>) – id of the joint in pybullet</p></li>
+<li><p><strong>joints_id</strong> (<em>int</em>) – id of the joint in pycub.joints</p></li>
+<li><p><strong>lower_limit</strong> (<em>float</em>) – lower limit of the joint</p></li>
+<li><p><strong>upper_limit</strong> (<em>float</em>) – upper limit of the joint</p></li>
+<li><p><strong>max_force</strong> (<em>float</em>) – max force of the joint</p></li>
+<li><p><strong>max_velocity</strong> (<em>float</em>) – max velocity of the joint</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.Link">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.pycub.</span></span><span class="sig-name descname"><span class="pre">Link</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot_link_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urdf_link</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#Link"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.Link" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Help function to encapsulate link information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – name of the link</p></li>
+<li><p><strong>robot_link_id</strong> (<em>int</em>) – id of the link in pybullet</p></li>
+<li><p><strong>urdf_link</strong> (<em>int</em>) – id of the link in pycub.urdfs[“robot”].links</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.pycub.</span></span><span class="sig-name descname"><span class="pre">pyCub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default.yaml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BulletClient</span></code></p>
+<p>Client class which inherits from BulletClient and contains the whole simulation functionality</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>str</em><em>, </em><em>optional</em><em>, </em><em>default=&quot;default.yaml&quot;</em>) – path to the config file</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.bbox_overlap">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bbox_overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b1_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b1_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b2_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.bbox_overlap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.bbox_overlap" title="Permalink to this definition"></a></dt>
+<dd><p>Function to check whether two bounding boxes overlap</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>b1_min</strong> (<em>list</em>) – min bbox 1</p></li>
+<li><p><strong>b1_max</strong> (<em>list</em>) – max bbox 1</p></li>
+<li><p><strong>b2_min</strong> (<em>list</em>) – min bbox 2</p></li>
+<li><p><strong>b2_max</strong> (<em>list</em>) – max bbox 2</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>whether the boxes overlap</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.compute_jacobian">
+<span class="sig-name descname"><span class="pre">compute_jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'left_arm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right_arm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'left_leg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'right_leg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'torso'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'head'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">array</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">array</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.compute_jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.compute_jacobian" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to compute a Jacobian using RTB of a given chain with optional start and end</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain</strong> (<em>str</em>) – name of the chain</p></li>
+<li><p><strong>start</strong> (<em>str</em>) – name of the start link</p></li>
+<li><p><strong>end</strong> (<em>str</em>) – name of the end link</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jacobian and list of joints used</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array, np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.compute_skin">
+<span class="sig-name descname"><span class="pre">compute_skin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.compute_skin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.compute_skin" title="Permalink to this definition"></a></dt>
+<dd><p>Function to emulate skin activations using ray casting.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.contactPoints">
+<span class="sig-name descname"><span class="pre">contactPoints</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'DISTANCE':</span> <span class="pre">8,</span> <span class="pre">'FLAG':</span> <span class="pre">0,</span> <span class="pre">'FORCE':</span> <span class="pre">9,</span> <span class="pre">'FRICTION1':</span> <span class="pre">10,</span> <span class="pre">'FRICTION2':</span> <span class="pre">12,</span> <span class="pre">'FRICTIONDIR1':</span> <span class="pre">11,</span> <span class="pre">'FRICTIONDIR2':</span> <span class="pre">13,</span> <span class="pre">'IDA':</span> <span class="pre">1,</span> <span class="pre">'IDB':</span> <span class="pre">2,</span> <span class="pre">'INDEXA':</span> <span class="pre">3,</span> <span class="pre">'INDEXB':</span> <span class="pre">4,</span> <span class="pre">'NORMAL':</span> <span class="pre">7,</span> <span class="pre">'POSITIONA':</span> <span class="pre">5,</span> <span class="pre">'POSITIONB':</span> <span class="pre">6}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.contactPoints" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.create_urdf">
+<span class="sig-name descname"><span class="pre">create_urdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.create_urdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.create_urdf" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a URDF for the given .obj file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_path</strong> (<em>str</em>) – path to the .obj</p></li>
+<li><p><strong>fixed</strong> (<em>bool</em>) – whether the object is fixed in space</p></li>
+<li><p><strong>color</strong> (<em>list</em><em> of </em><em>3 floats</em>) – color of the object</p></li>
+<li><p><strong>suffix</strong> (<em>str</em><em>, </em><em>optional</em><em>, </em><em>default=&quot;&quot;</em>) – suffix to add to the object name</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.dynamicsInfo">
+<span class="sig-name descname"><span class="pre">dynamicsInfo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'BODYTYPE':</span> <span class="pre">10,</span> <span class="pre">'DAMPING':</span> <span class="pre">8,</span> <span class="pre">'FRICTION':</span> <span class="pre">1,</span> <span class="pre">'INERTIAOR':</span> <span class="pre">4,</span> <span class="pre">'INERTIAPOS':</span> <span class="pre">3,</span> <span class="pre">'INTERTIADIAGONAL':</span> <span class="pre">2,</span> <span class="pre">'MARGIN':</span> <span class="pre">11,</span> <span class="pre">'MASS':</span> <span class="pre">0,</span> <span class="pre">'RESTITUTION':</span> <span class="pre">5,</span> <span class="pre">'ROLLINGFRICTION':</span> <span class="pre">6,</span> <span class="pre">'SPINNINGFRICTION':</span> <span class="pre">7,</span> <span class="pre">'STIFFNESS':</span> <span class="pre">9}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.dynamicsInfo" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.find_joint_id">
+<span class="sig-name descname"><span class="pre">find_joint_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.find_joint_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.find_joint_id" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to get indexes from joint name of joint index in self.joints list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_name</strong> (<em>str</em><em> or </em><em>int</em>) – name or index of the link</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>joint id in pybullet and pycub space</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.find_link_id">
+<span class="sig-name descname"><span class="pre">find_link_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urdf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robot'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.find_link_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.find_link_id" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to find link id from mesh name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh_name</strong> (<em>str</em>) – name of the mesh (only basename with extension)</p></li>
+<li><p><strong>robot</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default=None</em>) – robot pybullet id</p></li>
+<li><p><strong>urdf_name</strong> (<em>str</em><em>, </em><em>optional</em><em>, </em><em>default=&quot;robot&quot;</em>) – name of the object in pycub.urdfs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>id of the link in pybullet space</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.find_processes_by_name">
+<span class="sig-name descname"><span class="pre">find_processes_by_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.find_processes_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.find_processes_by_name" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to find PIDs of processes with the parent name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of matching PIDs</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of ints</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.get_camera_depth_images">
+<span class="sig-name descname"><span class="pre">get_camera_depth_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eyes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.get_camera_depth_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.get_camera_depth_images" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the images from enabled eye cameras</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>eyes</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – name of eye/eyes to get images for</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary with eye as keys and np.array of images as values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.get_camera_images">
+<span class="sig-name descname"><span class="pre">get_camera_images</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eyes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.get_camera_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.get_camera_images" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the images from enabled eye cameras</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>eyes</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – name of eye/eyes to get images for</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary with eye as keys and np.array of images as values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.get_chains">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_chains</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.get_chains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.get_chains" title="Permalink to this definition"></a></dt>
+<dd><p>Function to get chains (and corresponding chains of joints) of the robot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>chains of links and chains of joints</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict, dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.get_joint_state">
+<span class="sig-name descname"><span class="pre">get_joint_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS_IDS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.get_joint_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.get_joint_state" title="Permalink to this definition"></a></dt>
+<dd><p>Get the state of the specified joints</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joints</strong> (<em>int</em><em> or </em><em>list</em><em>, </em><em>optional</em><em>, </em><em>default=None</em>) – joint or list of joints to get the state of</p></li>
+<li><p><strong>allow_error</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=False</em>) – whether to allow errors (non-existing joints); useful for Jacobian computation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of states of the joints</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.init_robot">
+<span class="sig-name descname"><span class="pre">init_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#icub_pybullet.pycub.Joint" title="icub_pybullet.pycub.Joint"><span class="pre">Joint</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#icub_pybullet.pycub.Link" title="icub_pybullet.pycub.Link"><span class="pre">Link</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.init_robot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.init_robot" title="Permalink to this definition"></a></dt>
+<dd><p>Load the robot URDF and get its joints’ information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>robot, its joints and links</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int, list of <a class="reference internal" href="#icub_pybullet.pycub.Joint" title="icub_pybullet.pycub.Joint">Joint</a>, list of <a class="reference internal" href="#icub_pybullet.pycub.Link" title="icub_pybullet.pycub.Link">Link</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.init_urdfs">
+<span class="sig-name descname"><span class="pre">init_urdfs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.init_urdfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.init_urdfs" title="Permalink to this definition"></a></dt>
+<dd><p>Function to load URDFs of other objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.is_alive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.is_alive" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether the engine is still running</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True when running</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.jointInfo">
+<span class="sig-name descname"><span class="pre">jointInfo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'AXIS':</span> <span class="pre">13,</span> <span class="pre">'DAMPING':</span> <span class="pre">6,</span> <span class="pre">'FLAGS':</span> <span class="pre">5,</span> <span class="pre">'FRICTION':</span> <span class="pre">7,</span> <span class="pre">'INDEX':</span> <span class="pre">0,</span> <span class="pre">'LINKNAME':</span> <span class="pre">12,</span> <span class="pre">'LOWERLIMIT':</span> <span class="pre">8,</span> <span class="pre">'MAXFORCE':</span> <span class="pre">10,</span> <span class="pre">'MAXVELOCITY':</span> <span class="pre">11,</span> <span class="pre">'NAME':</span> <span class="pre">1,</span> <span class="pre">'PARENTINDEX':</span> <span class="pre">16,</span> <span class="pre">'PARENTORN':</span> <span class="pre">15,</span> <span class="pre">'PARENTPOS':</span> <span class="pre">14,</span> <span class="pre">'QINDEX':</span> <span class="pre">3,</span> <span class="pre">'TYPE':</span> <span class="pre">2,</span> <span class="pre">'UINDEX':</span> <span class="pre">4,</span> <span class="pre">'UPPERLIMIT':</span> <span class="pre">9}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.jointInfo" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.jointStates">
+<span class="sig-name descname"><span class="pre">jointStates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'FORCES':</span> <span class="pre">2,</span> <span class="pre">'POSITION':</span> <span class="pre">0,</span> <span class="pre">'TORQUE':</span> <span class="pre">3,</span> <span class="pre">'VELOCITY':</span> <span class="pre">1}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.jointStates" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.kill_open3d">
+<span class="sig-name descname"><span class="pre">kill_open3d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.kill_open3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.kill_open3d" title="Permalink to this definition"></a></dt>
+<dd><p>A bit of a workaround to kill open3d, that seems to hang for some reason.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.linkInfo">
+<span class="sig-name descname"><span class="pre">linkInfo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'ANGVEL':</span> <span class="pre">7,</span> <span class="pre">'INERTIAORI':</span> <span class="pre">3,</span> <span class="pre">'INERTIAPOS':</span> <span class="pre">2,</span> <span class="pre">'LINVEL':</span> <span class="pre">6,</span> <span class="pre">'URDFORI':</span> <span class="pre">5,</span> <span class="pre">'URDFPOS':</span> <span class="pre">4,</span> <span class="pre">'WORLDORI':</span> <span class="pre">1,</span> <span class="pre">'WORLDPOS':</span> <span class="pre">0}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.linkInfo" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.motion_done">
+<span class="sig-name descname"><span class="pre">motion_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS_IDS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_collision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.motion_done"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.motion_done" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether the motion is done.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joints</strong> (<em>int</em><em> or </em><em>list</em><em>, </em><em>optional</em><em>, </em><em>default=None</em>) – joint or list of joints to get the state of</p></li>
+<li><p><strong>check_collision</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to check for collision during motion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True when motion is done, false otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.move_cartesian">
+<span class="sig-name descname"><span class="pre">move_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="utils.html#icub_pybullet.utils.Pose" title="icub_pybullet.utils.Pose"><span class="pre">Pose</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_collision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.move_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.move_cartesian" title="Permalink to this definition"></a></dt>
+<dd><p>Move the robot in cartesian space by computing inverse kinematics and running position control</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose</strong> (<a class="reference internal" href="utils.html#icub_pybullet.utils.Pose" title="icub_pybullet.utils.Pose"><em>utils.Pose</em></a>) – desired pose of the end effector</p></li>
+<li><p><strong>wait</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to wait for movement completion</p></li>
+<li><p><strong>velocity</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default=1</em>) – joint velocity to move with</p></li>
+<li><p><strong>check_collision</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to check for collisions during motion</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default=10</em>) – timeout for the motion</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.move_position">
+<span class="sig-name descname"><span class="pre">move_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS_IDS</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_col_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_collision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.move_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.move_position" title="Permalink to this definition"></a></dt>
+<dd><p>Move the specified joints to the given positions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joints</strong> (<em>int</em><em>, </em><em>str</em><em>, </em><em>list</em><em> of </em><em>int</em><em>, </em><em>list</em><em> of </em><em>str</em>) – joint or list of joints to move</p></li>
+<li><p><strong>positions</strong> (<em>float</em><em> or </em><em>list; same length as joints</em>) – position or list of positions to move the joints to</p></li>
+<li><p><strong>wait</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to wait until the motion is done</p></li>
+<li><p><strong>velocity</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default=1</em>) – velocity to move the joints with</p></li>
+<li><p><strong>set_col_state</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to reset collision state</p></li>
+<li><p><strong>check_collision</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to check for collision during motion</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default=10</em>) – timeout for the motion</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.move_velocity">
+<span class="sig-name descname"><span class="pre">move_velocity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS_IDS</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.move_velocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.move_velocity" title="Permalink to this definition"></a></dt>
+<dd><p>Move the specified joints with the specified velocity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joints</strong> (<em>int</em><em> or </em><em>list</em>) – joint or list of joints to move</p></li>
+<li><p><strong>velocities</strong> (<em>float</em><em> or </em><em>list; same length as joints</em>) – velocity or list of velocities to move the joints to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.prepare_log">
+<span class="sig-name descname"><span class="pre">prepare_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.prepare_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.prepare_log" title="Permalink to this definition"></a></dt>
+<dd><p>Prepares the log string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>log string</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.print_collision_info">
+<span class="sig-name descname"><span class="pre">print_collision_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.print_collision_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.print_collision_info" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to print collision info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>c</strong> (<em>list</em><em>, </em><em>optional</em><em>, </em><em>default=None</em>) – one collision; if None print all collisions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.run_vhacd">
+<span class="sig-name descname"><span class="pre">run_vhacd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.run_vhacd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.run_vhacd" title="Permalink to this definition"></a></dt>
+<dd><p>Function to run VHACD on all objects in loaded URDFs, and to create new URDFs with changed collision meshes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>robot</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to run VHACD on the robot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.scale_bbox">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scale_bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">array</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">array</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.scale_bbox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.scale_bbox" title="Permalink to this definition"></a></dt>
+<dd><p>Function to scale the bounding box</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bbox</strong> (<em>list</em>) – list of min and max bbox</p></li>
+<li><p><strong>scale</strong> (<em>float</em>) – scale factor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new min and max bbox</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list, list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.stop_robot">
+<span class="sig-name descname"><span class="pre">stop_robot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JOINTS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">JOINTS_IDS</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">JOINTS_IDS</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.stop_robot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.stop_robot" title="Permalink to this definition"></a></dt>
+<dd><p>Stops the robot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.toggle_gravity">
+<span class="sig-name descname"><span class="pre">toggle_gravity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.toggle_gravity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.toggle_gravity" title="Permalink to this definition"></a></dt>
+<dd><p>Toggles the gravity</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.update_simulation">
+<span class="sig-name descname"><span class="pre">update_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sleep_duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.update_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.update_simulation" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sleep_duration</strong> (<em>float</em><em> or </em><em>None</em><em>, </em><em>optional</em><em>, </em><em>default=-1</em>) – duration to sleep before the next simulation step</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.visualShapeData">
+<span class="sig-name descname"><span class="pre">visualShapeData</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'COLOR':</span> <span class="pre">7,</span> <span class="pre">'DIMS':</span> <span class="pre">3,</span> <span class="pre">'FILE':</span> <span class="pre">4,</span> <span class="pre">'GEOMTYPE':</span> <span class="pre">2,</span> <span class="pre">'ID':</span> <span class="pre">0,</span> <span class="pre">'LINK':</span> <span class="pre">1,</span> <span class="pre">'ORI':</span> <span class="pre">6,</span> <span class="pre">'POS':</span> <span class="pre">5,</span> <span class="pre">'TEXTURE':</span> <span class="pre">8}</span></em><a class="headerlink" href="#icub_pybullet.pycub.pyCub.visualShapeData" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.pycub.pyCub.wait_motion_done">
+<span class="sig-name descname"><span class="pre">wait_motion_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sleep_duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_collision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/icub_pybullet/pycub.html#pyCub.wait_motion_done"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#icub_pybullet.pycub.pyCub.wait_motion_done" title="Permalink to this definition"></a></dt>
+<dd><p>Help function to wait for motion to be done. Can sleep for a specific duration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sleep_duration</strong> (<em>float</em><em>, </em><em>optional</em><em>, </em><em>default=0.01</em>) – how long to sleep before running simulation step</p></li>
+<li><p><strong>check_collision</strong> (<em>bool</em><em>, </em><em>optional</em><em>, </em><em>default=True</em>) – whether to check for collisions during motion</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_5.html" class="btn btn-neutral float-left" title="Grasp It!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

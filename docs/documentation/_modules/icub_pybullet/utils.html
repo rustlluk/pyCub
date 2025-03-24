@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icub_pybullet.utils &mdash; pyCub  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyCub
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyCub Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#exercises">Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#icub-pybullet">icub_pybullet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html#id7">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyCub</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">icub_pybullet.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for icub_pybullet.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utils for pyCub simulator</span>
+
+<span class="sd">:Author: Lukas Rustler</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">open3d</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">o3d</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.ElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ET</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span><span class="p">,</span> <span class="n">_tuplegetter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+
+
+<div class="viewcode-block" id="URDF"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">URDF</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to parse URDF file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ROOT_TAGS</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param path: path to the URDF file</span>
+<span class="sd">        :type path: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">joints</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot_name</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;link&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namedtuple</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="p">[]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;joint&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">namedtuple</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="p">[]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">find_root_tags</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fix_urdf</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">make_references</span><span class="p">()</span>
+
+<div class="viewcode-block" id="URDF.find_root_tags"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.find_root_tags">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_root_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds tags that are &#39;root&#39;, i.e., they have child &#39;inside&#39;</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;^(?!.* name).*&lt;(.*?) &quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span> <span class="o">=</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="URDF.read"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.read">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">ET</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">ET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursive function to read the URDF file. When there are no children, it reads the attributes and saves them.</span>
+
+<span class="sd">        :param el: The current element in the XML tree.</span>
+<span class="sd">        :type el: xml.etree.ElementTree.Element</span>
+<span class="sd">        :param parent: The parent element in the XML tree.</span>
+<span class="sd">        :type parent: xml.etree.ElementTree.Element</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">el</span><span class="p">:</span>
+            <span class="n">childer_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">child</span><span class="p">]</span>
+            <span class="c1"># Check for existing fields, so we can append when something is twice for one link/joint (usually visual)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">),</span> <span class="n">_tuplegetter</span><span class="p">):</span>
+                <span class="c1"># create named tuple for all children</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">namedtuple</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">childer_attrs</span><span class="p">))</span>
+            <span class="c1"># recursive call</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+        <span class="c1"># real all attributes of leaf node and save it in LIST</span>
+        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">attr_val</span> <span class="o">=</span> <span class="n">attr_val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attr_val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attr_val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">attr_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">_</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">attr_val</span> <span class="k">if</span> <span class="n">_</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+                <span class="n">attr_val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">attr_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">attr_val</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">attr_val</span> <span class="o">=</span> <span class="n">attr_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="URDF.dereference"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.dereference">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">dereference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make parent/child again as names to allow urdf write</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;link&quot;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">relative</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">,</span> <span class="s2">&quot;child&quot;</span><span class="p">]:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">relative</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+                    <span class="nb">delattr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">relative</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">relative</span><span class="p">,</span> <span class="n">namedtuple</span><span class="p">(</span><span class="n">relative</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;link&quot;</span><span class="p">]))</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">relative</span><span class="p">)</span><span class="o">.</span><span class="n">link</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">):</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="URDF.make_references"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.make_references">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_references</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make parent/child in joint list as references to the given link</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;link&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">link</span> <span class="o">==</span> <span class="n">l</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="n">j</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">l</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">):</span>
+                            <span class="n">l</span><span class="o">.</span><span class="n">joint</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">l</span><span class="o">.</span><span class="n">joint</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                        <span class="k">break</span>
+
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">j</span><span class="o">.</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;link&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">j</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">link</span> <span class="o">==</span> <span class="n">l</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">l</span>
+                        <span class="k">break</span></div>
+
+<div class="viewcode-block" id="URDF.fix_urdf"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.fix_urdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fix_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fix the URDF file by converting non-mesh geometries to mesh and saving them as .obj files.</span>
+<span class="sd">        If changes were made, write the new URDF to a file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">something_changed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">visual_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;visual&quot;</span><span class="p">,</span> <span class="s2">&quot;collision&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">visual_type</span><span class="p">):</span>
+                    <span class="n">geom</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">visual_type</span><span class="p">)</span><span class="o">.</span><span class="n">geometry</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;mesh&quot;</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;box&quot;</span><span class="p">):</span>
+                            <span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">()</span><span class="o">.</span><span class="n">create_box</span><span class="p">(</span><span class="o">*</span><span class="n">geom</span><span class="o">.</span><span class="n">box</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+                            <span class="n">mesh</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">relative</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+                            <span class="nb">delattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;box&quot;</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">):</span>
+                            <span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">()</span><span class="o">.</span><span class="n">create_cylinder</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">geom</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span>
+                                                                               <span class="n">height</span><span class="o">=</span><span class="n">geom</span><span class="o">.</span><span class="n">cylinder</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+
+                            <span class="c1"># mesh.translate([geom.cylinder.radius, geom.cylinder.radius, geom.cylinder.length/2], relative=False)</span>
+
+                            <span class="nb">delattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;cylinder&quot;</span><span class="p">)</span>
+
+                        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;sphere&quot;</span><span class="p">):</span>
+                            <span class="n">mesh</span> <span class="o">=</span> <span class="n">o3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">()</span><span class="o">.</span><span class="n">create_sphere</span><span class="p">(</span><span class="n">radius</span><span class="o">=</span><span class="n">geom</span><span class="o">.</span><span class="n">sphere</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+                            <span class="nb">delattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;sphere&quot;</span><span class="p">)</span>
+
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;filename&quot;</span><span class="p">]))</span>
+                        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="s2">&quot;meshes&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed_urdf&quot;</span><span class="p">,</span> <span class="n">visual_type</span><span class="p">))</span>
+                        <span class="n">geom</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">link</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;.obj&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                        <span class="n">o3d</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">write_triangle_mesh</span><span class="p">(</span><span class="n">geom</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">mesh</span><span class="p">)</span>
+                        <span class="n">something_changed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">something_changed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;mesh&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;mesh&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_urdf</span><span class="p">()</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.urdf&quot;</span><span class="p">,</span> <span class="s2">&quot;_fixed.urdf&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.urdf&quot;</span><span class="p">,</span> <span class="s2">&quot;_fixed.urdf&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="URDF.write_attr"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_attr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write an attribute to the new URDF string.</span>
+
+<span class="sd">        :param attr_name: The name of the attribute.</span>
+<span class="sd">        :type attr_name: str</span>
+<span class="sd">        :param attr: The attribute value.</span>
+<span class="sd">        :type attr: any</span>
+<span class="sd">        :param level: The indentation level for the attribute.</span>
+<span class="sd">        :type level: int, optional, default=1</span>
+<span class="sd">        :param skip_header: Whether to skip writing the attribute header.</span>
+<span class="sd">        :type skip_header: bool, optional, default=False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_header</span> <span class="ow">and</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">attr_name</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">skip_header</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s1">&#39; name=&quot;&#39;</span><span class="o">+</span><span class="n">attr</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;__dict__&quot;</span><span class="p">):</span>
+
+            <span class="k">for</span> <span class="n">inner_attr_name</span><span class="p">,</span> <span class="n">inner_attr</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">inner_attr_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span> <span class="ow">and</span> <span class="n">inner_attr_name</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_attr</span><span class="p">(</span><span class="n">inner_attr_name</span><span class="p">,</span> <span class="n">inner_attr</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s1">&#39;=&quot;&#39;</span>
+            <span class="k">if</span> <span class="n">attr_name</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="n">attr</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">attr</span><span class="p">]))</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_header</span> <span class="ow">and</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;/&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">skip_header</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
+
+<div class="viewcode-block" id="URDF.write_urdf"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_urdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write the URDF object to a string.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dereference</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">=</span> <span class="s1">&#39;&lt;robot name=&quot;&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">robot_name</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;link name=&quot;&#39;</span><span class="o">+</span><span class="n">link</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">link</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">attr_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span> <span class="ow">and</span> <span class="n">attr_name</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_attr</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/link&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">for</span> <span class="n">joint</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">joints</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;joint name=&quot;&#39;</span><span class="o">+</span><span class="n">joint</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;&quot; type=&quot;&#39;</span><span class="o">+</span><span class="n">joint</span><span class="o">.</span><span class="n">type</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">joint</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">attr_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span> <span class="ow">and</span> <span class="n">attr_name</span> <span class="o">!=</span> <span class="s2">&quot;name&quot;</span> <span class="ow">and</span> <span class="n">attr_name</span> <span class="o">!=</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">write_attr</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/joint&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/robot&gt;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">make_references</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to parse and keep the config loaded from yaml file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span><span class="nb">str</span> <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param config_path: path to the config file</span>
+<span class="sd">        :type config_path: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">config_dict</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">config_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">required_attributes</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;vhacd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;use_vhacd&quot;</span><span class="p">,</span> <span class="s2">&quot;force_vhacd&quot;</span><span class="p">,</span> <span class="s2">&quot;force_vhacd_urdf&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;robot_urdf_path&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;gui&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;standard&quot;</span><span class="p">,</span> <span class="s2">&quot;web&quot;</span><span class="p">],</span> <span class="s2">&quot;tolerance&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;joint&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;skin&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;use&quot;</span><span class="p">,</span> <span class="s2">&quot;radius&quot;</span><span class="p">,</span> <span class="s2">&quot;num_cores&quot;</span><span class="p">,</span> <span class="s2">&quot;skin_parts&quot;</span><span class="p">],</span>
+                               <span class="s2">&quot;collision_tolerance&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;end_effector&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                               <span class="s2">&quot;log&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;period&quot;</span><span class="p">],</span> <span class="s2">&quot;simulation_step&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;self_collisions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                               <span class="s2">&quot;eyes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;l_eye&quot;</span><span class="p">,</span> <span class="s2">&quot;r_eye&quot;</span><span class="p">]}</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">required_attributes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2"> in config file </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">sub_attr</span> <span class="ow">in</span> <span class="n">required_attributes</span><span class="p">[</span><span class="n">attr</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="n">sub_attr</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">sub_attr</span><span class="si">}</span><span class="s2"> in config file </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Config.set_attribute"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config.set_attribute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span><span class="nb">str</span> <span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">reference</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to recursively fill the instance variables from dictionary. When value is non-dict, it is directly</span>
+<span class="sd">        assigned to a variable. Else, the dict is recursively parsed.</span>
+
+<span class="sd">        :param attr: name of the attribute</span>
+<span class="sd">        :type attr: str</span>
+<span class="sd">        :param value: value of the attribute</span>
+<span class="sd">        :type value: str, float, int, dict, list, ... - and other that can be loaded from yaml</span>
+<span class="sd">        :param reference: reference to the parent class. &quot;self&quot; for the upper attributes, pointer to namedtuple for inner attributes</span>
+<span class="sd">        :type reference: pointer or whatever it is called in Python</span>
+<span class="sd">        :return: 0</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Parse non-dict directly to the attribute</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="c1"># prepare named tuple for the dict attribute and populate in recursively</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">namedtuple</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+            <span class="k">for</span> <span class="n">inner_attr</span><span class="p">,</span> <span class="n">inner_value</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">inner_attr</span><span class="p">,</span> <span class="n">inner_value</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span></div></div>
+
+
+<div class="viewcode-block" id="Pose"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pose</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mini help class for Pose representation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">ori</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Init function that takes position and orientation and saves them as attributes</span>
+
+<span class="sd">        :param pos: x,y,z position</span>
+<span class="sd">        :type pos: list</span>
+<span class="sd">        :param ori: rpy orientation</span>
+<span class="sd">        :type ori: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ori</span> <span class="o">=</span> <span class="n">ori</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;position: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">, orientation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ori</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="Pose.to_string"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose.to_string">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ori</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="CustomFormatter"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CustomFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom formatter that assigns colors to logs</span>
+<span class="sd">    From https://stackoverflow.com/a/56944256</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">grey</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[97;10m&quot;</span>
+    <span class="n">yellow</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[33;20m&quot;</span>
+    <span class="n">red</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[31;20m&quot;</span>
+    <span class="n">bold_red</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[31;1m&quot;</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">[0m&quot;</span>
+    <span class="nb">format</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(module)s</span><span class="s1"> </span><span class="si">%(levelname)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span>
+
+    <span class="n">FORMATS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="n">grey</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="n">grey</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="n">yellow</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="n">red</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="n">bold_red</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="CustomFormatter.format"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter.format">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">log_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">levelno</span><span class="p">)</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">log_fmt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></div></div>
+
+<span class="n">JOINTS</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;r_hip_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hip_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hip_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;r_knee&#39;</span><span class="p">,</span> <span class="s1">&#39;r_ankle_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_ankle_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hip_pitch&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_hip_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hip_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;l_knee&#39;</span><span class="p">,</span> <span class="s1">&#39;l_ankle_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;l_ankle_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_yaw&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_shoulder_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_shoulder_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;r_shoulder_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;r_elbow&#39;</span><span class="p">,</span> <span class="s1">&#39;r_wrist_prosup&#39;</span><span class="p">,</span> <span class="s1">&#39;r_wrist_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_wrist_yaw&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_hand_thumb_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_thumb_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_thumb_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_thumb_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_index_0_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_hand_index_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_index_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_index_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_middle_0_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_hand_middle_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_middle_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_middle_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_ring_0_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_hand_ring_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_ring_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_ring_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_little_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_little_1_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;r_hand_little_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hand_little_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_shoulder_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;l_shoulder_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;l_shoulder_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;l_elbow&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_wrist_prosup&#39;</span><span class="p">,</span> <span class="s1">&#39;l_wrist_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;l_wrist_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_thumb_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_thumb_1_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_hand_thumb_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_thumb_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_index_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_index_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_index_2_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_hand_index_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_middle_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_middle_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_middle_2_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_hand_middle_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_ring_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_ring_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_ring_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_ring_3_joint&#39;</span><span class="p">,</span>
+<span class="s1">&#39;l_hand_little_0_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_little_1_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_little_2_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hand_little_3_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;neck_pitch&#39;</span><span class="p">,</span>
+<span class="s1">&#39;neck_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;neck_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;eyes_tilt&#39;</span><span class="p">,</span> <span class="s1">&#39;l_eye_pan_joint&#39;</span><span class="p">,</span> <span class="s1">&#39;r_eye_pan_joint&#39;</span><span class="p">]</span>
+
+<span class="n">JOINTS_IDS</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span>
+<span class="mi">27</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span>
+<span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">74</span><span class="p">]</span>
+
+<span class="n">CHAINS</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;left_arm&quot;</span><span class="p">,</span> <span class="s2">&quot;right_arm&quot;</span><span class="p">,</span> <span class="s2">&quot;left_leg&quot;</span><span class="p">,</span> <span class="s2">&quot;right_leg&quot;</span><span class="p">,</span> <span class="s2">&quot;torso&quot;</span><span class="p">,</span> <span class="s2">&quot;head&quot;</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

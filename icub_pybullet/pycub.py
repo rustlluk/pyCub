@@ -180,12 +180,12 @@ class pyCub(BulletClient):
             self.skin_activations = {}
             self.activated_skin_points = {}
             self.activated_skin_normals = {}
-            with open(os.path.join(self.file_dir, "..", "iCub/skin/point_clouds/config.txt"), "r") as f:
+            with open(os.path.join(self.file_dir, "iCub/skin/point_clouds/config.txt"), "r") as f:
                 skin_config = {_.split(";")[0]: _.split(";")[1] for _ in f.read().splitlines()}
             if len(self.config.skin.skin_parts) == 0:
-                skin_pcds = glob.glob(os.path.join(self.file_dir, "..", "iCub/skin/point_clouds", "*.pcd"))
+                skin_pcds = glob.glob(os.path.join(self.file_dir, "iCub/skin/point_clouds", "*.pcd"))
             else:
-                skin_pcds = [os.path.join(self.file_dir, "..", "iCub/skin/point_clouds", f"{_}.pcd")
+                skin_pcds = [os.path.join(self.file_dir, "iCub/skin/point_clouds", f"{_}.pcd")
                              for _ in self.config.skin.skin_parts]
             for pc_path in skin_pcds:
                 # if "leg" not in pc_path:
@@ -418,10 +418,10 @@ class pyCub(BulletClient):
                         suffix += "_"
                         obj_name = obj_name+suffix
                     self.create_urdf(urdf, fixed, color, suffix)
-                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf.replace(".obj", suffix+".urdf")))
+                    urdf = os.path.normpath(os.path.join(self.file_dir, "other_meshes", urdf.replace(".obj", suffix+".urdf")))
                 # if URDF, just load it
                 elif os.path.basename(urdf).split(".")[-1] == "urdf":
-                    urdf = os.path.normpath(os.path.join(self.file_dir, "..", "other_meshes", urdf))
+                    urdf = os.path.normpath(os.path.join(self.file_dir, "other_meshes", urdf))
                 else:
                     raise ValueError("Objects must be .obj or .urdf!")
                 # Parse the URDF
@@ -939,7 +939,7 @@ class pyCub(BulletClient):
                     if hasattr(link.collision.geometry, "mesh"):
                         col_path_ori = link.collision.geometry.mesh.filename
                         col_path = col_path_ori.replace("package://", "")
-                        col_path = os.path.normpath(os.path.join(self.file_dir, "..", col_path))
+                        col_path = os.path.normpath(os.path.join(self.file_dir, col_path))
                         vhacd_path = col_path.replace(".obj", "_vhacd.obj").replace("visual", "vhacd")
                         if self.config.vhacd.force_vhacd or not os.path.exists(vhacd_path):
                             self.vhacd(col_path, vhacd_path, "", resolution=1000000, maxNumVerticesPerCH=1, gamma=0.0005, concavity=0)
@@ -966,12 +966,12 @@ class pyCub(BulletClient):
         :param suffix: suffix to add to the object name
         :type suffix: str, optional, default=""
         """
-        with open(os.path.join(self.file_dir, "..", "other_meshes", "object_default.urdf"), "r") as f:
+        with open(os.path.join(self.file_dir, "other_meshes", "object_default.urdf"), "r") as f:
             urdf = f.read()
         if suffix != "":
-            mesh = o3d.io.read_triangle_mesh(os.path.normpath(os.path.join(self.file_dir, "../other_meshes", object_path)))
+            mesh = o3d.io.read_triangle_mesh(os.path.normpath(os.path.join(self.file_dir, "other_meshes", object_path)))
         object_path = object_path.replace(".obj", suffix+".obj")
-        object_path = os.path.normpath(os.path.join(self.file_dir, "../other_meshes", object_path))
+        object_path = os.path.normpath(os.path.join(self.file_dir, "other_meshes", object_path))
         if suffix != "":
             o3d.io.write_triangle_mesh(object_path, mesh)
 
@@ -981,7 +981,7 @@ class pyCub(BulletClient):
             .replace("FILENAME", object_path).replace("VISUALCOLOR", " ".join(map(str, color)))
 
         if fixed:
-            with open(os.path.join(self.file_dir, "..", "other_meshes", "fixed_link.txt"), "r") as f:
+            with open(os.path.join(self.file_dir, "other_meshes", "fixed_link.txt"), "r") as f:
                 fixed_link_text = f.read()
             urdf = urdf.replace("</robot>", fixed_link_text)
 

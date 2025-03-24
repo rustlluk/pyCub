@@ -1,0 +1,34 @@
+.. mdinclude:: ../README.md
+Exercises
+=============
+
+.. toctree::
+   :maxdepth: 4
+
+   exercise_1
+   exercise_2
+   exercise_3
+   exercise_4
+   exercise_5
+
+icub_pybullet
+=============
+
+.. toctree::
+   :maxdepth: 4
+
+   pycub
+   utils
+   visualizer
+
+Examples
+=============
+
+.. toctree::
+   :maxdepth: 4
+
+   push_the_ball_cartesian
+   push_the_ball_pure_joints
+   skin_test
+
+

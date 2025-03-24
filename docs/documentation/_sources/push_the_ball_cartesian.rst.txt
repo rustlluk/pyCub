@@ -1,0 +1,7 @@
+push\_the\_ball\_cartesian
+=================================
+
+.. automodule:: icub_pybullet.examples.push_the_ball_cartesian
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,1 @@
+.. mdinclude:: ../exercises/exercise_3/README.md

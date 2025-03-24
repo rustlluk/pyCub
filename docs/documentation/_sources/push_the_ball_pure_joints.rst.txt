@@ -1,0 +1,7 @@
+push\_the\_ball\_pure\_joints
+====================================
+
+.. automodule:: icub_pybullet.examples.push_the_ball_pure_joints
+   :members:
+   :undoc-members:
+   :show-inheritance:
