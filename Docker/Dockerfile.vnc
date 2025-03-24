@@ -94,7 +94,7 @@ RUN sudo chown docker:docker "/home/docker/Desktop/Visual Studio Code.desktop" &
 COPY ["additional_files/PyCharm.desktop", "/home/docker/Desktop/PyCharm.desktop"]
 RUN sudo chown docker:docker "/home/docker/Desktop/PyCharm.desktop" && chmod +x "/home/docker/Desktop/PyCharm.desktop"
 
-RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER -m pip install . && \
+RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python$PYTHON_VER -m pip install . && \
     cd /home/docker && rm -Rf pyCub
 
 RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python3

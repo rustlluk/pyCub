@@ -61,7 +61,7 @@ RUN sudo ln -sf /usr/bin/python$PYTHON_VER /usr/local/bin/python && sudo ln -sf 
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 USER docker
-RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub && python$PYTHON_VER -m pip install . && \
+RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python$PYTHON_VER -m pip install . && \
     cd /home/docker && rm -Rf pyCub
 
 # Delete thingies from aptitude
