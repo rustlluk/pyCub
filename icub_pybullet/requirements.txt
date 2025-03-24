@@ -6,3 +6,4 @@ roboticstoolbox-python
 opencv-python
 psutil
 transforms3d
+dash<3.0.0

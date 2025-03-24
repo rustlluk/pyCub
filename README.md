@@ -2,7 +2,7 @@
 pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for simulation and Open3D for visualization.
 
 ## Installation  
-- Requires python3.11 to 3.12
+- Requires python3.10 to 3.13
   - newer python versions are now not supported due to incompatible with some dependencies 
 - We recommend using virtual environment when installing from PyPi or from source
   - ```
