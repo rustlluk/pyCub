@@ -2,7 +2,7 @@
 The task is to perform smooth movements with the arms of the robot. The robot should be able to move in a straight 
 line or a circle with a smooth trajectory. In other words, the movement should be continuous and without jerks.
 
-![Smooth Movements](https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_2/exercise_2.gif)
+![Smooth Movements](https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_2/exercise_2.gif)
 
 ## Task
 Implement function move() in [exercise_2.py](https://github.com/rustlluk/pycub/blob/master/exercises/exercise_2/exercise_2.py)

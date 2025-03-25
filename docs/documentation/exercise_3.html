@@ -92,7 +92,7 @@
 <p>The goal of this task is to implement gaze controller for the iCub robot that is able to follow a ball moving on a table.<span class="raw-html-m2r"><br></span>
 The task is simplified to 2D case, i.e., the ball can move in <em>x</em> and <em>y</em>. The user is given the vector from
 the head to a ball (the where the robot should look) and the vector where the robot is looking right now.</p>
-<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_3/exercise_3.gif"><img alt="Gaze" src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_3/exercise_3.gif" /></a>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif"><img alt="Gaze" src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif" /></a>
 <section id="task">
 <h2>Task<a class="headerlink" href="#task" title="Permalink to this heading"></a></h2>
 <p>Implement gaze() function in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3.py">exercise_3.py</a>
@@ -118,7 +118,7 @@ where the robot should be looking</p></li>
 <h2>Scoring<a class="headerlink" href="#scoring" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>the ball will be moving for 10 (default) seconds and each step the error in degrees will be calculated</p></li>
-<li><p>maximum number of points is 10 (default; 10 runs of the code) and you can <strong>lose</strong> points based on the following:</p>
+<li><p>maximum number of points is 10 (default; 10 runs of the code) and you can <strong>lose</strong> points for individual runs based on the following:</p>
 <ul>
 <li><p>if the mean absolute error is:</p>
 <ul>
@@ -136,6 +136,7 @@ where the robot should be looking</p></li>
 <li><p>more than 10 - 100% of points</p></li>
 </ul>
 </li>
+<li><p>the loss is accumulated for both mean and max error, e.g., 75% loss in mean and 25% in max means 100% and 0 points</p></li>
 </ul>
 </li>
 </ul>

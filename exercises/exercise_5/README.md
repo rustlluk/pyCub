@@ -3,7 +3,7 @@ The goal of the task is to grasp a ball from the table. The exercise is divided 
  - find the ball on a table in the image plane. The ball is in the visual field of the robot and is green.
  - grasp the ball. Use the position of ball in image plane to compote its 3D position and grasp it.
 
-![Grasp It!](https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_5/exercise_5.gif)
+![Grasp It!](https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_5/exercise_5.gif)
 
 
 ## Task

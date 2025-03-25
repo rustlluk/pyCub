@@ -5,12 +5,12 @@ the correct body part away from it, i.e., move it against the normal of the cont
 
 <table>
      <tr>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_4/gifs/exercise_4_0.gif" alt="Leg"></td>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_4/gifs/exercise_4_1.gif" alt="Arm"></td>
+       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_0.gif" alt="Leg"></td>
+       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_1.gif" alt="Arm"></td>
      </tr>
      <tr>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_4/gifs/exercise_4_2.gif" alt="Leg and arm"></td>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_4/gifs/exercise_4_3.gif" alt="Leg and two arms"></td>
+       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_2.gif" alt="Leg and arm"></td>
+       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_3.gif" alt="Leg and two arms"></td>
      </tr>
 </table>
 

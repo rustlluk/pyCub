@@ -3,7 +3,7 @@ The goal of this task is to implement gaze controller for the iCub robot that is
 The task is simplified to 2D case, i.e., the ball can move in _x_ and _y_. The user is given the vector from
 the head to a ball (the where the robot should look) and the vector where the robot is looking right now.
 
-![Gaze](https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_3/exercise_3.gif)
+![Gaze](https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif)
 
 
 ## Task
@@ -20,7 +20,7 @@ that will control the gaze of the robot to follow the ball.
 
 ## Scoring
  - the ball will be moving for 10 (default) seconds and each step the error in degrees will be calculated  
- - maximum number of points is 10 (default; 10 runs of the code) and you can **lose** points based on the following:
+ - maximum number of points is 10 (default; 10 runs of the code) and you can **lose** points for individual runs based on the following:
    - if the mean absolute error is:
      - less than 0.5 degree - 0% of points
      - more than 0.5 and less than 1 degree - 50% of points
@@ -31,6 +31,7 @@ that will control the gaze of the robot to follow the ball.
      - more than 2 and less than 5 degrees - 25% of points
      - more than 5 and less than 10 degrees - 50% of points
      - more than 10 - 100% of points
+   - the loss is accumulated for both mean and max error, e.g., 75% loss in mean and 25% in max means 100% and 0 points 
 
 ## Requirements
 **Those apply mainly for** [exercise_3_tester.py](https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3_tester.py) **to work correctly**:

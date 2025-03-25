@@ -5,7 +5,7 @@ The trajectories should be collision free and max allowed velocity is 10 (rad/s)
 
 The resulting distance is checked after 2 seconds.
 
-![Push the Ball!](https://raw.githubusercontent.com/rustlluk/pycub/dev/exercises/exercise_1/exercise_1.gif)
+![Push the Ball!](https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_1/exercise_1.gif)
 
 ## Task
 Implement `push_the_ball` function in [exercise_1.py](https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1.py) that will push the ball as far as possible from the table.  
