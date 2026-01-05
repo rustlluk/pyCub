@@ -19,7 +19,7 @@ RUN apt update -y && apt install software-properties-common -y && add-apt-reposi
 RUN locale-gen en_US.UTF-8
 
 #Install pip
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12 - --break-system-packages
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 - --break-system-packages
 
 # VSCode
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
@@ -59,6 +59,30 @@ RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker
 RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 USER docker
+WORKDIR /home/docker
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       sudo apt update && sudo apt-get install -y nano build-essential cmake git libgl1-mesa-dev libsdl2-dev python3-dev python3-pip libxi-dev  \
+       libxmu-dev libc++-dev libc++abi-dev clang gfortran libglu1-mesa-dev git xorg-dev libxcb-shm0 libglu1-mesa-dev  \
+       python3-dev libssl-dev libc++-dev libc++abi-dev libsdl2-dev libxi-dev libtbb-dev libosmesa6-dev libudev-dev  \
+       autoconf libtool python-is-python3 ninja-build libcurl4-openssl-dev; \
+       git clone --recursive https://github.com/isl-org/Open3D; \
+       cd Open3D && mkdir build && cd build && cmake -DCMAKE_C_FLAGS="-Wno-error=incompatible-pointer-types" .. \
+              -DBUILD_SHARED_LIBS=ON \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_GUI=ON \
+              -DBUILD_WEBRTC=OFF \
+              -DBUILD_TENSORFLOW_OPS=OFF \
+              -DBUILD_PYTORCH_OPS=OFF \
+              -DBUILD_UNIT_TESTS=OFF \
+              -DUSE_SYSTEM_OPENSSL=ON \
+              -DUSE_SYSTEM_CURL=ON \
+              -DPython3_ROOT_DIR=$(which python3); \
+       make -j$(nproc); \
+       make install-pip-package -j$(nproc); \
+       python3 -m pip install "numpy<2" --break-system-packages --no-cache-dir; \
+       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && sed -i 's/name += "-xpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir .; \
+    fi
+
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
 
 # Delete thingies from aptitude

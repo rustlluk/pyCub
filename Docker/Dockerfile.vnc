@@ -6,7 +6,7 @@ LABEL maintainer "Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETPLATFORM
-
+ENV CXXFLAGS="$CXXFLAGS -UM_PIf"
 #Install all neccesary thingies
 RUN apt update -y && apt install software-properties-common -y && add-apt-repository ppa:deadsnakes/ppa -y  \
     && apt update && apt install wget sudo gedit unzip apt-utils curl \
@@ -14,7 +14,7 @@ RUN apt update -y && apt install software-properties-common -y && add-apt-reposi
     screen git libpng-dev libqhull-dev libfreetype6-dev libfreetype6  \
     pkg-config python3-venv python3-dev apt-transport-https psmisc tmux gdb gitk autoconf locales gdebi  \
     terminator meld dos2unix octave epstool transfig magic-wormhole xfce4 xfce4-goodies xserver-xorg-video-dummy  \
-    xserver-xorg-legacy x11vnc firefox dbus-x11 terminator -y
+    xserver-xorg-legacy x11vnc firefox dbus-x11 terminator xvfb -y
 
 # Set the locale
 RUN locale-gen en_US.UTF-8
@@ -79,8 +79,32 @@ RUN sudo chown $USERNAME:$USERNAME "/home/$USERNAME/Desktop/Visual Studio Code.d
 COPY ["additional_files/PyCharm.desktop", "/home/$USERNAME/Desktop/PyCharm.desktop"]
 RUN sudo chown $USERNAME:$USERNAME "/home/$USERNAME/Desktop/PyCharm.desktop" && chmod +x "/home/$USERNAME/Desktop/PyCharm.desktop"
 
+
+WORKDIR /home/$USERNAME
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+       sudo apt update && sudo apt-get install -y nano build-essential cmake git libgl1-mesa-dev libsdl2-dev python3-dev python3-pip libxi-dev  \
+       libxmu-dev libc++-dev libc++abi-dev clang gfortran libglu1-mesa-dev git xorg-dev libxcb-shm0 libglu1-mesa-dev  \
+       python3-dev libssl-dev libc++-dev libc++abi-dev libsdl2-dev libxi-dev libtbb-dev libosmesa6-dev libudev-dev  \
+       autoconf libtool python-is-python3 ninja-build libcurl4-openssl-dev; \
+       git clone --recursive https://github.com/isl-org/Open3D; \
+       cd Open3D && mkdir build && cd build && cmake -DCMAKE_C_FLAGS="-Wno-error=incompatible-pointer-types" .. \
+              -DBUILD_SHARED_LIBS=ON \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DBUILD_GUI=ON \
+              -DBUILD_WEBRTC=OFF \
+              -DBUILD_TENSORFLOW_OPS=OFF \
+              -DBUILD_PYTORCH_OPS=OFF \
+              -DBUILD_UNIT_TESTS=OFF \
+              -DUSE_SYSTEM_OPENSSL=ON \
+              -DUSE_SYSTEM_CURL=ON \
+              -DPython3_ROOT_DIR=$(which python3); \
+       make -j$(nproc); \
+       make install-pip-package -j$(nproc); \
+       python3 -m pip install "numpy<2" --break-system-packages --no-cache-dir; \
+       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && sed -i 's/name += "-xpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir .; \
+    fi
+
 RUN cd /home/$USERNAME && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
-RUN sudo apt install xvfb -y
 
 # Set up script to launch graphics and vnc
 COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
