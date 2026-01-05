@@ -5,7 +5,7 @@ Script to deploy Docker container with easier setup than normal or with docker-c
 """
 
 import argparse
-from subprocess import call, PIPE, run
+from subprocess import call, PIPE, run, check_output
 import create_xauth
 
 
@@ -59,7 +59,7 @@ def parse():
         "-bi",
         dest="base_image",
         required=False,
-        default="ubuntu:20.04",
+        default="ubuntu:24.04",
         help="which image use as base; default 'ubuntu:20.04'"
     )
 
@@ -70,15 +70,6 @@ def parse():
         required=False,
         default="pycub",
         help="name of the container; default 'pycub'"
-    )
-
-    parser.add_argument(
-        "--python-ver",
-        "-pv",
-        dest="python_ver",
-        required=False,
-        default="3.11",
-        help="second python version to be used; default 3.11"
     )
 
     parser.add_argument(
@@ -97,8 +88,8 @@ def parse():
         "-pcv",
         dest="pycharm_ver",
         required=False,
-        default="2023.2.3",
-        help="pycharm version to be used; default 2023.2.3"
+        default="2025.2",
+        help="pycharm version to be used; default 2025.2"
     )
 
     parser.add_argument(
@@ -112,13 +103,13 @@ def parse():
     )
 
     args = parser.parse_args()
-    return args.build, args.existing, args.path, args.container, args.python_ver, args.pycharm_ver, \
+    return args.build, args.existing, args.path, args.container,args.pycharm_ver, \
            args.terminal, args.base_image, args.vnc, args.pull
 
 
 def main():
     # get parameters
-    build, existing, path, container, python_ver, pycharm_ver, terminal, base_image, vnc, pull = parse()
+    build, existing, path, container, pycharm_ver, terminal, base_image, vnc, pull = parse()
 
     image = container+"_image"
 
@@ -142,12 +133,17 @@ def main():
         else:
             df = "Dockerfile"
         cmd = "docker build -f "+df+" -t "+image+" --build-arg UID=$(id -u) --build-arg GID=$(id -g)" \
-              " --build-arg PYTHON_VER="+python_ver+" --build-arg PYCHARM_VER="+pycharm_ver + \
+              " --build-arg PYCHARM_VER="+pycharm_ver + \
               " --build-arg BASE_IMAGE="+base_image+" --progress=plain ."
         call(cmd, shell=True)
 
-        image_info = run("docker image ls | grep "+image, shell=True, stdout=PIPE).stdout.decode("utf-8")
-        if "second" not in image_info:
+        image_info_cmd = (
+        f'[ $(docker inspect -f "{{{{.Created}}}}" {image} | '
+        f'xargs -I{{}} date -d "{{}}" +%s) -ge $(date -d "1 minute ago" +%s) ] '
+        f'&& echo "suc" || echo "fail"'
+        )
+        image_info = check_output(image_info_cmd, shell=True, text=True).strip()
+        if image_info != "suc":
             inp = input(f"{image} was either not built properly or already built before. "
                         f"Do you still want to try to run it? ")
             if inp.lower() not in ["y", "yes"]:

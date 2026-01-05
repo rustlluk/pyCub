@@ -29,8 +29,9 @@ jobs:
         platforms: linux/amd64
         context: ./Docker
         push: true
-        file: ./Docker/Dockerfile.gitpod
+        file: ./Docker/Dockerfile.vnc
         tags: rustlluk/pycub:gitpod
+        build-args: USERNAME=gitpod
 
     - name: Build and Push VNC Image
       uses: docker/build-push-action@v6

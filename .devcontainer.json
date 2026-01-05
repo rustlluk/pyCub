@@ -1,0 +1,5 @@
+{
+    "name": "PyCub Development Environment",
+    "image": "rustlluk/pycub:gitpod",
+    "forwardPorts": [6080, 8888]
+}

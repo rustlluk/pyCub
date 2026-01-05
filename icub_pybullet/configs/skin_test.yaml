@@ -14,6 +14,7 @@ robot_urdf_path: "iCub/full.urdf" # path to Robot URDF file relative to pycub.py
 gui: # GUI settings
   standard: True # standard (and better) visualization using standalone window with openGL
   web: False # fallback web visualizer (the same, but slower and running in your browser)
+  pycub_alpha: 0.5
 tolerance: # goal tolerance for each joint
   joint: 1e-3 # circa 2 degrees
 end_effector: "r_hand" # end effector name

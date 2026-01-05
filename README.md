@@ -24,8 +24,10 @@ pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for s
 4. VNC Docker 
     - see [Docker VNC Version](#vnc-version) section
 5. Gitpod
-    - open [https://gitpod.io/#github.com/rustlluk/pycub](https://gitpod.io/#github.com/rustlluk/pycub) 
+    - open [https://app.gitpod.io/#https://github.com/rustlluk/pycub](https://app.gitpod.io/#https://github.com/rustlluk/pycub) 
       and log in with GitHub account
+      - then open a port 6080 and in terminal run `start-vnc-session.sh` to start the VNC server
+        - if using VScode browser version, on top left click on three lines -> Terminal -> New Terminal
 
 ## Examples
 - [push_the_ball_pure_joints.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) contains an example that

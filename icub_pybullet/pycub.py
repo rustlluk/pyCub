@@ -20,6 +20,7 @@ import psutil
 import atexit
 import roboticstoolbox as rtb
 from typing import Tuple, Optional, List
+import open3d.core as o3c
 
 
 class Joint:
@@ -196,7 +197,7 @@ class pyCub(BulletClient):
                     pc.scale(1.05, pc.get_center())
 
                 skin_part = skin_config[os.path.basename(pc_path).split(".")[0]]
-                self.skin_point_clouds[skin_part] = pc
+                self.skin_point_clouds[skin_part] = o3d.t.geometry.PointCloud.from_legacy(pc, o3c.Dtype.Float32, o3c.Device("CPU:0"))
                 self.skin[skin_part] = [np.asarray(pc.points), np.asarray(pc.normals)]
                 self.skin_activations[skin_part] = np.zeros((len(pc.points), ))
 
@@ -229,6 +230,10 @@ class pyCub(BulletClient):
         self.collision_during_motion = False
         self.steps_done = 0
         self.toggle_gravity()
+
+        self.precomputed_link_ids = {}
+        for link in self.links:
+            self.precomputed_link_ids[link.name] = link.robot_link_id
 
     @staticmethod
     def get_chains() -> Tuple[dict, dict]:
@@ -360,6 +365,7 @@ class pyCub(BulletClient):
         :return: robot, its joints and links
         :rtype: int, list of Joint, list of Link
         """
+        self.config.self_collisions = False
         if self.config.self_collisions:
             robot = self.loadURDF(self.urdf_path, useFixedBase=True, flags=self.URDF_USE_SELF_COLLISION)
         else:
@@ -487,7 +493,7 @@ class pyCub(BulletClient):
         if self.gui and cur_time-self.last_render > 0.01 and self.visualizer.is_alive:
             self.visualizer.render()
             self.last_render = cur_time
-    
+
     def toggle_gravity(self) -> None:
         """
         Toggles the gravity
@@ -510,23 +516,29 @@ class pyCub(BulletClient):
     @staticmethod
     def scale_bbox(bbox: list, scale: float) -> Tuple[np.array, np.array]:
         """
-        Function to scale the bounding box
+        Scale an axis-aligned bounding box around its center.
 
-        :param bbox: list of min and max bbox
-        :type bbox: list
-        :param scale: scale factor
+        :param bbox: sequence (min, max)
+        :type bbox: list|tuple
+        :param scale: scale factor (>0)
         :type scale: float
-        :return: new min and max bbox
-        :rtype: list, list
+        :return: (min, max) as numpy arrays
+        :rtype: np.array, np.array
         """
-        com = (np.array(bbox[0]) + bbox[1]) / 2
-        vec = np.array(bbox[0]) - bbox[1]
-        norm = np.linalg.norm(vec)
-        vec = vec / norm
-        new_norm = scale * norm
-        bbox_min = com + new_norm / 2 * vec
-        bbox_max = com - new_norm / 2 * vec
-        return bbox_min, bbox_max
+        if scale <= 0:
+            raise ValueError("scale must be positive")
+        if not (isinstance(bbox, (list, tuple)) and len(bbox) == 2):
+            raise ValueError("bbox must be a sequence of two elements: (min, max)")
+
+        bmin = np.asarray(bbox[0], dtype=float)
+        bmax = np.asarray(bbox[1], dtype=float)
+
+        # center and half extents; scale half extents directly for an axis-aligned box
+        center = (bmin + bmax) * 0.5
+        half = (bmax - bmin) * 0.5
+        new_half = half * scale
+
+        return center - new_half, center + new_half
 
     @staticmethod
     def bbox_overlap(b1_min: list, b1_max: list, b2_min: list, b2_max: list) -> bool:
@@ -545,9 +557,7 @@ class pyCub(BulletClient):
         :rtype: bool
         """
         for min1, max1, min2, max2 in zip(b1_min, b1_max, b2_min, b2_max):
-            if min1 >= max2:
-                return False
-            if min2 >= max1:
+            if min1 >= max2 or min2 >= max1:
                 return False
         return True
 
@@ -562,18 +572,16 @@ class pyCub(BulletClient):
         links_to_test = ["l_hand", "r_hand", "l_forearm", "r_forearm", "l_upper_arm", "r_upper_arm", "chest",
                          "l_upper_leg", "r_upper_leg", "l_lower_leg", "r_lower_leg", "l_foot", "r_foot", "head"]
 
+
         # Get all overlapping bboxes for robot with robot
         bboxes = []
         for l in links_to_test:
-            for ll in self.links:
-                if l == ll.name:
-                    # Make the bboxes smaller as bullet makes the bigger by default
-                    bboxes.append(self.scale_bbox(self.getAABB(self.robot, ll.robot_link_id), 0.8))
-                    break
+            # Make the bboxes smaller as bullet makes them bigger by default
+            bboxes.append(self.scale_bbox(self.getAABB(self.robot, self.precomputed_link_ids[l]), 0.8))
 
         # Get all overlapping bboxes for robot with free objects
         for fo_id, fo in enumerate(self.other_objects):
-            # Make the bboxes smaller as bullet makes the bigger by default
+            # Make the bboxes smaller as bullet makes them bigger by default
             bboxes.append(self.scale_bbox(self.getAABB(fo[0]), 0.8))
             links_to_test.append("other_object_"+str(fo_id))
 
@@ -588,6 +596,15 @@ class pyCub(BulletClient):
                               "r_forearm": ["r_hand", "r_forearm", "r_upper_arm"], "l_hand": ["l_hand", "l_forearm"],
                               "head": ["head", "chest", "l_upper_arm", "r_upper_arm"]}
 
+        R = np.eye(4)
+        R_ori = R[:3, :3]
+
+        idxs = self.precomputed_link_ids.values()
+        names = list(self.precomputed_link_ids.keys())
+
+
+        link_states = self.getLinkStates(self.robot, idxs, computeLinkVelocity=0, computeForwardKinematics=0)
+
         # for every skin part
         for skin_part, pc in self.skin.items():
             use_skin = False
@@ -596,22 +613,20 @@ class pyCub(BulletClient):
             self.activated_skin_points[skin_part] = []
             self.activated_skin_normals[skin_part] = []
 
-            for link in self.links:
-                if link.name == skin_part:
-                    break
-
+            robot_link_id = self.precomputed_link_ids[skin_part]
             # get position and orientation of the skin patch
-            linkState = self.getLinkState(self.robot, link.robot_link_id,
-                                          computeLinkVelocity=0, computeForwardKinematics=0)
+            linkState = link_states[names.index(skin_part)]
             ori = linkState[self.linkInfo["URDFORI"]]
             pos = linkState[self.linkInfo["URDFPOS"]]
 
-            R = np.eye(4)
-            R[:3, :3] = np.reshape(self.getMatrixFromQuaternion(ori), (3, 3))
+
+            R_ori.flat[:] = self.getMatrixFromQuaternion(ori)
             R[:3, 3] = pos
 
-            points_ = (R @ np.hstack((pc[0], np.ones((len(pc[0]), 1)))).T)[:3, :].T
-            normals_ = (R @ np.hstack((pc[1], np.ones((len(pc[0]), 1)))).T)[:3, :].T
+            # points_ = (R @ np.hstack((pc[0], np.ones((len(pc[0]), 1)))).T)[:3, :].T
+            # normals_ = (R @ np.hstack((pc[1], np.ones((len(pc[0]), 1)))).T)[:3, :].T
+            points_ = (R[:3, :3] @ pc[0].T).T + R[:3, 3]
+            normals_ = (R[:3, :3] @ pc[1].T).T
 
             # create oriented bbox
             bbox = (np.min(points_, axis=0),  np.max(points_, axis=0))
@@ -622,6 +637,7 @@ class pyCub(BulletClient):
                 if self.bbox_overlap(bb[0], bb[1], bbox_min, bbox_max) and links_to_test[bb_i] not in allowed_collisions[skin_part]:
                     use_skin = True
                     break
+
             if not use_skin:
                 continue
 
@@ -633,7 +649,7 @@ class pyCub(BulletClient):
                 points = np.vstack((points, points_))
                 normals = np.vstack((normals, normals_))
 
-            temp.append((link.robot_link_id, skin_part, points_.shape[0]))
+            temp.append((robot_link_id, skin_part, points_.shape[0]))
 
         # if any overlap in total over all skin parts
         if points is not None:
@@ -704,7 +720,7 @@ class pyCub(BulletClient):
             positions = [positions]
             joints = [joints]
 
-
+        s_time = time.time()
         for joint, position in zip(joints, positions):
 
             # find id in robot space from name or id from joint space
@@ -715,7 +731,7 @@ class pyCub(BulletClient):
                 position = np.clip(position, self.joints[joint_id].lower_limit, self.joints[joint_id].upper_limit)
                 # continue
             self.joints[joint_id].set_point = position
-            self.joints[joint_id].start_time = time.time()
+            self.joints[joint_id].start_time = s_time
             self.joints[joint_id].timeout = timeout
             self.setJointMotorControl2(self.robot, robot_joint_id,
                                        controlMode=self.POSITION_CONTROL, targetPosition=position,

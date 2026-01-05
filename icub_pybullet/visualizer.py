@@ -6,6 +6,7 @@ Visualization utils for pyCub simulator
 from __future__ import annotations
 import webbrowser
 import open3d as o3d
+import open3d.core as o3c
 import os
 import numpy as np
 import open3d.visualization.gui as gui
@@ -32,6 +33,13 @@ class Visualizer:
         self.meshes = {}
         self.meshes = {}
         self.R_urdf = {}
+        self.skin_activated_last_turn = {}
+
+        self.blue = o3c.Tensor([0, 0, 1], dtype=o3c.Dtype.Float32)
+        self.red = o3c.Tensor([1, 0, 0], dtype=o3c.Dtype.Float32)
+
+        self._R = np.eye(4)
+        self._R_ori = self._R[:3, :3]
 
         if self.client.config.skin.use:
             self.fpath_to_skin = {}
@@ -52,6 +60,14 @@ class Visualizer:
         self.vis.set_lighting(self.vis.NO_SHADOWS, [0, 0, 0])
 
         # prepare default material
+        self.mattr = rendering.MaterialRecord()
+        self.mattr.shader = 'defaultLitTransparency'
+        if hasattr(self.client.config.gui, "pycub_alpha"):
+            PYCUB_ALPHA = self.client.config.gui.pycub_alpha
+        else:
+            PYCUB_ALPHA = 1
+        self.mattr.base_color = [1.0, 1.0, 1.0, PYCUB_ALPHA]
+
         self.mat = rendering.MaterialRecord()
         self.mat.shader = 'defaultLit'
 
@@ -168,12 +184,16 @@ class Visualizer:
             self.meshes[f_path].translate(self.meshes[f_path].get_center()*scale, relative=False)
 
             # Add the mesh
-            self.vis.add_geometry(f_path, geometry=self.meshes[f_path], material=self.mat)
+            if urdf_name == "robot":
+                self.vis.add_geometry(f_path, geometry=self.meshes[f_path], material=self.mattr)
+            else:
+                self.vis.add_geometry(f_path, geometry=self.meshes[f_path], material=self.mat)
 
             if self.client.config.skin.use:
                 if link_name in self.client.skin_point_clouds:
                     self.fpath_to_skin[f_path] = link_name
                     self.vis.add_geometry(f_path+"_skin", geometry=self.client.skin_point_clouds[link_name], material=self.mat)
+                    self.skin_activated_last_turn[f_path] = 1
                 else:
                     self.fpath_to_skin[f_path] = None
 
@@ -191,28 +211,42 @@ class Visualizer:
             R_urdf = self.R_urdf[f_path]
 
             # get ori and position as 4x4 transformation matrix
-            R = np.eye(4)
-            R[:3, :3] = np.reshape(self.client.getMatrixFromQuaternion(ori), (3, 3))
-            R[:3, 3] = pos
 
-            self.vis.set_geometry_transform(f_path, R @ R_urdf)
+            self._R_ori.flat[:] = self.client.getMatrixFromQuaternion(ori)
+            self._R[:3, 3] = pos
+
+            self.vis.set_geometry_transform(f_path, self._R @ R_urdf)
             for ew in self.eye_windows.values():
-                ew.vis.set_geometry_transform(f_path, R @ R_urdf)
+                ew.vis.set_geometry_transform(f_path, self._R @ R_urdf)
                 if ew.link_name in f_path:
-                    R_ = R @ R_urdf
+                    R_ = self._R @ R_urdf
                     ew.center = (R_ @ np.hstack((self.meshes[f_path].get_center(), 1)))[:3]
                     R_[:3, 3] = [0, 0, 0]
                     ew.dir = (R_ @ [0, 0, 1, 1])[:3]
                     ew.dir = 0.1*ew.dir/np.linalg.norm(ew.dir)
 
             if self.client.config.skin.use and self.fpath_to_skin[f_path] is not None:
-                self.client.skin_point_clouds[self.fpath_to_skin[f_path]].paint_uniform_color([1, 0, 0])
-                colors = np.asarray(self.client.skin_point_clouds[self.fpath_to_skin[f_path]].colors)
-                colors[self.client.skin_activations[self.fpath_to_skin[f_path]] > 0] = [0, 1, 0]
-                self.client.skin_point_clouds[self.fpath_to_skin[f_path]].colors = o3d.utility.Vector3dVector(colors)
-                self.vis.remove_geometry(f_path+"_skin")
-                self.vis.add_geometry(f_path+"_skin", geometry=self.client.skin_point_clouds[self.fpath_to_skin[f_path]], material=self.mat)
-                self.vis.set_geometry_transform(f_path+"_skin", R)
+                colored_idxs = self.client.skin_activations[self.fpath_to_skin[f_path]] > 0
+                if self.skin_activated_last_turn[f_path] == 1 or np.sum(colored_idxs) > 0:
+                    point_cloud = self.client.skin_point_clouds[self.fpath_to_skin[f_path]]
+                    if self.skin_activated_last_turn[f_path] == 1:
+                        point_cloud.point["colors"][:] = self.blue
+
+                    if np.sum(colored_idxs) > 0:
+                        point_cloud.point["colors"][colored_idxs] = self.red
+                        self.skin_activated_last_turn[f_path] = 1
+                    else:
+                        self.skin_activated_last_turn[f_path] = 0
+
+                    geometry_name = f_path + "_skin"
+
+                    self.vis.scene.update_geometry(
+                        geometry_name,
+                        point_cloud,
+                        rendering.Scene.UPDATE_COLORS_FLAG
+                    )
+
+                self.vis.set_geometry_transform(f_path+"_skin", self._R)
 
     def read_info(self, obj_id: int) -> int:
         """
@@ -225,6 +259,9 @@ class Visualizer:
         """
         # All meshes from the current object
         visualData = self.client.getVisualShapeData(obj_id)
+        linkStates = self.client.getLinkStates(obj_id, range(self.client.getNumJoints(obj_id)), computeLinkVelocity=0,
+                                               computeForwardKinematics=0)
+
         self.positions = []
         self.orientations = []
         self.colors = []
@@ -242,11 +279,11 @@ class Visualizer:
             # non-base links
             if link != -1:
                 # get link info
-                linkState = self.client.getLinkState(obj_id, link, computeLinkVelocity=0,
-                                                     computeForwardKinematics=0)
+                linkState = linkStates[link]
                 # get orientation and position wrt URDF - better than in world
                 ori = linkState[self.client.linkInfo["URDFORI"]]
                 pos = linkState[self.client.linkInfo["URDFPOS"]]
+
             # link == -1 is base. For that, getBasePosition... needs to be used. This joint must not contain URDF visual xyz and rpy
             else:
                 pos, ori = self.client.getBasePositionAndOrientation(obj_id)
