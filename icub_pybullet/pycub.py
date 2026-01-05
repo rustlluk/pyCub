@@ -10,8 +10,12 @@ import numpy as np
 import pybullet as p
 from pybullet_utils.bullet_client import BulletClient
 import os
-from icub_pybullet.visualizer import Visualizer
-from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter, JOINTS, JOINTS_IDS, CHAINS
+try:
+    from icub_pybullet.visualizer import Visualizer
+    from icub_pybullet.utils import Config, URDF, Pose, CustomFormatter, JOINTS, JOINTS_IDS, CHAINS
+except:
+    from visualizer import Visualizer
+    from utils import Config, URDF, Pose, CustomFormatter, JOINTS, JOINTS_IDS, CHAINS
 import open3d as o3d
 import logging
 import datetime
@@ -443,7 +447,7 @@ class pyCub(BulletClient):
                 obj_name = os.path.basename(urdf).split(".")[0]
                 urdf = self.urdfs[obj_name].path
                 # apped to other objects list
-                self.other_objects.append((self.loadURDF(urdf, pos), obj_name, fixed, color, urdf.split("other_meshes/")[1].replace(".urdf", ".obj")))
+                self.other_objects.append((self.loadURDF(urdf, pos), obj_name, fixed, color, os.path.basename(urdf).replace(".urdf", ".obj")))
                 if not fixed:
                     self.free_objects.append(self.other_objects[-1][0])
                 # Put the specified force (or 0.25N) to each joint so the objects moves "naturally"

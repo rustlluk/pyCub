@@ -1,20 +1,20 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>icub_pybullet.utils &mdash; pyCub  documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -89,7 +89,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
 
 
-<div class="viewcode-block" id="URDF"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">URDF</span><span class="p">:</span>
+<div class="viewcode-block" id="URDF">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">URDF</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to parse URDF file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -122,7 +124,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fix_urdf</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">make_references</span><span class="p">()</span>
 
-<div class="viewcode-block" id="URDF.find_root_tags"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.find_root_tags">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">find_root_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="URDF.find_root_tags">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.find_root_tags">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_root_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Finds tags that are &#39;root&#39;, i.e., they have child &#39;inside&#39;</span>
 
@@ -134,7 +138,10 @@
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ROOT_TAGS</span> <span class="o">=</span> <span class="n">x</span></div>
 
-<div class="viewcode-block" id="URDF.read"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.read">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">ET</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">ET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.read">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.read">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="n">ET</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">ET</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recursive function to read the URDF file. When there are no children, it reads the attributes and saves them.</span>
 
@@ -165,7 +172,10 @@
                     <span class="n">attr_val</span> <span class="o">=</span> <span class="n">attr_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="URDF.dereference"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.dereference">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">dereference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.dereference">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.dereference">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dereference</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make parent/child again as names to allow urdf write</span>
 
@@ -181,7 +191,10 @@
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">):</span>
                 <span class="nb">delattr</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="s2">&quot;joint&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="URDF.make_references"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.make_references">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_references</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.make_references">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.make_references">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_references</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make parent/child in joint list as references to the given link</span>
 
@@ -203,7 +216,10 @@
                         <span class="n">j</span><span class="o">.</span><span class="n">child</span> <span class="o">=</span> <span class="n">l</span>
                         <span class="k">break</span></div>
 
-<div class="viewcode-block" id="URDF.fix_urdf"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.fix_urdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fix_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.fix_urdf">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.fix_urdf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fix the URDF file by converting non-mesh geometries to mesh and saving them as .obj files.</span>
 <span class="sd">        If changes were made, write the new URDF to a file.</span>
@@ -247,7 +263,10 @@
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.urdf&quot;</span><span class="p">,</span> <span class="s2">&quot;_fixed.urdf&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="URDF.write_attr"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_attr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.write_attr">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_attr">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">skip_header</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write an attribute to the new URDF string.</span>
 
@@ -289,7 +308,10 @@
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">skip_header</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">level</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">+</span> <span class="s1">&#39;&lt;/&#39;</span> <span class="o">+</span> <span class="n">attr_name</span> <span class="o">+</span> <span class="s1">&#39;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span></div>
 
-<div class="viewcode-block" id="URDF.write_urdf"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_urdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="URDF.write_urdf">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.URDF.write_urdf">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_urdf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the URDF object to a string.</span>
 
@@ -314,10 +336,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/joint&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">new_urdf</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/robot&gt;&#39;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">make_references</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">make_references</span><span class="p">()</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Config">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Config</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to parse and keep the config loaded from yaml file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -345,7 +371,9 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">),</span> <span class="n">sub_attr</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing attribute </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">sub_attr</span><span class="si">}</span><span class="s2"> in config file </span><span class="si">{</span><span class="n">config_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Config.set_attribute"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config.set_attribute">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span><span class="nb">str</span> <span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">reference</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Config.set_attribute">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Config.set_attribute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span><span class="nb">str</span> <span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">reference</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to recursively fill the instance variables from dictionary. When value is non-dict, it is directly</span>
 <span class="sd">        assigned to a variable. Else, the dict is recursively parsed.</span>
@@ -369,10 +397,14 @@
             <span class="nb">setattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">namedtuple</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
             <span class="k">for</span> <span class="n">inner_attr</span><span class="p">,</span> <span class="n">inner_value</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="n">inner_attr</span><span class="p">,</span> <span class="n">inner_value</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
-        <span class="k">return</span> <span class="mi">0</span></div></div>
+        <span class="k">return</span> <span class="mi">0</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Pose"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pose</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Pose">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pose</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mini help class for Pose representation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -391,11 +423,17 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;position: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="si">}</span><span class="s2">, orientation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ori</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<div class="viewcode-block" id="Pose.to_string"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose.to_string">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ori</span><span class="p">))</span></div></div>
+<div class="viewcode-block" id="Pose.to_string">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.Pose.to_string">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span> <span class="o">+</span> <span class="s2">&quot;;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ori</span><span class="p">))</span></div>
+</div>
 
 
-<div class="viewcode-block" id="CustomFormatter"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CustomFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
+
+<div class="viewcode-block" id="CustomFormatter">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Custom formatter that assigns colors to logs</span>
 <span class="sd">    From https://stackoverflow.com/a/56944256</span>
@@ -416,10 +454,14 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="n">bold_red</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="CustomFormatter.format"><a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter.format">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="CustomFormatter.format">
+<a class="viewcode-back" href="../../utils.html#icub_pybullet.utils.CustomFormatter.format">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">log_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">levelno</span><span class="p">)</span>
         <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">log_fmt</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></div>
+</div>
+
 
 <span class="n">JOINTS</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;r_hip_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hip_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;r_hip_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;r_knee&#39;</span><span class="p">,</span> <span class="s1">&#39;r_ankle_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;r_ankle_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hip_pitch&#39;</span><span class="p">,</span>
 <span class="s1">&#39;l_hip_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;l_hip_yaw&#39;</span><span class="p">,</span> <span class="s1">&#39;l_knee&#39;</span><span class="p">,</span> <span class="s1">&#39;l_ankle_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;l_ankle_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_pitch&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_roll&#39;</span><span class="p">,</span> <span class="s1">&#39;torso_yaw&#39;</span><span class="p">,</span>

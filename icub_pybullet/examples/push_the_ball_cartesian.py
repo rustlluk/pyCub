@@ -3,7 +3,14 @@ Example of moving the robot in cartesian space to push the ball. It is more robu
 
 :Author: Lukas Rustler
 """
-from icub_pybullet.pycub import pyCub, Pose
+import os
+import sys
+try:
+    from icub_pybullet.pycub import pyCub, Pose
+except:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    from icub_pybullet.pycub import pyCub, Pose
+
 from typing import NoReturn
 
 

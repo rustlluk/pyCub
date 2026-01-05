@@ -1,21 +1,21 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pyCub Documentation &mdash; pyCub  documentation</title>
       <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
 
   
       <script src="static/jquery.js?v=5d32c60e"></script>
       <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="./" id="documentation_options" src="static/documentation_options.js?v=b3ba4146"></script>
-      <script src="static/doctools.js?v=888ff710"></script>
-      <script src="static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="static/documentation_options.js?v=5929fcd5"></script>
+      <script src="static/doctools.js?v=fd6eb6e6"></script>
+      <script src="static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -111,10 +111,10 @@
            <div itemprop="articleBody">
              
   <section id="pycub-documentation">
-<h1>pyCub Documentation<a class="headerlink" href="#pycub-documentation" title="Permalink to this heading"></a></h1>
+<h1>pyCub Documentation<a class="headerlink" href="#pycub-documentation" title="Link to this heading"></a></h1>
 <p>pyCub is iCub humanoid robot simulator written in Python. It uses PyBullet for simulation and Open3D for visualization.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <ul>
 <li><p>Requires python3.10 to 3.12</p>
 <ul class="simple">
@@ -161,14 +161,22 @@
 </li>
 <li><p>Gitpod</p>
 <ul class="simple">
-<li><p>open <a class="reference external" href="https://gitpod.io/#github.com/rustlluk/pycub">https://gitpod.io/#github.com/rustlluk/pycub</a>
-and log in with GitHub account</p></li>
+<li><p>open <a class="reference external" href="https://app.gitpod.io/#https://github.com/rustlluk/pycub">https://app.gitpod.io/#https://github.com/rustlluk/pycub</a>
+and log in with GitHub account</p>
+<ul>
+<li><p>then open a port 6080 and in terminal run <code class="docutils literal notranslate"><span class="pre">start-vnc-session.sh</span></code> to start the VNC server</p>
+<ul>
+<li><p>if using VScode browser version, on top left click on three lines -&gt; Terminal -&gt; New Terminal</p></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
 </section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py">push_the_ball_pure_joints.py</a> contains an example that
 shows how to control the robot in joint space</p></li>
@@ -179,7 +187,7 @@ should turn green on the places where contact occurs. You may want to slow the s
 </ul>
 </section>
 <section id="information">
-<h2>Information<a class="headerlink" href="#information" title="Permalink to this heading"></a></h2>
+<h2>Information<a class="headerlink" href="#information" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>documentation can be found at <a class="reference external" href="https://lukasrustler.cz/pyCub/documentation">https://lukasrustler.cz/pyCub/documentation</a> or in <a class="reference external" href="https://lukasrustler.cz/pyCub/documentation/pycub.pdf">pycub.pdf</a></p></li>
 <li><p>presentation with description of functionality can be found at <a class="reference external" href="https://lukasrustler.cz/pyCub/documentation/pycub_presentation.pdf">pycub presentation</a></p></li>
@@ -196,7 +204,7 @@ should turn green on the places where contact occurs. You may want to slow the s
 </ul>
 </section>
 <section id="faq">
-<h2>FAQ<a class="headerlink" href="#faq" title="Permalink to this heading"></a></h2>
+<h2>FAQ<a class="headerlink" href="#faq" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p>You get some kind of error with the visualization, e.g., segmentation fault.</p>
 <ol class="arabic simple">
@@ -217,9 +225,9 @@ should turn green on the places where contact occurs. You may want to slow the s
 </ol>
 </section>
 <section id="docker">
-<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h2>
+<h2>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h2>
 <section id="native-version">
-<h3>Native Version<a class="headerlink" href="#native-version" title="Permalink to this heading"></a></h3>
+<h3>Native Version<a class="headerlink" href="#native-version" title="Link to this heading"></a></h3>
 <ul>
 <li><p>version with native GUI; useful when you have problems with OpenGL (e.g., usually some driver issues)</p></li>
 <li><p>only for GNU/Linux systems (Ubuntu, Mint, Arch, etc.)</p>
@@ -267,7 +275,7 @@ should turn green on the places where contact occurs. You may want to slow the s
 </ul>
 </section>
 <section id="vnc-version">
-<h3>VNC Version<a class="headerlink" href="#vnc-version" title="Permalink to this heading"></a></h3>
+<h3>VNC Version<a class="headerlink" href="#vnc-version" title="Link to this heading"></a></h3>
 <ul>
 <li><p>this version works also on Windows and MacOS because it uses VNC server to show the GUI, i.e., the output will be
 shown on <a class="reference external" href="http://localhost:6080">http://localhost:6080</a></p>
@@ -292,9 +300,9 @@ shown on <a class="reference external" href="http://localhost:6080">http://local
 </ul>
 </section>
 <section id="docker-pycharm">
-<h3>Docker + PyCharm<a class="headerlink" href="#docker-pycharm" title="Permalink to this heading"></a></h3>
+<h3>Docker + PyCharm<a class="headerlink" href="#docker-pycharm" title="Link to this heading"></a></h3>
 <section id="id6">
-<h4>Native Version:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<h4>Native Version:<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
 <p>You have two option:</p>
 <ol class="arabic simple">
 <li><p>Either run pycharm from docker</p></li>
@@ -317,7 +325,7 @@ shown on <a class="reference external" href="http://localhost:6080">http://local
 </section>
 </section>
 <section id="deploy-parameters">
-<h3>Deploy Parameters<a class="headerlink" href="#deploy-parameters" title="Permalink to this heading"></a></h3>
+<h3>Deploy Parameters<a class="headerlink" href="#deploy-parameters" title="Link to this heading"></a></h3>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code> to folder with Dockerfile</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">./deploy.py</span></code></p>
@@ -376,7 +384,7 @@ properly.</p>
 </ul>
 </section>
 <section id="docker-faq">
-<h3>Docker FAQ<a class="headerlink" href="#docker-faq" title="Permalink to this heading"></a></h3>
+<h3>Docker FAQ<a class="headerlink" href="#docker-faq" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>you get error of not being in sudo group when running image</strong></p>
 <ul>
@@ -401,7 +409,7 @@ by yourself and can not pull it</p>
 </section>
 </section>
 <section id="known-bugs">
-<h2>Known bugs<a class="headerlink" href="#known-bugs" title="Permalink to this heading"></a></h2>
+<h2>Known bugs<a class="headerlink" href="#known-bugs" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>visualization with skin dies after ~65k steps</p>
 <ul>
@@ -411,7 +419,7 @@ by yourself and can not pull it</p>
 </ul>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p>`
 .. image:: <a class="reference external" href="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg">https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg</a></p>
 <blockquote>
@@ -447,7 +455,7 @@ by yourself and can not pull it</p>
 </section>
 </section>
 <section id="exercises">
-<h1>Exercises<a class="headerlink" href="#exercises" title="Permalink to this heading"></a></h1>
+<h1>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="exercise_1.html">Push the Ball</a><ul>
@@ -484,7 +492,7 @@ by yourself and can not pull it</p>
 </div>
 </section>
 <section id="icub-pybullet">
-<h1>icub_pybullet<a class="headerlink" href="#icub-pybullet" title="Permalink to this heading"></a></h1>
+<h1>icub_pybullet<a class="headerlink" href="#icub-pybullet" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pycub.html">pyCub</a><ul>
@@ -598,7 +606,7 @@ by yourself and can not pull it</p>
 </div>
 </section>
 <section id="id7">
-<h1>Examples<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h1>
+<h1>Examples<a class="headerlink" href="#id7" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="push_the_ball_cartesian.html">push_the_ball_cartesian</a><ul>

@@ -3,7 +3,14 @@ Script to the test the skin sensors. Balls falling to the skin and turning activ
 
 :Author: Lukas Rustler
 """
-from icub_pybullet.pycub import pyCub
+
+import os
+import sys
+try:
+    from icub_pybullet.pycub import pyCub
+except:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    from icub_pybullet.pycub import pyCub
 from typing import NoReturn
 
 
