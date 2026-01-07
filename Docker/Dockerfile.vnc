@@ -101,7 +101,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
               make -j$(nproc); \
        make install-pip-package -j$(nproc); \
        python3 -m pip install "numpy<2" --break-system-packages --no-cache-dir; \
-       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir .; \
+       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && sed -i 's/name += "-xpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir .; \
     fi
 
 RUN cd /home/$USERNAME && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
