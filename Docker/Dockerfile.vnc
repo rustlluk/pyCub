@@ -87,7 +87,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
        python3-dev libssl-dev libc++-dev libc++abi-dev libsdl2-dev libxi-dev libtbb-dev libosmesa6-dev libudev-dev  \
        autoconf libtool python-is-python3 ninja-build libcurl4-openssl-dev; \
        git clone --recursive https://github.com/isl-org/Open3D; \
-       cd Open3D && mkdir build && cd build && cmake .. \
+       cd Open3D && mkdir build && cd build && cmake -DCMAKE_CXX_FLAGS="-UM_PIf" .. \
               -DBUILD_SHARED_LIBS=ON \
               -DCMAKE_BUILD_TYPE=Release \
               -DBUILD_GUI=ON \

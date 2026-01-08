@@ -6,7 +6,7 @@ LABEL maintainer "Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETPLATFORM
-ENV CXXFLAGS="$CXXFLAGS -UM_PIf"
+
 #Install all neccesary thingies
 RUN apt update -y && apt install software-properties-common -y && add-apt-repository ppa:deadsnakes/ppa -y  \
     && apt update && apt install wget sudo gedit unzip apt-utils curl \
@@ -66,7 +66,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
        python3-dev libssl-dev libc++-dev libc++abi-dev libsdl2-dev libxi-dev libtbb-dev libosmesa6-dev libudev-dev  \
        autoconf libtool python-is-python3 ninja-build libcurl4-openssl-dev; \
        git clone --recursive https://github.com/isl-org/Open3D; \
-       cd Open3D && mkdir build && cd build && cmake .. \
+       cd Open3D && mkdir build && cd build && cmake -DCMAKE_CXX_FLAGS="-UM_PIf" .. \
               -DBUILD_SHARED_LIBS=ON \
               -DCMAKE_BUILD_TYPE=Release \
               -DBUILD_GUI=ON \
