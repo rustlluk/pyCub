@@ -6,53 +6,66 @@ on:
 
 jobs:
   build-and-push:
-    name: Build ${{ matrix.name }}
-    runs-on: ubuntu-latest
+    name: Build ${{ matrix.name }} (${{ matrix.arch }})
+    # Logic to switch between x64 and ARM64 runners
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          # Configuration for Gitpod Image
+          # 1. Gitpod - amd64 only
           - name: Gitpod
             file: ./Docker/Dockerfile.vnc
             tags: rustlluk/pycub:gitpod
+            arch: amd64
             platforms: linux/amd64
-            # This is the only one needing build-args
             build_args: |
               USERNAME=gitpod
 
-          # Configuration for VNC Image
+          # 2. VNC - amd64
           - name: VNC
             file: ./Docker/Dockerfile.vnc
-            tags: rustlluk/pycub:vnc
-            platforms: linux/amd64,linux/arm64
+            tags: rustlluk/pycub:vnc-amd64
+            arch: amd64
+            platforms: linux/amd64
             build_args: ""
 
-          # Configuration for Standard Image
+          # 3. VNC - arm64 (Native)
+          - name: VNC
+            file: ./Docker/Dockerfile.vnc
+            tags: rustlluk/pycub:vnc-arm64
+            arch: arm64
+            platforms: linux/arm64
+            build_args: ""
+
+          # 4. Standard - amd64
           - name: Standard
             file: ./Docker/Dockerfile
-            tags: rustlluk/pycub:latest
-            platforms: linux/amd64,linux/arm64
+            tags: rustlluk/pycub:amd64
+            arch: amd64
+            platforms: linux/amd64
+            build_args: ""
+
+          # 5. Standard - arm64 (Native)
+          - name: Standard
+            file: ./Docker/Dockerfile
+            tags: rustlluk/pycub:arm64
+            arch: arm64
+            platforms: linux/arm64
             build_args: ""
 
     steps:
-      # 1. maximize disk space (Just in case, especially for ARM64 builds)
-      - name: Free Disk Space (Ubuntu)
+      - name: Free Disk Space
         uses: jlumbroso/free-disk-space@main
         with:
           tool-cache: false
           android: true
           dotnet: true
           haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
 
       - uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
+      # QEMU is removed because we are running on native hardware
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
