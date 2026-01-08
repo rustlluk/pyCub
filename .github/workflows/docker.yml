@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-push:
     name: Build ${{ matrix.name }} (${{ matrix.arch }})
-    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-22.04-arm' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -30,7 +30,7 @@ jobs:
             file: ./Docker/Dockerfile.vnc
             tag: rustlluk/pycub:vnc
             arch: arm64
-            build_args: ""
+            build_args: "BASE_IMAGE=ubuntu:22.04"
 
           # 3. Standard
           - name: Standard
@@ -42,7 +42,7 @@ jobs:
             file: ./Docker/Dockerfile
             tag: rustlluk/pycub:latest
             arch: arm64
-            build_args: ""
+            build_args: "BASE_IMAGE=ubuntu:22.04"
 
     steps:
       - name: Checkout Code
