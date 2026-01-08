@@ -6,7 +6,7 @@ LABEL maintainer "Lukas Rustler <lukas.rustler@fel.cvut.cz>"
 # Non-interactive installation mode
 ENV DEBIAN_FRONTEND=noninteractive
 ARG TARGETPLATFORM
-
+ENV CXXFLAGS="$CXXFLAGS -UM_PIf"
 #Install all neccesary thingies
 RUN apt update -y && apt install software-properties-common -y && add-apt-repository ppa:deadsnakes/ppa -y  \
     && apt update && apt install wget sudo gedit unzip apt-utils curl \
