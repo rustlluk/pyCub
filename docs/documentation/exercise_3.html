@@ -1,21 +1,21 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gaze control &mdash; pyCub  documentation</title>
       <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
 
   
       <script src="static/jquery.js?v=5d32c60e"></script>
       <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="./" id="documentation_options" src="static/documentation_options.js?v=b3ba4146"></script>
-      <script src="static/doctools.js?v=888ff710"></script>
-      <script src="static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="static/documentation_options.js?v=5929fcd5"></script>
+      <script src="static/doctools.js?v=fd6eb6e6"></script>
+      <script src="static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -88,13 +88,14 @@
            <div itemprop="articleBody">
              
   <section id="gaze-control">
-<h1>Gaze control<a class="headerlink" href="#gaze-control" title="Permalink to this heading"></a></h1>
+<h1>Gaze control<a class="headerlink" href="#gaze-control" title="Link to this heading"></a></h1>
 <p>The goal of this task is to implement gaze controller for the iCub robot that is able to follow a ball moving on a table.<span class="raw-html-m2r"><br></span>
 The task is simplified to 2D case, i.e., the ball can move in <em>x</em> and <em>y</em>. The user is given the vector from
 the head to a ball (the where the robot should look) and the vector where the robot is looking right now.</p>
-<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif"><img alt="Gaze" src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif" /></a>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif"><img alt="Gaze" src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif" />
+</a>
 <section id="task">
-<h2>Task<a class="headerlink" href="#task" title="Permalink to this heading"></a></h2>
+<h2>Task<a class="headerlink" href="#task" title="Link to this heading"></a></h2>
 <p>Implement gaze() function in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3.py">exercise_3.py</a>
 that will control the gaze of the robot to follow the ball.</p>
 <ul class="simple">
@@ -115,7 +116,7 @@ where the robot should be looking</p></li>
 </ul>
 </section>
 <section id="scoring">
-<h2>Scoring<a class="headerlink" href="#scoring" title="Permalink to this heading"></a></h2>
+<h2>Scoring<a class="headerlink" href="#scoring" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>the ball will be moving for 10 (default) seconds and each step the error in degrees will be calculated</p></li>
 <li><p>maximum number of points is 10 (default; 10 runs of the code) and you can <strong>lose</strong> points for individual runs based on the following:</p>
@@ -142,7 +143,7 @@ where the robot should be looking</p></li>
 </ul>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <p><strong>Those apply mainly for</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3_tester.py">exercise_3_tester.py</a> <strong>to work correctly</strong>:</p>
 <ul class="simple">
 <li><p>do not create new client instance, use the one that is passed as an argument</p></li>

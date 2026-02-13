@@ -1,21 +1,21 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Push the Ball &mdash; pyCub  documentation</title>
       <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
 
   
       <script src="static/jquery.js?v=5d32c60e"></script>
       <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="./" id="documentation_options" src="static/documentation_options.js?v=b3ba4146"></script>
-      <script src="static/doctools.js?v=888ff710"></script>
-      <script src="static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="static/documentation_options.js?v=5929fcd5"></script>
+      <script src="static/doctools.js?v=fd6eb6e6"></script>
+      <script src="static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -88,14 +88,15 @@
            <div itemprop="articleBody">
              
   <section id="push-the-ball">
-<h1>Push the Ball<a class="headerlink" href="#push-the-ball" title="Permalink to this heading"></a></h1>
+<h1>Push the Ball<a class="headerlink" href="#push-the-ball" title="Link to this heading"></a></h1>
 <p>The goal is to hit the ball to push it as far as possible from <strong>any part</strong> of the table.
 The ball will always spawn at the same place. The robot can be moved with position or cartesian control.
 The trajectories should be collision free and max allowed velocity is 10 (rad/s).</p>
 <p>The resulting distance is checked after 2 seconds.</p>
-<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_1/exercise_1.gif"><img alt="Push the Ball!" src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_1/exercise_1.gif" /></a>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_1/exercise_1.gif"><img alt="Push the Ball!" src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_1/exercise_1.gif" />
+</a>
 <section id="task">
-<h2>Task<a class="headerlink" href="#task" title="Permalink to this heading"></a></h2>
+<h2>Task<a class="headerlink" href="#task" title="Link to this heading"></a></h2>
 <p>Implement <code class="docutils literal notranslate"><span class="pre">push_the_ball</span></code> function in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1.py">exercise_1.py</a> that will push the ball as far as possible from the table.</p>
 <ul class="simple">
 <li><p>the function takes one argument:</p>
@@ -110,7 +111,7 @@ The trajectories should be collision free and max allowed velocity is 10 (rad/s)
 </ul>
 </section>
 <section id="scoring">
-<h2>Scoring<a class="headerlink" href="#scoring" title="Permalink to this heading"></a></h2>
+<h2>Scoring<a class="headerlink" href="#scoring" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>points for distance are computed as: min(3, distance*2)</p>
 <ul>
@@ -120,7 +121,7 @@ The trajectories should be collision free and max allowed velocity is 10 (rad/s)
 </ul>
 </section>
 <section id="requirements">
-<h2>Requirements:<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<h2>Requirements:<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <p><strong>Those apply mainly for</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1_tester.py">exercise_1_tester.py</a> <strong>to work correctly</strong>:</p>
 <ul class="simple">
 <li><p>do not create new client instance, use the one that is passed as an argument</p></li>

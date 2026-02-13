@@ -1,21 +1,21 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resolved-Rate Motion Control &mdash; pyCub  documentation</title>
       <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
 
   
       <script src="static/jquery.js?v=5d32c60e"></script>
       <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="./" id="documentation_options" src="static/documentation_options.js?v=b3ba4146"></script>
-      <script src="static/doctools.js?v=888ff710"></script>
-      <script src="static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="static/documentation_options.js?v=5929fcd5"></script>
+      <script src="static/doctools.js?v=fd6eb6e6"></script>
+      <script src="static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -88,7 +88,7 @@
            <div itemprop="articleBody">
              
   <section id="resolved-rate-motion-control">
-<h1>Resolved-Rate Motion Control<a class="headerlink" href="#resolved-rate-motion-control" title="Permalink to this heading"></a></h1>
+<h1>Resolved-Rate Motion Control<a class="headerlink" href="#resolved-rate-motion-control" title="Link to this heading"></a></h1>
 <p>The goal of this task is to implement a Resolved-Rate Motion Control (RRMC) controller that moves the limbs away
 from collision using feedback from the artificial skin. There will be ball falling on the robot and you should move
 the correct body part away from it, i.e., move it against the normal of the contact.</p>
@@ -102,7 +102,7 @@ the correct body part away from it, i.e., move it against the normal of the cont
        <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_3.gif" alt="Leg and two arms"></td>
      </tr>
 </table><section id="task">
-<h2>Task<a class="headerlink" href="#task" title="Permalink to this heading"></a></h2>
+<h2>Task<a class="headerlink" href="#task" title="Link to this heading"></a></h2>
 <p>Implement process() function in <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4.py">exercise_4.py</a>
 that will control the robot using RRMC. This time, the function is a method of a class. The reason is the option
 to store you own variables in the class.</p>
@@ -122,13 +122,13 @@ you should find the biggest cluster of activated taxels (skin points) on each sk
 will run all four tests in sequence from the easier one. You need to manually close the visualization window after each test.</p>
 </section>
 <section id="scoring">
-<h2>Scoring<a class="headerlink" href="#scoring" title="Permalink to this heading"></a></h2>
+<h2>Scoring<a class="headerlink" href="#scoring" title="Link to this heading"></a></h2>
 <p>There is no automatic evaluation for this task. But basically the task will be correctly fulfilled if the robot moves
 away from the ball. You can consult the video on top of this README to see possible outcomes. However, keep in mind
 that those are not the only correct solutions as the movements depends on the parameters selected in RRMC.</p>
 </section>
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <p><strong>Those apply mainly for</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4_tester.py">exercise_4_tester.py</a> <strong>to work correctly</strong>:</p>
 <ul class="simple">
 <li><p>do not create new client instance, use the one that is passed as an argument to the RRMC class</p></li>

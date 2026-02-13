@@ -60,7 +60,10 @@ RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
 
 USER docker
 WORKDIR /home/docker
+
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
+      python3 python3 -m pip install --break-system-packages --no-cache-dir setuptools; \
+       sudo apt-get install python3-setuptools -y; \
        sudo apt update && sudo apt-get install -y nano build-essential cmake git libgl1-mesa-dev libsdl2-dev python3-dev python3-pip libxi-dev  \
        libxmu-dev libc++-dev libc++abi-dev clang gfortran libglu1-mesa-dev git xorg-dev libxcb-shm0 libglu1-mesa-dev  \
        python3-dev libssl-dev libc++-dev libc++abi-dev libsdl2-dev libxi-dev libtbb-dev libosmesa6-dev libudev-dev  \
@@ -80,7 +83,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
        make -j$(nproc); \
        make install-pip-package -j$(nproc); \
        python3 -m pip install "numpy<2" --break-system-packages --no-cache-dir; \
-       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && sed -i 's/name += "-xpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir .; \
+       cd lib/python_package && sed -i 's/name += "-cpu"/pass/g' setup.py && sed -i 's/name += "-xpu"/pass/g' setup.py && python3 -m pip install --break-system-packages --no-cache-dir --no-build-isolation .; \
     fi
 
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
