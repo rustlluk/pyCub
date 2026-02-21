@@ -18,7 +18,7 @@ except:
 
 setup(
     name=app_name,
-    version="1.3.0",
+    version="1.3.1",
     description="pyCub - iCub in PyBullet",
     package_dir={"icub_pybullet": "."},
     package_data={app_name: ["iCub/**/**", "other_meshes/**/**", "configs/**/**", "logs/**/**"]},
