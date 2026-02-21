@@ -47,7 +47,7 @@ class Visualizer:
         # Init GUI, windows, etc.
         self.gui = gui.Application.instance
         self.gui.initialize()
-        self.window = self.gui.create_window("pyCub", 640, 480, 0, 0)
+        self.window = self.gui.create_window("pyCub", 640, 480)
 
         self.gui.menubar = gui.Menu()
         self.menu = self.gui.menubar
@@ -482,8 +482,7 @@ class Visualizer:
             self.link_name = self.eye + "_pupil"
             self.parent = parent
 
-            self.window = self.parent.gui.create_window(self.eye, 320, 240,
-                                                        self.POSITIONS[self.eye][0], self.POSITIONS[self.eye][1])
+            self.window = self.parent.gui.create_window(self.eye, 320, 240)
             self.window.set_on_close(self.on_close)
 
             self.scene = gui.SceneWidget()
