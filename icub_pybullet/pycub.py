@@ -23,6 +23,11 @@ import inspect
 import psutil
 import atexit
 import roboticstoolbox as rtb
+try:
+    from roboticstoolbox.models.URDF.URDFRobot import URDFRobot
+    URDFROBOT = True
+except:
+    URDFROBOT = False
 from typing import Tuple, Optional, List
 import open3d.core as o3c
 
@@ -224,10 +229,13 @@ class pyCub(BulletClient):
         if self.gui:
             self.visualizer = Visualizer(self)
             self.last_render = time.time()
-
-        rtb_links, rtb_name, rtb_urdf_string, rtb_urdf_file_path = rtb.robot.Robot.URDF_read(self.urdf_path)
-        self.rtb_robot = rtb.robot.Robot(rtb_links, name=rtb_name.upper(), manufacturer="IIT",
-                                         urdf_string=rtb_urdf_string, urdf_filepath=rtb_urdf_file_path,)
+        if not URDFROBOT:
+            rtb_links, rtb_name, rtb_urdf_string, rtb_urdf_file_path = rtb.robot.Robot.URDF_read(self.urdf_path)
+            self.rtb_robot = rtb.robot.Robot(rtb_links, name=rtb_name.upper(), manufacturer="IIT",
+                                            urdf_string=rtb_urdf_string, urdf_filepath=rtb_urdf_file_path,)
+        else:
+            self.rtb_robot = URDFRobot(self.urdf_path, manufacturer="IIT")
+            self.rtb_robot.name = self.rtb_robot.name.upper()
 
         self.chains, self.chains_joints = self.get_chains()
 
@@ -494,7 +502,7 @@ class pyCub(BulletClient):
             if self.log_pose:
                 self.pose_logger.append(self.end_effector.get_position())
 
-        if self.gui and cur_time-self.last_render > 0.01 and self.visualizer.is_alive:
+        if self.gui and cur_time-self.last_render > 0.033 and self.visualizer.is_alive:
             self.visualizer.render()
             self.last_render = cur_time
 

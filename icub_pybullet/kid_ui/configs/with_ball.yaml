@@ -1,0 +1,66 @@
+vhacd: # global vhacd
+  use_vhacd: True # whether to use VHACD for collision detection
+                    # default: True
+                    # True, False
+  force_vhacd: False # whether to force creation of VHACD meshes if they are already exists
+                     # default: False
+                     # False, True
+  force_vhacd_urdf: True # whether to force creation of URDF with paths changed to VHACD meshes if it are already exists
+                         # default: True
+                         # False, True
+robot_urdf_path: "iCub/full.urdf" # path to Robot URDF file relative to pycub.py
+                                     # default: "iCub/full.urdf"
+                                     # str
+gui: # GUI settings
+  standard: True # standard (and better) visualization using standalone window with openGL
+  web: False # fallback web visualizer (the same, but slower and running in your browser)
+tolerance: # goal tolerance for each joint
+  joint: 1e-3 # circa 2 degrees
+end_effector: "r_hand" # end effector name
+                       # default: "l_hand"
+                       # str
+initial_joint_angles: {"r_shoulder_pitch": -34, "r_shoulder_roll": 30,
+                        "r_shoulder_yaw": 0, "r_elbow": 50, "r_wrist_prosup": 0,
+                        "r_wrist_pitch": 0, "r_wrist_yaw": 0, "l_shoulder_pitch": -34,
+                        "l_shoulder_roll": 30, "l_shoulder_yaw": 0, "l_elbow": 50,
+                        "l_wrist_prosup": 0, "l_wrist_pitch": 0, "l_wrist_yaw": 0}
+urdfs: # other than robot urdfs or .obj files
+  paths: [plane/plane.obj, ball/ball.obj, table/table.obj] # path to files relative "other_meshes" directory
+  positions: [[-5, -5, -0.65], [-0.35, 0, -0.1], [-0.6, -0.4, -0.225]] # position of the mesh/urdf base link in the world frame
+  fixed: [True, False, True] # whether the mesh/urdf can move in space
+  color: [[0.75, 0.75, 0.75], [1, 0, 0], [0.825, 0.41, 0.12]] # color on RGB format (0-1)
+skin: # skin settings
+  use: False # whether to show and simulate skin
+              # default: False
+              # True, False
+  radius: 0.01 # how far are the rays casted from the surface of the robot
+               # default: 0.01
+               # float
+  num_cores: 0 # how many cores is used for ray casting
+               # default: 0 - means all free cores!
+               # int
+  skin_parts: []
+collision_tolerance: 0.001
+debug: True
+log: # log settings
+  log: False # whether to log data
+            # default: True
+            # True, False
+  period: 0.01 # period of logging
+            # default: 0.01
+            # float; 0 for logging as fast as every simulation step
+            # it will never log faster than the simulation step
+simulation_step: 240   # during each simulation step, the simulation time will advance for 1/simulation_step seconds
+                       # default: 240 (the default bullet simulation step)
+                       # float
+                       # the higher, the more precise simulation, but slower simulation
+                       # values lower than 200 will most probably break the simulation
+self_collisions: True # Whether to detect self collisions of the links of the robot
+                       # default: True
+                       # True, False
+eyes: # Whether to show output from eye
+      # default: False
+      # True, False
+  l_eye: False
+  r_eye: False
+log_pose: False # Whether to log pose into variable of client
