@@ -418,9 +418,9 @@ PAGE = """<!doctype html>
     .jog button { font-size: 0.85em; padding: 7px 3px; }
   }
   @media (orientation: landscape) and (max-height: 600px) {
-    body { padding: 6px; height: 100vh; height: 100dvh; overflow: hidden; }
-    #layout { height: 100%; gap: 8px; align-items: stretch; }
-    #left { position: static; flex: 0 0 46%; max-width: 46%; height: 100%; max-height: none;
+    body { padding: 6px; }
+    #layout { gap: 8px; align-items: flex-start; }
+    #left { position: sticky; top: 6px; flex: 0 0 46%; max-width: 46%; height: calc(100vh - 12px); height: calc(100dvh - 12px); max-height: none;
             display: flex; flex-direction: column; gap: 6px; overflow-y: auto; overflow-x: hidden; padding: 1px 2px 3px; }
     #left section { margin: 0; }
     #view { flex: 1 1 0; min-height: 140px; padding: 4px; display: flex; align-items: center; justify-content: center; }
@@ -429,7 +429,7 @@ PAGE = """<!doctype html>
     #left .row { gap: 5px; }
     #left .row + .row { margin-top: 6px; }
     #left button { font-size: 0.78em; padding: 5px 5px; flex: 1 1 70px; }
-    #right { flex: 1 1 0; min-width: 0; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 1px 4px 3px 2px; }
+    #right { flex: 1 1 0; min-width: 0; padding: 1px 2px 3px; }
     #heading h1 { font-size: 1.05em; }
     #language { padding: 4px 8px; font-size: 0.78em; }
     #status { font-size: 0.85em; margin: 1px 0 4px; min-height: 1.1em; }
