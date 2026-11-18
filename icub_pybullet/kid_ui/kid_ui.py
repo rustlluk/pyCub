@@ -408,16 +408,21 @@ PAGE = """<!doctype html>
                 border-radius: 10px;
                 touch-action: none; }
   @media (max-width: 900px) and (orientation: portrait), (max-width: 560px) {
-    #layout { flex-direction: column; }
-    #left { position: static; flex-basis: auto; width: 100%; max-height: none; }
-    #view video { max-height: 50vh; max-height: 50dvh; }
+    body { padding-top: 0; }
+    #layout { flex-direction: column; gap: 6px; }
+    #left { position: sticky; top: 0; z-index: 10; flex-basis: auto; width: 100%; max-height: none;
+            overflow: visible; background: #eef6ff; padding: 8px 0 6px; }
+    #left section { margin: 0 0 6px; padding: 6px 8px; }
+    #left section:last-child { margin-bottom: 0; }
+    #left button { font-size: 0.85em; padding: 6px; flex: 1 1 85px; }
+    #view video { max-height: 36vh; max-height: 36dvh; }
   }
   @media (max-width: 450px) {
-    body { padding: 6px; }
+    body { padding: 0 6px 6px; }
     .jog .name { flex: 0 0 84px; font-size: 0.8em; }
     .jog button { font-size: 0.85em; padding: 7px 3px; }
   }
-  @media (orientation: landscape) and (max-height: 600px) {
+  @media (orientation: landscape) and (max-height: 600px) and (min-width: 561px) {
     body { padding: 6px; }
     #layout { gap: 8px; align-items: flex-start; }
     #left { position: sticky; top: 6px; flex: 0 0 46%; max-width: 46%; height: calc(100vh - 12px); height: calc(100dvh - 12px); max-height: none;
