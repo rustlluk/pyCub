@@ -633,11 +633,19 @@ async function connectView(run, port) {
 const CLIENT_ID = (window.crypto && crypto.randomUUID)
   ? crypto.randomUUID()
   : Math.random().toString(36).slice(2) + Date.now().toString(36);
+let reservationId = new URLSearchParams(location.search).get("res");
+if (reservationId && window.history && history.replaceState) {
+  history.replaceState(null, "", location.pathname);
+}
 window.addEventListener("pagehide", () => {
   if (navigator.sendBeacon) navigator.sendBeacon("/api/leave?client=" + encodeURIComponent(CLIENT_ID));
 });
 async function refresh() {
-  const st = await (await fetch("/api/status?client=" + encodeURIComponent(CLIENT_ID))).json();
+  let statusUrl = "/api/status?client=" + encodeURIComponent(CLIENT_ID);
+  if (reservationId) statusUrl += "&res=" + encodeURIComponent(reservationId);
+  const resp = await fetch(statusUrl);
+  const st = await resp.json();
+  if (resp.ok) reservationId = null;
   document.getElementById("status").textContent = TEXT[language][st.state] || st.state;
   const ballEl = document.getElementById("ball");
   ballEl.style.display = st.ball ? "block" : "none";
@@ -660,6 +668,7 @@ build(); applyLanguage(); setInterval(refresh, 700);
 """
 
 CLIENT_TIMEOUT = 5.0
+RESERVATION_CLAIM_TTL = 30.0
 
 
 def create_app(sim: Simulation, embed: bool) -> Flask:
@@ -668,17 +677,23 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
     config = {"worlds": [[k, v[0]] for k, v in WORLDS.items()], "sections": SECTIONS,
               "embed": embed}
     clients: Dict[str, float] = {}
+    claimed_reservations: Dict[str, float] = {}
     clients_lock = threading.Lock()
 
-    def count_users(client_id: Optional[str] = None) -> int:
+    def count_users(client_id: Optional[str] = None, res_id: Optional[str] = None) -> tuple:
         now = time.monotonic()
         with clients_lock:
             if client_id:
                 clients[client_id] = now
-            expired = [cid for cid, seen in clients.items() if now - seen > CLIENT_TIMEOUT]
-            for cid in expired:
+            if res_id:
+                claimed_reservations[res_id] = now
+            expired_clients = [cid for cid, seen in clients.items() if now - seen > CLIENT_TIMEOUT]
+            for cid in expired_clients:
                 del clients[cid]
-            return len(clients)
+            expired_res = [rid for rid, seen in claimed_reservations.items() if now - seen > RESERVATION_CLAIM_TTL]
+            for rid in expired_res:
+                del claimed_reservations[rid]
+            return len(clients), list(claimed_reservations)
 
     @app.get("/")
     def index():
@@ -686,8 +701,8 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
 
     @app.get("/api/status")
     def status():
-        users = count_users(request.args.get("client"))
-        return jsonify(dict(sim.get_state(), users=users))
+        users, claimed = count_users(request.args.get("client"), request.args.get("res"))
+        return jsonify(dict(sim.get_state(), users=users, claimed_reservations=claimed))
 
     @app.post("/api/leave")
     def leave():

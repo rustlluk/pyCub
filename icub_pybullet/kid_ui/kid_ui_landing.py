@@ -19,8 +19,10 @@ import os
 import subprocess
 import sys
 import threading
+import time
 import urllib.error
 import urllib.request
+import uuid
 import webbrowser
 from typing import Dict, List, Optional
 
@@ -39,6 +41,7 @@ STATE_PRIORITY = {
     "stopped": 3,
     "closed": 4,
 }
+RESERVATION_TTL = 5.0
 
 
 def fetch_instance_status(instance_id: int, port: int, multi_alive: bool) -> Dict:
@@ -54,6 +57,7 @@ def fetch_instance_status(instance_id: int, port: int, multi_alive: bool) -> Dic
             "state": data.get("state", "stopped"),
             "users": int(data.get("users", 0)),
             "world": data.get("world"),
+            "claimed_reservations": data.get("claimed_reservations") or [],
         }
     except (urllib.error.URLError, TimeoutError, ValueError, OSError):
         return {
@@ -63,11 +67,12 @@ def fetch_instance_status(instance_id: int, port: int, multi_alive: bool) -> Dic
             "state": "starting" if multi_alive else "offline",
             "users": 0,
             "world": None,
+            "claimed_reservations": [],
         }
 
 
 def choose_best_instance(instances: List[Dict]) -> Optional[Dict]:
-    """Select the best online instance (fewest connected users, preferring ready over busy)."""
+    """Select the best online instance (fewest connected+reserved users, preferring ready over busy)."""
     active = [inst for inst in instances if inst.get("online") and inst.get("state") in ("ready", "busy")]
     candidates = active or [inst for inst in instances if inst.get("online")]
     if not candidates:
@@ -75,7 +80,7 @@ def choose_best_instance(instances: List[Dict]) -> Optional[Dict]:
     return min(
         candidates,
         key=lambda inst: (
-            inst.get("users", 0),
+            inst.get("effective_users", inst.get("users", 0)),
             STATE_PRIORITY.get(inst.get("state", ""), 99),
             inst.get("id", 0),
         ),
@@ -159,6 +164,7 @@ const TEXT = {
     usersLabel: "👥 Připojení uživatelé:",
     stateLabel: "Stav:",
     connectBtn: "🔗 Připojit",
+    connectingSuffix: "připojování",
     usersCount: n => n === 1 ? "1 uživatel" : (n >= 2 && n <= 4 ? n + " uživatelé" : n + " uživatelů"),
     states: {
       ready: "✅ Připraveno",
@@ -185,6 +191,7 @@ const TEXT = {
     usersLabel: "👥 Connected users:",
     stateLabel: "Status:",
     connectBtn: "🔗 Connect",
+    connectingSuffix: "connecting",
     usersCount: n => n === 1 ? "1 user" : n + " users",
     states: {
       ready: "✅ Ready",
@@ -215,9 +222,10 @@ function toggleLanguage() {
   applyLanguage();
 }
 
-function targetUrl(inst) {
+function targetUrl(inst, resId) {
   const host = (location.hostname && location.hostname !== "0.0.0.0") ? location.hostname : inst.ip;
-  return location.protocol + "//" + host + ":" + inst.port;
+  const base = location.protocol + "//" + host + ":" + inst.port;
+  return resId ? base + "/?res=" + encodeURIComponent(resId) : base;
 }
 
 function displayAddress(inst) {
@@ -228,21 +236,32 @@ function displayAddress(inst) {
   return addrs.map(ip => ip + ":" + inst.port).join(" / ");
 }
 
-function connectTo(inst) {
-  window.location.href = targetUrl(inst);
-}
-
-async function autoConnect() {
+async function reserveAndGo(payload, fallbackInst) {
   try {
-    const data = await (await fetch("/api/instances")).json();
-    if (data.best) {
-      connectTo(data.best);
-      return;
+    const resp = await fetch("/api/reserve", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload || {})
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.instance) {
+        window.location.href = targetUrl(data.instance, data.res);
+        return;
+      }
     }
   } catch (e) {}
-  if (latestData && latestData.best) {
-    connectTo(latestData.best);
+  if (fallbackInst) {
+    window.location.href = targetUrl(fallbackInst);
   }
+}
+
+function connectTo(inst) {
+  reserveAndGo({id: inst.id}, inst);
+}
+
+function autoConnect() {
+  reserveAndGo({}, latestData && latestData.best);
 }
 
 function render(data) {
@@ -252,8 +271,9 @@ function render(data) {
 
   if (data.best) {
     autoBtn.disabled = false;
+    const count = data.best.effective_users ?? data.best.users;
     autoHint.textContent = t.autoBest + " " + t.instanceName + " " + data.best.id +
-      " (" + displayAddress(data.best) + " – " + t.usersCount(data.best.users) + ")";
+      " (" + displayAddress(data.best) + " – " + t.usersCount(count) + ")";
   } else {
     autoBtn.disabled = true;
     autoHint.textContent = t.autoWaiting;
@@ -263,6 +283,8 @@ function render(data) {
   box.innerHTML = "";
   for (const inst of data.instances) {
     const isBest = data.best && data.best.id === inst.id;
+    const effective = inst.effective_users ?? inst.users;
+    const pending = inst.pending || 0;
     const card = document.createElement("div");
     card.className = "card" + (isBest ? " best" : "") + (!inst.online ? " offline" : "");
 
@@ -290,8 +312,8 @@ function render(data) {
     const usersLabel = document.createElement("span");
     usersLabel.textContent = t.usersLabel;
     const usersPill = document.createElement("span");
-    usersPill.className = "users-pill " + (inst.users === 0 ? "free" : "occupied");
-    usersPill.textContent = String(inst.users);
+    usersPill.className = "users-pill " + (effective === 0 ? "free" : "occupied");
+    usersPill.textContent = pending > 0 ? (inst.users + " (+" + pending + " " + t.connectingSuffix + ")") : String(inst.users);
     usersRow.appendChild(usersLabel);
     usersRow.appendChild(usersPill);
     card.appendChild(usersRow);
@@ -334,6 +356,8 @@ setInterval(refresh, 1000);
 def create_landing_app(web_ports: List[int], multi_proc: Optional[subprocess.Popen] = None) -> Flask:
     app = Flask(__name__)
     executor = ThreadPoolExecutor(max_workers=max(1, len(web_ports)))
+    reservations: Dict[int, Dict[str, float]] = {port: {} for port in web_ports}
+    reservation_lock = threading.Lock()
 
     def resolve_addresses() -> tuple:
         addresses = local_addresses()
@@ -346,22 +370,48 @@ def create_landing_app(web_ports: List[int], multi_proc: Optional[subprocess.Pop
             primary_ip = "127.0.0.1"
         return primary_ip, (addresses or [primary_ip])
 
-    def query_all() -> dict:
+    def _query_all_unlocked() -> dict:
         multi_alive = multi_proc is None or (multi_proc.poll() is None)
         primary_ip, all_addresses = resolve_addresses()
         futures = [
             executor.submit(fetch_instance_status, i, port, multi_alive)
             for i, port in enumerate(web_ports, 1)
         ]
+        now = time.monotonic()
         instances = []
         for fut in futures:
             info = fut.result()
+            port = info["port"]
+            claimed = set(info.pop("claimed_reservations", []))
+            port_res = reservations[port]
+            for rid in [r for r, exp in port_res.items() if exp <= now or r in claimed]:
+                del port_res[rid]
+            pending = len(port_res)
+            info["pending"] = pending
+            info["effective_users"] = info["users"] + pending
             info["ip"] = primary_ip
             info["addresses"] = all_addresses
-            info["url"] = f"http://{primary_ip}:{info['port']}"
+            info["url"] = f"http://{primary_ip}:{port}"
             instances.append(info)
         best = choose_best_instance(instances)
         return {"instances": instances, "best": best}
+
+    def query_all() -> dict:
+        with reservation_lock:
+            return _query_all_unlocked()
+
+    def reserve_instance(instance_id: Optional[int] = None) -> tuple:
+        with reservation_lock:
+            data = _query_all_unlocked()
+            if instance_id is not None:
+                target = next((inst for inst in data["instances"] if inst["id"] == instance_id and inst["online"]), None)
+            else:
+                target = data["best"]
+            if not target:
+                return None, None
+            res_id = uuid.uuid4().hex
+            reservations[target["port"]][res_id] = time.monotonic() + RESERVATION_TTL
+            return target, res_id
 
     @app.get("/")
     def index():
@@ -371,15 +421,28 @@ def create_landing_app(web_ports: List[int], multi_proc: Optional[subprocess.Pop
     def instances():
         return jsonify(query_all())
 
+    @app.post("/api/reserve")
+    def reserve():
+        body = request.get_json(silent=True) or {}
+        instance_id = body.get("id")
+        if instance_id is not None:
+            try:
+                instance_id = int(instance_id)
+            except (TypeError, ValueError):
+                return jsonify(error="invalid instance id"), 400
+        target, res_id = reserve_instance(instance_id)
+        if not target:
+            return jsonify(error="no available instance"), 503
+        return jsonify(ok=True, instance=target, res=res_id)
+
     @app.get("/auto")
     def auto_redirect():
-        data = query_all()
-        best = data["best"]
-        if not best:
+        target, res_id = reserve_instance()
+        if not target:
             return redirect("/")
         req_host = (request.host or "").split(":")[0]
-        target_host = req_host if req_host and req_host != "0.0.0.0" else best["ip"]
-        return redirect(f"http://{target_host}:{best['port']}")
+        target_host = req_host if req_host and req_host != "0.0.0.0" else target["ip"]
+        return redirect(f"http://{target_host}:{target['port']}/?res={res_id}")
 
     return app
 
