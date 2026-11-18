@@ -374,12 +374,12 @@ PAGE = """<!doctype html>
 <style>
   * { box-sizing: border-box; }
   body { font-family: "Comic Sans MS", "Trebuchet MS", sans-serif; background: #eef6ff; margin: 0; padding: 10px; }
-  h1 { color: #1b4f8a; margin: 0; font-size: 1.4em; }
+  h1 { color: #1b4f8a; margin: 0; font-size: 1.4em; min-width: 0; }
   #heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   #language { flex: 0 0 auto; padding: 6px 10px; font-size: 0.85em; }
   #status { font-size: 1em; margin: 2px 0 6px; min-height: 1.3em; }
   #layout { display: flex; gap: 12px; align-items: flex-start; }
-  #left { flex: 0 0 46%; position: sticky; top: 10px; max-height: calc(100vh - 20px); overflow: auto; }
+  #left { flex: 0 0 46%; position: sticky; top: 10px; max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); overflow: auto; }
   #right { flex: 1 1 0; min-width: 0; }
   #sections { columns: 290px; column-gap: 10px; }
   section { background: #fff; border-radius: 12px; padding: 8px 10px; margin: 0 0 10px;
@@ -401,13 +401,50 @@ PAGE = """<!doctype html>
   .step input { font: inherit; width: 4em; padding: 5px; border-radius: 8px; border: 2px solid #8e6cd8; }
   .jog { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
   .jog .name { flex: 0 0 105px; color: #1b4f8a; font-weight: bold; font-size: 0.85em; line-height: 1.1; }
-  .jog button { flex: 1 1 0; padding: 7px 4px; }
+  .jog button { flex: 1 1 0; min-width: 0; padding: 7px 4px; }
+  section .row + .row { margin-top: 6px; }
   #right .row { margin-top: 6px; }
-  #view video { display: block; width: 100%; max-height: calc(100vh - 290px); object-fit: contain; background: #fff;
+  #view video { display: block; width: 100%; max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); object-fit: contain; background: #fff;
                 border-radius: 10px;
                 touch-action: none; }
-  @media (max-width: 900px) { #layout { flex-direction: column; } #left { position: static; flex-basis: auto;
-                                                                          width: 100%; max-height: none; } }
+  @media (max-width: 900px) and (orientation: portrait), (max-width: 560px) {
+    #layout { flex-direction: column; }
+    #left { position: static; flex-basis: auto; width: 100%; max-height: none; }
+    #view video { max-height: 50vh; max-height: 50dvh; }
+  }
+  @media (max-width: 450px) {
+    body { padding: 6px; }
+    .jog .name { flex: 0 0 84px; font-size: 0.8em; }
+    .jog button { font-size: 0.85em; padding: 7px 3px; }
+  }
+  @media (orientation: landscape) and (max-height: 600px) {
+    body { padding: 6px; height: 100vh; height: 100dvh; overflow: hidden; }
+    #layout { height: 100%; gap: 8px; align-items: stretch; }
+    #left { position: static; flex: 0 0 46%; max-width: 46%; height: 100%; max-height: none;
+            display: flex; flex-direction: column; gap: 6px; overflow-y: auto; overflow-x: hidden; padding: 1px 2px 3px; }
+    #left section { margin: 0; }
+    #view { flex: 1 1 0; min-height: 140px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    #view video { width: 100%; height: 100%; max-height: 100%; }
+    #left > section:not(#view) { flex: 0 0 auto; padding: 6px 7px; }
+    #left .row { gap: 5px; }
+    #left .row + .row { margin-top: 6px; }
+    #left button { font-size: 0.78em; padding: 5px 5px; flex: 1 1 70px; }
+    #right { flex: 1 1 0; min-width: 0; height: 100%; overflow-y: auto; overflow-x: hidden; padding: 1px 4px 3px 2px; }
+    #heading h1 { font-size: 1.05em; }
+    #language { padding: 4px 8px; font-size: 0.78em; }
+    #status { font-size: 0.85em; margin: 1px 0 4px; min-height: 1.1em; }
+    #ball { font-size: 0.82em; padding: 4px 8px; margin-bottom: 6px !important; line-height: 1.25; }
+    #sections { columns: 290px; column-gap: 8px; }
+    #right section { padding: 6px 8px; margin: 0 0 6px; }
+    h2 { font-size: 0.95em; margin: 0 0 4px; }
+    .jog { gap: 4px; margin: 3px 0; }
+    .jog .name { flex: 0 0 88px; font-size: 0.78em; }
+    .jog button { font-size: 0.82em; padding: 5px 4px; }
+    button { font-size: 0.85em; padding: 6px 8px; }
+    .step { gap: 4px; font-size: 0.85em; }
+    .step button { padding: 4px 8px; }
+    .step input { width: 3.4em; padding: 3px; }
+  }
 </style></head><body>
 <div id="layout">
 <div id="left">
