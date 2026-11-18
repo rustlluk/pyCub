@@ -231,6 +231,8 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
     last_contact_step = None
     after_5s = float("nan")
     moving_time = float("nan")
+    hits = 0
+    in_contact = False
     while client.is_alive():
         try:
             while True:
@@ -238,6 +240,9 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
                 if name == "stop":
                     client.stop_robot()
                     current, current_name = None, None
+                elif name == "reset_view":
+                    if getattr(client, "visualizer", None) is not None:
+                        client.visualizer.reset_view()
                 elif isinstance(name, tuple):
                     # step command: ("jog", joint, delta in degrees, speed in rad/s); repeated presses add up
                     _, joint, delta, speed = name
@@ -275,19 +280,26 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
                 pts = client.getClosestPoints(ball_id, table_id, 10.0)
                 dist = min(p[8] for p in pts) if pts else float("nan")
                 steps = client.steps_done
-                if client.getContactPoints(client.robot, ball_id):
+                contact = bool(client.getContactPoints(client.robot, ball_id))
+                if contact:
+                    if not in_contact and (last_contact_step is None or (steps - last_contact_step) * dt >= 0.5):
+                        hits += 1
+                    in_contact = True
                     last_contact_step, after_5s, moving_time = steps, float("nan"), 0.0
-                elif last_contact_step is not None and np.isnan(after_5s) and (steps - last_contact_step) * dt >= 3:
-                    after_5s = dist
-                if last_contact_step is not None and not client.getContactPoints(client.robot, ball_id):
-                    # the clock runs from the last touch until the ball comes to rest
-                    lin, ang = client.getBaseVelocity(ball_id)
-                    if np.linalg.norm(lin) > 0.01 or np.linalg.norm(ang) > 0.1:
-                        moving_time = (steps - last_contact_step) * dt
+                else:
+                    in_contact = False
+                    if last_contact_step is not None and np.isnan(after_5s) and (steps - last_contact_step) * dt >= 3:
+                        after_5s = dist
+                    if last_contact_step is not None:
+                        # the clock runs from the last touch until the ball comes to rest
+                        lin, ang = client.getBaseVelocity(ball_id)
+                        if np.linalg.norm(lin) > 0.01 or np.linalg.norm(ang) > 0.1:
+                            moving_time = (steps - last_contact_step) * dt
             ball_info[0], ball_info[1] = float(ball_id is not None), dist
             ball_info[2] = after_5s
             ball_info[4] = moving_time
             ball_info[3] = float(last_contact_step is not None)
+            ball_info[5] = float(hits)
         if headless and client.default_step is None:
             time.sleep(0.002)
     status.put({"state": "closed"})
@@ -307,7 +319,7 @@ class Simulation:
         self.state = {"state": "stopped"}
         self.lock = threading.Lock()
         self.commands = self.status = None
-        self.ball_info = self.ctx.Array("d", [0.0, float("nan"), float("nan"), 0.0, float("nan")])
+        self.ball_info = self.ctx.Array("d", [0.0, float("nan"), float("nan"), 0.0, float("nan"), 0.0])
         self.stream_port = None
         self.run = 0  # increases with every started simulation; the page uses it to reconnect the video
 
@@ -319,7 +331,7 @@ class Simulation:
             self.stream_port = self.configured_stream_port or free_port()
             self.commands, self.status = self.ctx.Queue(), self.ctx.Queue()
             self.state = {"state": "loading"}
-            self.ball_info[:] = [0.0, float("nan"), float("nan"), 0.0, float("nan")]
+            self.ball_info[:] = [0.0, float("nan"), float("nan"), 0.0, float("nan"), 0.0]
             self.process = self.ctx.Process(target=sim_process, daemon=True,
                                             args=(world, self.web_gui, self.headless, self.commands, self.status,
                                                   self.stream_port, self.stream_host, self.ball_info))
@@ -356,12 +368,12 @@ class Simulation:
                     pass
             if self.process is not None and not self.process.is_alive() and self.state["state"] != "closed":
                 self.state = {"state": "closed"}
-            present, dist, after, touched, moving = self.ball_info[:]
+            present, dist, after, touched, moving, hits = self.ball_info[:]
             ball = None
             if present:
                 nn = lambda v: None if v != v else round(v * 100, 1)  # cm
                 ball = {"distance": nn(dist), "after": nn(after), "touched": bool(touched),
-                        "moving": None if moving != moving else round(moving, 2)}
+                        "moving": None if moving != moving else round(moving, 2), "hits": int(hits)}
             return dict(self.state, world=self.world, run=self.run, stream_port=self.stream_port, ball=ball)
 
 
@@ -404,9 +416,18 @@ PAGE = """<!doctype html>
   .jog button { flex: 1 1 0; min-width: 0; padding: 7px 4px; }
   section .row + .row { margin-top: 6px; }
   #right .row { margin-top: 6px; }
+  #view { position: relative; }
   #view video { display: block; width: 100%; max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); object-fit: contain; background: #fff;
                 border-radius: 10px;
                 touch-action: none; }
+  #reset-view { position: absolute; top: 8px; right: 8px; z-index: 2; flex: 0 0 auto;
+                padding: 5px 10px; font-size: 0.8em; background: rgba(27, 79, 138, 0.85);
+                box-shadow: 0 2px rgba(15, 48, 87, 0.7); }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+  @keyframes ballPop { 0% { box-shadow: 0 0 0 0 rgba(255, 213, 79, 0.9); }
+                       50% { box-shadow: 0 0 0 10px rgba(255, 213, 79, 0.45); }
+                       100% { box-shadow: 0 2px 6px rgba(0,0,0,.15); } }
+  #ball.hit { animation: ballPop 0.8s ease-out; }
   @media (max-width: 900px) and (orientation: portrait), (max-width: 560px) {
     body { padding-top: 0; }
     #layout { flex-direction: column; gap: 6px; }
@@ -434,6 +455,7 @@ PAGE = """<!doctype html>
     #left .row { gap: 5px; }
     #left .row + .row { margin-top: 6px; }
     #left button { font-size: 0.78em; padding: 5px 5px; flex: 1 1 70px; }
+    #reset-view { top: 6px; right: 6px; padding: 4px 8px; font-size: 0.75em; }
     #right { flex: 1 1 0; min-width: 0; padding: 1px 2px 3px; }
     #heading h1 { font-size: 1.05em; }
     #language { padding: 4px 8px; font-size: 0.78em; }
@@ -451,9 +473,11 @@ PAGE = """<!doctype html>
     .step input { width: 3.4em; padding: 3px; }
   }
 </style></head><body>
+<canvas id="fx"></canvas>
 <div id="layout">
 <div id="left">
-  <section id="view" style="display:none"><video id="sim" autoplay muted playsinline></video></section>
+  <section id="view" style="display:none"><video id="sim" autoplay muted playsinline></video>
+    <button id="reset-view" class="action" data-i18n="resetView" onclick="post('/api/action/reset_view')"></button></section>
   <section><div class="row" id="worlds"></div>
     <div class="row">
       <button class="restart" data-i18n="restart" onclick="post('/api/restart')"></button>
@@ -474,7 +498,7 @@ const CFG = __CONFIG__;
 const TEXT = {
   cs: {
     pageTitle: "pyCub – Ovládání robota", heading: "🤖 Ovládání robota",
-    restart: "🔄 Restartovat svět", stop: "✋ Zastavit", resetPose: "🧍 Základní postoj",
+    restart: "🔄 Restartovat svět", stop: "✋ Zastavit", resetPose: "🧍 Základní postoj", resetView: "🎥 Obnovit pohled",
     step: "Krok:", speed: "Rychlost:", switchLanguage: "English",
     loading: "⏳ Načítám svět, chvilku strpení…", ready: "✅ Připraveno! Zmáčkni tlačítko.",
     busy: "🏃 Robot se hýbe…", closed: "🪟 Simulace skončila. Zmáčkni „Restartovat svět“.",
@@ -487,7 +511,7 @@ const TEXT = {
   },
   en: {
     pageTitle: "pyCub – Robot controls", heading: "🤖 Robot controls",
-    restart: "🔄 Restart world", stop: "✋ Stop", resetPose: "🧍 Reset posture",
+    restart: "🔄 Restart world", stop: "✋ Stop", resetPose: "🧍 Reset posture", resetView: "🎥 Reset view",
     step: "Step:", speed: "Speed:", switchLanguage: "Čeština",
     loading: "⏳ Loading the world, please wait…", ready: "✅ Ready! Press a button.",
     busy: "🏃 The robot is moving…", closed: "🪟 The simulation has ended. Press “Restart world”.",
@@ -682,6 +706,66 @@ if (reservationId && window.history && history.replaceState) {
 window.addEventListener("pagehide", () => {
   if (navigator.sendBeacon) navigator.sendBeacon("/api/leave?client=" + encodeURIComponent(CLIENT_ID));
 });
+const fx = document.getElementById("fx"), fxCtx = fx.getContext("2d");
+let flares = [], fxRaf = null, lastHitRun = null, lastHits = 0;
+function launchFlares() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth, H = window.innerHeight;
+  fx.width = W * dpr; fx.height = H * dpr;
+  fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ["#ff5252", "#ffd54f", "#4caf50", "#40c4ff", "#ff6ec7", "#ff9100", "#ffffff"];
+  const viewBox = document.getElementById("view").getBoundingClientRect();
+  const origins = viewBox.width > 0
+    ? [[viewBox.left + viewBox.width * 0.5, viewBox.top + viewBox.height * 0.45],
+       [W * 0.28, H * 0.3], [W * 0.72, H * 0.3]]
+    : [[W * 0.35, H * 0.35], [W * 0.65, H * 0.35]];
+  for (const [ox, oy] of origins) {
+    for (let i = 0; i < 36; i++) {
+      const ang = (Math.PI * 2 * i) / 36 + (Math.random() - 0.5) * 0.25;
+      const spd = 2.2 + Math.random() * 5.8;
+      flares.push({
+        x: ox, y: oy, px: ox, py: oy,
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1.5,
+        r: 2.2 + Math.random() * 2.8, life: 1, decay: 0.014 + Math.random() * 0.012,
+        color: colors[(Math.random() * colors.length) | 0],
+        star: Math.random() < 0.35
+      });
+    }
+  }
+  const ballEl = document.getElementById("ball");
+  ballEl.classList.remove("hit"); void ballEl.offsetWidth; ballEl.classList.add("hit");
+  if (!fxRaf) fxRaf = requestAnimationFrame(stepFlares);
+}
+function stepFlares() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth, H = window.innerHeight;
+  if (fx.width !== W * dpr || fx.height !== H * dpr) {
+    fx.width = W * dpr; fx.height = H * dpr;
+    fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  fxCtx.clearRect(0, 0, W, H);
+  flares = flares.filter(p => p.life > 0);
+  for (const p of flares) {
+    p.px = p.x; p.py = p.y;
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.14; p.vx *= 0.985;
+    p.life -= p.decay;
+    if (p.life <= 0) continue;
+    fxCtx.save();
+    fxCtx.globalAlpha = Math.max(0, p.life);
+    fxCtx.strokeStyle = p.color; fxCtx.fillStyle = p.color;
+    fxCtx.shadowColor = p.color; fxCtx.shadowBlur = 10;
+    fxCtx.lineWidth = p.r;
+    fxCtx.beginPath(); fxCtx.moveTo(p.px, p.py); fxCtx.lineTo(p.x, p.y); fxCtx.stroke();
+    fxCtx.beginPath(); fxCtx.arc(p.x, p.y, p.star ? p.r * 1.3 : p.r * 0.85, 0, Math.PI * 2); fxCtx.fill();
+    fxCtx.restore();
+  }
+  if (flares.length) {
+    fxRaf = requestAnimationFrame(stepFlares);
+  } else {
+    fxCtx.clearRect(0, 0, W, H); fxRaf = null;
+  }
+}
 async function refresh() {
   let statusUrl = "/api/status?client=" + encodeURIComponent(CLIENT_ID);
   if (reservationId) statusUrl += "&res=" + encodeURIComponent(reservationId);
@@ -690,6 +774,14 @@ async function refresh() {
   if (resp.ok) reservationId = null;
   document.getElementById("status").textContent = TEXT[language][st.state] || st.state;
   const ballEl = document.getElementById("ball");
+  const hits = st.ball ? (st.ball.hits || 0) : 0;
+  if (st.run !== lastHitRun) {
+    lastHitRun = st.run;
+    lastHits = hits;
+  } else if (hits > lastHits) {
+    lastHits = hits;
+    launchFlares();
+  }
   ballEl.style.display = st.ball ? "block" : "none";
   if (st.ball) {
     const f = v => v === null ? "–" : v + " cm";
@@ -769,7 +861,7 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
 
     @app.post("/api/action/<name>")
     def action(name):
-        if name != "stop" and name not in ACTIONS:
+        if name not in ("stop", "reset_view") and name not in ACTIONS:
             return jsonify(error="unknown action"), 400
         return jsonify(ok=sim.send(name))
 

@@ -130,8 +130,8 @@ class Visualizer:
         center = bbox.get_center()
 
         # look at the center
-        self.scene.look_at(center, center+[-1, 0, 0], [0, 0, 1])
-        self.scene.center_of_rotation = center
+        self.default_center = center
+        self.reset_view()
 
         # show all "other objects" -> non-robot
         for obj_id, obj_name, _, _, _ in self.client.other_objects:
@@ -148,6 +148,12 @@ class Visualizer:
         # Open new tab (or new window) of default browser with the web gui
         if self.client.config.gui.web:
             webbrowser.open("http://localhost:8888", new=0)
+
+    def reset_view(self) -> None:
+        """Reset the camera view to the initial look-at pose."""
+        self.scene.look_at(self.default_center, self.default_center + [-1, 0, 0], [0, 0, 1])
+        self.scene.center_of_rotation = self.default_center
+        self.window.post_redraw()
 
     def show_first(self, urdf_name: Optional[str] = "robot") -> None:
         """
