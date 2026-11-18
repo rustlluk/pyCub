@@ -64,6 +64,7 @@ def main() -> None:
     parser.add_argument("--stream-port", type=int, default=6001, help="video port for the first instance")
     parser.add_argument("--world", default="ball", help="world to load at startup")
     parser.add_argument("--log-dir", default=None, help="directory for instance logs (default: no logs)")
+    parser.add_argument("--headless", action="store_true", help="run without displaying the simulation (for testing)")
     args = parser.parse_args()
 
     if args.count < 1:
@@ -80,14 +81,16 @@ def main() -> None:
     if args.log_dir:
         os.makedirs(args.log_dir, exist_ok=True)
 
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     procs = []
     try:
         for i, (web, stream) in enumerate(zip(web_ports, stream_ports), 1):
             log = open(os.path.join(args.log_dir, f"instance_{i}.log"), "w") if args.log_dir else subprocess.DEVNULL
-            procs.append(subprocess.Popen(
-                [sys.executable, os.path.join(FILE_DIR, "kid_ui.py"), "--host", "0.0.0.0", "--port", str(web),
-                 "--stream-port", str(stream), "--world", args.world, "--no-browser"],
-                stdout=log, stderr=log, start_new_session=True))
+            cmd = [sys.executable, os.path.join(FILE_DIR, "kid_ui.py"), "--host", "0.0.0.0", "--port", str(web),
+                   "--stream-port", str(stream), "--world", args.world, "--no-browser"]
+            if args.headless:
+                cmd.append("--headless")
+            procs.append(subprocess.Popen(cmd, stdout=log, stderr=log, start_new_session=True))
 
         addresses = local_addresses()
         for i, web in enumerate(web_ports, 1):

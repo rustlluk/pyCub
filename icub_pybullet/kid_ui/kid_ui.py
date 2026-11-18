@@ -630,8 +630,14 @@ async function connectView(run, port) {
     scriptsLoaded = null; streamedRun = null;  // try again on the next refresh
   }
 }
+const CLIENT_ID = (window.crypto && crypto.randomUUID)
+  ? crypto.randomUUID()
+  : Math.random().toString(36).slice(2) + Date.now().toString(36);
+window.addEventListener("pagehide", () => {
+  if (navigator.sendBeacon) navigator.sendBeacon("/api/leave?client=" + encodeURIComponent(CLIENT_ID));
+});
 async function refresh() {
-  const st = await (await fetch("/api/status")).json();
+  const st = await (await fetch("/api/status?client=" + encodeURIComponent(CLIENT_ID))).json();
   document.getElementById("status").textContent = TEXT[language][st.state] || st.state;
   const ballEl = document.getElementById("ball");
   ballEl.style.display = st.ball ? "block" : "none";
@@ -653,12 +659,26 @@ build(); applyLanguage(); setInterval(refresh, 700);
 </script></body></html>
 """
 
+CLIENT_TIMEOUT = 5.0
+
 
 def create_app(sim: Simulation, embed: bool) -> Flask:
     import json
     app = Flask(__name__)
     config = {"worlds": [[k, v[0]] for k, v in WORLDS.items()], "sections": SECTIONS,
               "embed": embed}
+    clients: Dict[str, float] = {}
+    clients_lock = threading.Lock()
+
+    def count_users(client_id: Optional[str] = None) -> int:
+        now = time.monotonic()
+        with clients_lock:
+            if client_id:
+                clients[client_id] = now
+            expired = [cid for cid, seen in clients.items() if now - seen > CLIENT_TIMEOUT]
+            for cid in expired:
+                del clients[cid]
+            return len(clients)
 
     @app.get("/")
     def index():
@@ -666,7 +686,16 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
 
     @app.get("/api/status")
     def status():
-        return jsonify(sim.get_state())
+        users = count_users(request.args.get("client"))
+        return jsonify(dict(sim.get_state(), users=users))
+
+    @app.post("/api/leave")
+    def leave():
+        client_id = request.args.get("client") or (request.get_json(force=True, silent=True) or {}).get("client")
+        if client_id:
+            with clients_lock:
+                clients.pop(client_id, None)
+        return jsonify(ok=True)
 
     @app.post("/api/world")
     def load_world():
