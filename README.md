@@ -78,8 +78,8 @@ On first launch, `pyCub Studio` creates a writable workspace in `~/Documents/pyC
 Trigger [`.github/workflows/release-standalone.yml`](.github/workflows/release-standalone.yml) manually (`workflow_dispatch`, with optional version input) or push a `v*` tag to build all five targets in parallel and attach them to a GitHub Release:
 
 - **Linux `x86_64` & `arm64`**: `.AppImage` and `.deb` (`pycub-studio`)
-- **Windows `x64`**: `pyCub-Setup-<version>-Windows-x64.exe` and `pyCub-<version>-Portable-Windows-x64.zip`
-- **macOS `arm64` (Apple Silicon) & `x86_64` (Intel)**: `.dmg` and `.app.zip`
+- **Windows `x64`**: `pyCub-Setup-<version>-Windows-x64.exe`
+- **macOS `arm64` (Apple Silicon) & `x86_64` (Intel)**: `.dmg`
 
 ### Option 2: Local Builds
 
@@ -118,15 +118,14 @@ Common prerequisites:
    python -m pip install -r .\studio\requirements.txt
    python -m pip install "pyinstaller>=6.10"
    ```
-2. *(Optional)* Install [Inno Setup 6](https://jrsoftware.org/isinfo.php) (e.g. `choco install innosetup -y`) to generate the `Setup.exe` installer (if omitted, the script still builds the Portable `.zip`).
+2. Install [Inno Setup 6](https://jrsoftware.org/isinfo.php) (e.g. `choco install innosetup -y`) to generate the `Setup.exe` installer.
 3. Run the Windows build script:
    ```powershell
    $env:PYCUB_VERSION = "1.4.0"   # optional
    powershell -ExecutionPolicy Bypass -File packaging\windows\build_windows.ps1
    ```
-4. Outputs in `packaging/out/`:
+4. Output in `packaging/out/`:
    - `pyCub-Setup-<version>-Windows-x64.exe`
-   - `pyCub-<version>-Portable-Windows-x64.zip`
 
 #### macOS (`arm64` Apple Silicon & `x86_64` Intel)
 
@@ -143,9 +142,8 @@ Common prerequisites:
    ```bash
    PYCUB_VERSION=1.4.0 bash packaging/macos/build_dmg.sh
    ```
-3. Outputs in `packaging/out/`:
+3. Output in `packaging/out/`:
    - `pyCub-<version>-macOS-<arm64|x86_64>.dmg`
-   - `pyCub-<version>-macOS-<arm64|x86_64>.zip`
 
 #### Raw PyInstaller Bundle (Any OS)
 

@@ -36,10 +36,6 @@ cp -R "${APP_BUNDLE}" "${DMG_STAGING}/pyCub.app"
 ln -s /Applications "${DMG_STAGING}/Applications"
 
 DMG_OUT="${OUT_DIR}/pyCub-${VERSION}-macOS-${ARCH_NAME}.dmg"
-ZIP_OUT="${OUT_DIR}/pyCub-${VERSION}-macOS-${ARCH_NAME}.zip"
-rm -f "${ZIP_OUT}"
-ditto -c -k --sequesterRsrc --keepParent "${APP_BUNDLE}" "${ZIP_OUT}"
-
 DMG_TMP="${WORK_DIR}/pyCub-${VERSION}-macOS-${ARCH_NAME}-$$.dmg"
 rm -f "${DMG_OUT}" "${DMG_TMP}"
 trap 'rm -f "${DMG_TMP}"' EXIT
@@ -81,7 +77,7 @@ for attempt in 1 2 3; do
 done
 
 if [[ ! -s "${DMG_OUT}" ]]; then
-  echo "ERROR: DMG creation failed after 3 attempts. The .app ZIP is available at ${ZIP_OUT}." >&2
+  echo "ERROR: DMG creation failed after 3 attempts." >&2
   hdiutil info || true
   exit 1
 fi
