@@ -107,6 +107,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
     fi
 
 RUN cd /home/$USERNAME && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
+RUN cd /home/$USERNAME/pyCub/studio && python3 -m pip install --break-system-packages --no-cache-dir -e .
 
 # Set up script to launch graphics and vnc
 COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh

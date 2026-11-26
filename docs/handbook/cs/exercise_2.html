@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plynulé pohyby (Smooth movements) &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Řízení pohledu (Gaze control)" href="exercise_3.html" />
+    <link rel="prev" title="Odtlačení míčku (Push the Ball)" href="exercise_1.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html">Odtlačení míčku (Push the Ball)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Plynulé pohyby (Smooth movements)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ukol">Úkol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bodovani">Bodování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pozadavky">Požadavky</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Řízení pohledu (Gaze control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Uchopení míčku (Grasp It!)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="exercises.html">Kurzovní cvičení</a></li>
+      <li class="breadcrumb-item active">Plynulé pohyby (Smooth movements)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="plynule-pohyby-smooth-movements">
+<h1>Plynulé pohyby (Smooth movements)<a class="headerlink" href="#plynule-pohyby-smooth-movements" title="Link to this heading"></a></h1>
+<p>Úkolem je provádět plynulé pohyby rukou robota. Robot má být schopen pohybovat se po
+přímce nebo po kružnici s plynulou trajektorií — pohyb tedy musí být spojitý a bez trhání.</p>
+<p><img alt="Plynulé pohyby" src="images/exercise_2.gif" /></p>
+<section id="ukol">
+<h2>Úkol<a class="headerlink" href="#ukol" title="Link to this heading"></a></h2>
+<p>Implementujte funkci <code class="docutils literal notranslate"><span class="pre">move()</span></code> v souboru <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_2/exercise_2.py">exercise_2.py</a>, která bude pohybovat rukou robota po přímce nebo kružnici.</p>
+<ul class="simple">
+<li><p>Funkce přijímá čtyři argumenty:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">client</span></code> – instance třídy <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ovládající simulaci</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">action</span></code> – řetězec <code class="docutils literal notranslate"><span class="pre">&quot;line&quot;</span></code> (přímka) nebo <code class="docutils literal notranslate"><span class="pre">&quot;circle&quot;</span></code> (kružnice)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">axis</span></code> – seznam celých čísel. Pro <code class="docutils literal notranslate"><span class="pre">&quot;circle&quot;</span></code> má vždy délku 1. Pro <code class="docutils literal notranslate"><span class="pre">&quot;line&quot;</span></code> může mít délku 1–3. Čísla udávají osy, podél kterých se má robot pohybovat (např. <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code> znamená pohyb v osách x a y).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code> – seznam desetinných čísel (stejné délky jako <code class="docutils literal notranslate"><span class="pre">axis</span></code>), v metrech. Pro <code class="docutils literal notranslate"><span class="pre">&quot;circle&quot;</span></code> jde o poloměr kružnice, pro <code class="docutils literal notranslate"><span class="pre">&quot;line&quot;</span></code> o délku úsečky v dané ose.</p></li>
+</ul>
+</li>
+<li><p>Ukázkové vstupy:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">action=&quot;circle&quot;,</span> <span class="pre">axis=[0],</span> <span class="pre">r=[0.01]</span></code> – koncový efektor opíše kružnici kolem osy x s poloměrem 0,01 m</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">action=&quot;line&quot;,</span> <span class="pre">axis=[1],</span> <span class="pre">r=[-0.05]</span></code> – koncový efektor se posune po přímce v ose y o −0,05 m</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">action=&quot;line&quot;,</span> <span class="pre">axis=[0,</span> <span class="pre">1],</span> <span class="pre">r=[0.05,</span> <span class="pre">-0.05]</span></code> – koncový efektor se posune současně v ose x o 0,05 m a v ose y o −0,05 m (výsledkem je jedna šikmá přímka)</p></li>
+</ul>
+</li>
+<li><p>Funkce <strong>musí</strong> vrátit dvě hodnoty: počáteční a koncovou pózu trajektorie</p>
+<ul>
+<li><p>obě získejte pomocí <code class="docutils literal notranslate"><span class="pre">client.end_effector.get_position()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="bodovani">
+<h2>Bodování<a class="headerlink" href="#bodovani" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Získáte 10 náhodných testovacích případů (po 1 bodu).</p></li>
+<li><p>Kruhové i přímkové pohyby se vyhodnocují podle tří dílčích kritérií:</p>
+<ul>
+<li><p><strong>kružnice</strong>:</p>
+<ul>
+<li><p>směrodatná odchylka vzdálenosti bodů kružnice od středu musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">r</span> <span class="pre">*</span> <span class="pre">0.125</span></code></p></li>
+<li><p>rozdíl očekávaného a skutečného poloměru musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">r</span> <span class="pre">*</span> <span class="pre">0.1</span></code></p></li>
+<li><p>průměrná vzdálenost bodů od očekávané roviny musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.1</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>přímka</strong>:</p>
+<ul>
+<li><p>rozdíl skutečné a očekávané délky musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.0075</span></code></p></li>
+<li><p>úhel mezi očekávanou a skutečnou přímkou musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.1</span></code></p></li>
+<li><p>průměrná vzdálenost všech bodů od očekávané přímky musí být <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.01</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Plynulost pohybu není automatickým testerem kontrolována!</strong></p></li>
+<li><p><strong>Kód by měl být co nejobecnější</strong>, aby fungoval pro jakýkoli povolený vstup (nepište např. dlouhé <code class="docutils literal notranslate"><span class="pre">if/else</span></code> větvení pro každou kombinaci os).</p></li>
+</ul>
+</section>
+<section id="pozadavky">
+<h2>Požadavky<a class="headerlink" href="#pozadavky" title="Link to this heading"></a></h2>
+<p><strong>Pro správnou funkci testeru</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_2/exercise_2_tester.py">exercise_2_tester.py</a>:</p>
+<ul class="simple">
+<li><p>nevytvářejte nového klienta, použijte předaný argument <code class="docutils literal notranslate"><span class="pre">client</span></code></p></li>
+<li><p>nepřejmenovávejte funkci ani soubor</p></li>
+<li><p><strong>vraťte dvě hodnoty:</strong> počáteční a koncovou pózu trajektorie typu <code class="docutils literal notranslate"><span class="pre">utils.Pose</span></code></p></li>
+</ul>
+<p><strong>Pro správné splnění úlohy:</strong></p>
+<ul class="simple">
+<li><p><strong>Nevypínejte</strong> gravitaci</p></li>
+<li><p>Udělejte pohyb co nejplynulejší</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_1.html" class="btn btn-neutral float-left" title="Odtlačení míčku (Push the Ball)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_3.html" class="btn btn-neutral float-right" title="Řízení pohledu (Gaze control)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project README &mdash; pyCub Studio</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=7f41d439"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="autoapi/index.html" />
+    <link rel="prev" title="Grasp It!" href="exercise_5.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Using Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programming the robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example controllers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Course exercises</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Project README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pycub-studio-standalone-desktop-application">pyCub Studio (Standalone Desktop Application)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#five-integrated-modes">Five Integrated Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-running-pycub-studio-via-pip">Installing &amp; Running <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> via <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-workspace-extra-python-packages-documents-pycub">User Workspace &amp; Extra Python Packages (<code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-pycub-studio-native-installers-bundles">Building <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> (Native Installers &amp; Bundles)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#option-1-cross-platform-ci-build-recommended">Option 1: Cross-Platform CI Build (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2-local-builds">Option 2: Local Builds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#python-package-installation-icub-pybullet-pycub-studio">Python Package Installation (<code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#examples-core-modules">Examples &amp; Core Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-building-the-handbook">Documentation &amp; Building the Handbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faq-known-issues">FAQ &amp; Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#native-version">Native Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vnc-version">VNC Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-pycharm">Docker + PyCharm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-parameters">Deploy Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-faq">Docker FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#citing">Citing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Project README</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="project-readme">
+<h1>Project README<a class="headerlink" href="#project-readme" title="Link to this heading"></a></h1>
+<p><strong>pyCub</strong> is a PyBullet-based simulator and educational robotics framework for the <strong>iCub</strong> humanoid robot. It provides both:</p>
+<ul class="simple">
+<li><p><strong>pyCub Studio</strong> (<code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>) — a cross-platform desktop application with an embedded native OpenGL 3.3 / 2.1 viewport, five integrated learning/development modes, offline bilingual handbook, course exercises, live <strong>English / Čeština</strong> switching, and standalone OS installers.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code></strong> — a lightweight Python package for joint, velocity, and Cartesian control, tactile skin simulation, stereo eye cameras, and example controllers (without Studio GUI dependencies or handbook assets).</p></li>
+</ul>
+<p><a class="reference external" href="https://rustlluk.github.io/pycub"><img alt="iCub Robot" src="images/icub.png" /></a></p>
+<p><strong>Quick Links:</strong>
+<a class="reference external" href="https://rustlluk.github.io/pycub">Project Website</a> |
+<a class="reference internal" href="index.html"><span class="doc">Local HTML Handbook</span></a> |
+<a class="reference external" href="https://rustlluk.github.io/pycub/handbook/index.html">Online Handbook</a> |
+<a class="reference external" href="https://rustlluk.github.io/pycub/handbook/pycub.pdf">PDF Handbook (EN)</a> |
+<a class="reference external" href="https://rustlluk.github.io/pycub/handbook/cs/pycub.pdf">PDF příručka (CZ)</a></p>
+<hr class="docutils" />
+<section id="pycub-studio-standalone-desktop-application">
+<h2>pyCub Studio (Standalone Desktop Application)<a class="headerlink" href="#pycub-studio-standalone-desktop-application" title="Link to this heading"></a></h2>
+<p><strong>pyCub Studio</strong> packages the simulator into native installers and portable executables for <strong>Windows (x64)</strong>, <strong>macOS (Apple Silicon <code class="docutils literal notranslate"><span class="pre">arm64</span></code> &amp; Intel <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>)</strong>, and <strong>Linux (<code class="docutils literal notranslate"><span class="pre">x86_64</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">arm64</span></code> <code class="docutils literal notranslate"><span class="pre">.AppImage</span></code> / <code class="docutils literal notranslate"><span class="pre">.deb</span></code>)</strong>. All desktop modes render through a hardware-accelerated native OpenGL 3.3 / 2.1 viewport embedded directly inside the application window (no separate Open3D GUI window or browser needed).</p>
+<section id="five-integrated-modes">
+<h3>Five Integrated Modes<a class="headerlink" href="#five-integrated-modes" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Kid GUI (Native Buttons)</strong> — Tactile playground with large preset actions, single-joint jog buttons, adjustable step size and speed, custom <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> world loading, live ball distance/hit telemetry, and confetti celebration.</p></li>
+<li><p><strong>Kid GUI “Scratch” (Visual Blocks)</strong> — Offline Google Blockly visual programming with bilingual EN/CZ blocks, real-time active-block highlighting, <code class="docutils literal notranslate"><span class="pre">.pycub_blocks</span></code> save/load, live Python code preview, and one-click export to Kid Programming.</p></li>
+<li><p><strong>Kid GUI “Programming” (High-Level Python)</strong> — Beginner-friendly Python editor powered by <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/kid_api.py"><code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code></a> (<code class="docutils literal notranslate"><span class="pre">wave(&quot;right&quot;)</span></code>, <code class="docutils literal notranslate"><span class="pre">shoulder_up(&quot;left&quot;,</span> <span class="pre">20)</span></code>, <code class="docutils literal notranslate"><span class="pre">look_down(15)</span></code>, <code class="docutils literal notranslate"><span class="pre">ball_touched()</span></code>, <code class="docutils literal notranslate"><span class="pre">ball_distance()</span></code>, etc., plus Czech aliases) with clickable Command Palette, hover/signature help, starter templates, and friendly error hints.</p></li>
+<li><p><strong>Normal Mode (Full <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> IDE &amp; Script Runner)</strong> — Multi-tab Python/YAML IDE with autocomplete, hover docs &amp; Go to Definition (<code class="docutils literal notranslate"><span class="pre">F12</span></code>), external <code class="docutils literal notranslate"><span class="pre">.py</span></code> script runner (<code class="docutils literal notranslate"><span class="pre">--run-script</span></code> + auto-run on save), live stdout/stderr console, dockable <code class="docutils literal notranslate"><span class="pre">l_eye</span></code>/<code class="docutils literal notranslate"><span class="pre">r_eye</span></code> RGB &amp; Depth camera views, coordinate axes toggle, RGB/Depth export, and one-click Course Exercises (<code class="docutils literal notranslate"><span class="pre">1–5</span></code>) installer + automated Exercise Tester.</p></li>
+<li><p><strong>Classroom Web GUI Selector (Multi-Instance Server)</strong> — Native dashboard to launch and supervise <code class="docutils literal notranslate"><span class="pre">N</span></code> independent browser-based <code class="docutils literal notranslate"><span class="pre">kid_ui</span></code> simulator instances behind a load-balanced landing page (<code class="docutils literal notranslate"><span class="pre">kid_ui_landing.py</span></code>), with LAN URLs, a scannable Wi-Fi QR code, live per-instance status/user counts, individual restart, and log inspection.</p></li>
+</ol>
+</section>
+<section id="installing-running-pycub-studio-via-pip">
+<h3>Installing &amp; Running <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> via <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installing-running-pycub-studio-via-pip" title="Link to this heading"></a></h3>
+<p>Requires <strong>Python 3.10–3.12</strong>. You can install <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> as a Python package so it launches from any working directory (no cloned repository needed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+
+<span class="c1"># From PyPI (installs icub_pybullet + Studio GUI + handbook + exercises + examples):</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pycub-studio
+<span class="c1"># Equivalently: python3 -m pip install &quot;icub_pybullet[studio]&quot;</span>
+
+<span class="c1"># Or from a local repository clone:</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet<span class="w"> </span>./studio
+<span class="c1"># (For editable development installs: python3 -m pip install -e ./icub_pybullet -e ./studio)</span>
+
+<span class="c1"># Launch Home Mode Selector</span>
+pycub-studio
+<span class="c1"># (or: python3 -m studio.main)</span>
+
+<span class="c1"># Launch directly into a specific mode (home | kid_native | kid_scratch | kid_code | normal | web)</span>
+pycub-studio<span class="w"> </span>--mode<span class="w"> </span>kid_scratch<span class="w"> </span>--lang<span class="w"> </span>cs
+
+<span class="c1"># Open Normal Mode and immediately run an external Python script</span>
+pycub-studio<span class="w"> </span>--run-script<span class="w"> </span>/path/to/your_script.py
+</pre></div>
+</div>
+<p>On Windows PowerShell, activate the virtual environment with <code class="docutils literal notranslate"><span class="pre">.venv\Scripts\Activate.ps1</span></code>.</p>
+</section>
+<section id="user-workspace-extra-python-packages-documents-pycub">
+<h3>User Workspace &amp; Extra Python Packages (<code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/</span></code>)<a class="headerlink" href="#user-workspace-extra-python-packages-documents-pycub" title="Link to this heading"></a></h3>
+<p>On first launch, <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> creates a writable workspace in <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">worlds/</span></code> — Custom <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> world configs (automatically listed in the world selector across Modes 1–3 &amp; 5). Custom worlds can inherit built-in configs via <code class="docutils literal notranslate"><span class="pre">parent:</span> <span class="pre">default.yaml</span></code> or <code class="docutils literal notranslate"><span class="pre">parent:</span> <span class="pre">with_ball.yaml</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">meshes/</span></code> — Custom <code class="docutils literal notranslate"><span class="pre">.obj</span></code> or <code class="docutils literal notranslate"><span class="pre">.urdf</span></code> scene models. Any <code class="docutils literal notranslate"><span class="pre">.obj</span></code> without a pre-baked <code class="docutils literal notranslate"><span class="pre">*_vhacd.obj</span></code> automatically runs <code class="docutils literal notranslate"><span class="pre">pybullet.vhacd</span></code> on first load and caches the convex decomposition in <code class="docutils literal notranslate"><span class="pre">&lt;user_cache_dir&gt;/pycub/vhacd/</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extra_packages/</span></code> — Automatically added to <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> in simulation and script workers for third-party libraries not bundled in the installer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scripts/</span></code>, <code class="docutils literal notranslate"><span class="pre">projects/</span></code>, <code class="docutils literal notranslate"><span class="pre">exercises/</span></code>, <code class="docutils literal notranslate"><span class="pre">examples/</span></code>, <code class="docutils literal notranslate"><span class="pre">images/</span></code> — Saved Python scripts, Scratch <code class="docutils literal notranslate"><span class="pre">.pycub_blocks</span></code> projects, unpacked course exercises, and exported RGB/Depth screenshots.</p></li>
+</ul>
+<p><strong>External scripts &amp; packages without system Python:</strong> Scripts in Mode 4 or <code class="docutils literal notranslate"><span class="pre">--run-script</span></code> run in an isolated worker using Studio’s bundled Python runtime (<code class="docutils literal notranslate"><span class="pre">pybullet</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">open3d</span></code>, <code class="docutils literal notranslate"><span class="pre">roboticstoolbox</span></code>, <code class="docutils literal notranslate"><span class="pre">spatialmath</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, etc.). Click <strong>Packages / Python</strong> in the top bar to install PyPI packages into <code class="docutils literal notranslate"><span class="pre">extra_packages/</span></code>, attach <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> from an existing virtual environment, or select an external Python executable for Mode 4 scripts.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="building-pycub-studio-native-installers-bundles">
+<h2>Building <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> (Native Installers &amp; Bundles)<a class="headerlink" href="#building-pycub-studio-native-installers-bundles" title="Link to this heading"></a></h2>
+<section id="option-1-cross-platform-ci-build-recommended">
+<h3>Option 1: Cross-Platform CI Build (Recommended)<a class="headerlink" href="#option-1-cross-platform-ci-build-recommended" title="Link to this heading"></a></h3>
+<p>Trigger <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/.github/workflows/release-standalone.yml"><code class="docutils literal notranslate"><span class="pre">.github/workflows/release-standalone.yml</span></code></a> manually (<code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code>, with optional version input) or push a <code class="docutils literal notranslate"><span class="pre">v*</span></code> tag to build all five targets in parallel and attach them to a GitHub Release:</p>
+<ul class="simple">
+<li><p><strong>Linux <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">arm64</span></code></strong>: <code class="docutils literal notranslate"><span class="pre">.AppImage</span></code> and <code class="docutils literal notranslate"><span class="pre">.deb</span></code> (<code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>)</p></li>
+<li><p><strong>Windows <code class="docutils literal notranslate"><span class="pre">x64</span></code></strong>: <code class="docutils literal notranslate"><span class="pre">pyCub-Setup-&lt;version&gt;-Windows-x64.exe</span></code> and <code class="docutils literal notranslate"><span class="pre">pyCub-&lt;version&gt;-Portable-Windows-x64.zip</span></code></p></li>
+<li><p><strong>macOS <code class="docutils literal notranslate"><span class="pre">arm64</span></code> (Apple Silicon) &amp; <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> (Intel)</strong>: <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> and <code class="docutils literal notranslate"><span class="pre">.app.zip</span></code></p></li>
+</ul>
+</section>
+<section id="option-2-local-builds">
+<h3>Option 2: Local Builds<a class="headerlink" href="#option-2-local-builds" title="Link to this heading"></a></h3>
+<p>Common prerequisites:</p>
+<ul class="simple">
+<li><p><strong>Python 3.10–3.12</strong> (Python 3.13+ is not yet supported by all robotics dependencies).</p></li>
+<li><p><em>(Optional)</em> If you edited documentation in <code class="docutils literal notranslate"><span class="pre">docs/source/</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/source_cs/</span></code>, or <code class="docutils literal notranslate"><span class="pre">exercises/</span></code>, rebuild the offline handbook first (<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">docs/build.py</span></code>) so <code class="docutils literal notranslate"><span class="pre">packaging/pycub.spec</span></code> bundles the updated <code class="docutils literal notranslate"><span class="pre">docs/handbook/</span></code>.</p></li>
+</ul>
+<section id="linux-x86-64-and-arm64">
+<h4>Linux (<code class="docutils literal notranslate"><span class="pre">x86_64</span></code> and <code class="docutils literal notranslate"><span class="pre">arm64</span></code>)<a class="headerlink" href="#linux-x86-64-and-arm64" title="Link to this heading"></a></h4>
+<ol class="arabic">
+<li><p>Install required system libraries (Debian/Ubuntu):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>libegl1<span class="w"> </span>libgl1<span class="w"> </span>libxcb-cursor0<span class="w"> </span>libnss3<span class="w"> </span>libasound2<span class="w"> </span>libfuse2<span class="w"> </span>dpkg-dev<span class="w"> </span>curl
+<span class="c1"># On Linux arm64, also install build tools because pybullet compiles from source:</span>
+<span class="c1"># sudo apt-get install -y build-essential python3-dev</span>
+</pre></div>
+</div>
+</li>
+<li><p>Run the packaging script from the repository root (automatically creates an isolated <code class="docutils literal notranslate"><span class="pre">packaging/work/build_venv</span></code> unless <code class="docutils literal notranslate"><span class="pre">PYTHON_BIN</span></code> is provided):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>packaging/linux/build_linux.sh
+</pre></div>
+</div>
+<p>Optional environment variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PYCUB_VERSION=1.4.0</span></code> — override artifact version string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">REBUILD_VENV=1</span></code> — recreate <code class="docutils literal notranslate"><span class="pre">packaging/work/build_venv</span></code> from scratch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PYTHON_BIN=/path/to/python</span></code> — use a pre-configured interpreter that already has <code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code>, <code class="docutils literal notranslate"><span class="pre">studio/requirements.txt</span></code>, and <code class="docutils literal notranslate"><span class="pre">pyinstaller&gt;=6.10</span></code>.</p></li>
+</ul>
+</li>
+<li><p>Outputs in <code class="docutils literal notranslate"><span class="pre">packaging/out/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pycub-studio_&lt;version&gt;_&lt;amd64|arm64&gt;.deb</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyCub-&lt;version&gt;-Linux-&lt;x86_64|arm64&gt;.AppImage</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="windows-x64">
+<h4>Windows (<code class="docutils literal notranslate"><span class="pre">x64</span></code>)<a class="headerlink" href="#windows-x64" title="Link to this heading"></a></h4>
+<ol class="arabic">
+<li><p>Activate a Python 3.10–3.12 environment with Studio and PyInstaller dependencies installed:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">.\</span><span class="n">icub_pybullet</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="p">.\</span><span class="n">studio</span><span class="p">\</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;pyinstaller&gt;=6.10&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p><em>(Optional)</em> Install <a class="reference external" href="https://jrsoftware.org/isinfo.php">Inno Setup 6</a> (e.g. <code class="docutils literal notranslate"><span class="pre">choco</span> <span class="pre">install</span> <span class="pre">innosetup</span> <span class="pre">-y</span></code>) to generate the <code class="docutils literal notranslate"><span class="pre">Setup.exe</span></code> installer (if omitted, the script still builds the Portable <code class="docutils literal notranslate"><span class="pre">.zip</span></code>).</p></li>
+<li><p>Run the Windows build script:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:PYCUB_VERSION</span> <span class="p">=</span> <span class="s2">&quot;1.4.0&quot;</span>   <span class="c"># optional</span>
+<span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">packaging</span><span class="p">\</span><span class="n">windows</span><span class="p">\</span><span class="n">build_windows</span><span class="p">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+</li>
+<li><p>Outputs in <code class="docutils literal notranslate"><span class="pre">packaging/out/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyCub-Setup-&lt;version&gt;-Windows-x64.exe</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyCub-&lt;version&gt;-Portable-Windows-x64.zip</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="macos-arm64-apple-silicon-x86-64-intel">
+<h4>macOS (<code class="docutils literal notranslate"><span class="pre">arm64</span></code> Apple Silicon &amp; <code class="docutils literal notranslate"><span class="pre">x86_64</span></code> Intel)<a class="headerlink" href="#macos-arm64-apple-silicon-x86-64-intel" title="Link to this heading"></a></h4>
+<ol class="arabic">
+<li><p>Install dependencies in a Python 3.10–3.12 environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span>setuptools<span class="w"> </span>wheel
+<span class="c1"># On Intel macOS (x86_64), pin Open3D 0.19.0 (last wheel supporting Intel macOS):</span>
+<span class="c1"># python3 -m pip install &quot;open3d==0.19.0&quot;</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>studio/requirements.txt
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pyinstaller&gt;=6.10&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Build <code class="docutils literal notranslate"><span class="pre">.app</span></code> bundle (ad-hoc signed) and <code class="docutils literal notranslate"><span class="pre">.dmg</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">PYCUB_VERSION</span><span class="o">=</span><span class="m">1</span>.4.0<span class="w"> </span>bash<span class="w"> </span>packaging/macos/build_dmg.sh
+</pre></div>
+</div>
+</li>
+<li><p>Outputs in <code class="docutils literal notranslate"><span class="pre">packaging/out/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyCub-&lt;version&gt;-macOS-&lt;arm64|x86_64&gt;.dmg</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyCub-&lt;version&gt;-macOS-&lt;arm64|x86_64&gt;.zip</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="raw-pyinstaller-bundle-any-os">
+<h4>Raw PyInstaller Bundle (Any OS)<a class="headerlink" href="#raw-pyinstaller-bundle-any-os" title="Link to this heading"></a></h4>
+<p>To build only the unpacked PyInstaller application directory (<code class="docutils literal notranslate"><span class="pre">dist/pyCub</span></code> or <code class="docutils literal notranslate"><span class="pre">dist/pyCub.app</span></code>) without creating OS installers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyinstaller<span class="w"> </span>--noconfirm<span class="w"> </span>packaging/pycub.spec
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="python-package-installation-icub-pybullet-pycub-studio">
+<h2>Python Package Installation (<code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>)<a class="headerlink" href="#python-package-installation-icub-pybullet-pycub-studio" title="Link to this heading"></a></h2>
+<ul>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code></strong> installs the simulator, robot meshes/URDFs, YAML configs, <code class="docutils literal notranslate"><span class="pre">kid_api</span></code>, and example scripts cleanly on their own — without Qt/PySide6, Studio UI, or the offline handbook.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code></strong> (or <code class="docutils literal notranslate"><span class="pre">icub_pybullet[studio]</span></code>) depends on <code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code> and adds the full desktop application, Blockly assets, offline HTML/PDF handbook, and course exercises (1–5) with the <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> launcher command.</p></li>
+<li><p>Requires <strong>Python 3.10 to 3.12</strong> (newer Python versions are not currently supported due to dependency compatibility).</p></li>
+<li><p>Recommended: create a virtual environment first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>pycub_venv
+<span class="nb">source</span><span class="w"> </span>pycub_venv/bin/activate
+</pre></div>
+</div>
+</li>
+</ul>
+<ol class="arabic">
+<li><p><strong>Install from PyPI (recommended):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>icub_pybullet<span class="w">          </span><span class="c1"># simulator library only</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pycub-studio<span class="w">           </span><span class="c1"># or &quot;icub_pybullet[studio]&quot; for full Studio</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Install from source:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/rustlluk/pyCub.git
+<span class="nb">cd</span><span class="w"> </span>pyCub
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet<span class="w">        </span><span class="c1"># simulator library only</span>
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet<span class="w"> </span>./studio<span class="w">   </span><span class="c1"># simulator + pycub-studio command</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Docker / Gitpod:</strong></p>
+<ul class="simple">
+<li><p>Native Docker (GNU/Linux): see <a class="reference internal" href="#native-version">Native Version</a></p></li>
+<li><p>VNC Docker (Windows/macOS/Linux): see <a class="reference internal" href="#vnc-version">VNC Version</a></p></li>
+<li><p>Gitpod: open <a class="reference external" href="https://app.gitpod.io/#https://github.com/rustlluk/pycub">https://app.gitpod.io/#https://github.com/rustlluk/pycub</a>, log in with GitHub, open port <code class="docutils literal notranslate"><span class="pre">6080</span></code>, and run <code class="docutils literal notranslate"><span class="pre">start-vnc-session.sh</span></code> in the terminal.</p></li>
+</ul>
+</li>
+</ol>
+<section id="examples-core-modules">
+<h3>Examples &amp; Core Modules<a class="headerlink" href="#examples-core-modules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py">push_the_ball_pure_joints.py</a> — controlling the robot in joint space.</p></li>
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py">push_the_ball_cartesian.py</a> — controlling the robot in Cartesian space (<code class="docutils literal notranslate"><span class="pre">Pose</span></code> + IK).</p></li>
+<li><p><a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/skin_test.py">skin_test.py</a> — tactile skin contacts with balls falling onto the robot (slow down simulation or check <code class="docutils literal notranslate"><span class="pre">skin_activations</span></code>).</p></li>
+<li><p>Simulator core: <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py">pycub.py</a></p></li>
+<li><p>Beginner API: <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/kid_api.py">kid_api.py</a></p></li>
+<li><p>Visualization backend: <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py">visualizer.py</a> (uses Open3D for standalone scripts, web fallback, or the embedded OpenGL viewport inside <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code>).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="documentation-building-the-handbook">
+<h2>Documentation &amp; Building the Handbook<a class="headerlink" href="#documentation-building-the-handbook" title="Link to this heading"></a></h2>
+<p>Open <strong>Handbook</strong> in <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> or browse the <a class="reference internal" href="index.html"><span class="doc">local HTML handbook</span></a> (online at <a class="reference external" href="https://rustlluk.github.io/pycub/handbook/index.html">pyCub Handbook</a>; PDF: <a class="reference external" href="https://rustlluk.github.io/pycub/handbook/pycub.pdf">English</a>, <a class="reference external" href="https://rustlluk.github.io/pycub/handbook/cs/pycub.pdf">Čeština</a>). The handbook covers Studio modes, Python programming across Kid/Studio/Normal modes, examples, course exercises, and the auto-generated API reference.</p>
+<p>To rebuild the English and Czech HTML + PDF handbooks from the repository root (Python 3.10–3.12):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>docs/requirements.txt
+python3<span class="w"> </span>docs/build.py<span class="w">          </span><span class="c1"># builds HTML + PDF (pass --no-pdf to skip LaTeX PDF)</span>
+</pre></div>
+</div>
+<p>The build writes <code class="docutils literal notranslate"><span class="pre">docs/handbook/index.html</span></code>, <code class="docutils literal notranslate"><span class="pre">docs/handbook/cs/index.html</span></code>, and (when <code class="docutils literal notranslate"><span class="pre">latexmk</span></code> + <code class="docutils literal notranslate"><span class="pre">pdflatex</span></code> + <code class="docutils literal notranslate"><span class="pre">make</span></code> are installed) <code class="docutils literal notranslate"><span class="pre">docs/handbook/pycub.pdf</span></code> and <code class="docutils literal notranslate"><span class="pre">docs/handbook/cs/pycub.pdf</span></code>. Commit the rebuilt <code class="docutils literal notranslate"><span class="pre">docs/handbook/</span></code> alongside documentation changes so GitHub Pages and offline Studio installers pick them up. To preview the full Jekyll site locally, run <code class="docutils literal notranslate"><span class="pre">jekyll</span> <span class="pre">serve</span></code> inside <code class="docutils literal notranslate"><span class="pre">docs/</span></code>.</p>
+<p>For additional Sphinx targets, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-C</span> <span class="pre">docs</span> <span class="pre">help</span></code> or <code class="docutils literal notranslate"><span class="pre">docs\make.bat</span> <span class="pre">help</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="faq-known-issues">
+<h2>FAQ &amp; Known Issues<a class="headerlink" href="#faq-known-issues" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Visualization errors or segmentation faults (e.g. with Open3D):</strong></p>
+<ol class="arabic simple">
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> (<code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> or <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">studio.main</span></code>), which uses an embedded native OpenGL 3.3 / 2.1 viewport instead of a separate Open3D GUI window.</p></li>
+<li><p>Check your graphics drivers (Mesa / OpenGL / NVIDIA).</p></li>
+<li><p>Use <a class="reference internal" href="#native-version">Native Docker</a> (Linux) or <a class="reference internal" href="#vnc-version">VNC Docker</a>.</p></li>
+<li><p>In your <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> config, set <code class="docutils literal notranslate"><span class="pre">gui.standard:</span> <span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">gui.web:</span> <span class="pre">True</span></code> to use the browser visualizer.</p></li>
+</ol>
+</li>
+<li><p><strong>Import errors (e.g. <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">icub_pybullet</span></code>):</strong></p>
+<ol class="arabic simple">
+<li><p>Install from PyPI (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">icub_pybullet</span></code> or <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>) or from source (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">./icub_pybullet</span></code>).</p></li>
+<li><p>Or add the repository root directory to your <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>.</p></li>
+</ol>
+</li>
+<li><p><strong>Known bug with Open3D skin visualization:</strong></p>
+<ul class="simple">
+<li><p>In standalone Open3D mode, visualization with tactile skin active can crash after ~65k steps (see <a class="reference external" href="https://github.com/isl-org/Open3D/issues/4992">Open3D#4992</a>). <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code>’s embedded OpenGL viewport is not affected.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Link to this heading"></a></h2>
+<section id="native-version">
+<h3>Native Version<a class="headerlink" href="#native-version" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Native GUI inside Docker (GNU/Linux only — Ubuntu, Mint, Arch, etc.); useful for avoiding host OpenGL driver issues.</p></li>
+</ul>
+<ol class="arabic">
+<li><p>Install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">docker-engine</a> (<strong>do not install Docker Desktop</strong> on Linux) and perform the <a class="reference external" href="https://docs.docker.com/engine/install/linux-postinstall/">Linux post-installation steps</a>.</p></li>
+<li><p>Clone the repository and pull or build the image:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/rustlluk/pyCub.git
+<span class="nb">cd</span><span class="w"> </span>pyCub/Docker
+<span class="c1"># Pull prebuilt image from Docker Hub:</span>
+./deploy.py<span class="w"> </span>-p<span class="w"> </span>/path/to/pyCub<span class="w"> </span>-c<span class="w"> </span>pycub<span class="w"> </span>-pu
+<span class="c1"># Or build locally:</span>
+./deploy.py<span class="w"> </span>-p<span class="w"> </span>/path/to/pyCub<span class="w"> </span>-c<span class="w"> </span>pycub<span class="w"> </span>-b
+</pre></div>
+</div>
+</li>
+<li><p>Run an existing container or open a new terminal in it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./deploy.py<span class="w"> </span>-c<span class="w"> </span>pycub<span class="w"> </span>-e<span class="w">   </span><span class="c1"># start/attach</span>
+./deploy.py<span class="w"> </span>-c<span class="w"> </span>pycub<span class="w"> </span>-t<span class="w">   </span><span class="c1"># open another terminal</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="vnc-version">
+<h3>VNC Version<a class="headerlink" href="#vnc-version" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Works on Windows, macOS, and Linux; displays the GUI in your browser at <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>.</p></li>
+</ul>
+<ol class="arabic">
+<li><p>Install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/">docker-engine</a> (Linux) or <a class="reference external" href="https://docs.docker.com/desktop/">docker-desktop</a> (all systems) and complete any post-install steps.</p></li>
+<li><p>Pull or build with <code class="docutils literal notranslate"><span class="pre">-vnc</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/pyCub/Docker
+./deploy.py<span class="w"> </span>-p<span class="w"> </span>/path/to/pyCub<span class="w"> </span>-c<span class="w"> </span>pycub<span class="w"> </span>-pu<span class="w"> </span>-vnc
+</pre></div>
+</div>
+</li>
+<li><p>Inside the container, run <code class="docutils literal notranslate"><span class="pre">start-vnc-session.sh</span></code> and open <a class="reference external" href="http://localhost:6080">http://localhost:6080</a>.</p></li>
+</ol>
+</section>
+<section id="docker-pycharm">
+<h3>Docker + PyCharm<a class="headerlink" href="#docker-pycharm" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Native Version:</strong> Either launch PyCharm inside Docker, or configure an SSH interpreter in host PyCharm (<code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">docker</span></code>, host <code class="docutils literal notranslate"><span class="pre">localhost</span></code> or server IP, port <code class="docutils literal notranslate"><span class="pre">2222</span></code>, disable automatic upload, map remote path to <code class="docutils literal notranslate"><span class="pre">/home/docker/pycub_ws</span></code>).</p></li>
+<li><p><strong>VNC / Gitpod Version:</strong> Open PyCharm directly inside the container.</p></li>
+</ul>
+</section>
+<section id="deploy-parameters">
+<h3>Deploy Parameters<a class="headerlink" href="#deploy-parameters" title="Link to this heading"></a></h3>
+<p>Run <code class="docutils literal notranslate"><span class="pre">./deploy.py</span></code> inside <code class="docutils literal notranslate"><span class="pre">Docker/</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-b</span></code> / <code class="docutils literal notranslate"><span class="pre">--build</span></code>: Build the Docker image (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-e</span></code>: Run an existing container without rebuilding (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-p</span></code> / <code class="docutils literal notranslate"><span class="pre">--path</span></code>: Path to the repository folder (default: <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pu</span></code> / <code class="docutils literal notranslate"><span class="pre">--pull</span></code>: Pull image from Docker Hub (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-c</span></code> / <code class="docutils literal notranslate"><span class="pre">--container</span></code>: Container name (default: <code class="docutils literal notranslate"><span class="pre">my_new_docker</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-t</span></code> / <code class="docutils literal notranslate"><span class="pre">--terminal</span></code>: Open a new terminal in a running container (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pv</span></code> / <code class="docutils literal notranslate"><span class="pre">--python-version</span></code>: Python version to install (default: <code class="docutils literal notranslate"><span class="pre">3.11</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pcv</span></code> / <code class="docutils literal notranslate"><span class="pre">--pycharm-version</span></code>: PyCharm version to install (default: <code class="docutils literal notranslate"><span class="pre">2023.2.3</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-bi</span></code> / <code class="docutils literal notranslate"><span class="pre">--base-image</span></code>: Base Docker image (default: <code class="docutils literal notranslate"><span class="pre">ubuntu:20.04</span></code>).</p></li>
+</ul>
+<p>Run <code class="docutils literal notranslate"><span class="pre">deploy.py</span></code> on the machine where you run the code (over SSH if using a remote server).</p>
+</section>
+<section id="docker-faq">
+<h3>Docker FAQ<a class="headerlink" href="#docker-faq" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Not in <code class="docutils literal notranslate"><span class="pre">sudo</span></code> group when running the pulled image:</strong> Check <code class="docutils literal notranslate"><span class="pre">id</span> <span class="pre">-u</span></code>. If your UID is not <code class="docutils literal notranslate"><span class="pre">1000</span></code>, build the image locally instead of pulling it.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">...</span></code> fails inside the container:</strong> Run <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update</span></code> first (apt caches are cleaned in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> to save space).</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="citing">
+<h2>Citing<a class="headerlink" href="#citing" title="Link to this heading"></a></h2>
+<p>When used in academic work, please cite this repository as:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">rustler2026pycub</span><span class="p">,</span>
+<span class="w">      </span><span class="na">title</span><span class="p">=</span><span class="s">{Learning with pyCub: A Simulation and Exercise Framework for Humanoid Robotics}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">author</span><span class="p">=</span><span class="s">{Lukas Rustler and Matej Hoffmann}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">booktitle</span><span class="p">=</span><span class="s">{17th International Conference on Robotics in Education (RiE 2026)}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">organization</span><span class="p">=</span><span class="s">{Springer}</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC BY 4.0" src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" /></a></p>
+<p>This work is licensed under a <a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<p><a class="reference external" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC BY 4.0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_5.html" class="btn btn-neutral float-left" title="Grasp It!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="autoapi/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

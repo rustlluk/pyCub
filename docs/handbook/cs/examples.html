@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ukázkové programy &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Kurzovní cvičení" href="exercises.html" />
+    <link rel="prev" title="Programování robota" href="programming.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ukázkové programy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kloubove-rizeni">Kloubové řízení</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kartezske-rizeni">Kartézské řízení</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dotykova-kuze">Dotyková kůže</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimalni-smycka-simulace">Minimální smyčka simulace</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ukázkové programy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ukazkove-programy">
+<h1>Ukázkové programy<a class="headerlink" href="#ukazkove-programy" title="Link to this heading"></a></h1>
+<p>Tyto příklady můžete otevřít přímo v Normálním režimu přes nabídku <strong>Příklady &amp; Cvičení</strong>,
+spustit je a libovolně upravovat. Každý skript si vytváří vlastního klienta a vybírá svět.</p>
+<section id="kloubove-rizeni">
+<h2>Kloubové řízení<a class="headerlink" href="#kloubove-rizeni" title="Link to this heading"></a></h2>
+<p>Nastavení cílových úhlů jednotlivých kloubů tak, aby robot rukou posunul míček.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">push_the_ball</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">pyCub</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example function to push the ball from the table with joint control.</span>
+
+<span class="sd">    :param client: instance of pyCub</span>
+<span class="sd">    :type client: pyCub</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># move torso pitch so the robot bends over the table</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">move_position</span><span class="p">(</span><span class="s2">&quot;torso_pitch&quot;</span><span class="p">,</span> <span class="mf">0.325</span><span class="p">)</span>
+
+    <span class="c1"># move torso to push the ball, but do now wait for completion. Hit it a bit faster</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">move_position</span><span class="p">(</span><span class="s2">&quot;torso_yaw&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="c1"># wait manually</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">motion_done</span><span class="p">():</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">()</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wait could be also achieved with:</span>
+<span class="sd">    client.wait_motion_done()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">client</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Moved the ball!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="kartezske-rizeni">
+<h2>Kartézské řízení<a class="headerlink" href="#kartezske-rizeni" title="Link to this heading"></a></h2>
+<p>Posun koncového efektoru (ruky) v prostoru vzhledem k jeho aktuální pozici.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">push_the_ball</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">pyCub</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example function to move the ball with cartesian control.</span>
+
+<span class="sd">    :param client: instance of pyCub</span>
+<span class="sd">    :type client: pyCub</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get current pose</span>
+    <span class="n">cur_pose</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">end_effector</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+
+    <span class="c1"># Copy, the pose and go 15cm lower and 10cm closer to the robot</span>
+    <span class="n">new_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="n">cur_pose</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="n">cur_pose</span><span class="o">.</span><span class="n">ori</span><span class="p">)</span>
+    <span class="n">new_pose</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.15</span>
+    <span class="n">new_pose</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.1</span>
+
+    <span class="c1"># move</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">move_cartesian</span><span class="p">(</span><span class="n">new_pose</span><span class="p">)</span>
+
+    <span class="c1"># get current pose</span>
+    <span class="n">pose</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">end_effector</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+
+    <span class="c1"># assign straight to it to move hand left</span>
+    <span class="n">pose</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.2</span>
+
+    <span class="c1"># move; do not wait for completion; and move a bit faster</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">move_cartesian</span><span class="p">(</span><span class="n">pose</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># wait manually</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">motion_done</span><span class="p">():</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">()</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wait could be also achieved with:</span>
+<span class="sd">    client.wait_motion_done()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">client</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Moved the ball!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="dotykova-kuze">
+<h2>Dotyková kůže<a class="headerlink" href="#dotykova-kuze" title="Link to this heading"></a></h2>
+<p>Svět <cite>skin_test.yaml</cite> ukazuje, které senzory na umělé kůži se aktivují při dopadu míčků na robota.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NoReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function to run the example</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">pyCub</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;skin_test.yaml&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">client</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="minimalni-smycka-simulace">
+<h2>Minimální smyčka simulace<a class="headerlink" href="#minimalni-smycka-simulace" title="Link to this heading"></a></h2>
+<p><a class="reference download internal" download="" href="downloads/dfe08b94d54d81d34c56245b23778e9e/empty_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Stáhněte</span> <span class="pre">si</span> <span class="pre">startovací</span> <span class="pre">skript</span></code></a> a otevřete jej v Normálním režimu.
+Vlastní příkazy pro robota přidejte za vytvoření klienta.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icub_pybullet.pycub</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyCub</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># Načtení robota se zvolenou konfigurací světa</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">pyCub</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;with_ball.yaml&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Smyčka simulace běží, dokud není okno/proces ukončen</span>
+    <span class="k">while</span> <span class="n">client</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="programming.html" class="btn btn-neutral float-left" title="Programování robota" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercises.html" class="btn btn-neutral float-right" title="Kurzovní cvičení" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uchopení míčku (Grasp It!) &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Dokumentace projektu (README)" href="readme.html" />
+    <link rel="prev" title="Řízení pomocí jakobiánu (Resolved-Rate Motion Control)" href="exercise_4.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html">Odtlačení míčku (Push the Ball)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Plynulé pohyby (Smooth movements)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Řízení pohledu (Gaze control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Uchopení míčku (Grasp It!)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ukol">Úkol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bodovani">Bodování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pozadavky">Požadavky</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="exercises.html">Kurzovní cvičení</a></li>
+      <li class="breadcrumb-item active">Uchopení míčku (Grasp It!)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="uchopeni-micku-grasp-it">
+<h1>Uchopení míčku (Grasp It!)<a class="headerlink" href="#uchopeni-micku-grasp-it" title="Link to this heading"></a></h1>
+<p>Cílem úlohy je uchopit míček ze stolu. Úloha je rozdělena na dvě části:</p>
+<ul class="simple">
+<li><p>najít míček na stole v obrazové rovině kamery (míček je v zorném poli robota a je zelený)</p></li>
+<li><p>uchopit míček: pomocí polohy míčku v obrazu a hloubkové mapy spočítat jeho 3D polohu a uchopit jej rukou</p></li>
+</ul>
+<p><img alt="Uchopení míčku!" src="images/exercise_5.gif" /></p>
+<section id="ukol">
+<h2>Úkol<a class="headerlink" href="#ukol" title="Link to this heading"></a></h2>
+<p>Implementujte metody <code class="docutils literal notranslate"><span class="pre">find_the_ball()</span></code> a <code class="docutils literal notranslate"><span class="pre">grasp()</span></code> v souboru <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_5/exercise_5.py">exercise_5.py</a>. Obě jsou metodami třídy <code class="docutils literal notranslate"><span class="pre">Grasper</span></code>, která již obsahuje několik užitečných pomocných metod. Po uchopení zvedněte míček tak, aby byl alespoň 5 cm nad stolem.</p>
+<p>Třída přijímá dva argumenty:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">client</span></code> – instance třídy <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ovládající simulaci</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eye</span></code> – název oka s kamerou (<code class="docutils literal notranslate"><span class="pre">'l_eye'</span></code> nebo <code class="docutils literal notranslate"><span class="pre">'r_eye'</span></code>)</p></li>
+</ul>
+<p>Předepsané rozhraní obou metod:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">find_the_ball()</span></code> – bez argumentů, vrací <code class="docutils literal notranslate"><span class="pre">(u,</span> <span class="pre">v)</span></code> (střed míčku v obrazové rovině)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grasp(center)</span></code> – přijímá jeden argument <code class="docutils literal notranslate"><span class="pre">center</span></code> (2D střed z <code class="docutils literal notranslate"><span class="pre">find_the_ball()</span></code>) a při úspěšném uchopení vrací <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+</ul>
+<p>Do třídy můžete libovolně přidávat vlastní metody a atributy, tester však volá pouze <code class="docutils literal notranslate"><span class="pre">find_the_ball()</span></code> a <code class="docutils literal notranslate"><span class="pre">grasp()</span></code>. Třída <code class="docutils literal notranslate"><span class="pre">Grasper</span></code> obsahuje pomocné metody pro získání RGB a hloubkového obrazu, zpětnou projekci 2D bodu do 3D i zavření prstů.</p>
+<p>Míček je vždy zelený <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">255,</span> <span class="pre">0)</span></code> a má poloměr 2,5 cm.</p>
+</section>
+<section id="bodovani">
+<h2>Bodování<a class="headerlink" href="#bodovani" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Pokud je míček po návratu z <code class="docutils literal notranslate"><span class="pre">grasp()</span></code> alespoň 5 cm nad stolem a v ruce robota, testem projdete.</p></li>
+</ul>
+</section>
+<section id="pozadavky">
+<h2>Požadavky<a class="headerlink" href="#pozadavky" title="Link to this heading"></a></h2>
+<p><strong>Pro správnou funkci testeru</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_5/exercise_5_tester.py">exercise_5_tester.py</a>:</p>
+<ul class="simple">
+<li><p>nevytvářejte nového klienta, použijte předaný argument <code class="docutils literal notranslate"><span class="pre">client</span></code></p></li>
+<li><p>nepřejmenovávejte <code class="docutils literal notranslate"><span class="pre">find_the_ball()</span></code>, <code class="docutils literal notranslate"><span class="pre">grasp()</span></code> ani soubor</p></li>
+<li><p>po návratu z <code class="docutils literal notranslate"><span class="pre">grasp()</span></code> musí být míček alespoň 5 cm nad stolem a držen v ruce robota</p></li>
+</ul>
+<p><strong>Pro správné splnění úlohy:</strong></p>
+<ul class="simple">
+<li><p><strong>Nevypínejte</strong> gravitaci</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_4.html" class="btn btn-neutral float-left" title="Řízení pomocí jakobiánu (Resolved-Rate Motion Control)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="readme.html" class="btn btn-neutral float-right" title="Dokumentace projektu (README)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

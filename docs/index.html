@@ -31,27 +31,11 @@
   <link rel="stylesheet" href="static/css/index.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script src="static/js/bulma-carousel.min.js"></script>
   <script src="static/js/bulma-slider.min.js"></script>
   <script src="static/js/index.js"></script>
 
-  <script>
-    function adjustIframeHeight() {
-        let iframe = document.getElementById("presentation-iframe");
-
-        let width = iframe.clientWidth; // Get current width
-        let height = 0.775 * width; // Maintain 4:3 aspect ratio
-
-        iframe.style.height = height + "px"; // Apply height
-    }
-
-    // Adjust height on page load and when resizing
-    window.addEventListener("load", adjustIframeHeight);
-    window.addEventListener("resize", adjustIframeHeight);
-
-  </script>
   <style>
     .results-carousel .item {
       display: flex;
@@ -140,12 +124,21 @@
                 </span>
 
                 <span class="link-block">
-                      <a href="https://www.lukasrustler.cz/pyCub/documentation" target="_blank"
+                      <a href="handbook/index.html" target="_blank" 
                       class="external-link button is-normal is-rounded is-dark">
                       <span class="icon">
                         <i class="fas fa-book"></i>
                       </span>
                       <span>Documentation</span>
+                    </a>
+                  </span>
+                <span class="link-block">
+                      <a href="handbook/pycub.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Docs (PDF)</span>
                     </a>
                   </span>
                   <span class="link-block">
@@ -299,21 +292,6 @@
   </div>
 </section>
 <!-- End video carousel -->
-
-
-<!-- Presentation -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h2 class="title">Get Started Presentation</h2>
-
-      <iframe  id="presentation-iframe" src="https://www.lukasrustler.cz/pyCub/documentation/pycub_presentation.pdf" width="90%">
-          </iframe>
-
-      </div>
-    </div>
-  </section>
-<!--End paper poster -->
 
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">

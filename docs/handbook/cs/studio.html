@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Použití Studia &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Programování robota" href="programming.html" />
+    <link rel="prev" title="Příručka pyCub Studia" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Použití Studia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#zaciname">Začínáme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detske-ovladani-tlacitka">Dětské ovládání (Tlačítka)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detske-scratch-bloky">Dětské „Scratch“ (Bloky)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detske-programovani-python">Dětské programování (Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normalni-rezim-plne-ide-py">Normální režim (Plné IDE &amp; .py)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webovy-server-pro-tridu-multi-instance">Webový server pro třídu (Multi-instance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#slozka-uzivatele-a-balicky">Složka uživatele a balíčky</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Použití Studia</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pouziti-studia">
+<h1>Použití Studia<a class="headerlink" href="#pouziti-studia" title="Link to this heading"></a></h1>
+<p>Spusťte pyCub Studio a na domovské obrazovce (<strong>🏠 Domů</strong>) vyberte jeden z režimů.
+Přepínač režimů v horní liště umožňuje kdykoli přecházet mezi aktivitami. Tlačítko
+jazyka přepíná rozhraní i příručku mezi češtinou a angličtinou.</p>
+<section id="zaciname">
+<h2>Začínáme<a class="headerlink" href="#zaciname" title="Link to this heading"></a></h2>
+<p>Otevřete desktopovou aplikaci z instalátoru nebo přenosné (portable) verze, nebo
+ji nainstalujte přes <code class="docutils literal notranslate"><span class="pre">pip</span></code> do virtuálního prostředí Pythonu 3.10–3.12 a spusťte
+příkazem <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> odkudkoli:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Z PyPI (nainstaluje simulátor, Studio, příručku, cvičení i ukázky):</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pycub-studio
+<span class="c1"># nebo: python -m pip install &quot;icub_pybullet[studio]&quot;</span>
+
+<span class="c1"># Nebo z lokálně naklonovaného repozitáře:</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet<span class="w"> </span>./studio
+
+pycub-studio
+</pre></div>
+</div>
+</section>
+<section id="detske-ovladani-tlacitka">
+<h2>Dětské ovládání (Tlačítka)<a class="headerlink" href="#detske-ovladani-tlacitka" title="Link to this heading"></a></h2>
+<p>Vyberte svět s míčkem a vyzkoušejte některý z přednastavených pohybů. Pomocí tlačítek
+kloubů můžete pohybovat jednotlivými částmi robota. Změnou velikosti kroku (°) a
+rychlosti upravíte jemnost pohybu. Ukazatel míčku zobrazuje, zda se robot míčku dotkl
+a jak daleko se míček odkutálel.</p>
+</section>
+<section id="detske-scratch-bloky">
+<h2>Dětské „Scratch“ (Bloky)<a class="headerlink" href="#detske-scratch-bloky" title="Link to this heading"></a></h2>
+<p>Skládejte barevné bloky pro pohyb, senzory a řízení programu (cykly, podmínky) a
+spusťte program. Během běhu se v editoru zvýrazňuje právě vykonávaný blok. V náhledu
+Python kódu uvidíte, jak se bloky překládají do Pythonu. Rozpracované projekty lze
+uložit jako soubory <code class="docutils literal notranslate"><span class="pre">.pycub_blocks</span></code> nebo jedním kliknutím převést do režimu
+Dětského programování.</p>
+</section>
+<section id="detske-programovani-python">
+<h2>Dětské programování (Python)<a class="headerlink" href="#detske-programovani-python" title="Link to this heading"></a></h2>
+<p>Začněte s připravenou šablonou nebo klikněte na příkaz v paletě vlevo pro vložení
+ukázky do kódu. Spusťte program a sledujte výstup v konzoli. Tlačítkem <strong>Zastavit</strong>
+přerušíte běžící smyčku. Případná chyba zvýrazní příslušný řádek v editoru. Podrobnosti
+k nápovědě a definicím funkcí najdete v části <a class="reference internal" href="programming.html"><span class="std std-doc">Programování robota</span></a>.</p>
+</section>
+<section id="normalni-rezim-plne-ide-py">
+<h2>Normální režim (Plné IDE &amp; .py)<a class="headerlink" href="#normalni-rezim-plne-ide-py" title="Link to this heading"></a></h2>
+<p>Otevřete vlastní <code class="docutils literal notranslate"><span class="pre">.py</span></code> soubor nebo upravte výchozí skript v první záložce. Klávesou
+<strong>F5</strong> nebo tlačítkem <strong>Spustit skript</strong> spustíte aktuální program. V záložkách lze
+upravovat i <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfigurace světů. Pokud píšete kód v externím editoru (např.
+VS Code nebo PyCharm), použijte <strong>Spustit externí .py…</strong> a volbu automatického
+znovuspuštění při uložení souboru.</p>
+<p>Pomocí tlačítek pro levé a pravé oko (<code class="docutils literal notranslate"><span class="pre">l_eye</span></code>, <code class="docutils literal notranslate"><span class="pre">r_eye</span></code>) zobrazíte náhled RGB a
+hloubkových kamer. V nabídce <strong>Příklady &amp; Cvičení</strong> můžete otevřít ukázkové skripty
+nebo nakopírovat kurzovní cvičení do své pracovní složky a rovnou spouštět jejich
+automatický tester s vyhodnocením výsledků.</p>
+</section>
+<section id="webovy-server-pro-tridu-multi-instance">
+<h2>Webový server pro třídu (Multi-instance)<a class="headerlink" href="#webovy-server-pro-tridu-multi-instance" title="Link to this heading"></a></h2>
+<p>Nastavte počet samostatných instancí simulátoru (<code class="docutils literal notranslate"><span class="pre">N</span></code>) a spusťte server. Studenti ve
+stejné síti se mohou připojit přes zobrazenou adresu nebo naskenováním QR kódu z
+tabletu či jiného počítače. Přehled zobrazuje připojené uživatele a stav každé instance;
+v případě potřeby můžete zobrazit logy nebo jednotlivou instanci restartovat.</p>
+</section>
+<section id="slozka-uzivatele-a-balicky">
+<h2>Složka uživatele a balíčky<a class="headerlink" href="#slozka-uzivatele-a-balicky" title="Link to this heading"></a></h2>
+<p>Tlačítkem <strong>📂 Složka uživatele</strong> v horní liště otevřete adresář <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub</span></code>
+s vašimi skripty, Scratch projekty, ukázkami, cvičeními a uloženými obrázky. Vlastní
+<code class="docutils literal notranslate"><span class="pre">.yaml</span></code> světy ukládejte do podsložky <code class="docutils literal notranslate"><span class="pre">worlds/</span></code> (mohou dědit výchozí svět pomocí
+<code class="docutils literal notranslate"><span class="pre">parent:</span> <span class="pre">with_ball.yaml</span></code>) a vlastní 3D modely do <code class="docutils literal notranslate"><span class="pre">meshes/</span></code>. Přes <strong>📦 Balíčky / Python</strong>
+lze doinstalovat další Python knihovny nebo vybrat externí interpret Pythonu pro Normální režim.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Příručka pyCub Studia" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="programming.html" class="btn btn-neutral float-right" title="Programování robota" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

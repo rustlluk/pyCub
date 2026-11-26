@@ -1,3 +1,9 @@
 include README.md
 include LICENSE
+include VERSION
 include requirements.txt
+recursive-include iCub *
+recursive-include other_meshes *
+recursive-include configs *
+recursive-include examples *.py
+recursive-include logs *

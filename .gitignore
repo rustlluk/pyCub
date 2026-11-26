@@ -3,4 +3,15 @@
 *.ipynb*
 *_build*
 *.csv
-*docs_*
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+packaging/out/
+packaging/work/
+skills*
+packaging/out/*
+STANDALONE_PLAN.md
+docs/handbook/.buildinfo*
+docs/source/autoapi/

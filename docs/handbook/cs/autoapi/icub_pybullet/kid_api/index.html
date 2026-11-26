@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icub_pybullet.kid_api &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../static/handbook.css?v=46b66857" />
+
+  
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=d153090d"></script>
+      <script src="../../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../static/translations.js?v=22e1c300"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="../../../genindex.html" />
+    <link rel="search" title="Vyhledávání" href="../../../search.html" />
+    <link rel="next" title="icub_pybullet.pycub" href="../pycub/index.html" />
+    <link rel="prev" title="icub_pybullet" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">icub_pybullet</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">icub_pybullet</a></li>
+      <li class="breadcrumb-item active">icub_pybullet.kid_api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-icub_pybullet.kid_api">
+<span id="icub-pybullet-kid-api"></span><h1>icub_pybullet.kid_api<a class="headerlink" href="#module-icub_pybullet.kid_api" title="Link to this heading"></a></h1>
+<p>High-level beginner-friendly Python API for pyCub („Kid Programming“ &amp; „Scratch“ Blockly runtime).</p>
+<p>Allows students to control iCub with intuitive one-line commands without writing
+simulation loops or radian conversions, both inside the standalone desktop app
+(Modes 2 &amp; 3) and when executed directly as a standard <cite>.py</cite> script.</p>
+<section id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.KidScriptStopped" title="icub_pybullet.kid_api.KidScriptStopped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KidScriptStopped</span></code></a></p></td>
+<td><p>Raised cooperatively to stop a running Kid Scratch / Kid Programming script immediately.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.KidRobot" title="icub_pybullet.kid_api.KidRobot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KidRobot</span></code></a></p></td>
+<td><p>Controller binding <cite>kid_api</cite> functions either to a managed step-callback (inside the</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.get_robot" title="icub_pybullet.kid_api.get_robot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_robot</span></code></a>() → KidRobot</p></td>
+<td><p>Return the active KidRobot controller (lazily starting <cite>with_ball.yaml</cite> if run standalone).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.wave" title="icub_pybullet.kid_api.wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wave</span></code></a>([side]) → None</p></td>
+<td><p>Wave using the left or right arm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.left_wave" title="icub_pybullet.kid_api.left_wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">left_wave</span></code></a>() → None</p></td>
+<td><p>Wave using the left arm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.right_wave" title="icub_pybullet.kid_api.right_wave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">right_wave</span></code></a>() → None</p></td>
+<td><p>Wave using the right arm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.both_arms_up" title="icub_pybullet.kid_api.both_arms_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">both_arms_up</span></code></a>() → None</p></td>
+<td><p>Raise both arms to their preset positions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.both_arms_down" title="icub_pybullet.kid_api.both_arms_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">both_arms_down</span></code></a>() → None</p></td>
+<td><p>Lower both arms to their preset positions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.look_center" title="icub_pybullet.kid_api.look_center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">look_center</span></code></a>() → None</p></td>
+<td><p>Center the neck joints.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.stand_straight" title="icub_pybullet.kid_api.stand_straight"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stand_straight</span></code></a>() → None</p></td>
+<td><p>Return the torso to its neutral position.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.reset_pose" title="icub_pybullet.kid_api.reset_pose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_pose</span></code></a>() → None</p></td>
+<td><p>Return the robot to its starting pose.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.stop" title="icub_pybullet.kid_api.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>() → None</p></td>
+<td><p>Stop current joint movements.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.shoulder_up" title="icub_pybullet.kid_api.shoulder_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoulder_up</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Raise the selected shoulder.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.shoulder_down" title="icub_pybullet.kid_api.shoulder_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoulder_down</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Lower the selected shoulder.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.shoulder_out" title="icub_pybullet.kid_api.shoulder_out"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoulder_out</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Move the selected arm away from the torso.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.shoulder_in" title="icub_pybullet.kid_api.shoulder_in"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shoulder_in</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Move the selected arm toward the torso.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.rotate_arm" title="icub_pybullet.kid_api.rotate_arm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_arm</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Rotate the selected upper arm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.bend_elbow" title="icub_pybullet.kid_api.bend_elbow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bend_elbow</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Bend the selected elbow.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.straighten_elbow" title="icub_pybullet.kid_api.straighten_elbow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">straighten_elbow</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Extend the selected elbow.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.rotate_wrist" title="icub_pybullet.kid_api.rotate_wrist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rotate_wrist</span></code></a>([side, degrees, speed]) → None</p></td>
+<td><p>Rotate the selected wrist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.turn_head" title="icub_pybullet.kid_api.turn_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">turn_head</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Turn the head about the neck yaw axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.look_up" title="icub_pybullet.kid_api.look_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">look_up</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Tilt the head upward.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.look_down" title="icub_pybullet.kid_api.look_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">look_down</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Tilt the head downward.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.tilt_head" title="icub_pybullet.kid_api.tilt_head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tilt_head</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Tilt the head to the side.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.turn_body" title="icub_pybullet.kid_api.turn_body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">turn_body</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Rotate the torso about its yaw axis.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.bend_forward" title="icub_pybullet.kid_api.bend_forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bend_forward</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Bend the torso forward.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.bend_back" title="icub_pybullet.kid_api.bend_back"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bend_back</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Bend the torso backward.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.bend_sideways" title="icub_pybullet.kid_api.bend_sideways"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bend_sideways</span></code></a>([degrees, speed]) → None</p></td>
+<td><p>Tilt the torso to the side.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.move_joint" title="icub_pybullet.kid_api.move_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_joint</span></code></a>(joint_name, target_degrees[, speed]) → None</p></td>
+<td><p>Move a joint to an absolute angle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.jog_joint" title="icub_pybullet.kid_api.jog_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jog_joint</span></code></a>(joint_name, delta_degrees[, speed]) → None</p></td>
+<td><p>Move a joint relative to its current angle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.get_joint" title="icub_pybullet.kid_api.get_joint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_joint</span></code></a>(joint_name) → float</p></td>
+<td><p>Read the current joint angle in degrees.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.wait" title="icub_pybullet.kid_api.wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait</span></code></a>([seconds]) → None</p></td>
+<td><p>Pause the program for the given number of seconds while the simulation runs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.ball_distance" title="icub_pybullet.kid_api.ball_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ball_distance</span></code></a>() → float</p></td>
+<td><p>Read the distance between the ball and the table in centimetres.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.ball_touched" title="icub_pybullet.kid_api.ball_touched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ball_touched</span></code></a>() → bool</p></td>
+<td><p>Read whether the robot has touched the ball.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.ball_hits" title="icub_pybullet.kid_api.ball_hits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ball_hits</span></code></a>() → int</p></td>
+<td><p>Read the ball hit count from the active controller.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.kid_api.skin_touched" title="icub_pybullet.kid_api.skin_touched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skin_touched</span></code></a>() → bool</p></td>
+<td><p>Read whether any enabled skin sensor is registering contact.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidScriptStopped">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">KidScriptStopped</span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidScriptStopped" title="Link to this definition"></a></dt>
+<dd><p>Raised cooperatively to stop a running Kid Scratch / Kid Programming script immediately.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">KidRobot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">threading.Event</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight_cb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">telemetry_getter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot" title="Link to this definition"></a></dt>
+<dd><p>Controller binding <cite>kid_api</cite> functions either to a managed step-callback (inside the
+interactive simulation worker) or to a standalone <cite>pyCub</cite> client instance.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.client" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.check_stop">
+<span class="sig-name descname"><span class="pre">check_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.check_stop" title="Link to this definition"></a></dt>
+<dd><p>Raise <code class="docutils literal notranslate"><span class="pre">KidScriptStopped</span></code> when cancellation is requested or the simulator closes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.highlight_block">
+<span class="sig-name descname"><span class="pre">highlight_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.highlight_block" title="Link to this definition"></a></dt>
+<dd><p>Notify the Blockly editor which block is executing and yield briefly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.move_joint">
+<span class="sig-name descname"><span class="pre">move_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.move_joint" title="Link to this definition"></a></dt>
+<dd><p>Move a named joint to an absolute angle in degrees.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.jog_joint">
+<span class="sig-name descname"><span class="pre">jog_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.jog_joint" title="Link to this definition"></a></dt>
+<dd><p>Move a named joint relatively by <cite>delta_degrees</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.get_joint">
+<span class="sig-name descname"><span class="pre">get_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.get_joint" title="Link to this definition"></a></dt>
+<dd><p>Return the current angle of <cite>joint_name</cite> in degrees.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.wave">
+<span class="sig-name descname"><span class="pre">wave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.wave" title="Link to this definition"></a></dt>
+<dd><p>Wave with the <cite>‚right‘</cite> or <cite>‚left‘</cite> arm.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.both_arms_up">
+<span class="sig-name descname"><span class="pre">both_arms_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.both_arms_up" title="Link to this definition"></a></dt>
+<dd><p>Raise both arms to their preset positions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.both_arms_down">
+<span class="sig-name descname"><span class="pre">both_arms_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.both_arms_down" title="Link to this definition"></a></dt>
+<dd><p>Lower both arms to their preset positions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.look_center">
+<span class="sig-name descname"><span class="pre">look_center</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.look_center" title="Link to this definition"></a></dt>
+<dd><p>Center the neck joints.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.stand_straight">
+<span class="sig-name descname"><span class="pre">stand_straight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.stand_straight" title="Link to this definition"></a></dt>
+<dd><p>Return the torso to its neutral upright posture.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.reset_pose">
+<span class="sig-name descname"><span class="pre">reset_pose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.reset_pose" title="Link to this definition"></a></dt>
+<dd><p>Return all body joints to their configured initial angles.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop all current joint movements.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.shoulder_up">
+<span class="sig-name descname"><span class="pre">shoulder_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.shoulder_up" title="Link to this definition"></a></dt>
+<dd><p>Raise the selected shoulder by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.shoulder_down">
+<span class="sig-name descname"><span class="pre">shoulder_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.shoulder_down" title="Link to this definition"></a></dt>
+<dd><p>Lower the selected shoulder by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.shoulder_out">
+<span class="sig-name descname"><span class="pre">shoulder_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.shoulder_out" title="Link to this definition"></a></dt>
+<dd><p>Move the selected arm away from the torso by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.shoulder_in">
+<span class="sig-name descname"><span class="pre">shoulder_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.shoulder_in" title="Link to this definition"></a></dt>
+<dd><p>Move the selected arm toward the torso by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.rotate_arm">
+<span class="sig-name descname"><span class="pre">rotate_arm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.rotate_arm" title="Link to this definition"></a></dt>
+<dd><p>Rotate the selected upper arm by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.bend_elbow">
+<span class="sig-name descname"><span class="pre">bend_elbow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.bend_elbow" title="Link to this definition"></a></dt>
+<dd><p>Bend the selected elbow by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.straighten_elbow">
+<span class="sig-name descname"><span class="pre">straighten_elbow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.straighten_elbow" title="Link to this definition"></a></dt>
+<dd><p>Extend the selected elbow by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.rotate_wrist">
+<span class="sig-name descname"><span class="pre">rotate_wrist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.rotate_wrist" title="Link to this definition"></a></dt>
+<dd><p>Rotate the selected wrist by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.turn_head">
+<span class="sig-name descname"><span class="pre">turn_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.turn_head" title="Link to this definition"></a></dt>
+<dd><p>Turn the head about the neck yaw axis by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.look_up">
+<span class="sig-name descname"><span class="pre">look_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.look_up" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head upward by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.look_down">
+<span class="sig-name descname"><span class="pre">look_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.look_down" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head downward by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.tilt_head">
+<span class="sig-name descname"><span class="pre">tilt_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.tilt_head" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head sideways by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.turn_body">
+<span class="sig-name descname"><span class="pre">turn_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.turn_body" title="Link to this definition"></a></dt>
+<dd><p>Rotate the torso about its yaw axis by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.bend_forward">
+<span class="sig-name descname"><span class="pre">bend_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.bend_forward" title="Link to this definition"></a></dt>
+<dd><p>Bend the torso forward by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.bend_back">
+<span class="sig-name descname"><span class="pre">bend_back</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.bend_back" title="Link to this definition"></a></dt>
+<dd><p>Bend the torso backward by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.bend_sideways">
+<span class="sig-name descname"><span class="pre">bend_sideways</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.bend_sideways" title="Link to this definition"></a></dt>
+<dd><p>Tilt the torso sideways by <code class="docutils literal notranslate"><span class="pre">degrees</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.wait">
+<span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.wait" title="Link to this definition"></a></dt>
+<dd><p>Pause script execution for <cite>seconds</cite> while keeping physics running.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.ball_distance">
+<span class="sig-name descname"><span class="pre">ball_distance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.ball_distance" title="Link to this definition"></a></dt>
+<dd><p>Distance of the ball from the table in cm (0.0 if on table or no ball).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.ball_touched">
+<span class="sig-name descname"><span class="pre">ball_touched</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.ball_touched" title="Link to this definition"></a></dt>
+<dd><p>True if the robot has touched the ball in the current run.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.ball_hits">
+<span class="sig-name descname"><span class="pre">ball_hits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.ball_hits" title="Link to this definition"></a></dt>
+<dd><p>Number of times the robot hit the ball in the current run.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.KidRobot.skin_touched">
+<span class="sig-name descname"><span class="pre">skin_touched</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.KidRobot.skin_touched" title="Link to this definition"></a></dt>
+<dd><p>True if tactile skin is enabled and currently registering contact.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.get_robot">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">get_robot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#icub_pybullet.kid_api.KidRobot" title="icub_pybullet.kid_api.KidRobot"><span class="pre">KidRobot</span></a></span></span><a class="headerlink" href="#icub_pybullet.kid_api.get_robot" title="Link to this definition"></a></dt>
+<dd><p>Return the active KidRobot controller (lazily starting <cite>with_ball.yaml</cite> if run standalone).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.wave">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">wave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.wave" title="Link to this definition"></a></dt>
+<dd><p>Wave using the left or right arm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>side</strong> – Arm to use („left“ or „right“).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.left_wave">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">left_wave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.left_wave" title="Link to this definition"></a></dt>
+<dd><p>Wave using the left arm.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.right_wave">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">right_wave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.right_wave" title="Link to this definition"></a></dt>
+<dd><p>Wave using the right arm.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.both_arms_up">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">both_arms_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.both_arms_up" title="Link to this definition"></a></dt>
+<dd><p>Raise both arms to their preset positions.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.both_arms_down">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">both_arms_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.both_arms_down" title="Link to this definition"></a></dt>
+<dd><p>Lower both arms to their preset positions.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.look_center">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">look_center</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.look_center" title="Link to this definition"></a></dt>
+<dd><p>Center the neck joints.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.stand_straight">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">stand_straight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.stand_straight" title="Link to this definition"></a></dt>
+<dd><p>Return the torso to its neutral position.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.reset_pose">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">reset_pose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.reset_pose" title="Link to this definition"></a></dt>
+<dd><p>Return the robot to its starting pose.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.stop">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.stop" title="Link to this definition"></a></dt>
+<dd><p>Stop current joint movements.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.shoulder_up">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">shoulder_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.shoulder_up" title="Link to this definition"></a></dt>
+<dd><p>Raise the selected shoulder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.shoulder_down">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">shoulder_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.shoulder_down" title="Link to this definition"></a></dt>
+<dd><p>Lower the selected shoulder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.shoulder_out">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">shoulder_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.shoulder_out" title="Link to this definition"></a></dt>
+<dd><p>Move the selected arm away from the torso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.shoulder_in">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">shoulder_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.shoulder_in" title="Link to this definition"></a></dt>
+<dd><p>Move the selected arm toward the torso.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.rotate_arm">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">rotate_arm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.rotate_arm" title="Link to this definition"></a></dt>
+<dd><p>Rotate the selected upper arm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.bend_elbow">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">bend_elbow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.bend_elbow" title="Link to this definition"></a></dt>
+<dd><p>Bend the selected elbow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.straighten_elbow">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">straighten_elbow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.straighten_elbow" title="Link to this definition"></a></dt>
+<dd><p>Extend the selected elbow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.rotate_wrist">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">rotate_wrist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'right'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.rotate_wrist" title="Link to this definition"></a></dt>
+<dd><p>Rotate the selected wrist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>side</strong> – Arm to use („left“ or „right“).</p></li>
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.turn_head">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">turn_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.turn_head" title="Link to this definition"></a></dt>
+<dd><p>Turn the head about the neck yaw axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.look_up">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">look_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.look_up" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head upward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.look_down">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">look_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.look_down" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head downward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.tilt_head">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">tilt_head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.tilt_head" title="Link to this definition"></a></dt>
+<dd><p>Tilt the head to the side.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.turn_body">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">turn_body</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.turn_body" title="Link to this definition"></a></dt>
+<dd><p>Rotate the torso about its yaw axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.bend_forward">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">bend_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.bend_forward" title="Link to this definition"></a></dt>
+<dd><p>Bend the torso forward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.bend_back">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">bend_back</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.bend_back" title="Link to this definition"></a></dt>
+<dd><p>Bend the torso backward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.bend_sideways">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">bend_sideways</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.bend_sideways" title="Link to this definition"></a></dt>
+<dd><p>Tilt the torso to the side.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>degrees</strong> – Change from the current angle, in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.move_joint">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">move_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.move_joint" title="Link to this definition"></a></dt>
+<dd><p>Move a joint to an absolute angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_name</strong> – Simulator joint name, such as neck_pitch.</p></li>
+<li><p><strong>target_degrees</strong> – Absolute target angle in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.jog_joint">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">jog_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.jog_joint" title="Link to this definition"></a></dt>
+<dd><p>Move a joint relative to its current angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>joint_name</strong> – Simulator joint name, such as neck_pitch.</p></li>
+<li><p><strong>delta_degrees</strong> – Signed change in degrees.</p></li>
+<li><p><strong>speed</strong> – Maximum joint speed in radians per second.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.get_joint">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">get_joint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">joint_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.get_joint" title="Link to this definition"></a></dt>
+<dd><p>Read the current joint angle in degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>joint_name</strong> – Simulator joint name, such as neck_pitch.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.wait">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.wait" title="Link to this definition"></a></dt>
+<dd><p>Pause the program for the given number of seconds while the simulation runs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.ball_distance">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">ball_distance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.ball_distance" title="Link to this definition"></a></dt>
+<dd><p>Read the distance between the ball and the table in centimetres.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.ball_touched">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">ball_touched</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.ball_touched" title="Link to this definition"></a></dt>
+<dd><p>Read whether the robot has touched the ball.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.ball_hits">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">ball_hits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.ball_hits" title="Link to this definition"></a></dt>
+<dd><p>Read the ball hit count from the active controller.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.kid_api.skin_touched">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.kid_api.</span></span><span class="sig-name descname"><span class="pre">skin_touched</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.kid_api.skin_touched" title="Link to this definition"></a></dt>
+<dd><p>Read whether any enabled skin sensor is registering contact.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="icub_pybullet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pycub/index.html" class="btn btn-neutral float-right" title="icub_pybullet.pycub" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

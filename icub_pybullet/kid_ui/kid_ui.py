@@ -231,6 +231,8 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
     last_contact_step = None
     after_5s = float("nan")
     moving_time = float("nan")
+    hits = 0
+    in_contact = False
     while client.is_alive():
         try:
             while True:
@@ -238,6 +240,9 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
                 if name == "stop":
                     client.stop_robot()
                     current, current_name = None, None
+                elif name == "reset_view":
+                    if getattr(client, "visualizer", None) is not None:
+                        client.visualizer.reset_view()
                 elif isinstance(name, tuple):
                     # step command: ("jog", joint, delta in degrees, speed in rad/s); repeated presses add up
                     _, joint, delta, speed = name
@@ -275,19 +280,26 @@ def sim_process(world: str, web_gui: bool, headless: bool, commands: "mp.Queue",
                 pts = client.getClosestPoints(ball_id, table_id, 10.0)
                 dist = min(p[8] for p in pts) if pts else float("nan")
                 steps = client.steps_done
-                if client.getContactPoints(client.robot, ball_id):
+                contact = bool(client.getContactPoints(client.robot, ball_id))
+                if contact:
+                    if not in_contact and (last_contact_step is None or (steps - last_contact_step) * dt >= 0.5):
+                        hits += 1
+                    in_contact = True
                     last_contact_step, after_5s, moving_time = steps, float("nan"), 0.0
-                elif last_contact_step is not None and np.isnan(after_5s) and (steps - last_contact_step) * dt >= 3:
-                    after_5s = dist
-                if last_contact_step is not None and not client.getContactPoints(client.robot, ball_id):
-                    # the clock runs from the last touch until the ball comes to rest
-                    lin, ang = client.getBaseVelocity(ball_id)
-                    if np.linalg.norm(lin) > 0.01 or np.linalg.norm(ang) > 0.1:
-                        moving_time = (steps - last_contact_step) * dt
+                else:
+                    in_contact = False
+                    if last_contact_step is not None and np.isnan(after_5s) and (steps - last_contact_step) * dt >= 3:
+                        after_5s = dist
+                    if last_contact_step is not None:
+                        # the clock runs from the last touch until the ball comes to rest
+                        lin, ang = client.getBaseVelocity(ball_id)
+                        if np.linalg.norm(lin) > 0.01 or np.linalg.norm(ang) > 0.1:
+                            moving_time = (steps - last_contact_step) * dt
             ball_info[0], ball_info[1] = float(ball_id is not None), dist
             ball_info[2] = after_5s
             ball_info[4] = moving_time
             ball_info[3] = float(last_contact_step is not None)
+            ball_info[5] = float(hits)
         if headless and client.default_step is None:
             time.sleep(0.002)
     status.put({"state": "closed"})
@@ -307,7 +319,7 @@ class Simulation:
         self.state = {"state": "stopped"}
         self.lock = threading.Lock()
         self.commands = self.status = None
-        self.ball_info = self.ctx.Array("d", [0.0, float("nan"), float("nan"), 0.0, float("nan")])
+        self.ball_info = self.ctx.Array("d", [0.0, float("nan"), float("nan"), 0.0, float("nan"), 0.0])
         self.stream_port = None
         self.run = 0  # increases with every started simulation; the page uses it to reconnect the video
 
@@ -319,7 +331,7 @@ class Simulation:
             self.stream_port = self.configured_stream_port or free_port()
             self.commands, self.status = self.ctx.Queue(), self.ctx.Queue()
             self.state = {"state": "loading"}
-            self.ball_info[:] = [0.0, float("nan"), float("nan"), 0.0, float("nan")]
+            self.ball_info[:] = [0.0, float("nan"), float("nan"), 0.0, float("nan"), 0.0]
             self.process = self.ctx.Process(target=sim_process, daemon=True,
                                             args=(world, self.web_gui, self.headless, self.commands, self.status,
                                                   self.stream_port, self.stream_host, self.ball_info))
@@ -356,12 +368,12 @@ class Simulation:
                     pass
             if self.process is not None and not self.process.is_alive() and self.state["state"] != "closed":
                 self.state = {"state": "closed"}
-            present, dist, after, touched, moving = self.ball_info[:]
+            present, dist, after, touched, moving, hits = self.ball_info[:]
             ball = None
             if present:
                 nn = lambda v: None if v != v else round(v * 100, 1)  # cm
                 ball = {"distance": nn(dist), "after": nn(after), "touched": bool(touched),
-                        "moving": None if moving != moving else round(moving, 2)}
+                        "moving": None if moving != moving else round(moving, 2), "hits": int(hits)}
             return dict(self.state, world=self.world, run=self.run, stream_port=self.stream_port, ball=ball)
 
 
@@ -374,12 +386,12 @@ PAGE = """<!doctype html>
 <style>
   * { box-sizing: border-box; }
   body { font-family: "Comic Sans MS", "Trebuchet MS", sans-serif; background: #eef6ff; margin: 0; padding: 10px; }
-  h1 { color: #1b4f8a; margin: 0; font-size: 1.4em; }
+  h1 { color: #1b4f8a; margin: 0; font-size: 1.4em; min-width: 0; }
   #heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   #language { flex: 0 0 auto; padding: 6px 10px; font-size: 0.85em; }
   #status { font-size: 1em; margin: 2px 0 6px; min-height: 1.3em; }
   #layout { display: flex; gap: 12px; align-items: flex-start; }
-  #left { flex: 0 0 46%; position: sticky; top: 10px; max-height: calc(100vh - 20px); overflow: auto; }
+  #left { flex: 0 0 46%; position: sticky; top: 10px; max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); overflow: auto; }
   #right { flex: 1 1 0; min-width: 0; }
   #sections { columns: 290px; column-gap: 10px; }
   section { background: #fff; border-radius: 12px; padding: 8px 10px; margin: 0 0 10px;
@@ -401,17 +413,71 @@ PAGE = """<!doctype html>
   .step input { font: inherit; width: 4em; padding: 5px; border-radius: 8px; border: 2px solid #8e6cd8; }
   .jog { display: flex; align-items: center; gap: 6px; margin: 4px 0; }
   .jog .name { flex: 0 0 105px; color: #1b4f8a; font-weight: bold; font-size: 0.85em; line-height: 1.1; }
-  .jog button { flex: 1 1 0; padding: 7px 4px; }
+  .jog button { flex: 1 1 0; min-width: 0; padding: 7px 4px; }
+  section .row + .row { margin-top: 6px; }
   #right .row { margin-top: 6px; }
-  #view video { display: block; width: 100%; max-height: calc(100vh - 290px); object-fit: contain; background: #fff;
+  #view { position: relative; }
+  #view video { display: block; width: 100%; max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); object-fit: contain; background: #fff;
                 border-radius: 10px;
                 touch-action: none; }
-  @media (max-width: 900px) { #layout { flex-direction: column; } #left { position: static; flex-basis: auto;
-                                                                          width: 100%; max-height: none; } }
+  #reset-view { position: absolute; top: 8px; right: 8px; z-index: 2; flex: 0 0 auto;
+                padding: 5px 10px; font-size: 0.8em; background: rgba(27, 79, 138, 0.85);
+                box-shadow: 0 2px rgba(15, 48, 87, 0.7); }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+  @keyframes ballPop { 0% { box-shadow: 0 0 0 0 rgba(255, 213, 79, 0.9); }
+                       50% { box-shadow: 0 0 0 10px rgba(255, 213, 79, 0.45); }
+                       100% { box-shadow: 0 2px 6px rgba(0,0,0,.15); } }
+  #ball.hit { animation: ballPop 0.8s ease-out; }
+  @media (max-width: 900px) and (orientation: portrait), (max-width: 560px) {
+    body { padding-top: 0; }
+    #layout { flex-direction: column; gap: 6px; }
+    #left { position: sticky; top: 0; z-index: 10; flex-basis: auto; width: 100%; max-height: none;
+            overflow: visible; background: #eef6ff; padding: 8px 0 6px; }
+    #left section { margin: 0 0 6px; padding: 6px 8px; }
+    #left section:last-child { margin-bottom: 0; }
+    #left button { font-size: 0.85em; padding: 6px; flex: 1 1 85px; }
+    #view video { max-height: 36vh; max-height: 36dvh; }
+  }
+  @media (max-width: 450px) {
+    body { padding: 0 6px 6px; }
+    .jog .name { flex: 0 0 84px; font-size: 0.8em; }
+    .jog button { font-size: 0.85em; padding: 7px 3px; }
+  }
+  @media (orientation: landscape) and (max-height: 600px) and (min-width: 561px) {
+    body { padding: 6px; }
+    #layout { gap: 8px; align-items: flex-start; }
+    #left { position: sticky; top: 6px; flex: 0 0 46%; max-width: 46%; height: calc(100vh - 12px); height: calc(100dvh - 12px); max-height: none;
+            display: flex; flex-direction: column; gap: 6px; overflow-y: auto; overflow-x: hidden; padding: 1px 2px 3px; }
+    #left section { margin: 0; }
+    #view { flex: 1 1 0; min-height: 140px; padding: 4px; display: flex; align-items: center; justify-content: center; }
+    #view video { width: 100%; height: 100%; max-height: 100%; }
+    #left > section:not(#view) { flex: 0 0 auto; padding: 6px 7px; }
+    #left .row { gap: 5px; }
+    #left .row + .row { margin-top: 6px; }
+    #left button { font-size: 0.78em; padding: 5px 5px; flex: 1 1 70px; }
+    #reset-view { top: 6px; right: 6px; padding: 4px 8px; font-size: 0.75em; }
+    #right { flex: 1 1 0; min-width: 0; padding: 1px 2px 3px; }
+    #heading h1 { font-size: 1.05em; }
+    #language { padding: 4px 8px; font-size: 0.78em; }
+    #status { font-size: 0.85em; margin: 1px 0 4px; min-height: 1.1em; }
+    #ball { font-size: 0.82em; padding: 4px 8px; margin-bottom: 6px !important; line-height: 1.25; }
+    #sections { columns: 290px; column-gap: 8px; }
+    #right section { padding: 6px 8px; margin: 0 0 6px; }
+    h2 { font-size: 0.95em; margin: 0 0 4px; }
+    .jog { gap: 4px; margin: 3px 0; }
+    .jog .name { flex: 0 0 88px; font-size: 0.78em; }
+    .jog button { font-size: 0.82em; padding: 5px 4px; }
+    button { font-size: 0.85em; padding: 6px 8px; }
+    .step { gap: 4px; font-size: 0.85em; }
+    .step button { padding: 4px 8px; }
+    .step input { width: 3.4em; padding: 3px; }
+  }
 </style></head><body>
+<canvas id="fx"></canvas>
 <div id="layout">
 <div id="left">
-  <section id="view" style="display:none"><video id="sim" autoplay muted playsinline></video></section>
+  <section id="view" style="display:none"><video id="sim" autoplay muted playsinline></video>
+    <button id="reset-view" class="action" data-i18n="resetView" onclick="post('/api/action/reset_view')"></button></section>
   <section><div class="row" id="worlds"></div>
     <div class="row">
       <button class="restart" data-i18n="restart" onclick="post('/api/restart')"></button>
@@ -432,7 +498,7 @@ const CFG = __CONFIG__;
 const TEXT = {
   cs: {
     pageTitle: "pyCub – Ovládání robota", heading: "🤖 Ovládání robota",
-    restart: "🔄 Restartovat svět", stop: "✋ Zastavit", resetPose: "🧍 Základní postoj",
+    restart: "🔄 Restartovat svět", stop: "✋ Zastavit", resetPose: "🧍 Základní postoj", resetView: "🎥 Obnovit pohled",
     step: "Krok:", speed: "Rychlost:", switchLanguage: "English",
     loading: "⏳ Načítám svět, chvilku strpení…", ready: "✅ Připraveno! Zmáčkni tlačítko.",
     busy: "🏃 Robot se hýbe…", closed: "🪟 Simulace skončila. Zmáčkni „Restartovat svět“.",
@@ -445,7 +511,7 @@ const TEXT = {
   },
   en: {
     pageTitle: "pyCub – Robot controls", heading: "🤖 Robot controls",
-    restart: "🔄 Restart world", stop: "✋ Stop", resetPose: "🧍 Reset posture",
+    restart: "🔄 Restart world", stop: "✋ Stop", resetPose: "🧍 Reset posture", resetView: "🎥 Reset view",
     step: "Step:", speed: "Speed:", switchLanguage: "Čeština",
     loading: "⏳ Loading the world, please wait…", ready: "✅ Ready! Press a button.",
     busy: "🏃 The robot is moving…", closed: "🪟 The simulation has ended. Press “Restart world”.",
@@ -630,10 +696,92 @@ async function connectView(run, port) {
     scriptsLoaded = null; streamedRun = null;  // try again on the next refresh
   }
 }
+const CLIENT_ID = (window.crypto && crypto.randomUUID)
+  ? crypto.randomUUID()
+  : Math.random().toString(36).slice(2) + Date.now().toString(36);
+let reservationId = new URLSearchParams(location.search).get("res");
+if (reservationId && window.history && history.replaceState) {
+  history.replaceState(null, "", location.pathname);
+}
+window.addEventListener("pagehide", () => {
+  if (navigator.sendBeacon) navigator.sendBeacon("/api/leave?client=" + encodeURIComponent(CLIENT_ID));
+});
+const fx = document.getElementById("fx"), fxCtx = fx.getContext("2d");
+let flares = [], fxRaf = null, lastHitRun = null, lastHits = 0;
+function launchFlares() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth, H = window.innerHeight;
+  fx.width = W * dpr; fx.height = H * dpr;
+  fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ["#ff5252", "#ffd54f", "#4caf50", "#40c4ff", "#ff6ec7", "#ff9100", "#ffffff"];
+  const viewBox = document.getElementById("view").getBoundingClientRect();
+  const origins = viewBox.width > 0
+    ? [[viewBox.left + viewBox.width * 0.5, viewBox.top + viewBox.height * 0.45],
+       [W * 0.28, H * 0.3], [W * 0.72, H * 0.3]]
+    : [[W * 0.35, H * 0.35], [W * 0.65, H * 0.35]];
+  for (const [ox, oy] of origins) {
+    for (let i = 0; i < 36; i++) {
+      const ang = (Math.PI * 2 * i) / 36 + (Math.random() - 0.5) * 0.25;
+      const spd = 2.2 + Math.random() * 5.8;
+      flares.push({
+        x: ox, y: oy, px: ox, py: oy,
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1.5,
+        r: 2.2 + Math.random() * 2.8, life: 1, decay: 0.014 + Math.random() * 0.012,
+        color: colors[(Math.random() * colors.length) | 0],
+        star: Math.random() < 0.35
+      });
+    }
+  }
+  const ballEl = document.getElementById("ball");
+  ballEl.classList.remove("hit"); void ballEl.offsetWidth; ballEl.classList.add("hit");
+  if (!fxRaf) fxRaf = requestAnimationFrame(stepFlares);
+}
+function stepFlares() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth, H = window.innerHeight;
+  if (fx.width !== W * dpr || fx.height !== H * dpr) {
+    fx.width = W * dpr; fx.height = H * dpr;
+    fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  fxCtx.clearRect(0, 0, W, H);
+  flares = flares.filter(p => p.life > 0);
+  for (const p of flares) {
+    p.px = p.x; p.py = p.y;
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.14; p.vx *= 0.985;
+    p.life -= p.decay;
+    if (p.life <= 0) continue;
+    fxCtx.save();
+    fxCtx.globalAlpha = Math.max(0, p.life);
+    fxCtx.strokeStyle = p.color; fxCtx.fillStyle = p.color;
+    fxCtx.shadowColor = p.color; fxCtx.shadowBlur = 10;
+    fxCtx.lineWidth = p.r;
+    fxCtx.beginPath(); fxCtx.moveTo(p.px, p.py); fxCtx.lineTo(p.x, p.y); fxCtx.stroke();
+    fxCtx.beginPath(); fxCtx.arc(p.x, p.y, p.star ? p.r * 1.3 : p.r * 0.85, 0, Math.PI * 2); fxCtx.fill();
+    fxCtx.restore();
+  }
+  if (flares.length) {
+    fxRaf = requestAnimationFrame(stepFlares);
+  } else {
+    fxCtx.clearRect(0, 0, W, H); fxRaf = null;
+  }
+}
 async function refresh() {
-  const st = await (await fetch("/api/status")).json();
+  let statusUrl = "/api/status?client=" + encodeURIComponent(CLIENT_ID);
+  if (reservationId) statusUrl += "&res=" + encodeURIComponent(reservationId);
+  const resp = await fetch(statusUrl);
+  const st = await resp.json();
+  if (resp.ok) reservationId = null;
   document.getElementById("status").textContent = TEXT[language][st.state] || st.state;
   const ballEl = document.getElementById("ball");
+  const hits = st.ball ? (st.ball.hits || 0) : 0;
+  if (st.run !== lastHitRun) {
+    lastHitRun = st.run;
+    lastHits = hits;
+  } else if (hits > lastHits) {
+    lastHits = hits;
+    launchFlares();
+  }
   ballEl.style.display = st.ball ? "block" : "none";
   if (st.ball) {
     const f = v => v === null ? "–" : v + " cm";
@@ -653,12 +801,33 @@ build(); applyLanguage(); setInterval(refresh, 700);
 </script></body></html>
 """
 
+CLIENT_TIMEOUT = 5.0
+RESERVATION_CLAIM_TTL = 30.0
+
 
 def create_app(sim: Simulation, embed: bool) -> Flask:
     import json
     app = Flask(__name__)
     config = {"worlds": [[k, v[0]] for k, v in WORLDS.items()], "sections": SECTIONS,
               "embed": embed}
+    clients: Dict[str, float] = {}
+    claimed_reservations: Dict[str, float] = {}
+    clients_lock = threading.Lock()
+
+    def count_users(client_id: Optional[str] = None, res_id: Optional[str] = None) -> tuple:
+        now = time.monotonic()
+        with clients_lock:
+            if client_id:
+                clients[client_id] = now
+            if res_id:
+                claimed_reservations[res_id] = now
+            expired_clients = [cid for cid, seen in clients.items() if now - seen > CLIENT_TIMEOUT]
+            for cid in expired_clients:
+                del clients[cid]
+            expired_res = [rid for rid, seen in claimed_reservations.items() if now - seen > RESERVATION_CLAIM_TTL]
+            for rid in expired_res:
+                del claimed_reservations[rid]
+            return len(clients), list(claimed_reservations)
 
     @app.get("/")
     def index():
@@ -666,7 +835,16 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
 
     @app.get("/api/status")
     def status():
-        return jsonify(sim.get_state())
+        users, claimed = count_users(request.args.get("client"), request.args.get("res"))
+        return jsonify(dict(sim.get_state(), users=users, claimed_reservations=claimed))
+
+    @app.post("/api/leave")
+    def leave():
+        client_id = request.args.get("client") or (request.get_json(force=True, silent=True) or {}).get("client")
+        if client_id:
+            with clients_lock:
+                clients.pop(client_id, None)
+        return jsonify(ok=True)
 
     @app.post("/api/world")
     def load_world():
@@ -683,7 +861,7 @@ def create_app(sim: Simulation, embed: bool) -> Flask:
 
     @app.post("/api/action/<name>")
     def action(name):
-        if name != "stop" and name not in ACTIONS:
+        if name not in ("stop", "reset_view") and name not in ACTIONS:
             return jsonify(error="unknown action"), 400
         return jsonify(ok=sim.send(name))
 

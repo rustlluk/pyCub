@@ -1,0 +1,208 @@
+name: Build & Release Standalone Desktop Apps
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version string (blank = read studio/VERSION)"
+        required: false
+        default: ""
+  push:
+    tags:
+      - "studio-v*"
+      - "v*-app*"
+      - "v*"
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  build-standalone:
+    name: Build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Linux-x86_64
+            os: ubuntu-22.04
+            arch: x64
+          - target: Linux-arm64
+            os: ubuntu-22.04-arm
+            arch: arm64
+          - target: Windows-x64
+            os: windows-latest
+            arch: x64
+          - target: macOS-arm64
+            os: macos-15
+            arch: arm64
+          - target: macOS-x86_64
+            os: macos-15-intel
+            arch: x64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: meta
+        shell: bash
+        run: |
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            VER="${{ github.event.inputs.version }}"
+          elif [[ "${GITHUB_REF}" == refs/tags/studio-v* ]]; then
+            VER="${GITHUB_REF#refs/tags/studio-v}"
+          elif [[ "${GITHUB_REF}" == refs/tags/v*-app* ]]; then
+            VER="${GITHUB_REF#refs/tags/v}"
+            VER="${VER%%-app*}"
+          else
+            VER="$(tr -d '[:space:]' < studio/VERSION)"
+          fi
+          echo "version=${VER}" >> "$GITHUB_OUTPUT"
+
+      - name: Install Linux system libraries
+        if: startsWith(matrix.target, 'Linux-')
+        run: |
+          sudo apt-get update
+          EXTRA_PKGS=""
+          if [[ "${{ matrix.target }}" == "Linux-arm64" ]]; then
+            # pybullet has no Linux aarch64 PyPI wheel and compiles from source
+            EXTRA_PKGS="build-essential python3-dev"
+          fi
+          sudo apt-get install -y --no-install-recommends \
+            libegl1 libgl1 libxcb-cursor0 libnss3 libasound2 libfuse2 dpkg-dev curl ${EXTRA_PKGS}
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          architecture: ${{ matrix.arch }}
+
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          if [[ "${{ matrix.target }}" == "macOS-x86_64" ]]; then
+            # Open3D 0.19.0 is the last wheel supporting Intel macOS x86_64
+            python -m pip install "open3d==0.19.0"
+          fi
+          python -m pip install ./icub_pybullet
+          python -m pip install -r studio/requirements.txt
+          python -m pip install "pyinstaller>=6.10"
+
+      - name: Headless simulator & UI smoke test
+        shell: bash
+        env:
+          QT_QPA_PLATFORM: offscreen
+          QTWEBENGINE_DISABLE_SANDBOX: "1"
+        run: |
+          python -c "
+          import os, sys, tempfile
+          from PySide6.QtWidgets import QApplication
+          from icub_pybullet.pycub import pyCub
+          from studio.launcher import PyCubMainWindow
+          with tempfile.NamedTemporaryFile('w', suffix='.yaml', delete=False) as tf:
+              tf.write('parent: with_ball.yaml\ngui:\n  standard: false\n  web: false\n')
+              cfg_path = tf.name
+          try:
+              client = pyCub(config=cfg_path)
+              client.update_simulation()
+              client.disconnect()
+          finally:
+              os.remove(cfg_path)
+          app = QApplication(sys.argv[:1])
+          win = PyCubMainWindow()
+          win.i18n.toggle_language()
+          win.close()
+          print('SMOKE_TEST_OK')
+          "
+
+      - name: Build Linux (.AppImage & .deb)
+        if: startsWith(matrix.target, 'Linux-')
+        env:
+          PYCUB_VERSION: ${{ steps.meta.outputs.version }}
+          PYTHON_BIN: python
+        run: bash packaging/linux/build_linux.sh
+
+      - name: Ensure Inno Setup on Windows
+        if: matrix.target == 'Windows-x64'
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) {
+            choco install innosetup --no-progress -y
+          }
+
+      - name: Build Windows (Setup.exe & Portable.zip)
+        if: matrix.target == 'Windows-x64'
+        shell: pwsh
+        env:
+          PYCUB_VERSION: ${{ steps.meta.outputs.version }}
+        run: .\packaging\windows\build_windows.ps1
+
+      - name: Build macOS (.dmg)
+        if: startsWith(matrix.target, 'macOS-')
+        env:
+          PYCUB_VERSION: ${{ steps.meta.outputs.version }}
+          PYTHON_BIN: python
+        run: bash packaging/macos/build_dmg.sh
+
+      - name: Upload standalone artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pyCub-${{ matrix.target }}
+          path: packaging/out/*
+          if-no-files-found: warn
+          retention-days: 1
+
+  release:
+    name: Publish GitHub Release
+    needs: build-standalone
+    if: ${{ (success() || failure()) && !cancelled() && (github.event_name == 'workflow_dispatch' || (startsWith(github.ref, 'refs/tags/') && needs.build-standalone.result == 'success')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all OS installers
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Check downloaded assets
+        id: assets
+        shell: bash
+        run: |
+          if compgen -G "release-assets/*" > /dev/null; then
+            echo "has_files=true" >> "$GITHUB_OUTPUT"
+            ls -lh release-assets/
+          else
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Attach installers to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/') && steps.assets.outputs.has_files == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*
+          generate_release_notes: true
+
+      - name: Attach installers to Draft Release (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch' && steps.assets.outputs.has_files == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: draft-build-${{ github.run_id }}
+          name: Draft Build ${{ github.event.inputs.version || 'Studio' }} (#${{ github.run_number }})
+          draft: true
+          prerelease: true
+          files: release-assets/*
+
+      - name: Delete temporary workflow artifacts
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          IDS=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" --jq '.artifacts[].id' || true)
+          for id in $IDS; do
+            gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/${id}" || true
+          done

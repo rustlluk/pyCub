@@ -87,7 +87,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
     fi
 
 RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
-
+RUN cd /home/docker/pyCub/studio && python3 -m pip install --break-system-packages --no-cache-dir -e .
 # Delete thingies from aptitude
 RUN sudo rm -Rf /var/lib/apt/lists/*
 

@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Řízení pohledu (Gaze control) &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Řízení pomocí jakobiánu (Resolved-Rate Motion Control)" href="exercise_4.html" />
+    <link rel="prev" title="Plynulé pohyby (Smooth movements)" href="exercise_2.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html">Odtlačení míčku (Push the Ball)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Plynulé pohyby (Smooth movements)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Řízení pohledu (Gaze control)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ukol">Úkol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bodovani">Bodování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pozadavky">Požadavky</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Uchopení míčku (Grasp It!)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="exercises.html">Kurzovní cvičení</a></li>
+      <li class="breadcrumb-item active">Řízení pohledu (Gaze control)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rizeni-pohledu-gaze-control">
+<h1>Řízení pohledu (Gaze control)<a class="headerlink" href="#rizeni-pohledu-gaze-control" title="Link to this heading"></a></h1>
+<p>Cílem této úlohy je implementovat řízení pohledu (gaze controller) pro robota iCub,
+které dokáže sledovat míček pohybující se po stole. Úloha je zjednodušena na 2D případ
+(míček se pohybuje v osách <em>x</em> a <em>y</em>). K dispozici máte vektor z hlavy k míčku (kam se
+má robot dívat) a vektor směru, kam se robot dívá právě teď.</p>
+<p><img alt="Řízení pohledu" src="images/exercise_3.gif" /></p>
+<section id="ukol">
+<h2>Úkol<a class="headerlink" href="#ukol" title="Link to this heading"></a></h2>
+<p>Implementujte funkci <code class="docutils literal notranslate"><span class="pre">gaze()</span></code> v souboru <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3.py">exercise_3.py</a>, která bude řídit pohled robota při sledování míčku.</p>
+<ul class="simple">
+<li><p>Funkce přijímá tři argumenty:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">client</span></code> – instance třídy <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ovládající simulaci</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">head_direction</span></code> – normalizovaný vektor představující aktuální směr pohledu robota</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">head_ball_direction</span></code> – normalizovaný vektor z hlavy robota směrem k míčku (cílový směr pohledu)</p></li>
+</ul>
+</li>
+<li><p>Funkce má ovládat krční klouby robota tak, aby sledoval míček:</p>
+<ul>
+<li><p>pohyb <strong>musí</strong> být neblokující, tj. s parametrem <code class="docutils literal notranslate"><span class="pre">wait=False</span></code></p></li>
+<li><p>v této funkci <strong>nevolejte</strong> <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="bodovani">
+<h2>Bodování<a class="headerlink" href="#bodovani" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Míček se pohybuje po dobu 10 s (výchozí nastavení) a v každém kroku se měří chyba ve stupních.</p></li>
+<li><p>Maximální počet bodů je 10 (10 běhů); body můžete <strong>ztratit</strong> za jednotlivé běhy podle:</p>
+<ul>
+<li><p>průměrná absolutní chyba:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.5°</span></code> – ztráta 0 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0.5°</span> <span class="pre">–</span> <span class="pre">1°</span></code> – ztráta 50 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1°</span> <span class="pre">–</span> <span class="pre">5°</span></code> – ztráta 75 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">5°</span></code> – ztráta 100 % bodů</p></li>
+</ul>
+</li>
+<li><p>maximální chyba:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">2°</span></code> – ztráta 0 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2°</span> <span class="pre">–</span> <span class="pre">5°</span></code> – ztráta 25 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">5°</span> <span class="pre">–</span> <span class="pre">10°</span></code> – ztráta 50 % bodů</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">10°</span></code> – ztráta 100 % bodů</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Ztráty z průměrné a maximální chyby se sčítají (např. 75 % za průměr a 25 % za maximum znamená 100 % ztrátu a 0 bodů).</p></li>
+</ul>
+</section>
+<section id="pozadavky">
+<h2>Požadavky<a class="headerlink" href="#pozadavky" title="Link to this heading"></a></h2>
+<p><strong>Pro správnou funkci testeru</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_3/exercise_3_tester.py">exercise_3_tester.py</a>:</p>
+<ul class="simple">
+<li><p>nevytvářejte nového klienta, použijte předaný argument <code class="docutils literal notranslate"><span class="pre">client</span></code></p></li>
+<li><p>nepřejmenovávejte funkci ani soubor</p></li>
+<li><p><strong>používejte neblokující pohyby</strong>, tj. parametr <code class="docutils literal notranslate"><span class="pre">wait=False</span></code> nebo rychlostní řízení</p></li>
+<li><p>v žádném místě kódu <strong>nevolejte</strong> <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code></p></li>
+</ul>
+<p><strong>Pro správné splnění úlohy:</strong></p>
+<ul class="simple">
+<li><p><strong>Nevypínejte</strong> gravitaci</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_2.html" class="btn btn-neutral float-left" title="Plynulé pohyby (Smooth movements)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_4.html" class="btn btn-neutral float-right" title="Řízení pomocí jakobiánu (Resolved-Rate Motion Control)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

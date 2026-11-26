@@ -1,0 +1,186 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Řízení pomocí jakobiánu (Resolved-Rate Motion Control) &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Uchopení míčku (Grasp It!)" href="exercise_5.html" />
+    <link rel="prev" title="Řízení pohledu (Gaze control)" href="exercise_3.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exercise_1.html">Odtlačení míčku (Push the Ball)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Plynulé pohyby (Smooth movements)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Řízení pohledu (Gaze control)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ukol">Úkol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bodovani">Bodování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pozadavky">Požadavky</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Uchopení míčku (Grasp It!)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="exercises.html">Kurzovní cvičení</a></li>
+      <li class="breadcrumb-item active">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rizeni-pomoci-jakobianu-resolved-rate-motion-control">
+<h1>Řízení pomocí jakobiánu (Resolved-Rate Motion Control)<a class="headerlink" href="#rizeni-pomoci-jakobianu-resolved-rate-motion-control" title="Link to this heading"></a></h1>
+<p>Cílem úlohy je implementovat regulátor RRMC (Resolved-Rate Motion Control), který
+uhýbá končetinami před kolizemi na základě zpětné vazby z umělé kůže robota. Na robota
+budou padat míčky a příslušnou část těla je třeba odsunout od kontaktu — tj. pohybovat
+jí proti normále dotyku.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Jedna končetina</p></th>
+<th class="head"><p>Více končetin</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="Noha" src="images/exercise_4_0.gif" /></p></td>
+<td><p><img alt="Noha a ruka" src="images/exercise_4_2.gif" /></p></td>
+</tr>
+<tr class="row-odd"><td><p><img alt="Ruka" src="images/exercise_4_1.gif" /></p></td>
+<td><p><img alt="Noha a obě ruce" src="images/exercise_4_3.gif" /></p></td>
+</tr>
+</tbody>
+</table>
+<section id="ukol">
+<h2>Úkol<a class="headerlink" href="#ukol" title="Link to this heading"></a></h2>
+<p>Implementujte metodu <code class="docutils literal notranslate"><span class="pre">process()</span></code> v souboru <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4.py">exercise_4.py</a>, která bude ovládat robota pomocí RRMC. Funkce je tentokrát metodou třídy, abyste si mohli uchovávat vlastní stavové proměnné.</p>
+<ul class="simple">
+<li><p>Třída přijímá jeden argument:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">client</span></code> – instance třídy <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ovládající simulaci</p></li>
+</ul>
+</li>
+<li><p>Funkce má klouby ovládat pomocí RRMC, tedy rychlostním řízením (<code class="docutils literal notranslate"><span class="pre">move_velocity</span></code>)</p></li>
+<li><p>V kódu <strong>nesmíte</strong> volat <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code></p></li>
+</ul>
+<p>Postupně dostanete čtyři scénáře s různými částmi těla zasaženými různým počtem míčků.
+Uhýbejte každou částí kůže, která je v kolizi s libovolným míčkem, ale pro každou část
+kůže použijte vždy jeden kontakt — najděte největší shluk (klastr) aktivovaných taxelů
+na dané části kůže.</p>
+<p>Testovací skript <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4_tester.py">exercise_4_tester.py</a>
+spustí všechny čtyři testy postupně od nejjednoduššího. Po každém testu zavřete okno
+vizualizace (případně ukončete běh ve Studiu).</p>
+</section>
+<section id="bodovani">
+<h2>Bodování<a class="headerlink" href="#bodovani" title="Link to this heading"></a></h2>
+<p>Pro tuto úlohu není automatické číselné hodnocení. Úloha je splněna tehdy, když robot
+spolehlivě uhýbá před padajícími míčky. Ukázkové výsledky vidíte v animacích výše;
+nejde však o jediné správné řešení, chování závisí na zvolených parametrech RRMC.</p>
+</section>
+<section id="pozadavky">
+<h2>Požadavky<a class="headerlink" href="#pozadavky" title="Link to this heading"></a></h2>
+<p><strong>Pro správnou funkci testeru</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4_tester.py">exercise_4_tester.py</a>:</p>
+<ul class="simple">
+<li><p>nevytvářejte nového klienta, použijte argument <code class="docutils literal notranslate"><span class="pre">client</span></code> předaný třídě RRMC</p></li>
+<li><p>nepřejmenovávejte funkci, soubor ani třídu</p></li>
+<li><p>v kódu <strong>nevolejte</strong> <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code></p></li>
+</ul>
+<p><strong>Pro správné splnění úlohy:</strong></p>
+<ul class="simple">
+<li><p><strong>Nevypínejte</strong> gravitaci</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercise_3.html" class="btn btn-neutral float-left" title="Řízení pohledu (Gaze control)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_5.html" class="btn btn-neutral float-right" title="Uchopení míčku (Grasp It!)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
