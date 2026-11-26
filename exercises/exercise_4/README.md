@@ -3,16 +3,10 @@ The goal of this task is to implement a Resolved-Rate Motion Control (RRMC) cont
 from collision using feedback from the artificial skin. There will be ball falling on the robot and you should move 
 the correct body part away from it, i.e., move it against the normal of the contact. 
 
-<table>
-     <tr>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_0.gif" alt="Leg"></td>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_1.gif" alt="Arm"></td>
-     </tr>
-     <tr>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_2.gif" alt="Leg and arm"></td>
-       <td><img src="https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_4/gifs/exercise_4_3.gif" alt="Leg and two arms"></td>
-     </tr>
-</table>
+| Single limb | Multiple limbs |
+| --- | --- |
+| ![Leg](gifs/exercise_4_0.gif) | ![Leg and arm](gifs/exercise_4_2.gif) |
+| ![Arm](gifs/exercise_4_1.gif) | ![Leg and two arms](gifs/exercise_4_3.gif) |
 
 ## Task
 Implement process() function in [exercise_4.py](https://github.com/rustlluk/pycub/blob/master/exercises/exercise_4/exercise_4.py)

@@ -1,0 +1,56 @@
+/* Keep long robotics signatures readable alongside the navigation. */
+.wy-nav-content { max-width: 64rem; }
+.wy-nav-side { background: #17343b; }
+.wy-menu-vertical p.caption { color: #8cddd0; }
+.wy-nav-content .rst-content a { color: #08696d; }
+.rst-content h1, .rst-content h2, .rst-content h3 { color: #183e47; }
+.rst-content dl.py > dt.sig {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    border-color: #398b87;
+    background: #eff7f5;
+    color: #24484c;
+}
+.handbook-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(120px, 32%);
+    align-items: center;
+    background: #eaf3f1;
+    border-radius: .5rem;
+    overflow: hidden;
+}
+.rst-content .handbook-intro .introduction {
+    padding: 1.5rem clamp(1rem, 4vw, 2.3rem);
+    margin: 0;
+    color: #193e46;
+    font-size: 1.2rem;
+    line-height: 1.55;
+}
+.rst-content .handbook-intro img {
+    display: block;
+    width: 100%;
+    max-height: 14rem;
+    object-fit: cover;
+    object-position: center 42%;
+}
+.rst-content ul.handbook-sections {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1.75rem;
+    margin: 1.5rem 0;
+}
+.rst-content ul.handbook-sections > li {
+    list-style: none;
+    margin: 0;
+    padding: .95rem 0;
+    border-top: 1px solid #bbcecb;
+}
+.rst-content ul.handbook-sections p { margin: 0; line-height: 1.5; }
+.rst-content ul.handbook-sections p + p { margin-top: .25rem; color: #45575a; }
+.handbook-sections a { font-weight: bold; font-size: 1.08rem; }
+@media (max-width: 600px) {
+    .handbook-intro { grid-template-columns: minmax(0, 1fr) 28%; }
+    .rst-content .handbook-intro .introduction { padding: .85rem; font-size: 1rem; }
+    .rst-content ul.handbook-sections { grid-template-columns: 1fr; }
+}

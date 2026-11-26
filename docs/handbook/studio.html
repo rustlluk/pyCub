@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using Studio &mdash; pyCub Studio</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=7f41d439"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Programming the robot" href="programming.html" />
+    <link rel="prev" title="pyCub Studio handbook" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using Studio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kid-gui">Kid GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scratch-blocks">Scratch blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kid-programming">Kid Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normal-mode">Normal Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#classroom-web-sessions">Classroom web sessions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workspace-and-packages">Workspace and packages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programming the robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example controllers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Course exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Project README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using Studio</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-studio">
+<h1>Using Studio<a class="headerlink" href="#using-studio" title="Link to this heading"></a></h1>
+<p>Launch pyCub Studio and choose a mode from Home. The mode selector in the header
+lets you switch activities. The language button switches between English and Czech.</p>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>Open the desktop application from its installer or portable distribution, or
+install the Python packages into a Python 3.10–3.12 virtual environment and
+launch <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> from anywhere:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># From PyPI (either command installs simulator + Studio + handbook + exercises):</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pycub-studio
+<span class="c1"># or: python -m pip install &quot;icub_pybullet[studio]&quot;</span>
+
+<span class="c1"># Or from a local repository checkout:</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./icub_pybullet<span class="w"> </span>./studio
+
+pycub-studio
+</pre></div>
+</div>
+</section>
+<section id="kid-gui">
+<h2>Kid GUI<a class="headerlink" href="#kid-gui" title="Link to this heading"></a></h2>
+<p>Choose a world with a ball, then try a preset movement. Use the joint buttons
+to move one joint at a time. Adjust the step size for finer motion. The ball
+readout shows whether the robot touched the ball and how far it moved.</p>
+</section>
+<section id="scratch-blocks">
+<h2>Scratch blocks<a class="headerlink" href="#scratch-blocks" title="Link to this heading"></a></h2>
+<p>Snap movement, sensor and control blocks together and run the program. Watch
+the highlighted block as the simulator steps through it. Use the Python
+preview to see how a block translates to code. Save editable projects as
+<code class="docutils literal notranslate"><span class="pre">.pycub_blocks</span></code>, or open the generated Python in Kid Programming.</p>
+</section>
+<section id="kid-programming">
+<h2>Kid Programming<a class="headerlink" href="#kid-programming" title="Link to this heading"></a></h2>
+<p>Start with a template or click a command in the palette to insert an example.
+Run the program and read its output in the console. Click Stop to interrupt a
+loop. A reported error highlights the line in the editor. See the
+<a class="reference internal" href="programming.html"><span class="std std-doc">Python guide</span></a> for call hints and definitions.</p>
+</section>
+<section id="normal-mode">
+<h2>Normal Mode<a class="headerlink" href="#normal-mode" title="Link to this heading"></a></h2>
+<p>Open a Python file, or start with the script in the first tab. Press F5 to run
+the current Python script. Use YAML tabs to edit world configurations. When
+working in another editor, open an external script and enable run-on-save
+to rerun it after changes. Console output belongs to the script worker.</p>
+<p>Use the left and right eye views to inspect RGB and depth images. Use the
+examples menu for a working controller, or select a course exercise to copy
+its files to your workspace. Run the tester from the exercise tab and inspect
+the results report.</p>
+</section>
+<section id="classroom-web-sessions">
+<h2>Classroom web sessions<a class="headerlink" href="#classroom-web-sessions" title="Link to this heading"></a></h2>
+<p>Select the number of simulator instances and start the server in Classroom
+Web GUI. Students on the same network can open the displayed landing URL or
+scan the QR code. The dashboard shows connected users and instance status.
+Open the logs to investigate a failed instance or restart it individually.</p>
+</section>
+<section id="workspace-and-packages">
+<h2>Workspace and packages<a class="headerlink" href="#workspace-and-packages" title="Link to this heading"></a></h2>
+<p>Open <strong>Workspace</strong> from the header to locate saved scripts, blocks, examples,
+exercises and images. Store custom YAML files in <code class="docutils literal notranslate"><span class="pre">worlds/</span></code>. A world can
+inherit built-in settings with <code class="docutils literal notranslate"><span class="pre">parent:</span> <span class="pre">with_ball.yaml</span></code>. Put custom geometry in
+<code class="docutils literal notranslate"><span class="pre">meshes/</span></code>. Use <strong>Packages / Python</strong> to install extra packages or select an
+external interpreter for Normal Mode scripts.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="pyCub Studio handbook" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="programming.html" class="btn btn-neutral float-right" title="Programming the robot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

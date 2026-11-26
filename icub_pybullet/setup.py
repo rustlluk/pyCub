@@ -1,29 +1,64 @@
+"""Setuptools packaging script for the ``icub_pybullet`` Python distribution."""
 from setuptools import setup
+import os
 import urllib.request
 
 app_name = "icub_pybullet"
+HERE = os.path.dirname(os.path.abspath(__file__))
 
-with open("requirements.txt") as f:
-    install_requires = f.read().splitlines()
 
-# URL of the README.md file (for example, from GitHub or any other location)
-url = "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/README.md"
+def _read_version(path: str, env_var: str, fallback: str = "1.4.0") -> str:
+    env_val = os.environ.get(env_var, "").strip()
+    if env_val:
+        return env_val
+    if os.path.isfile(path):
+        with open(path, encoding="utf-8") as f:
+            text = f.read().strip()
+            if text:
+                return text
+    return fallback
 
-# Fetch the README content from the URL
-try:
-    with urllib.request.urlopen(url) as response:
-        long_description = response.read().decode('utf-8')
-except:
-    long_description = ""
+
+icub_version = _read_version(os.path.join(HERE, "VERSION"), "ICUB_VERSION")
+studio_min_version = _read_version(os.path.join(HERE, "..", "studio", "VERSION"), "STUDIO_VERSION")
+
+with open(os.path.join(HERE, "requirements.txt"), encoding="utf-8") as f:
+    install_requires = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
+readme_local = os.path.join(HERE, "..", "README.md")
+if os.path.exists(readme_local):
+    with open(readme_local, encoding="utf-8") as f:
+        long_description = f.read()
+else:
+    url = "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/README.md"
+    try:
+        with urllib.request.urlopen(url, timeout=5) as response:
+            long_description = response.read().decode("utf-8")
+    except Exception:
+        long_description = ""
 
 setup(
     name=app_name,
-    version="1.3.1",
+    version=icub_version,
     description="pyCub - iCub in PyBullet",
     package_dir={"icub_pybullet": "."},
-    package_data={app_name: ["iCub/**/**", "other_meshes/**/**", "configs/**/**", "logs/**/**"]},
+    package_data={
+        app_name: [
+            "VERSION",
+            "iCub/**/**",
+            "other_meshes/**/**",
+            "configs/**/**",
+            "logs/**/**",
+            "examples/**/**",
+        ]
+    },
     include_package_data=True,
     install_requires=install_requires,
+    extras_require={
+        "studio": [
+            f"pycub-studio>={studio_min_version}",
+        ]
+    },
     author="Lukas Rustler",
     author_email="lukas.rustler@fel.cvut.cz",
     url="https://www.lukasrustler.cz/pycub",
@@ -31,5 +66,5 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     platforms=["any"],
-    python_requires=">=3.8, <3.13"
+    python_requires=">=3.10, <3.13",
 )

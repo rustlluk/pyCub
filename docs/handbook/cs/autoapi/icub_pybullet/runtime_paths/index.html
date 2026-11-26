@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icub_pybullet.runtime_paths &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../static/handbook.css?v=46b66857" />
+
+  
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=d153090d"></script>
+      <script src="../../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../static/translations.js?v=22e1c300"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="../../../genindex.html" />
+    <link rel="search" title="Vyhledávání" href="../../../search.html" />
+    <link rel="next" title="icub_pybullet.utils" href="../utils/index.html" />
+    <link rel="prev" title="icub_pybullet.pycub" href="../pycub/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">icub_pybullet</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">icub_pybullet</a></li>
+      <li class="breadcrumb-item active">icub_pybullet.runtime_paths</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-icub_pybullet.runtime_paths">
+<span id="icub-pybullet-runtime-paths"></span><h1>icub_pybullet.runtime_paths<a class="headerlink" href="#module-icub_pybullet.runtime_paths" title="Link to this heading"></a></h1>
+<p>Cross-platform runtime paths, user workspace/cache helpers, config/mesh resolution,
+and OS-agnostic process/network utilities for pyCub.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.SKIP_IFACE_PREFIXES" title="icub_pybullet.runtime_paths.SKIP_IFACE_PREFIXES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SKIP_IFACE_PREFIXES</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.user_documents_dir" title="icub_pybullet.runtime_paths.user_documents_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_documents_dir</span></code></a>() → str</p></td>
+<td><p>Return the fallback path to the user's Documents directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.is_frozen" title="icub_pybullet.runtime_paths.is_frozen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_frozen</span></code></a>() → bool</p></td>
+<td><p>Return True when running inside a frozen bundle (e.g. PyInstaller).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.to_posix" title="icub_pybullet.runtime_paths.to_posix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_posix</span></code></a>(path) → str</p></td>
+<td><p>Normalize a path and convert separators to forward slashes (safe inside URDF XML on Windows).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.is_writable_dir" title="icub_pybullet.runtime_paths.is_writable_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_writable_dir</span></code></a>(directory) → bool</p></td>
+<td><p>Return True only if directory is writable and NOT inside a frozen bundle directory.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_user_workspace_dir" title="icub_pybullet.runtime_paths.get_user_workspace_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_user_workspace_dir</span></code></a>() → pathlib.Path</p></td>
+<td><p>Return the user's writable pyCub workspace directory (default: ~/Documents/pyCub).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.ensure_user_workspace" title="icub_pybullet.runtime_paths.ensure_user_workspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_user_workspace</span></code></a>() → pathlib.Path</p></td>
+<td><p>Ensure standard user workspace subdirectories exist and return root path.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_extra_packages_dir" title="icub_pybullet.runtime_paths.get_extra_packages_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extra_packages_dir</span></code></a>() → pathlib.Path</p></td>
+<td><p>Return the writable extra Python packages directory (<cite>~/Documents/pyCub/extra_packages</cite>).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_user_cache_dir" title="icub_pybullet.runtime_paths.get_user_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_user_cache_dir</span></code></a>() → pathlib.Path</p></td>
+<td><p>Return writable cache directory for generated URDFs and dynamic VHACD collision meshes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_user_log_dir" title="icub_pybullet.runtime_paths.get_user_log_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_user_log_dir</span></code></a>([package_dir]) → pathlib.Path</p></td>
+<td><p>Return writable log directory (falls back to user data dir when package_dir/logs is read-only).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.write_text_atomic" title="icub_pybullet.runtime_paths.write_text_atomic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_text_atomic</span></code></a>(target_path, content) → str</p></td>
+<td><p>Write text atomically via temp file + os.replace so concurrent instances never read partial URDFs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.resolve_config_path" title="icub_pybullet.runtime_paths.resolve_config_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_config_path</span></code></a>(config, package_dir[, caller_file]) → str</p></td>
+<td><p>Resolve a YAML config path across:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.resolve_robot_urdf_path" title="icub_pybullet.runtime_paths.resolve_robot_urdf_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_robot_urdf_path</span></code></a>(robot_urdf_rel, package_dir[, ...]) → str</p></td>
+<td><p>Resolve robot_urdf_path across absolute path, config dir, user workspace, and bundled package dir.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.resolve_mesh_or_urdf_path" title="icub_pybullet.runtime_paths.resolve_mesh_or_urdf_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_mesh_or_urdf_path</span></code></a>(obj_path, package_dir[, ...]) → str</p></td>
+<td><p>Resolve an object .obj or .urdf path referenced in config.urdfs.paths across:</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.file_fingerprint" title="icub_pybullet.runtime_paths.file_fingerprint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_fingerprint</span></code></a>(path) → str</p></td>
+<td><p>Fast fingerprint combining canonical path, size, and mtime_ns.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_vhacd_cache_path" title="icub_pybullet.runtime_paths.get_vhacd_cache_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_vhacd_cache_path</span></code></a>(col_path[, force_vhacd]) → Tuple[str, bool]</p></td>
+<td><p>Locate an existing pre-baked <code class="docutils literal notranslate"><span class="pre">*_vhacd.obj</span></code> or return a writable cache path.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.get_cached_urdf_path" title="icub_pybullet.runtime_paths.get_cached_urdf_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cached_urdf_path</span></code></a>(stem, key[, subdir]) → str</p></td>
+<td><p>Return a deterministic path in the user cache for a generated/patched URDF.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.local_ipv4_addresses" title="icub_pybullet.runtime_paths.local_ipv4_addresses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_ipv4_addresses</span></code></a>() → List[str]</p></td>
+<td><p>Cross-platform IPv4 LAN addresses discovery (Windows, macOS, Linux).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.runtime_paths.terminate_process_tree" title="icub_pybullet.runtime_paths.terminate_process_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">terminate_process_tree</span></code></a>(procs[, timeout]) → None</p></td>
+<td><p>Cross-platform termination of child processes and all their descendants using psutil.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.user_documents_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">user_documents_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.user_documents_dir" title="Link to this definition"></a></dt>
+<dd><p>Return the fallback path to the user’s Documents directory.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.SKIP_IFACE_PREFIXES">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">SKIP_IFACE_PREFIXES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('lo',</span> <span class="pre">'docker',</span> <span class="pre">'br-',</span> <span class="pre">'veth',</span> <span class="pre">'virbr',</span> <span class="pre">'lxc',</span> <span class="pre">'tailscale',</span> <span class="pre">'utun',</span> <span class="pre">'awdl',</span> <span class="pre">'llw')</span></em><a class="headerlink" href="#icub_pybullet.runtime_paths.SKIP_IFACE_PREFIXES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.is_frozen">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">is_frozen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.is_frozen" title="Link to this definition"></a></dt>
+<dd><p>Return True when running inside a frozen bundle (e.g. PyInstaller).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.to_posix">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">to_posix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">os.PathLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.to_posix" title="Link to this definition"></a></dt>
+<dd><p>Normalize a path and convert separators to forward slashes (safe inside URDF XML on Windows).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.is_writable_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">is_writable_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">os.PathLike</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.is_writable_dir" title="Link to this definition"></a></dt>
+<dd><p>Return True only if directory is writable and NOT inside a frozen bundle directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_user_workspace_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_user_workspace_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_user_workspace_dir" title="Link to this definition"></a></dt>
+<dd><p>Return the user’s writable pyCub workspace directory (default: ~/Documents/pyCub).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.ensure_user_workspace">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">ensure_user_workspace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.ensure_user_workspace" title="Link to this definition"></a></dt>
+<dd><p>Ensure standard user workspace subdirectories exist and return root path.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_extra_packages_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_extra_packages_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_extra_packages_dir" title="Link to this definition"></a></dt>
+<dd><p>Return the writable extra Python packages directory (<cite>~/Documents/pyCub/extra_packages</cite>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_user_cache_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_user_cache_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_user_cache_dir" title="Link to this definition"></a></dt>
+<dd><p>Return writable cache directory for generated URDFs and dynamic VHACD collision meshes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_user_log_dir">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_user_log_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_user_log_dir" title="Link to this definition"></a></dt>
+<dd><p>Return writable log directory (falls back to user data dir when package_dir/logs is read-only).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.write_text_atomic">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">write_text_atomic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">os.PathLike</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.write_text_atomic" title="Link to this definition"></a></dt>
+<dd><p>Write text atomically via temp file + os.replace so concurrent instances never read partial URDFs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.resolve_config_path">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">resolve_config_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">caller_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.resolve_config_path" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Resolve a YAML config path across:</dt><dd><ol class="arabic simple">
+<li><p>Direct / absolute path or relative to CWD</p></li>
+<li><p>Relative to caller script directory</p></li>
+<li><p>User workspace (~/Documents/pyCub/worlds, configs, root)</p></li>
+<li><p>Bundled icub_pybullet/configs</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.resolve_robot_urdf_path">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">resolve_robot_urdf_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">robot_urdf_rel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.resolve_robot_urdf_path" title="Link to this definition"></a></dt>
+<dd><p>Resolve robot_urdf_path across absolute path, config dir, user workspace, and bundled package dir.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.resolve_mesh_or_urdf_path">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">resolve_mesh_or_urdf_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.resolve_mesh_or_urdf_path" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Resolve an object .obj or .urdf path referenced in config.urdfs.paths across:</dt><dd><ol class="arabic simple">
+<li><p>Absolute path</p></li>
+<li><p>Relative to the loaded config file’s directory</p></li>
+<li><p>Relative to CWD</p></li>
+<li><p>User workspace (~/Documents/pyCub/meshes and root)</p></li>
+<li><p>Bundled icub_pybullet/other_meshes and package root</p></li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.file_fingerprint">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">file_fingerprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.file_fingerprint" title="Link to this definition"></a></dt>
+<dd><p>Fast fingerprint combining canonical path, size, and mtime_ns.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_vhacd_cache_path">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_vhacd_cache_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_vhacd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_vhacd_cache_path" title="Link to this definition"></a></dt>
+<dd><p>Locate an existing pre-baked <code class="docutils literal notranslate"><span class="pre">*_vhacd.obj</span></code> or return a writable cache path.
+Returns (vhacd_mesh_path, needs_compute).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.get_cached_urdf_path">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">get_cached_urdf_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'generated_urdf'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.get_cached_urdf_path" title="Link to this definition"></a></dt>
+<dd><p>Return a deterministic path in the user cache for a generated/patched URDF.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.local_ipv4_addresses">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">local_ipv4_addresses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.local_ipv4_addresses" title="Link to this definition"></a></dt>
+<dd><p>Cross-platform IPv4 LAN addresses discovery (Windows, macOS, Linux).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="icub_pybullet.runtime_paths.terminate_process_tree">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.runtime_paths.</span></span><span class="sig-name descname"><span class="pre">terminate_process_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.runtime_paths.terminate_process_tree" title="Link to this definition"></a></dt>
+<dd><p>Cross-platform termination of child processes and all their descendants using psutil.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../pycub/index.html" class="btn btn-neutral float-left" title="icub_pybullet.pycub" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../utils/index.html" class="btn btn-neutral float-right" title="icub_pybullet.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

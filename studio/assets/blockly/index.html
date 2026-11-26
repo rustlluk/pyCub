@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>pyCub Scratch Workspace</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    #blocklyDiv {
+      position: absolute;
+      inset: 0;
+    }
+  </style>
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+  <script src="blockly_compressed.js"></script>
+  <script src="blocks_compressed.js"></script>
+  <script src="python_compressed.js"></script>
+  <script id="blocklyLocaleScript" src="msg/en.js"></script>
+  <script src="pycub_blocks.js"></script>
+</head>
+<body>
+  <div id="blocklyDiv"></div>
+  <script>
+    var workspace = null;
+    var pyBridge = null;
+
+    var DEFAULT_STARTER_STATE = {
+      blocks: {
+        languageVersion: 0,
+        blocks: [
+          {
+            type: "pycub_look_down_starter",
+            x: 36,
+            y: 36
+          }
+        ]
+      }
+    };
+
+    function createDefaultProgram() {
+      var json = {
+        blocks: {
+          languageVersion: 0,
+          blocks: [
+            {
+              type: "pycub_wave",
+              x: 40,
+              y: 36,
+              fields: { SIDE: "right" },
+              next: {
+                block: {
+                  type: "pycub_head_move",
+                  fields: { ACT: "look_down", DEG: 20, SPD: "1.5" },
+                  next: {
+                    block: {
+                      type: "pycub_arm_move",
+                      fields: { SIDE: "right", ACT: "bend_forward" in {} ? "shoulder_up" : "shoulder_up", DEG: 20, SPD: "1.5" }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      };
+      Blockly.serialization.workspaces.load(json, workspace);
+    }
+
+    function notifyPythonChanged() {
+      if (pyBridge && workspace) {
+        var clean = window.PyCubBlocks.generateClean(workspace);
+        pyBridge.onCodeChanged(clean);
+      }
+    }
+
+    function initWorkspace(lang, preservedState) {
+      window.PyCubBlocks.setLang(lang || "en");
+      if (workspace) {
+        workspace.dispose();
+      }
+      workspace = Blockly.inject("blocklyDiv", {
+        media: "media/",
+        toolbox: window.PyCubBlocks.getToolbox(),
+        sounds: false,
+        trashcan: true,
+        grid: { spacing: 22, length: 3, colour: "#e2e8f0", snap: true },
+        zoom: { controls: true, wheel: true, startScale: 0.95, maxScale: 2.0, minScale: 0.5, scaleSpeed: 1.12 }
+      });
+      if (preservedState) {
+        try {
+          Blockly.serialization.workspaces.load(preservedState, workspace);
+        } catch (e) {
+          createDefaultProgram();
+        }
+      } else {
+        createDefaultProgram();
+      }
+      workspace.addChangeListener(function (ev) {
+        if (!ev.isUiEvent) {
+          notifyPythonChanged();
+        }
+      });
+      notifyPythonChanged();
+    }
+
+    function loadLocaleAndRebuild(lang) {
+      var saved = workspace ? Blockly.serialization.workspaces.save(workspace) : null;
+      var script = document.createElement("script");
+      script.src = lang === "cs" ? "msg/cs.js" : "msg/en.js";
+      script.onload = function () {
+        initWorkspace(lang, saved);
+      };
+      document.head.appendChild(script);
+    }
+
+    window.pycubApi = {
+      getCleanPython: function () {
+        return workspace ? window.PyCubBlocks.generateClean(workspace) : "";
+      },
+      getInstrumentedPython: function () {
+        return workspace ? window.PyCubBlocks.generateInstrumented(workspace) : "";
+      },
+      saveWorkspaceJson: function () {
+        return workspace ? JSON.stringify(Blockly.serialization.workspaces.save(workspace), null, 2) : "{}";
+      },
+      loadWorkspaceJson: function (jsonStr) {
+        if (!workspace) return false;
+        try {
+          var obj = JSON.parse(jsonStr);
+          Blockly.serialization.workspaces.load(obj, workspace);
+          notifyPythonChanged();
+          return true;
+        } catch (e) {
+          return false;
+        }
+      },
+      clearWorkspace: function () {
+        if (workspace) {
+          workspace.clear();
+          notifyPythonChanged();
+        }
+      },
+      highlightBlock: function (blockId) {
+        if (workspace) {
+          workspace.highlightBlock(blockId || null);
+        }
+      },
+      setLanguage: function (lang) {
+        loadLocaleAndRebuild(lang);
+      },
+      resizeWorkspace: function () {
+        if (workspace) {
+          Blockly.svgResize(workspace);
+        }
+      }
+    };
+
+    window.addEventListener("resize", function () {
+      if (workspace) {
+        Blockly.svgResize(workspace);
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", function () {
+      initWorkspace("en", null);
+      if (typeof QWebChannel !== "undefined" && window.qt && window.qt.webChannelTransport) {
+        new QWebChannel(window.qt.webChannelTransport, function (channel) {
+          pyBridge = channel.objects.pyBridge;
+          notifyPythonChanged();
+          if (pyBridge && pyBridge.onReady) {
+            pyBridge.onReady();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

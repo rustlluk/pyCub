@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icub_pybullet.visualizer &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../static/handbook.css?v=46b66857" />
+
+  
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=d153090d"></script>
+      <script src="../../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../static/translations.js?v=22e1c300"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="../../../genindex.html" />
+    <link rel="search" title="Vyhledávání" href="../../../search.html" />
+    <link rel="next" title="push_the_ball_cartesian" href="../../push_the_ball_cartesian/index.html" />
+    <link rel="prev" title="icub_pybullet.utils" href="../utils/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">icub_pybullet</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">icub_pybullet</a></li>
+      <li class="breadcrumb-item active">icub_pybullet.visualizer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-icub_pybullet.visualizer">
+<span id="icub-pybullet-visualizer"></span><h1>icub_pybullet.visualizer<a class="headerlink" href="#module-icub_pybullet.visualizer" title="Link to this heading"></a></h1>
+<p>Visualization utils for pyCub simulator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lukas Rustler</p>
+</dd>
+</dl>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.visualizer.Visualizer" title="icub_pybullet.visualizer.Visualizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Visualizer</span></code></a></p></td>
+<td><p>Class to help with custom rendering</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.visualizer.</span></span><span class="sig-name descname"><span class="pre">Visualizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../pycub/index.html#icub_pybullet.pycub.pyCub" title="icub_pybullet.pycub.pyCub"><span class="pre">pyCub</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer" title="Link to this definition"></a></dt>
+<dd><p>Class to help with custom rendering</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.client" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.meshes">
+<span class="sig-name descname"><span class="pre">meshes</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.meshes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.R_urdf">
+<span class="sig-name descname"><span class="pre">R_urdf</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.R_urdf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.skin_activated_last_turn">
+<span class="sig-name descname"><span class="pre">skin_activated_last_turn</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.skin_activated_last_turn" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.blue">
+<span class="sig-name descname"><span class="pre">blue</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.blue" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.red">
+<span class="sig-name descname"><span class="pre">red</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.red" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.gui">
+<span class="sig-name descname"><span class="pre">gui</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.gui" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.window">
+<span class="sig-name descname"><span class="pre">window</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.window" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.menu">
+<span class="sig-name descname"><span class="pre">menu</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.menu" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.scene">
+<span class="sig-name descname"><span class="pre">scene</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.scene" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.vis">
+<span class="sig-name descname"><span class="pre">vis</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.vis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.mattr">
+<span class="sig-name descname"><span class="pre">mattr</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.mattr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.mat">
+<span class="sig-name descname"><span class="pre">mat</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.mat" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.file_menu">
+<span class="sig-name descname"><span class="pre">file_menu</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.file_menu" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.show_menu">
+<span class="sig-name descname"><span class="pre">show_menu</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.show_menu" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.file_dir">
+<span class="sig-name descname"><span class="pre">file_dir</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.file_dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.orientations">
+<span class="sig-name descname"><span class="pre">orientations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.orientations" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.positions">
+<span class="sig-name descname"><span class="pre">positions</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.positions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.colors">
+<span class="sig-name descname"><span class="pre">colors</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.colors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.paths">
+<span class="sig-name descname"><span class="pre">paths</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.paths" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.eye_windows">
+<span class="sig-name descname"><span class="pre">eye_windows</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.eye_windows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.default_center">
+<span class="sig-name descname"><span class="pre">default_center</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.default_center" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.is_alive">
+<span class="sig-name descname"><span class="pre">is_alive</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.is_alive" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.reset_view">
+<span class="sig-name descname"><span class="pre">reset_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.reset_view" title="Link to this definition"></a></dt>
+<dd><p>Reset the camera view to the initial look-at pose.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.show_first">
+<span class="sig-name descname"><span class="pre">show_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">urdf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robot'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.show_first" title="Link to this definition"></a></dt>
+<dd><p>Load and register initial visual meshes and skin clouds for <code class="docutils literal notranslate"><span class="pre">urdf_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.show_mesh">
+<span class="sig-name descname"><span class="pre">show_mesh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.show_mesh" title="Link to this definition"></a></dt>
+<dd><p>Update mesh transforms, eye camera poses, and skin activation colors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.read_info">
+<span class="sig-name descname"><span class="pre">read_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.read_info" title="Link to this definition"></a></dt>
+<dd><p>Fetch current link poses, colors, and mesh file paths for body <code class="docutils literal notranslate"><span class="pre">obj_id</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.render" title="Link to this definition"></a></dt>
+<dd><p>Synchronize the 3D scene and eye windows with PyBullet and advance one GUI tick.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MenuCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menu_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#icub_pybullet.visualizer.Visualizer" title="icub_pybullet.visualizer.Visualizer"><span class="pre">Visualizer</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback" title="Link to this definition"></a></dt>
+<dd><p>Callable handler bound to Open3D Save/Show menu items.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.parent" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.dialog_opened">
+<span class="sig-name descname"><span class="pre">dialog_opened</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.dialog_opened" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.save_image">
+<span class="sig-name descname"><span class="pre">save_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">open3d.geometry.Image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.save_image" title="Link to this definition"></a></dt>
+<dd><p>Prompt for an output path and write an RGB (mode 0) or depth (mode 1) image.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.wait_for_dialog_completion">
+<span class="sig-name descname"><span class="pre">wait_for_dialog_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.wait_for_dialog_completion" title="Link to this definition"></a></dt>
+<dd><p>Pump Open3D GUI events until the save-file dialog closes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.MenuCallback.input_completed">
+<span class="sig-name descname"><span class="pre">input_completed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.MenuCallback.input_completed" title="Link to this definition"></a></dt>
+<dd><p>Store the selected file path and mark the file dialog complete.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.find_xyz_rpy">
+<span class="sig-name descname"><span class="pre">find_xyz_rpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">urdf_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robot'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.find_xyz_rpy" title="Link to this definition"></a></dt>
+<dd><p>Look up visual origin offset, rotation, scale, and link name for <code class="docutils literal notranslate"><span class="pre">mesh_name</span></code>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EyeWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eye</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#icub_pybullet.visualizer.Visualizer" title="icub_pybullet.visualizer.Visualizer"><span class="pre">Visualizer</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow" title="Link to this definition"></a></dt>
+<dd><p>Secondary Open3D viewport rendering the view from <code class="docutils literal notranslate"><span class="pre">l_eye</span></code> or <code class="docutils literal notranslate"><span class="pre">r_eye</span></code>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.MENU_IDS">
+<span class="sig-name descname"><span class="pre">MENU_IDS</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.MENU_IDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.POSITIONS">
+<span class="sig-name descname"><span class="pre">POSITIONS</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.POSITIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.eye">
+<span class="sig-name descname"><span class="pre">eye</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.eye" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.link_name">
+<span class="sig-name descname"><span class="pre">link_name</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.link_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.parent">
+<span class="sig-name descname"><span class="pre">parent</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.parent" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.window">
+<span class="sig-name descname"><span class="pre">window</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.window" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.scene">
+<span class="sig-name descname"><span class="pre">scene</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.scene" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.vis">
+<span class="sig-name descname"><span class="pre">vis</span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.vis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.center">
+<span class="sig-name descname"><span class="pre">center</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.center" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.dir">
+<span class="sig-name descname"><span class="pre">dir</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.img_counter">
+<span class="sig-name descname"><span class="pre">img_counter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.img_counter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.save_images_bool">
+<span class="sig-name descname"><span class="pre">save_images_bool</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.save_images_bool" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.last_image">
+<span class="sig-name descname"><span class="pre">last_image</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.last_image" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.last_depth_image">
+<span class="sig-name descname"><span class="pre">last_depth_image</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.last_depth_image" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.on_close">
+<span class="sig-name descname"><span class="pre">on_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.on_close" title="Link to this definition"></a></dt>
+<dd><p>Unregister this eye window and disable its stream menu entries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.on_mouse">
+<span class="sig-name descname"><span class="pre">on_mouse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">open3d.visualization.gui.MouseEvent</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.on_mouse" title="Link to this definition"></a></dt>
+<dd><p>Consume mouse events so users cannot orbit the fixed eye camera view.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.get_image">
+<span class="sig-name descname"><span class="pre">get_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.get_image" title="Link to this definition"></a></dt>
+<dd><p>Capture an asynchronous RGB snapshot from the eye scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.get_depth_image">
+<span class="sig-name descname"><span class="pre">get_depth_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.get_depth_image" title="Link to this definition"></a></dt>
+<dd><p>Capture an asynchronous depth snapshot from the eye scene.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.save_images">
+<span class="sig-name descname"><span class="pre">save_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.save_images" title="Link to this definition"></a></dt>
+<dd><p>Save the latest captured RGB frame to disk and increment the frame counter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.save_image">
+<span class="sig-name descname"><span class="pre">save_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">open3d.geometry.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.save_image" title="Link to this definition"></a></dt>
+<dd><p>Callback storing the latest rendered RGB image.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.save_depth_image">
+<span class="sig-name descname"><span class="pre">save_depth_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">open3d.geometry.Image</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.save_depth_image" title="Link to this definition"></a></dt>
+<dd><p>Callback storing the latest rendered depth image.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.visualizer.Visualizer.EyeWindow.unproject">
+<span class="sig-name descname"><span class="pre">unproject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.visualizer.Visualizer.EyeWindow.unproject" title="Link to this definition"></a></dt>
+<dd><p>Unproject pixel <code class="docutils literal notranslate"><span class="pre">(u,</span> <span class="pre">v)</span></code> at depth <code class="docutils literal notranslate"><span class="pre">d</span></code> into 3D world coordinates.</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../utils/index.html" class="btn btn-neutral float-left" title="icub_pybullet.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../push_the_ball_cartesian/index.html" class="btn btn-neutral float-right" title="push_the_ball_cartesian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

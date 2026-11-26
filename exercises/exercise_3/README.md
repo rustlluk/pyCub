@@ -3,7 +3,7 @@ The goal of this task is to implement gaze controller for the iCub robot that is
 The task is simplified to 2D case, i.e., the ball can move in _x_ and _y_. The user is given the vector from
 the head to a ball (the where the robot should look) and the vector where the robot is looking right now.
 
-![Gaze](https://raw.githubusercontent.com/rustlluk/pycub/master/exercises/exercise_3/exercise_3.gif)
+![Gaze](exercise_3.gif)
 
 
 ## Task

@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programování robota &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Ukázkové programy" href="examples.html" />
+    <link rel="prev" title="Použití Studia" href="studio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Programování robota</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#detske-rezimy-icub-pybullet-kid-api">Dětské režimy (<code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#jak-detske-rezimy-funguji">Jak dětské režimy fungují</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#od-bloku-scratch-k-pythonu">Od bloků Scratch k Pythonu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prvni-program-v-detskem-programovani">První program v Dětském programování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prehled-skupin-detskych-prikazu">Přehled skupin dětských příkazů</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#plny-rezim-studia-normalni-rezim-ide">Plný režim Studia (Normální režim IDE)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spousteni-skriptu-v-normalnim-rezimu-studia">Spouštění skriptů v Normálním režimu Studia</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zakladni-kostra-skriptu-pro-pycub-ve-studiu">Základní kostra skriptu pro <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ve Studiu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kloubove-rychlostni-a-kartezske-rizeni">Kloubové, rychlostní a kartézské řízení</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ocni-kamery-dotykova-kuze-a-pracovni-slozka">Oční kamery, dotyková kůže a pracovní složka</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#normalni-samostatny-python-mimo-studio">Normální / samostatný Python (mimo Studio)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vyber-vizualizace-v-yaml-konfiguraci-gui">Výběr vizualizace v <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfiguraci (<code class="docutils literal notranslate"><span class="pre">gui</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#samostatne-spusteni-skriptu-s-kid-api">Samostatné spuštění skriptu s <code class="docutils literal notranslate"><span class="pre">kid_api</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vyhledavani-konfiguraci-a-spousteni-testeru-z-prikazove-radky">Vyhledávání konfigurací a spouštění testerů z příkazové řádky</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#zobrazeni-napovedy-a-definice-funkce-v-editoru">Zobrazení nápovědy a definice funkce v editoru</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prehled-vybranych-metod-a-senzoru">Přehled vybraných metod a senzorů</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rychle-srovnani-kid-api-vs-plne-pycub-api">Rychlé srovnání: Kid API vs. plné <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hlavni-klouby-a-kinematicke-retezce-icuba">Hlavní klouby a kinematické řetězce iCuba</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Programování robota</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="programovani-robota">
+<h1>Programování robota<a class="headerlink" href="#programovani-robota" title="Link to this heading"></a></h1>
+<p>pyCub nabízí tři hlavní způsoby programování robota podle úrovně zkušeností a podle toho, zda chcete pracovat v integrovaném prostředí Studia, nebo ze samostatného Pythonu:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Režim / přístup</p></th>
+<th class="head"><p>Hlavní API</p></th>
+<th class="head"><p>Jednotky</p></th>
+<th class="head"><p>Simulační smyčka</p></th>
+<th class="head"><p>Vhodné pro</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Dětské režimy</strong> (Scratch a Dětské programování ve Studiu)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code></p></td>
+<td><p><strong>Stupně</strong></p></td>
+<td><p>Řízeno automaticky</p></td>
+<td><p>Začátečníky, výuku ve třídě, rychlé pokusy</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Plný režim Studia</strong> (Normální režim IDE ve Studiu)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">icub_pybullet.pycub.pyCub</span></code></p></td>
+<td><p><strong>Radiány</strong></p></td>
+<td><p>Explicitní (<code class="docutils literal notranslate"><span class="pre">wait=True</span></code> nebo <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code>)</p></td>
+<td><p>Plné řízení robota, kamery, kůže, kurzovní cvičení</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Normální / samostatný Python</strong> (Terminál / PyCharm / VS Code)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pyCub</span></code> nebo <code class="docutils literal notranslate"><span class="pre">kid_api</span></code></p></td>
+<td><p>Radiány (<code class="docutils literal notranslate"><span class="pre">pyCub</span></code>) / Stupně (<code class="docutils literal notranslate"><span class="pre">kid_api</span></code>)</p></td>
+<td><p>Explicitní (<code class="docutils literal notranslate"><span class="pre">pyCub</span></code>) / Automatická (<code class="docutils literal notranslate"><span class="pre">kid_api</span></code>)</p></td>
+<td><p>Automatické testy, headless běh, samostatné Open3D/Web okno</p></td>
+</tr>
+</tbody>
+</table>
+<p><em>(Poznámka: v konfiguračních souborech <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> se <code class="docutils literal notranslate"><span class="pre">initial_joint_angles</span></code> zadávají vždy ve <strong>stupních</strong> bez ohledu na režim.)</em></p>
+<hr class="docutils" />
+<section id="detske-rezimy-icub-pybullet-kid-api">
+<h2>Dětské režimy (<code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code>)<a class="headerlink" href="#detske-rezimy-icub-pybullet-kid-api" title="Link to this heading"></a></h2>
+<p>Dětské režimy v <strong>pyCub Studiu</strong> — <strong>Dětské „Scratch“ (Bloky)</strong> i <strong>Dětské programování (Python)</strong> — používají stejné vysokoúrovňové rozhraní <code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code>.</p>
+<section id="jak-detske-rezimy-funguji">
+<h3>Jak dětské režimy fungují<a class="headerlink" href="#jak-detske-rezimy-funguji" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Studio udržuje na pozadí běžící interaktivní fyzikální proces pro právě vybraný svět (<code class="docutils literal notranslate"><span class="pre">with_ball.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">default.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">skin_test.yaml</span></code> nebo vlastní <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> svět ze složky <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/worlds/</span></code>).</p></li>
+<li><p>V kódu <strong>nevytváříte</strong> instanci <code class="docutils literal notranslate"><span class="pre">pyCub(...)</span></code> ani <strong>nepíšete</strong> smyčku <code class="docutils literal notranslate"><span class="pre">while</span> <span class="pre">client.is_alive():</span> <span class="pre">client.update_simulation()</span></code>.</p></li>
+<li><p>Každý pohybový příkaz počká na dokončení pohybu (nebo vypršení limitu), plynule krokuje fyziku a průběžně kontroluje tlačítko <strong>Zastavit</strong> (<code class="docutils literal notranslate"><span class="pre">KidScriptStopped</span></code>), takže i nekonečnou smyčku lze okamžitě přerušit.</p></li>
+</ul>
+</section>
+<section id="od-bloku-scratch-k-pythonu">
+<h3>Od bloků Scratch k Pythonu<a class="headerlink" href="#od-bloku-scratch-k-pythonu" title="Link to this heading"></a></h3>
+<p>V režimu <strong>Dětské „Scratch“</strong> skládáte bloky pro pohyb, cykly, podmínky a senzory. Pomocí <strong>Náhled Python kódu</strong> vidíte živý překlad bloků do Pythonu, projekt si můžete uložit jako <code class="docutils literal notranslate"><span class="pre">.pycub_blocks</span></code> nebo jej jedním kliknutím převést tlačítkem <strong>Otevřít jako Python v Dětském programování</strong> do textového editoru.</p>
+</section>
+<section id="prvni-program-v-detskem-programovani">
+<h3>První program v Dětském programování<a class="headerlink" href="#prvni-program-v-detskem-programovani" title="Link to this heading"></a></h3>
+<p>Vyberte svět s míčkem (<em>Stůl s míčkem</em> / <code class="docutils literal notranslate"><span class="pre">with_ball.yaml</span></code>) a spusťte ukázku (lze použít české i anglické názvy příkazů):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icub_pybullet.kid_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">podívej_se_dolů</span><span class="p">,</span> <span class="n">zamávej</span><span class="p">,</span> <span class="n">zvedni_rameno</span><span class="p">,</span> <span class="n">dotkl_se_míčku</span><span class="p">,</span> <span class="n">vzdálenost_míčku</span>
+
+<span class="n">podívej_se_dolů</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">zamávej</span><span class="p">(</span><span class="s2">&quot;pravá&quot;</span><span class="p">)</span>
+<span class="n">zvedni_rameno</span><span class="p">(</span><span class="s2">&quot;levá&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dotyk:&quot;</span><span class="p">,</span> <span class="n">dotkl_se_míčku</span><span class="p">(),</span> <span class="s2">&quot;Vzdálenost (cm):&quot;</span><span class="p">,</span> <span class="n">vzdálenost_míčku</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Ekvivalentní zápis v angličtině:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icub_pybullet.kid_api</span><span class="w"> </span><span class="kn">import</span> <span class="n">look_down</span><span class="p">,</span> <span class="n">wave</span><span class="p">,</span> <span class="n">shoulder_up</span><span class="p">,</span> <span class="n">ball_touched</span><span class="p">,</span> <span class="n">ball_distance</span>
+
+<span class="n">look_down</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">wave</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">shoulder_up</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Touched:&quot;</span><span class="p">,</span> <span class="n">ball_touched</span><span class="p">(),</span> <span class="s2">&quot;Distance (cm):&quot;</span><span class="p">,</span> <span class="n">ball_distance</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Studio automaticky zpřístupňuje všechny české i anglické příkazy pro našeptávač a nápovědu; obě varianty sdílejí tentýž řadič robota. Pojmenované argumenty vždy používají názvy z Python signatury (<code class="docutils literal notranslate"><span class="pre">side</span></code>, <code class="docutils literal notranslate"><span class="pre">degrees</span></code>, <code class="docutils literal notranslate"><span class="pre">speed</span></code>, <code class="docutils literal notranslate"><span class="pre">target_degrees</span></code>, <code class="docutils literal notranslate"><span class="pre">delta_degrees</span></code>, <code class="docutils literal notranslate"><span class="pre">seconds</span></code>).</p>
+</section>
+<section id="prehled-skupin-detskych-prikazu">
+<h3>Přehled skupin dětských příkazů<a class="headerlink" href="#prehled-skupin-detskych-prikazu" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Hotové pohyby:</strong> <code class="docutils literal notranslate"><span class="pre">zamávej(side=&quot;right&quot;)</span></code> / <code class="docutils literal notranslate"><span class="pre">wave</span></code>, <code class="docutils literal notranslate"><span class="pre">zamávej_levou()</span></code> / <code class="docutils literal notranslate"><span class="pre">left_wave</span></code>, <code class="docutils literal notranslate"><span class="pre">zamávej_pravou()</span></code> / <code class="docutils literal notranslate"><span class="pre">right_wave</span></code>, <code class="docutils literal notranslate"><span class="pre">zvedni_obě_ruce()</span></code> / <code class="docutils literal notranslate"><span class="pre">both_arms_up</span></code>, <code class="docutils literal notranslate"><span class="pre">spusť_obě_ruce()</span></code> / <code class="docutils literal notranslate"><span class="pre">both_arms_down</span></code>, <code class="docutils literal notranslate"><span class="pre">podívej_se_před_sebe()</span></code> / <code class="docutils literal notranslate"><span class="pre">look_center</span></code>, <code class="docutils literal notranslate"><span class="pre">narovnej_se()</span></code> / <code class="docutils literal notranslate"><span class="pre">stand_straight</span></code>, <code class="docutils literal notranslate"><span class="pre">obnov_polohu()</span></code> / <code class="docutils literal notranslate"><span class="pre">reset_pose</span></code>, <code class="docutils literal notranslate"><span class="pre">zastav()</span></code> / <code class="docutils literal notranslate"><span class="pre">stop</span></code>.</p></li>
+<li><p><strong>Relativní pohyby paží (ve stupních):</strong> <code class="docutils literal notranslate"><span class="pre">zvedni_rameno</span></code> / <code class="docutils literal notranslate"><span class="pre">shoulder_up</span></code>, <code class="docutils literal notranslate"><span class="pre">spusť_rameno</span></code> / <code class="docutils literal notranslate"><span class="pre">shoulder_down</span></code>, <code class="docutils literal notranslate"><span class="pre">upaž</span></code> / <code class="docutils literal notranslate"><span class="pre">shoulder_out</span></code>, <code class="docutils literal notranslate"><span class="pre">připaž</span></code> / <code class="docutils literal notranslate"><span class="pre">shoulder_in</span></code>, <code class="docutils literal notranslate"><span class="pre">otoč_paži</span></code> / <code class="docutils literal notranslate"><span class="pre">rotate_arm</span></code>, <code class="docutils literal notranslate"><span class="pre">ohni_loket</span></code> / <code class="docutils literal notranslate"><span class="pre">bend_elbow</span></code>, <code class="docutils literal notranslate"><span class="pre">narovnej_loket</span></code> / <code class="docutils literal notranslate"><span class="pre">straighten_elbow</span></code>, <code class="docutils literal notranslate"><span class="pre">otoč_zápěstí</span></code> / <code class="docutils literal notranslate"><span class="pre">rotate_wrist</span></code>. Přijímají <code class="docutils literal notranslate"><span class="pre">side</span></code> (<code class="docutils literal notranslate"><span class="pre">&quot;pravá&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;levá&quot;</span></code> nebo <code class="docutils literal notranslate"><span class="pre">&quot;right&quot;</span></code> / <code class="docutils literal notranslate"><span class="pre">&quot;left&quot;</span></code>), <code class="docutils literal notranslate"><span class="pre">degrees=15.0</span></code> a <code class="docutils literal notranslate"><span class="pre">speed=1.5</span></code> (rad/s).</p></li>
+<li><p><strong>Relativní pohyby hlavy a trupu (ve stupních):</strong> <code class="docutils literal notranslate"><span class="pre">otoč_hlavu</span></code> / <code class="docutils literal notranslate"><span class="pre">turn_head</span></code>, <code class="docutils literal notranslate"><span class="pre">podívej_se_nahoru</span></code> / <code class="docutils literal notranslate"><span class="pre">look_up</span></code>, <code class="docutils literal notranslate"><span class="pre">podívej_se_dolů</span></code> / <code class="docutils literal notranslate"><span class="pre">look_down</span></code>, <code class="docutils literal notranslate"><span class="pre">nakloň_hlavu</span></code> / <code class="docutils literal notranslate"><span class="pre">tilt_head</span></code>, <code class="docutils literal notranslate"><span class="pre">otoč_trup</span></code> / <code class="docutils literal notranslate"><span class="pre">turn_body</span></code>, <code class="docutils literal notranslate"><span class="pre">předkloň_se</span></code> / <code class="docutils literal notranslate"><span class="pre">bend_forward</span></code>, <code class="docutils literal notranslate"><span class="pre">zakloň_se</span></code> / <code class="docutils literal notranslate"><span class="pre">bend_back</span></code>, <code class="docutils literal notranslate"><span class="pre">ukloň_se</span></code> / <code class="docutils literal notranslate"><span class="pre">bend_sideways</span></code>.</p></li>
+<li><p><strong>Přímá práce s klouby a čekání:</strong> <code class="docutils literal notranslate"><span class="pre">nastav_kloub(joint_name,</span> <span class="pre">target_degrees,</span> <span class="pre">speed=1.5)</span></code> / <code class="docutils literal notranslate"><span class="pre">move_joint</span></code> pro absolutní úhel, <code class="docutils literal notranslate"><span class="pre">posuň_kloub(joint_name,</span> <span class="pre">delta_degrees,</span> <span class="pre">speed=1.5)</span></code> / <code class="docutils literal notranslate"><span class="pre">jog_joint</span></code> pro relativní posun, <code class="docutils literal notranslate"><span class="pre">zjisti_úhel_kloubu(joint_name)</span></code> / <code class="docutils literal notranslate"><span class="pre">get_joint</span></code> pro přečtení aktuálního úhlu ve stupních a <code class="docutils literal notranslate"><span class="pre">počkej(seconds=1.0)</span></code> / <code class="docutils literal notranslate"><span class="pre">wait</span></code> pro pozastavení za běhu fyziky.</p></li>
+<li><p><strong>Senzory a míček:</strong> <code class="docutils literal notranslate"><span class="pre">vzdálenost_míčku()</span></code> / <code class="docutils literal notranslate"><span class="pre">ball_distance()</span></code> (vzdálenost míčku od stolu v cm), <code class="docutils literal notranslate"><span class="pre">dotkl_se_míčku()</span></code> / <code class="docutils literal notranslate"><span class="pre">ball_touched()</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>), <code class="docutils literal notranslate"><span class="pre">počet_zásahů()</span></code> / <code class="docutils literal notranslate"><span class="pre">ball_hits()</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) a <code class="docutils literal notranslate"><span class="pre">dotyk_kůže()</span></code> / <code class="docutils literal notranslate"><span class="pre">skin_touched()</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>, vyžaduje <code class="docutils literal notranslate"><span class="pre">skin.use:</span> <span class="pre">True</span></code>).</p></li>
+</ul>
+<p>Kliknutím na položku v <strong>Paletě příkazů</strong> vlevo vložíte ukázkový příkaz přímo na pozici kurzoru, případně můžete začít s připravenou šablonou. Při chybě se problémový řádek zvýrazní červeně a v konzoli se zobrazí srozumitelná nápověda v češtině.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plny-rezim-studia-normalni-rezim-ide">
+<h2>Plný režim Studia (Normální režim IDE)<a class="headerlink" href="#plny-rezim-studia-normalni-rezim-ide" title="Link to this heading"></a></h2>
+<p><strong>Normální režim</strong> v <strong>pyCub Studiu</strong> poskytuje kompletní rozhraní <code class="docutils literal notranslate"><span class="pre">icub_pybullet.pycub.pyCub</span></code> společně s vestavěným hardwarově akcelerovaným 3D zobrazením, živou konzolí, náhledy očních kamer a nástroji pro kurzovní cvičení.</p>
+<section id="spousteni-skriptu-v-normalnim-rezimu-studia">
+<h3>Spouštění skriptů v Normálním režimu Studia<a class="headerlink" href="#spousteni-skriptu-v-normalnim-rezimu-studia" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Upravujte <code class="docutils literal notranslate"><span class="pre">.py</span></code> soubory i <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfigurace světů v záložkách editoru a stiskněte <strong>F5</strong> (nebo klikněte na <strong>Spustit skript</strong>).</p></li>
+<li><p>Každý běh se spouští v izolovaném podprocesu (<code class="docutils literal notranslate"><span class="pre">SimProcessSupervisor</span></code>), jehož 3D obraz se vykresluje přímo do vestavěného OpenGL okna Studia — neotevírá se žádné samostatné okno Open3D.</p></li>
+<li><p>Pokud píšete kód v externím editoru (PyCharm, VS Code) a chcete používat 3D náhled a kamery Studia, použijte <strong>Spustit externí .py…</strong> se zaškrtnutou volbou <strong>Sledovat změny externího souboru</strong>, nebo Studio spusťte z terminálu:</p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>studio.main<span class="w"> </span>--run-script<span class="w"> </span>cesta/k/vasemu_skriptu.py
+</pre></div>
+</div>
+</section>
+<section id="zakladni-kostra-skriptu-pro-pycub-ve-studiu">
+<h3>Základní kostra skriptu pro <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ve Studiu<a class="headerlink" href="#zakladni-kostra-skriptu-pro-pycub-ve-studiu" title="Link to this heading"></a></h3>
+<p>V plném / Normálním režimu vytvoříte instanci <code class="docutils literal notranslate"><span class="pre">pyCub</span></code>, předáte jí <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfiguraci světa, zadáváte polohy kloubů v <strong>radiánech</strong> a na konci udržíte okno živé smyčkou do stisknutí tlačítka <strong>Zastavit</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icub_pybullet.pycub</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyCub</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">pyCub</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;with_ball.yaml&quot;</span><span class="p">)</span>
+
+<span class="c1"># Blokující pohyb (počká na dosažení cíle, kolizi nebo vypršení limitu)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">move_position</span><span class="p">(</span><span class="s2">&quot;neck_pitch&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="c1"># Neblokující pohyb: simulaci krokujete ve vlastní smyčce</span>
+<span class="n">client</span><span class="o">.</span><span class="n">move_position</span><span class="p">([</span><span class="s2">&quot;torso_pitch&quot;</span><span class="p">,</span> <span class="s2">&quot;torso_yaw&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.60</span><span class="p">],</span> <span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">client</span><span class="o">.</span><span class="n">motion_done</span><span class="p">():</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">()</span>
+
+<span class="c1"># Po dokončení pohybu ponechte simulaci aktivní, dokud uživatel neklikne na Zastavit</span>
+<span class="k">while</span> <span class="n">client</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">update_simulation</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="kloubove-rychlostni-a-kartezske-rizeni">
+<h3>Kloubové, rychlostní a kartézské řízení<a class="headerlink" href="#kloubove-rychlostni-a-kartezske-rizeni" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Polohové řízení (<code class="docutils literal notranslate"><span class="pre">move_position</span></code>):</strong> Přijímá název nebo ID jednoho kloubu, případně stejně dlouhé seznamy kloubů a cílových úhlů v <strong>radiánech</strong>. Volitelné parametry: <code class="docutils literal notranslate"><span class="pre">wait=True</span></code>, <code class="docutils literal notranslate"><span class="pre">velocity=1</span></code> (rad/s), <code class="docutils literal notranslate"><span class="pre">set_col_state=True</span></code>, <code class="docutils literal notranslate"><span class="pre">check_collision=True</span></code> a <code class="docutils literal notranslate"><span class="pre">timeout=None</span></code> (v sekundách). Při <code class="docutils literal notranslate"><span class="pre">wait=False</span></code> volejte v cyklu <code class="docutils literal notranslate"><span class="pre">client.update_simulation()</span></code>, dokud <code class="docutils literal notranslate"><span class="pre">client.motion_done()</span></code> nevrátí <code class="docutils literal notranslate"><span class="pre">True</span></code>, nebo zavolejte <code class="docutils literal notranslate"><span class="pre">client.wait_motion_done()</span></code>.</p></li>
+<li><p><strong>Rychlostní řízení (<code class="docutils literal notranslate"><span class="pre">move_velocity</span></code>):</strong> Nastaví cílové úhlové rychlosti vybraných kloubů v <strong>radiánech za sekundu</strong>.</p></li>
+<li><p><strong>Čtení stavu a zastavení:</strong> <code class="docutils literal notranslate"><span class="pre">client.get_joint_state(joints=None)</span></code> vrátí aktuální polohy kloubů v radiánech (bez argumentu pro všechny pohyblivé klouby); <code class="docutils literal notranslate"><span class="pre">client.stop_robot(joints=None)</span></code> zastaví běžící pohyby.</p></li>
+<li><p><strong>Kartézské řízení (<code class="docutils literal notranslate"><span class="pre">move_cartesian</span></code> a <code class="docutils literal notranslate"><span class="pre">Pose</span></code>):</strong> Získejte aktuální polohu koncového efektoru voláním <code class="docutils literal notranslate"><span class="pre">pose</span> <span class="pre">=</span> <span class="pre">client.end_effector.get_position()</span></code>, upravte souřadnice <code class="docutils literal notranslate"><span class="pre">pose.pos</span></code> (<code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">y,</span> <span class="pre">z]</span></code> v metrech) nebo orientaci <code class="docutils literal notranslate"><span class="pre">pose.ori</span></code> (kvaternion <code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">y,</span> <span class="pre">z,</span> <span class="pre">w]</span></code>) a zavolejte <code class="docutils literal notranslate"><span class="pre">client.move_cartesian(pose,</span> <span class="pre">wait=True,</span> <span class="pre">velocity=1,</span> <span class="pre">check_collision=True,</span> <span class="pre">timeout=None)</span></code>. Inverzní kinematika vypočítá cílové úhly kloubů automaticky.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icub_pybullet.pycub</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyCub</span><span class="p">,</span> <span class="n">Pose</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">pyCub</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="s2">&quot;with_ball.yaml&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">end_effector</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">pos</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">ori</span><span class="p">))</span>
+<span class="n">target</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.15</span>
+<span class="n">target</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">0.10</span>
+<span class="n">client</span><span class="o">.</span><span class="n">move_cartesian</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">velocity</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Jakobián (<code class="docutils literal notranslate"><span class="pre">compute_jacobian</span></code>):</strong> Výpočet geometrického jakobiánu v bázovém souřadném systému a seznamu aktivních kloubů pro vybraný kinematický řetězec (<code class="docutils literal notranslate"><span class="pre">&quot;left_arm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;right_arm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;left_leg&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;right_leg&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;torso&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;head&quot;</span></code>):</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">J</span><span class="p">,</span> <span class="n">active_joints</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute_jacobian</span><span class="p">(</span><span class="s2">&quot;right_arm&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;r_hand&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="ocni-kamery-dotykova-kuze-a-pracovni-slozka">
+<h3>Oční kamery, dotyková kůže a pracovní složka<a class="headerlink" href="#ocni-kamery-dotykova-kuze-a-pracovni-slozka" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Oční kamery (<code class="docutils literal notranslate"><span class="pre">l_eye</span></code>, <code class="docutils literal notranslate"><span class="pre">r_eye</span></code>):</strong> Zapněte v horní liště Normálního režimu tlačítky <strong>Levé oko (<code class="docutils literal notranslate"><span class="pre">l_eye</span></code>)</strong> / <strong>Pravé oko (<code class="docutils literal notranslate"><span class="pre">r_eye</span></code>)</strong> nebo v <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfiguraci (<code class="docutils literal notranslate"><span class="pre">eyes.l_eye:</span> <span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">eyes.r_eye:</span> <span class="pre">True</span></code>). Ve skriptu získáte obrazy voláním <code class="docutils literal notranslate"><span class="pre">client.get_camera_images(eyes)</span></code> (RGB) a <code class="docutils literal notranslate"><span class="pre">client.get_camera_depth_images(eyes)</span></code> (hloubka). Tlačítky <strong>Uložit RGB</strong> / <strong>Uložit hloubku</strong> uložíte snímky do <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/images/</span></code>.</p></li>
+<li><p><strong>Dotyková kůže:</strong> Nastavte v konfiguraci <code class="docutils literal notranslate"><span class="pre">skin.use:</span> <span class="pre">True</span></code> (viz <code class="docutils literal notranslate"><span class="pre">skin_test.yaml</span></code>), krokujte simulaci pomocí <code class="docutils literal notranslate"><span class="pre">client.update_simulation()</span></code> a čtěte <code class="docutils literal notranslate"><span class="pre">client.skin_activations</span></code> a <code class="docutils literal notranslate"><span class="pre">client.activated_skin_points</span></code>.</p></li>
+<li><p><strong>Příklady a kurzovní cvičení:</strong> Nabídka <strong>Příklady &amp; Cvičení</strong> otevře ukázkové skripty nebo nakopíruje cvičení <code class="docutils literal notranslate"><span class="pre">1–5</span></code> do <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/exercises/</span></code>. Pokud je otevřený soubor cvičení, tlačítkem <strong>Spustit tester cvičení</strong> spustíte automatické vyhodnocení a zobrazíte HTML protokol.</p></li>
+<li><p><strong>Balíčky a vlastní Python:</strong> Přes <strong>Balíčky / Python</strong> v horní liště můžete doinstalovat knihovny z PyPI do <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/extra_packages/</span></code>, připojit <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> existujícího virtuálního prostředí nebo vybrat externí interpret Pythonu pro skripty Normálního režimu.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="normalni-samostatny-python-mimo-studio">
+<h2>Normální / samostatný Python (mimo Studio)<a class="headerlink" href="#normalni-samostatny-python-mimo-studio" title="Link to this heading"></a></h2>
+<p>Skripty pro pyCub lze spouštět i přímo z terminálu, PyCharmu nebo VS Code v jakémkoli prostředí s nainstalovanou knihovnou <code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code> (<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">icub_pybullet</span></code> nebo <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">./icub_pybullet</span></code>), bez spouštění GUI Studia.</p>
+<section id="vyber-vizualizace-v-yaml-konfiguraci-gui">
+<h3>Výběr vizualizace v <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> konfiguraci (<code class="docutils literal notranslate"><span class="pre">gui</span></code>)<a class="headerlink" href="#vyber-vizualizace-v-yaml-konfiguraci-gui" title="Link to this heading"></a></h3>
+<p>Při běhu mimo Studio se <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> řídí sekcí <code class="docutils literal notranslate"><span class="pre">gui</span></code> v konfiguraci <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">gui</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">standard</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span><span class="w">   </span><span class="c1"># Samostatné Open3D 3D okno</span>
+<span class="w">  </span><span class="nt">web</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w">       </span><span class="c1"># Náhradní webový prohlížeč (pomalejší fallback)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Samostatné okno Open3D (<code class="docutils literal notranslate"><span class="pre">standard:</span> <span class="pre">True,</span> <span class="pre">web:</span> <span class="pre">False</span></code>):</strong> Výchozí lokální 3D okno.</p></li>
+<li><p><strong>Webová vizualizace (<code class="docutils literal notranslate"><span class="pre">standard:</span> <span class="pre">False,</span> <span class="pre">web:</span> <span class="pre">True</span></code>):</strong> Zobrazí scénu v prohlížeči — hodí se při vzdáleném připojení nebo při potížích s OpenGL ovladači.</p></li>
+<li><p><strong>Bez grafického okna / headless (<code class="docutils literal notranslate"><span class="pre">standard:</span> <span class="pre">False,</span> <span class="pre">web:</span> <span class="pre">False</span></code>):</strong> Nevytváří žádné 3D okno. Nejrychlejší varianta pro automatické testy, zpětnovazební učení (RL), dávkové vyhodnocování a CI.</p></li>
+</ul>
+<p><em>(Uvnitř Normálního režimu Studia aplikace tyto volby automaticky přesměruje do svého vestavěného OpenGL okna.)</em></p>
+</section>
+<section id="samostatne-spusteni-skriptu-s-kid-api">
+<h3>Samostatné spuštění skriptu s <code class="docutils literal notranslate"><span class="pre">kid_api</span></code><a class="headerlink" href="#samostatne-spusteni-skriptu-s-kid-api" title="Link to this heading"></a></h3>
+<p>Skripty napsané pomocí <code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code> lze spouštět i jako běžné Python soubory mimo Studio:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>muj_detsky_skript.py
+</pre></div>
+</div>
+<p>Při prvním volání příkazu funkce <code class="docutils literal notranslate"><span class="pre">get_robot()</span></code> automaticky vytvoří klienta <code class="docutils literal notranslate"><span class="pre">pyCub(config=&quot;with_ball.yaml&quot;)</span></code> a postará se o krokování simulace.</p>
+</section>
+<section id="vyhledavani-konfiguraci-a-spousteni-testeru-z-prikazove-radky">
+<h3>Vyhledávání konfigurací a spouštění testerů z příkazové řádky<a class="headerlink" href="#vyhledavani-konfiguraci-a-spousteni-testeru-z-prikazove-radky" title="Link to this heading"></a></h3>
+<p>Předáte-li relativní název konfigurace (např. <code class="docutils literal notranslate"><span class="pre">pyCub(config=&quot;with_ball.yaml&quot;)</span></code>), pyCub hledá v tomto pořadí:</p>
+<ol class="arabic simple">
+<li><p>Přímá / absolutní cesta nebo cesta vůči aktuálnímu pracovnímu adresáři.</p></li>
+<li><p>Cesta vůči adresáři volajícího skriptu (a podsložce <code class="docutils literal notranslate"><span class="pre">configs/</span></code> vedle něj).</p></li>
+<li><p>Uživatelská složka (<code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/worlds/</span></code>, <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/configs/</span></code>, <code class="docutils literal notranslate"><span class="pre">~/Documents/pyCub/</span></code>).</p></li>
+<li><p>Vestavěné konfigurace <code class="docutils literal notranslate"><span class="pre">icub_pybullet/configs/</span></code> (<code class="docutils literal notranslate"><span class="pre">default.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">with_ball.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">skin_test.yaml</span></code>).</p></li>
+</ol>
+<p>Vlastní <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> světy mohou dědit výchozí nastavení přes <code class="docutils literal notranslate"><span class="pre">parent:</span> <span class="pre">with_ball.yaml</span></code> a přepsat jen vybrané položky (<code class="docutils literal notranslate"><span class="pre">urdfs</span></code>, <code class="docutils literal notranslate"><span class="pre">eyes</span></code>, <code class="docutils literal notranslate"><span class="pre">skin</span></code>, <code class="docutils literal notranslate"><span class="pre">end_effector</span></code>).</p>
+<p>Tester cvičení lze spustit také přímo z příkazové řádky mimo Studio:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>exercises/exercise_1/exercise_1_tester.py
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="zobrazeni-napovedy-a-definice-funkce-v-editoru">
+<h2>Zobrazení nápovědy a definice funkce v editoru<a class="headerlink" href="#zobrazeni-napovedy-a-definice-funkce-v-editoru" title="Link to this heading"></a></h2>
+<p>Editor kódu v režimech <strong>Dětské programování</strong> i <strong>Normální režim</strong> využívá statickou analýzu Jedi:</p>
+<ul class="simple">
+<li><p><strong>Nápověda po najetí myší:</strong> Najeďte kurzorem myši na název funkce nebo třídy — zobrazí se její signatura a docstring bez přesunu textového kurzoru. Nápověda převádí pole <code class="docutils literal notranslate"><span class="pre">:param:</span></code> i koncové komentáře u parametrů na přehledné řádky.</p></li>
+<li><p><strong>Aktivní parametr a signatura:</strong> Ponechte textový kurzor uvnitř závorek volané funkce (nebo stiskněte <strong>Ctrl+Shift+Space</strong>) pro zobrazení signatury a výchozích hodnot parametrů.</p></li>
+<li><p><strong>Přejít na definici (<code class="docutils literal notranslate"><span class="pre">F12</span></code>):</strong> Umístěte kurzor na název funkce či třídy a stiskněte <strong>F12</strong> — otevře se definice včetně dokumentace, a to jak pro neuložené funkce v aktuálním souboru, tak pro zdrojový kód <code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="prehled-vybranych-metod-a-senzoru">
+<h2>Přehled vybraných metod a senzorů<a class="headerlink" href="#prehled-vybranych-metod-a-senzoru" title="Link to this heading"></a></h2>
+<section id="rychle-srovnani-kid-api-vs-plne-pycub-api">
+<h3>Rychlé srovnání: Kid API vs. plné <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> API<a class="headerlink" href="#rychle-srovnani-kid-api-vs-plne-pycub-api" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Úloha</p></th>
+<th class="head"><p>Kid API (<code class="docutils literal notranslate"><span class="pre">icub_pybullet.kid_api</span></code>)</p></th>
+<th class="head"><p>Plné <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> API (<code class="docutils literal notranslate"><span class="pre">client</span> <span class="pre">=</span> <span class="pre">pyCub(...)</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cílový úhel kloubu</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">move_joint(&quot;neck_pitch&quot;,</span> <span class="pre">-15)</span></code> <em>(stupně)</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.move_position(&quot;neck_pitch&quot;,</span> <span class="pre">-0.26)</span></code> <em>(radiány)</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>Pohyb více kloubů</p></td>
+<td><p>Postupná volání nebo cyklus</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.move_position([&quot;torso_pitch&quot;,</span> <span class="pre">&quot;torso_yaw&quot;],</span> <span class="pre">[0.3,</span> <span class="pre">-0.5])</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Relativní posun kloubu</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jog_joint(&quot;r_elbow&quot;,</span> <span class="pre">20)</span></code> <em>(stupně)</em></p></td>
+<td><p>Přečíst <code class="docutils literal notranslate"><span class="pre">get_joint_state(...)</span></code> + <code class="docutils literal notranslate"><span class="pre">move_position(...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Rychlost kloubu</p></td>
+<td><p>—</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.move_velocity(joints,</span> <span class="pre">velocities)</span></code> <em>(rad/s)</em></p></td>
+</tr>
+<tr class="row-even"><td><p>Kartézská IK poloha</p></td>
+<td><p>—</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.move_cartesian(pose)</span></code> <em>(<code class="docutils literal notranslate"><span class="pre">Pose(pos,</span> <span class="pre">ori)</span></code>)</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>Čtení úhlu kloubu</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">get_joint(&quot;neck_pitch&quot;)</span></code> <em>(stupně)</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.get_joint_state(&quot;neck_pitch&quot;)</span></code> <em>(radiány)</em></p></td>
+</tr>
+<tr class="row-even"><td><p>Obrazy z kamer</p></td>
+<td><p>—</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.get_camera_images(eyes)</span></code> / <code class="docutils literal notranslate"><span class="pre">client.get_camera_depth_images(eyes)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Senzory míčku</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ball_distance()</span></code>, <code class="docutils literal notranslate"><span class="pre">ball_touched()</span></code>, <code class="docutils literal notranslate"><span class="pre">ball_hits()</span></code></p></td>
+<td><p>Přes <code class="docutils literal notranslate"><span class="pre">client.other_objects</span></code> + <code class="docutils literal notranslate"><span class="pre">getClosestPoints</span></code> / <code class="docutils literal notranslate"><span class="pre">getContactPoints</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Dotyková kůže</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">skin_touched()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.skin_activations</span></code>, <code class="docutils literal notranslate"><span class="pre">client.activated_skin_points</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Krokování simulace</p></td>
+<td><p>Řešeno uvnitř každého příkazu</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">client.update_simulation()</span></code> / <code class="docutils literal notranslate"><span class="pre">client.wait_motion_done()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hlavni-klouby-a-kinematicke-retezce-icuba">
+<h3>Hlavní klouby a kinematické řetězce iCuba<a class="headerlink" href="#hlavni-klouby-a-kinematicke-retezce-icuba" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Trup:</strong> <code class="docutils literal notranslate"><span class="pre">torso_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">torso_roll</span></code>, <code class="docutils literal notranslate"><span class="pre">torso_yaw</span></code></p></li>
+<li><p><strong>Hlava a oči:</strong> <code class="docutils literal notranslate"><span class="pre">neck_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">neck_roll</span></code>, <code class="docutils literal notranslate"><span class="pre">neck_yaw</span></code>, <code class="docutils literal notranslate"><span class="pre">eyes_tilt</span></code>, <code class="docutils literal notranslate"><span class="pre">l_eye_pan_joint</span></code>, <code class="docutils literal notranslate"><span class="pre">r_eye_pan_joint</span></code></p></li>
+<li><p><strong>Levá / pravá paže (<code class="docutils literal notranslate"><span class="pre">l_</span></code> / <code class="docutils literal notranslate"><span class="pre">r_</span></code>):</strong> <code class="docutils literal notranslate"><span class="pre">*_shoulder_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">*_shoulder_roll</span></code>, <code class="docutils literal notranslate"><span class="pre">*_shoulder_yaw</span></code>, <code class="docutils literal notranslate"><span class="pre">*_elbow</span></code>, <code class="docutils literal notranslate"><span class="pre">*_wrist_prosup</span></code>, <code class="docutils literal notranslate"><span class="pre">*_wrist_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">*_wrist_yaw</span></code>, plus klouby prstů <code class="docutils literal notranslate"><span class="pre">*_hand_*</span></code></p></li>
+<li><p><strong>Levá / pravá noha (<code class="docutils literal notranslate"><span class="pre">l_</span></code> / <code class="docutils literal notranslate"><span class="pre">r_</span></code>):</strong> <code class="docutils literal notranslate"><span class="pre">*_hip_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">*_hip_roll</span></code>, <code class="docutils literal notranslate"><span class="pre">*_hip_yaw</span></code>, <code class="docutils literal notranslate"><span class="pre">*_knee</span></code>, <code class="docutils literal notranslate"><span class="pre">*_ankle_pitch</span></code>, <code class="docutils literal notranslate"><span class="pre">*_ankle_roll</span></code></p></li>
+<li><p><strong>Kinematické řetězce (<code class="docutils literal notranslate"><span class="pre">CHAINS</span></code>):</strong> <code class="docutils literal notranslate"><span class="pre">&quot;left_arm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;right_arm&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;left_leg&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;right_leg&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;torso&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;head&quot;</span></code></p></li>
+</ul>
+<p>Další podrobnosti, výchozí parametry a hotové řídicí programy najdete v sekcích <a class="reference internal" href="examples.html"><span class="std std-doc">Ukázkové programy</span></a> a <a class="reference internal" href="autoapi/index.html"><span class="std std-doc">API reference</span></a>.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="studio.html" class="btn btn-neutral float-left" title="Použití Studia" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Ukázkové programy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

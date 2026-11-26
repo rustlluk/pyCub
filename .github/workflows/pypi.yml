@@ -1,34 +1,123 @@
-name: Publish Python Package
+name: Publish Python Packages
 
 on:
   release:
-    types: [created]  # Runs when a new release is created
+    types: [created]  # Runs when a GitHub release is created
+  workflow_dispatch:
+    inputs:
+      icub_version:
+        description: "Override icub_pybullet version (blank = read icub_pybullet/VERSION)"
+        required: false
+        default: ""
+      studio_version:
+        description: "Override pycub-studio version (blank = read studio/VERSION)"
+        required: false
+        default: ""
+      publish_target:
+        description: "Which package(s) to build and publish"
+        type: choice
+        default: both
+        options:
+          - both
+          - icub_pybullet
+          - pycub-studio
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for PyPI Trusted Publishing (OIDC)
+      contents: read
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Resolve package versions & publish targets
+        id: versions
+        shell: bash
+        run: |
+          ICUB_VER="$(tr -d '[:space:]' < icub_pybullet/VERSION)"
+          STUDIO_VER="$(tr -d '[:space:]' < studio/VERSION)"
+          PUB_ICUB="true"
+          PUB_STUDIO="true"
+
+          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]]; then
+            if [[ -n "${{ github.event.inputs.icub_version }}" ]]; then
+              ICUB_VER="${{ github.event.inputs.icub_version }}"
+            fi
+            if [[ -n "${{ github.event.inputs.studio_version }}" ]]; then
+              STUDIO_VER="${{ github.event.inputs.studio_version }}"
+            fi
+            if [[ "${{ github.event.inputs.publish_target }}" == "icub_pybullet" ]]; then
+              PUB_STUDIO="false"
+            elif [[ "${{ github.event.inputs.publish_target }}" == "pycub-studio" ]]; then
+              PUB_ICUB="false"
+            fi
+          else
+            TAG="${{ github.event.release.tag_name }}"
+            if [[ "${TAG}" == icub-v* ]]; then
+              ICUB_VER="${TAG#icub-v}"
+              PUB_STUDIO="false"
+            elif [[ "${TAG}" == pycub-v* ]]; then
+              ICUB_VER="${TAG#pycub-v}"
+              PUB_STUDIO="false"
+            elif [[ "${TAG}" == studio-v* ]]; then
+              STUDIO_VER="${TAG#studio-v}"
+              PUB_ICUB="false"
+            elif [[ "${TAG}" == v*-app* ]]; then
+              VER="${TAG#v}"
+              STUDIO_VER="${VER%%-app*}"
+              PUB_ICUB="false"
+            fi
+          fi
+
+          echo "icub_version=${ICUB_VER}" >> "$GITHUB_OUTPUT"
+          echo "studio_version=${STUDIO_VER}" >> "$GITHUB_OUTPUT"
+          echo "publish_icub=${PUB_ICUB}" >> "$GITHUB_OUTPUT"
+          echo "publish_studio=${PUB_STUDIO}" >> "$GITHUB_OUTPUT"
+          echo "Resolved: icub_pybullet=${ICUB_VER} (publish=${PUB_ICUB}), pycub-studio=${STUDIO_VER} (publish=${PUB_STUDIO})"
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install setuptools wheel twine
+          python -m pip install build setuptools wheel twine
 
-      - name: Build package
-        run: python setup.py sdist bdist_wheel
-        working-directory: ./icub_pybullet
-
-      - name: Publish to PyPI
+      - name: Build icub_pybullet package
+        if: steps.versions.outputs.publish_icub == 'true'
         env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+          ICUB_VERSION: ${{ steps.versions.outputs.icub_version }}
+          STUDIO_VERSION: ${{ steps.versions.outputs.studio_version }}
+        run: python -m build --sdist --wheel --outdir ../dist/icub_pybullet
         working-directory: ./icub_pybullet
+
+      - name: Build pycub-studio package
+        if: steps.versions.outputs.publish_studio == 'true'
+        env:
+          ICUB_VERSION: ${{ steps.versions.outputs.icub_version }}
+          STUDIO_VERSION: ${{ steps.versions.outputs.studio_version }}
+        run: python -m build --sdist --wheel --outdir ../dist/pycub_studio
+        working-directory: ./studio
+
+      - name: Validate distributions
+        shell: bash
+        run: twine check dist/*/*
+
+      - name: Publish icub_pybullet to PyPI (OIDC)
+        if: steps.versions.outputs.publish_icub == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/icub_pybullet/
+          skip-existing: true
+
+      - name: Publish pycub-studio to PyPI (OIDC)
+        if: steps.versions.outputs.publish_studio == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/pycub_studio/
+          skip-existing: true

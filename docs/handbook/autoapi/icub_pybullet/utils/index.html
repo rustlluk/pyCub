@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>icub_pybullet.utils &mdash; pyCub Studio</title>
+      <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../static/handbook.css?v=46b66857" />
+
+  
+      <script src="../../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../static/documentation_options.js?v=7f41d439"></script>
+      <script src="../../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="icub_pybullet.visualizer" href="../visualizer/index.html" />
+    <link rel="prev" title="icub_pybullet.runtime_paths" href="../runtime_paths/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../studio.html">Using Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../programming.html">Programming the robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Example controllers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../exercises.html">Course exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Project README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">icub_pybullet</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">icub_pybullet</a></li>
+      <li class="breadcrumb-item active">icub_pybullet.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-icub_pybullet.utils">
+<span id="icub-pybullet-utils"></span><h1>icub_pybullet.utils<a class="headerlink" href="#module-icub_pybullet.utils" title="Link to this heading"></a></h1>
+<p>Utils for pyCub simulator</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Lukas Rustler</p>
+</dd>
+</dl>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.utils.JOINTS" title="icub_pybullet.utils.JOINTS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JOINTS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.utils.JOINTS_IDS" title="icub_pybullet.utils.JOINTS_IDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JOINTS_IDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.utils.CHAINS" title="icub_pybullet.utils.CHAINS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CHAINS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.utils.URDF" title="icub_pybullet.utils.URDF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">URDF</span></code></a></p></td>
+<td><p>Class to parse URDF file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.utils.Config" title="icub_pybullet.utils.Config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config</span></code></a></p></td>
+<td><p>Class to parse and keep the config loaded from yaml file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#icub_pybullet.utils.Pose" title="icub_pybullet.utils.Pose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pose</span></code></a></p></td>
+<td><p>Mini help class for Pose representation</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#icub_pybullet.utils.CustomFormatter" title="icub_pybullet.utils.CustomFormatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustomFormatter</span></code></a></p></td>
+<td><p>Custom formatter that assigns colors to logs</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">URDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">package_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.utils.URDF" title="Link to this definition"></a></dt>
+<dd><p>Class to parse URDF file</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.ROOT_TAGS">
+<span class="sig-name descname"><span class="pre">ROOT_TAGS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.utils.URDF.ROOT_TAGS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">b'.'</span></em><a class="headerlink" href="#icub_pybullet.utils.URDF.path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.package_dir">
+<span class="sig-name descname"><span class="pre">package_dir</span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.package_dir" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.links">
+<span class="sig-name descname"><span class="pre">links</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.utils.URDF.links" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.joints">
+<span class="sig-name descname"><span class="pre">joints</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#icub_pybullet.utils.URDF.joints" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.robot_name">
+<span class="sig-name descname"><span class="pre">robot_name</span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.robot_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.new_urdf">
+<span class="sig-name descname"><span class="pre">new_urdf</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#icub_pybullet.utils.URDF.new_urdf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.find_root_tags">
+<span class="sig-name descname"><span class="pre">find_root_tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.find_root_tags" title="Link to this definition"></a></dt>
+<dd><p>Finds tags that are ‘root’, i.e., they have child ‘inside’</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xml.etree.ElementTree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xml.etree.ElementTree</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.read" title="Link to this definition"></a></dt>
+<dd><p>Recursive function to read the URDF file. When there are no children, it reads the attributes and saves them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>el</strong> (<em>xml.etree.ElementTree.Element</em>) – The current element in the XML tree.</p></li>
+<li><p><strong>parent</strong> (<em>xml.etree.ElementTree.Element</em>) – The parent element in the XML tree.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.dereference">
+<span class="sig-name descname"><span class="pre">dereference</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.dereference" title="Link to this definition"></a></dt>
+<dd><p>Make parent/child again as names to allow urdf write</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.make_references">
+<span class="sig-name descname"><span class="pre">make_references</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.make_references" title="Link to this definition"></a></dt>
+<dd><p>Make parent/child in joint list as references to the given link</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.expand_package_uris">
+<span class="sig-name descname"><span class="pre">expand_package_uris</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.expand_package_uris" title="Link to this definition"></a></dt>
+<dd><p>Expand package:// mesh paths to absolute POSIX paths so cached URDFs load from any directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.fix_urdf">
+<span class="sig-name descname"><span class="pre">fix_urdf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.fix_urdf" title="Link to this definition"></a></dt>
+<dd><p>Fix the URDF file by converting non-mesh geometries to mesh and saving them as .obj files.
+If changes were made, write the new URDF to a writable directory or user cache.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.write_attr">
+<span class="sig-name descname"><span class="pre">write_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.write_attr" title="Link to this definition"></a></dt>
+<dd><p>Write an attribute to the new URDF string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.URDF.write_urdf">
+<span class="sig-name descname"><span class="pre">write_urdf</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#icub_pybullet.utils.URDF.write_urdf" title="Link to this definition"></a></dt>
+<dd><p>Write the URDF object to a string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Config">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.utils.Config" title="Link to this definition"></a></dt>
+<dd><p>Class to parse and keep the config loaded from yaml file.
+Supports optional <cite>parent: &lt;base.yaml&gt;</cite> inheritance so user-defined custom worlds can override only what they need.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Config.set_attribute">
+<span class="sig-name descname"><span class="pre">set_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#icub_pybullet.utils.Config.set_attribute" title="Link to this definition"></a></dt>
+<dd><p>Recursively assign dictionary entries as named attributes on <code class="docutils literal notranslate"><span class="pre">reference</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>attr</strong> – Attribute name to assign.</p></li>
+<li><p><strong>value</strong> – Scalar or nested dictionary value.</p></li>
+<li><p><strong>reference</strong> – Target object or namedtuple receiving the attribute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Pose">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">Pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ori</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.utils.Pose" title="Link to this definition"></a></dt>
+<dd><p>Mini help class for Pose representation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Pose.pos">
+<span class="sig-name descname"><span class="pre">pos</span></span><a class="headerlink" href="#icub_pybullet.utils.Pose.pos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Pose.ori">
+<span class="sig-name descname"><span class="pre">ori</span></span><a class="headerlink" href="#icub_pybullet.utils.Pose.ori" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="icub_pybullet.utils.Pose.to_string">
+<span class="sig-name descname"><span class="pre">to_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#icub_pybullet.utils.Pose.to_string" title="Link to this definition"></a></dt>
+<dd><p>Serialize position and orientation components as a semicolon-delimited string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">CustomFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter" title="Link to this definition"></a></dt>
+<dd><p>Custom formatter that assigns colors to logs
+From <a class="reference external" href="https://stackoverflow.com/a/56944256">https://stackoverflow.com/a/56944256</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.grey">
+<span class="sig-name descname"><span class="pre">grey</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[97;10m'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.grey" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.yellow">
+<span class="sig-name descname"><span class="pre">yellow</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[33;20m'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.yellow" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.red">
+<span class="sig-name descname"><span class="pre">red</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31;20m'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.red" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.bold_red">
+<span class="sig-name descname"><span class="pre">bold_red</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31;1m'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.bold_red" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.reset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.format">
+<span class="sig-name descname"><span class="pre">format</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%(module)s</span> <span class="pre">%(levelname)s:</span> <span class="pre">%(message)s'</span></em><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.format" title="Link to this definition"></a></dt>
+<dd><p>Format the specified record as text.</p>
+<p>The record’s attribute dictionary is used as the operand to a
+string formatting operation which yields the returned string.
+Before formatting the dictionary, a couple of preparatory steps
+are carried out. The message attribute of the record is computed
+using LogRecord.getMessage(). If the formatting string uses the
+time (as determined by a call to usesTime(), formatTime() is
+called to format the event time. If there is exception information,
+it is formatted using formatException() and appended to the message.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CustomFormatter.FORMATS">
+<span class="sig-name descname"><span class="pre">FORMATS</span></span><a class="headerlink" href="#icub_pybullet.utils.CustomFormatter.FORMATS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="icub_pybullet.utils.JOINTS">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">JOINTS</span></span><a class="headerlink" href="#icub_pybullet.utils.JOINTS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="icub_pybullet.utils.JOINTS_IDS">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">JOINTS_IDS</span></span><a class="headerlink" href="#icub_pybullet.utils.JOINTS_IDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="icub_pybullet.utils.CHAINS">
+<span class="sig-prename descclassname"><span class="pre">icub_pybullet.utils.</span></span><span class="sig-name descname"><span class="pre">CHAINS</span></span><a class="headerlink" href="#icub_pybullet.utils.CHAINS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../runtime_paths/index.html" class="btn btn-neutral float-left" title="icub_pybullet.runtime_paths" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../visualizer/index.html" class="btn btn-neutral float-right" title="icub_pybullet.visualizer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

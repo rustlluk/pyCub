@@ -1,0 +1,171 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odtlačení míčku (Push the Ball) &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="static/handbook.css?v=46b66857" />
+
+  
+      <script src="static/jquery.js?v=5d32c60e"></script>
+      <script src="static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="static/documentation_options.js?v=d153090d"></script>
+      <script src="static/doctools.js?v=9bcbadda"></script>
+      <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="static/translations.js?v=22e1c300"></script>
+    <script src="static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="genindex.html" />
+    <link rel="search" title="Vyhledávání" href="search.html" />
+    <link rel="next" title="Plynulé pohyby (Smooth movements)" href="exercise_2.html" />
+    <link rel="prev" title="Kurzovní cvičení" href="exercises.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="exercises.html">Kurzovní cvičení</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Odtlačení míčku (Push the Ball)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ukol">Úkol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bodovani">Bodování</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pozadavky">Požadavky</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_2.html">Plynulé pohyby (Smooth movements)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_3.html">Řízení pohledu (Gaze control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_4.html">Řízení pomocí jakobiánu (Resolved-Rate Motion Control)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exercise_5.html">Uchopení míčku (Grasp It!)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="exercises.html">Kurzovní cvičení</a></li>
+      <li class="breadcrumb-item active">Odtlačení míčku (Push the Ball)</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="odtlaceni-micku-push-the-ball">
+<h1>Odtlačení míčku (Push the Ball)<a class="headerlink" href="#odtlaceni-micku-push-the-ball" title="Link to this heading"></a></h1>
+<p>Cílem úlohy je udeřit do míčku a odtlačit jej co nejdále od <strong>jakékoli části</strong> stolu.
+Míček se vždy objeví na stejném místě. Robota lze ovládat pomocí pozičního nebo
+kartézského řízení. Trajektorie musí být bezkolizní (vůči stolu) a maximální
+povolená rychlost je 10 rad/s.</p>
+<p>Výsledná vzdálenost se vyhodnocuje po 2 sekundách.</p>
+<p><img alt="Odtlačení míčku!" src="images/exercise_1.gif" /></p>
+<section id="ukol">
+<h2>Úkol<a class="headerlink" href="#ukol" title="Link to this heading"></a></h2>
+<p>Implementujte funkci <code class="docutils literal notranslate"><span class="pre">push_the_ball</span></code> v souboru <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1.py">exercise_1.py</a>, která odtlačí míček co nejdále od stolu.</p>
+<ul class="simple">
+<li><p>Funkce přijímá jeden argument:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">client</span></code> – instance třídy <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> ovládající simulaci</p></li>
+<li><p>nevytvářejte ve svém kódu novou instanci klienta!</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="bodovani">
+<h2>Bodování<a class="headerlink" href="#bodovani" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Body za vzdálenost se počítají jako: <code class="docutils literal notranslate"><span class="pre">min(3,</span> <span class="pre">distance</span> <span class="pre">*</span> <span class="pre">2)</span></code></p>
+<ul>
+<li><p>tj. maximálně 3 body získáte při odtlačení míčku alespoň 1,5 m od stolu.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pozadavky">
+<h2>Požadavky<a class="headerlink" href="#pozadavky" title="Link to this heading"></a></h2>
+<p><strong>Požadavky nutné pro správnou funkci testeru</strong> <a class="reference external" href="https://github.com/rustlluk/pycub/blob/master/exercises/exercise_1/exercise_1_tester.py">exercise_1_tester.py</a>:</p>
+<ul class="simple">
+<li><p>nevytvářejte nového klienta, použijte předaný argument <code class="docutils literal notranslate"><span class="pre">client</span></code></p></li>
+<li><p>nepřejmenovávejte funkci ani soubor</p></li>
+<li><p><strong>nevkládejte</strong> umělé prodlevy, např. <code class="docutils literal notranslate"><span class="pre">sleep()</span></code> nebo volání <code class="docutils literal notranslate"><span class="pre">update_simulation()</span></code> po dokončení pohybu</p></li>
+</ul>
+<p><strong>Požadavky na správné splnění úlohy:</strong></p>
+<ul class="simple">
+<li><p>Trajektorie nesmí kolidovat se stolem (vlastní kolize robota jsou povoleny)</p></li>
+<li><p>Maximální povolená rychlost je 10 rad/s</p></li>
+<li><p><strong>Nevypínejte</strong> gravitaci</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="exercises.html" class="btn btn-neutral float-left" title="Kurzovní cvičení" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="exercise_2.html" class="btn btn-neutral float-right" title="Plynulé pohyby (Smooth movements)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

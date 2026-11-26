@@ -1,0 +1,10 @@
+# Only the website and its built manuals belong in the Jekyll site.
+exclude:
+  - source
+  - source_cs
+  - build.py
+  - readme_sync.py
+  - Makefile
+  - make.bat
+  - requirements.txt
+  - _build

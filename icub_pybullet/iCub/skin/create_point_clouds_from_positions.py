@@ -1,3 +1,4 @@
+"""Utility script to generate skin ``.pcd`` point clouds from taxel position text files."""
 from glob import glob
 import numpy as np
 import open3d as o3d
@@ -6,6 +7,7 @@ import re
 
 
 def create_point_clouds():
+    """Read raw taxel position files and write oriented Open3D point clouds and ``config.txt``."""
     file_dir = os.path.dirname(os.path.abspath(__file__))
     config = ""
     for pos_file in glob(os.path.join(file_dir, "positions", "*.txt")):
