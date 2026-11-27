@@ -180,12 +180,13 @@ pyinstaller --noconfirm packaging/pycub.spec
    python3 -m pip install ./icub_pybullet        # simulator library only
    python3 -m pip install ./icub_pybullet ./studio   # simulator + pycub-studio command
    ```
-3. **Docker / Gitpod:**
-   - Native Docker (GNU/Linux): see [Native Version](#native-version)
-   - VNC Docker (Windows/macOS/Linux): see [VNC Version](#vnc-version)
-   - Github Codespace: 
-     - click on: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1) 
-     - or open a new Codespace from the 'Code' button on top of the repository
+3. **Docker & GitHub Codespaces (preconfigured environments):**
+   - **GitHub Codespaces (in browser):**
+     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1)
+     See [GitHub Codespaces](#github-codespaces) for launch and VNC desktop instructions.
+   - **Native Docker (GNU/Linux):** see [Native Version](#native-version).
+   - **VNC Docker (Windows/macOS/Linux):** see [VNC Version](#vnc-version).
+
 ### Examples & Core Modules
 
 - [push_the_ball_pure_joints.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
@@ -219,13 +220,29 @@ For additional Sphinx targets, run `make -C docs help` or `docs\make.bat help`.
 1. **Visualization errors or segmentation faults (e.g. with Open3D):**
    1. Run `pyCub Studio` (`pycub-studio` or `python3 -m studio.main`), which uses an embedded native OpenGL 3.3 / 2.1 viewport instead of a separate Open3D GUI window.
    2. Check your graphics drivers (Mesa / OpenGL / NVIDIA).
-   3. Use [Native Docker](#native-version) (Linux) or [VNC Docker](#vnc-version).
+   3. Use [GitHub Codespaces](#github-codespaces), [Native Docker](#native-version) (Linux), or [VNC Docker](#vnc-version).
    4. In your `.yaml` config, set `gui.standard: False` and `gui.web: True` to use the browser visualizer.
 2. **Import errors (e.g. `No module named icub_pybullet`):**
    1. Install from PyPI (`python3 -m pip install icub_pybullet` or `pycub-studio`) or from source (`python3 -m pip install ./icub_pybullet`).
    2. Or add the repository root directory to your `PYTHONPATH`.
 3. **Known bug with Open3D skin visualization:**
    - In standalone Open3D mode, visualization with tactile skin active can crash after ~65k steps (see [Open3D#4992](https://github.com/isl-org/Open3D/issues/4992)). `pyCub Studio`'s embedded OpenGL viewport is not affected.
+
+---
+
+## GitHub Codespaces
+
+Run `pyCub` and `pyCub Studio` directly in your browser without any local installation using the preconfigured [`.devcontainer.json`](.devcontainer.json) environment (`icub_pybullet`, `pycub-studio`, VS Code, PyCharm, and noVNC preinstalled).
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1)
+
+1. **Launch a Codespace:** Click the badge above, or select **Code → Codespaces → Create codespace** at the top of the GitHub repository.
+2. **Open the VNC Desktop:** Once the container starts, the virtual desktop (`Xvfb` + XFCE + `x11vnc` + noVNC) launches automatically and forwards port **`6080` (`VNC Desktop`)**:
+   - A browser preview of the GUI should open automatically.
+   - If you close the preview or it does not appear, open the **Ports** tab in the Codespaces panel and click the globe/preview icon next to port **`6080`**.
+   - Port **`8888` (`Jupyter`)** is also forwarded if you run Jupyter notebooks inside the environment.
+3. **Run `pyCub`:** Inside the VNC desktop, open a terminal (or use the desktop shortcuts) to launch `pycub-studio`, run example scripts, or open PyCharm / VS Code.
+4. **Troubleshooting:** If the VNC desktop does not start or stops responding, run `start-vnc-session.sh` in the Codespace terminal and reopen port **`6080`** from the **Ports** tab.
 
 ---
 
@@ -264,7 +281,7 @@ For additional Sphinx targets, run `make -C docs help` or `docs\make.bat help`.
 ### Docker + PyCharm
 
 - **Native Version:** Either launch PyCharm inside Docker, or configure an SSH interpreter in host PyCharm (`user: docker`, host `localhost` or server IP, port `2222`, disable automatic upload, map remote path to `/home/docker/pycub_ws`).
-- **VNC / Gitpod Version:** Open PyCharm directly inside the container.
+- **VNC Docker / GitHub Codespaces:** Open PyCharm directly inside the container (via the desktop shortcut or `pycharm`).
 
 ### Deploy Parameters
 

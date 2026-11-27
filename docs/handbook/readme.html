@@ -67,6 +67,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation-building-the-handbook">Documentation &amp; Building the Handbook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#faq-known-issues">FAQ &amp; Known Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#github-codespaces">GitHub Codespaces</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#native-version">Native Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vnc-version">VNC Version</a></li>
@@ -317,16 +318,13 @@ python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </s
 </pre></div>
 </div>
 </li>
-<li><p><strong>Docker / Gitpod:</strong></p>
+<li><p><strong>Docker &amp; GitHub Codespaces (preconfigured environments):</strong></p>
 <ul class="simple">
-<li><p>Native Docker (GNU/Linux): see <a class="reference internal" href="#native-version">Native Version</a></p></li>
-<li><p>VNC Docker (Windows/macOS/Linux): see <a class="reference internal" href="#vnc-version">VNC Version</a></p></li>
-<li><p>Github Codespace:</p>
-<ul>
-<li><p>click on: <a class="reference external" href="https://codespaces.new/rustlluk/pyCub?quickstart=1"><img alt="Open in GitHub Codespaces" src="https://github.com/codespaces/badge.svg" /></a></p></li>
-<li><p>or open a new Codespace from the ‘Code’ button on top of the repository</p></li>
-</ul>
-</li>
+<li><p><strong>GitHub Codespaces (in browser):</strong>
+<a class="reference external" href="https://codespaces.new/rustlluk/pyCub?quickstart=1"><img alt="Open in GitHub Codespaces" src="https://github.com/codespaces/badge.svg" /></a>
+See <a class="reference internal" href="#github-codespaces">GitHub Codespaces</a> for launch and VNC desktop instructions.</p></li>
+<li><p><strong>Native Docker (GNU/Linux):</strong> see <a class="reference internal" href="#native-version">Native Version</a>.</p></li>
+<li><p><strong>VNC Docker (Windows/macOS/Linux):</strong> see <a class="reference internal" href="#vnc-version">VNC Version</a>.</p></li>
 </ul>
 </li>
 </ol>
@@ -362,7 +360,7 @@ python3<span class="w"> </span>docs/build.py<span class="w">          </span><sp
 <ol class="arabic simple">
 <li><p>Run <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> (<code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code> or <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">studio.main</span></code>), which uses an embedded native OpenGL 3.3 / 2.1 viewport instead of a separate Open3D GUI window.</p></li>
 <li><p>Check your graphics drivers (Mesa / OpenGL / NVIDIA).</p></li>
-<li><p>Use <a class="reference internal" href="#native-version">Native Docker</a> (Linux) or <a class="reference internal" href="#vnc-version">VNC Docker</a>.</p></li>
+<li><p>Use <a class="reference internal" href="#github-codespaces">GitHub Codespaces</a>, <a class="reference internal" href="#native-version">Native Docker</a> (Linux), or <a class="reference internal" href="#vnc-version">VNC Docker</a>.</p></li>
 <li><p>In your <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> config, set <code class="docutils literal notranslate"><span class="pre">gui.standard:</span> <span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">gui.web:</span> <span class="pre">True</span></code> to use the browser visualizer.</p></li>
 </ol>
 </li>
@@ -377,6 +375,24 @@ python3<span class="w"> </span>docs/build.py<span class="w">          </span><sp
 <li><p>In standalone Open3D mode, visualization with tactile skin active can crash after ~65k steps (see <a class="reference external" href="https://github.com/isl-org/Open3D/issues/4992">Open3D#4992</a>). <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code>’s embedded OpenGL viewport is not affected.</p></li>
 </ul>
 </li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="github-codespaces">
+<h2>GitHub Codespaces<a class="headerlink" href="#github-codespaces" title="Link to this heading"></a></h2>
+<p>Run <code class="docutils literal notranslate"><span class="pre">pyCub</span></code> and <code class="docutils literal notranslate"><span class="pre">pyCub</span> <span class="pre">Studio</span></code> directly in your browser without any local installation using the preconfigured <a class="reference external" href="https://github.com/rustlluk/pyCub/blob/master/.devcontainer.json"><code class="docutils literal notranslate"><span class="pre">.devcontainer.json</span></code></a> environment (<code class="docutils literal notranslate"><span class="pre">icub_pybullet</span></code>, <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>, VS Code, PyCharm, and noVNC preinstalled).</p>
+<p><a class="reference external" href="https://codespaces.new/rustlluk/pyCub?quickstart=1"><img alt="Open in GitHub Codespaces" src="https://github.com/codespaces/badge.svg" /></a></p>
+<ol class="arabic simple">
+<li><p><strong>Launch a Codespace:</strong> Click the badge above, or select <strong>Code → Codespaces → Create codespace</strong> at the top of the GitHub repository.</p></li>
+<li><p><strong>Open the VNC Desktop:</strong> Once the container starts, the virtual desktop (<code class="docutils literal notranslate"><span class="pre">Xvfb</span></code> + XFCE + <code class="docutils literal notranslate"><span class="pre">x11vnc</span></code> + noVNC) launches automatically and forwards port <strong><code class="docutils literal notranslate"><span class="pre">6080</span></code> (<code class="docutils literal notranslate"><span class="pre">VNC</span> <span class="pre">Desktop</span></code>)</strong>:</p>
+<ul class="simple">
+<li><p>A browser preview of the GUI should open automatically.</p></li>
+<li><p>If you close the preview or it does not appear, open the <strong>Ports</strong> tab in the Codespaces panel and click the globe/preview icon next to port <strong><code class="docutils literal notranslate"><span class="pre">6080</span></code></strong>.</p></li>
+<li><p>Port <strong><code class="docutils literal notranslate"><span class="pre">8888</span></code> (<code class="docutils literal notranslate"><span class="pre">Jupyter</span></code>)</strong> is also forwarded if you run Jupyter notebooks inside the environment.</p></li>
+</ul>
+</li>
+<li><p><strong>Run <code class="docutils literal notranslate"><span class="pre">pyCub</span></code>:</strong> Inside the VNC desktop, open a terminal (or use the desktop shortcuts) to launch <code class="docutils literal notranslate"><span class="pre">pycub-studio</span></code>, run example scripts, or open PyCharm / VS Code.</p></li>
+<li><p><strong>Troubleshooting:</strong> If the VNC desktop does not start or stops responding, run <code class="docutils literal notranslate"><span class="pre">start-vnc-session.sh</span></code> in the Codespace terminal and reopen port <strong><code class="docutils literal notranslate"><span class="pre">6080</span></code></strong> from the <strong>Ports</strong> tab.</p></li>
 </ol>
 </section>
 <hr class="docutils" />
@@ -427,7 +443,7 @@ python3<span class="w"> </span>docs/build.py<span class="w">          </span><sp
 <h3>Docker + PyCharm<a class="headerlink" href="#docker-pycharm" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p><strong>Native Version:</strong> Either launch PyCharm inside Docker, or configure an SSH interpreter in host PyCharm (<code class="docutils literal notranslate"><span class="pre">user:</span> <span class="pre">docker</span></code>, host <code class="docutils literal notranslate"><span class="pre">localhost</span></code> or server IP, port <code class="docutils literal notranslate"><span class="pre">2222</span></code>, disable automatic upload, map remote path to <code class="docutils literal notranslate"><span class="pre">/home/docker/pycub_ws</span></code>).</p></li>
-<li><p><strong>VNC / Gitpod Version:</strong> Open PyCharm directly inside the container.</p></li>
+<li><p><strong>VNC Docker / GitHub Codespaces:</strong> Open PyCharm directly inside the container (via the desktop shortcut or <code class="docutils literal notranslate"><span class="pre">pycharm</span></code>).</p></li>
 </ul>
 </section>
 <section id="deploy-parameters">
@@ -470,7 +486,13 @@ python3<span class="w"> </span>docs/build.py<span class="w">          </span><sp
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p><a class="reference external" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC BY 4.0" src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" /></a></p>
-<p>This work is licensed under a <a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<p>All original code, documentation, exercises, and project-created meshes in this repository are licensed under the <a class="reference external" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> (<a class="reference external" href="https://github.com/rustlluk/pyCub/blob/master/LICENSE"><code class="docutils literal notranslate"><span class="pre">LICENSE</span></code></a>).</p>
+<p>Third-party components retain their respective licenses (see <a class="reference external" href="https://github.com/rustlluk/pyCub/blob/master/THIRD_PARTY_LICENSES.md"><code class="docutils literal notranslate"><span class="pre">THIRD_PARTY_LICENSES.md</span></code></a>):</p>
+<ul class="simple">
+<li><p><strong>iCub robot models &amp; skin data</strong> (<code class="docutils literal notranslate"><span class="pre">icub_pybullet/iCub/</span></code> from <a class="reference external" href="https://github.com/robotology/icub-models"><code class="docutils literal notranslate"><span class="pre">robotology/icub-models</span></code></a>): <strong>CC-BY-SA-4.0</strong></p></li>
+<li><p><strong>Blockly visual programming library</strong> (<code class="docutils literal notranslate"><span class="pre">studio/assets/blockly/</span></code>): <strong>Apache-2.0</strong></p></li>
+<li><p><strong>Bundled standalone installer libraries</strong> (<code class="docutils literal notranslate"><span class="pre">PySide6</span></code> / Qt 6 / Qt WebEngine, <code class="docutils literal notranslate"><span class="pre">opencv-python</span></code>, etc.): <strong>LGPLv3 / LGPLv2.1 / MIT / BSD / zlib</strong> (license texts in <code class="docutils literal notranslate"><span class="pre">licenses/</span></code>)</p></li>
+</ul>
 <p><a class="reference external" href="http://creativecommons.org/licenses/by/4.0/"><img alt="CC BY 4.0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a></p>
 </section>
 </section>

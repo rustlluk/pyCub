@@ -337,7 +337,7 @@ export const translations: Record<Locale, SiteStrings> = {
         "Release history and major milestones for pyCub Studio, icub_pybullet, Blockly integration, and standalone installers.",
       aboutTitle: "About & Citation — pyCub Studio",
       aboutDesc:
-        "Developed at CTU in Prague (FEL Department of Cybernetics) by Lukáš Rustler and Matěj Hoffmann. RiE 2026 paper and CC BY 4.0 license.",
+        "Developed in the Humanoid and Cognitive Robotics Group, Department of Cybernetics, FEE CTU in Prague by Lukáš Rustler and Matěj Hoffmann. RiE 2026 paper and CC BY 4.0 license.",
     },
     nav: {
       navigationLabel: "Navigation",
@@ -405,7 +405,7 @@ export const translations: Record<Locale, SiteStrings> = {
     pillars: {
       title: "Built for classrooms, labs, and first-time coders",
       description:
-        "Most robotics simulators require complex ROS setups or Python environment wrangling. pyCub Studio ships as ready-to-run desktop binaries and scales from primary-school outreach to university coursework.",
+        "Most robotics simulators require complex ROS setups or Python environment wrangling. pyCub Studio ships as ready-to-run desktop binaries and scales from first-time exploration to advanced robotics coursework.",
       items: [
         {
           icon: "/assets/icon/components.png",
@@ -445,7 +445,7 @@ export const translations: Record<Locale, SiteStrings> = {
           tag: "Lightweight Robotics Core",
           title: "icub_pybullet Core",
           pkg: "pip install icub_pybullet",
-          desc: "For Python developers and university servers: pure PyBullet simulator package for joint, velocity, and Cartesian IK control, tactile artificial skin, stereo cameras, and kid_api.",
+          desc: "For Python developers and headless servers: pure PyBullet simulator package for joint, velocity, and Cartesian IK control, tactile artificial skin, stereo cameras, and kid_api.",
           bullets: [
             "No GUI/Qt bloat — ideal for headless runs & automated benchmarks",
             "YAML world configs (default.yaml, with_ball.yaml, skin_test.yaml)",
@@ -470,9 +470,9 @@ export const translations: Record<Locale, SiteStrings> = {
           title: "Kid GUI — Native Tactile Playground",
           subtitle: "Zero typing required — drive iCub with preset actions and single-joint jog controls.",
           description:
-            "Designed for young visitors, science fairs, and first interactions. Features large pose presets (Wave, Both Arms Up, Look Center), per-joint step buttons, step-size & speed sliders, custom .yaml world selection, live ball distance telemetry, and confetti celebration when the ball is hit.",
+            "Designed for newcomers, science fairs, and first interactions. Features large pose presets (Wave, Both Arms Up, Look Center), per-joint step buttons, step-size & speed sliders, custom .yaml world selection, live ball distance telemetry, and confetti celebration when the ball is hit.",
           cliFlag: "pycub-studio --mode kid_native",
-          audience: "Kids, demos & outreach events",
+          audience: "First-time visitors, demos & outreach events",
           screenshot: "/assets/screenshots/kid-native.png",
           screenshotAlt: "pyCub Studio Mode 1 Kid GUI Native showing control buttons and 3D OpenGL iCub with red ball",
           highlights: [
@@ -491,7 +491,7 @@ export const translations: Record<Locale, SiteStrings> = {
           description:
             "Powered by an offline Google Blockly workspace with full English & Czech block translations. As the program runs, each active block lights up live alongside the 3D robot, while a side inspector previews generated Python code and lets students graduate to Kid Programming in one click.",
           cliFlag: "pycub-studio --mode kid_scratch --lang en",
-          audience: "Primary & secondary students (Ages 8–15)",
+          audience: "Beginners & visual programming learners",
           screenshot: "/assets/screenshots/kid-scratch.png",
           screenshotAlt: "pyCub Studio Mode 2 Scratch visual Blockly blocks beside 3D iCub simulator",
           highlights: [
@@ -510,7 +510,7 @@ export const translations: Record<Locale, SiteStrings> = {
           description:
             "Students write clean, readable Python using icub_pybullet.kid_api functions in degrees and seconds. Includes a clickable Command Palette that inserts snippets, inline call signatures, starter templates, and friendly localized error hints.",
           cliFlag: "pycub-studio --mode kid_code",
-          audience: "High-school & beginner Python coders",
+          audience: "Beginner & intermediate Python learners",
           screenshot: "/assets/screenshots/kid-code.png",
           screenshotAlt: "pyCub Studio Mode 3 Kid Programming showing Command Palette, Python editor, and 3D iCub",
           highlights: [
@@ -527,9 +527,9 @@ export const translations: Record<Locale, SiteStrings> = {
           title: "Normal Mode — Full pyCub IDE & Script Runner",
           subtitle: "Multi-tab Python & YAML development environment with stereo eye cameras, coordinate axes, and Exercise Tester.",
           description:
-            "Built for university students and robotics researchers. Offers multi-tab Python/YAML editing with autocomplete, hover docstrings, F12 Go to Definition, external --run-script runner with auto-run on save, dockable l_eye / r_eye RGB & Depth feeds, 3D coordinate frame overlays, and one-click unpacking + grading for Course Exercises 1–5.",
+            "Built for advanced learners, course instructors, and robotics researchers. Offers multi-tab Python/YAML editing with autocomplete, hover docstrings, F12 Go to Definition, external --run-script runner with auto-run on save, dockable l_eye / r_eye RGB & Depth feeds, 3D coordinate frame overlays, and one-click unpacking + grading for Course Exercises 1–5.",
           cliFlag: "pycub-studio --mode normal",
-          audience: "University courses & robotics researchers",
+          audience: "Robotics courses & researchers",
           screenshot: "/assets/screenshots/normal-ide.png",
           screenshotDark: "/assets/screenshots/normal-ide-dark.png",
           screenshotAlt: "pyCub Studio Mode 4 Normal IDE running Cartesian ball push with l_eye RGB, r_eye Depth, and console",
@@ -547,7 +547,7 @@ export const translations: Record<Locale, SiteStrings> = {
           title: "Classroom Web Selector — Multi-Instance Server",
           subtitle: "Launch and supervise N independent browser simulators behind one load-balanced QR landing page.",
           description:
-            "Run workshops or school labs from a single host machine. Spin up any number of isolated browser kid_ui instances, share the LAN URL or scannable Wi-Fi QR code with students on tablets or Chromebooks, monitor live user counts, restart individual workers, or inspect logs.",
+            "Run workshops or classroom labs from a single host machine. Spin up any number of isolated browser kid_ui instances, share the LAN URL or scannable Wi-Fi QR code with students on tablets or Chromebooks, monitor live user counts, restart individual workers, or inspect logs.",
           cliFlag: "pycub-studio --mode web",
           audience: "Teachers, workshops & computer labs",
           screenshot: "/assets/screenshots/web-selector.png",
@@ -819,7 +819,7 @@ pycub-studio`,
       paperBtn: "Read Paper on arXiv",
       copyBibtex: "Copy BibTeX",
       copiedBibtex: "BibTeX Copied!",
-      authorsNote: "Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague",
+      authorsNote: "Humanoid and Cognitive Robotics Group, Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague",
     },
     finalCta: {
       title: "Start simulating iCub in minutes",
@@ -839,10 +839,10 @@ pycub-studio`,
       },
       links: {
         studio: [
+          { name: "Home", url: "/" },
           { name: "Download Latest Binaries", url: "/downloads" },
           { name: "All 5 Modes", url: "/modes" },
           { name: "Changelog", url: "/changelog" },
-          { name: "Verze v češtině", url: "/cs/" },
         ],
         developers: [
           { name: "Code Samples & kid_api", url: "/code" },
@@ -851,10 +851,8 @@ pycub-studio`,
           { name: "PyPI: icub_pybullet", url: "https://pypi.org/project/icub-pybullet/" },
         ],
         handbook: [
-          { name: "HTML Handbook (EN)", url: "https://rustlluk.github.io/pyCub/handbook/index.html" },
-          { name: "Příručka HTML (CS)", url: "https://rustlluk.github.io/pyCub/handbook/cs/index.html" },
-          { name: "PDF Manual (EN)", url: "https://rustlluk.github.io/pyCub/handbook/pycub.pdf" },
-          { name: "PDF Příručka (CS)", url: "https://rustlluk.github.io/pyCub/handbook/cs/pycub.pdf" },
+          { name: "HTML Handbook", url: "https://rustlluk.github.io/pyCub/handbook/index.html" },
+          { name: "PDF Manual", url: "https://rustlluk.github.io/pyCub/handbook/pycub.pdf" },
         ],
         project: [
           { name: "About & CTU Team", url: "/about" },
@@ -912,11 +910,11 @@ pycub-studio`,
         exercisesDesc:
           "Progressive assignments ready to unpack inside Studio Mode 4, complete with README instructions and an automated Exercise Tester:",
         exercises: [
-          { num: 1, title: "Push the Ball", summary: "Get acquainted with pyCub simulation loops, joint/Cartesian motion, and goal tolerances.", skills: "Joint & Cartesian Motion" },
-          { num: 2, title: "Workspace & Reachability", summary: "Plan collision-free reaching movements with torso + arm coordination.", skills: "IK & Collision Checks" },
-          { num: 3, title: "Vision with Eye Cameras", summary: "Read stereo l_eye / r_eye RGB and depth buffers to locate scene objects.", skills: "Computer Vision & Depth" },
-          { num: 4, title: "Tactile Skin & Reactive Control", summary: "Use artificial skin ray-casting activations to detect contact and react safely.", skills: "Tactile Feedback Loops" },
-          { num: 5, title: "Autonomous Manipulation Pipeline", summary: "Combine visual perception, Cartesian control, and contact sensing in a full task.", skills: "Integrated Humanoid Task" },
+          { num: 1, title: "Push the Ball", summary: "Get acquainted with pyCub simulation loops and use position or Cartesian control to hit the ball as far off the table as possible without table collisions.", skills: "Joint & Cartesian Motion" },
+          { num: 2, title: "Smooth Movements", summary: "Plan continuous, jerk-free Cartesian trajectories to move the robot's end-effector along straight lines or circles across specified axes.", skills: "Cartesian Trajectories" },
+          { num: 3, title: "Gaze Control", summary: "Implement a non-blocking neck controller that tracks a ball moving in 2D on the table by aligning head gaze and head-to-ball direction vectors.", skills: "Neck Control & Tracking" },
+          { num: 4, title: "Resolved-Rate Motion Control", summary: "Use Jacobian-based velocity control (RRMC) and artificial skin taxel clusters to move single or multiple limbs away from falling balls against the contact normal.", skills: "RRMC & Tactile Skin" },
+          { num: 5, title: "Grasp It!", summary: "Detect the green ball in the eye camera's RGB image, deproject its 2D center into 3D using the depth buffer, and grasp and lift it above the table.", skills: "Vision, Depth & Grasping" },
         ],
       },
       downloads: {
@@ -988,26 +986,26 @@ pycub-studio`,
       },
       about: {
         heading: "About pyCub & CTU Prague Team",
-        subheading: "An open-source educational robotics framework built at the Department of Cybernetics, FEE CTU in Prague.",
+        subheading: "An open-source educational robotics framework built in the Humanoid and Cognitive Robotics Group, Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague.",
         tags: ["CTU Prague FEE", "RiE 2026", "CC BY 4.0"],
         storyTitle: "Why pyCub Studio",
         storyParagraphs: [
           "Teaching humanoid robotics often hits a tooling wall: real hardware like the iCub robot is rare and fragile, while research simulators frequently demand Linux-only ROS middleware and fragile setup steps before a student moves a single joint.",
           "pyCub was created at the Czech Technical University in Prague to bridge that gap. Its core package, icub_pybullet, wraps PyBullet with accurate iCub kinematics, artificial skin ray-casting, stereo cameras, and reproducible YAML scenes.",
-          "pyCub Studio packages everything into self-contained binaries for Windows, macOS, and Linux (as well as pip packages) — letting 10-year-olds snap Blockly blocks in Czech or English, high-schoolers experiment with kid_api, and university classes debug Cartesian controllers with live RGB/Depth eye feeds.",
+          "pyCub Studio packages everything into self-contained binaries for Windows, macOS, and Linux (as well as pip packages) — letting beginners snap Blockly blocks in Czech or English, learners experiment with kid_api, and advanced classes debug Cartesian controllers with live RGB/Depth eye feeds.",
         ],
         authorsTitle: "Authors & Institution",
         authors: [
           {
             name: "Lukáš Rustler",
             role: "Lead Author & Maintainer",
-            org: "Department of Cybernetics, FEE CTU in Prague",
+            org: "Humanoid and Cognitive Robotics Group, Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague",
             url: "https://www.lukasrustler.cz",
           },
           {
             name: "Matěj Hoffmann",
             role: "Supervisor & Co-Author",
-            org: "Humanoid and Cognitive Robotics Group, FEE CTU in Prague",
+            org: "Humanoid and Cognitive Robotics Group, Department of Cybernetics, Faculty of Electrical Engineering, Czech Technical University in Prague",
             url: "https://sites.google.com/site/matejhof/",
           },
         ],
@@ -1075,7 +1073,7 @@ pycub-studio`,
         "Přehled verzí a hlavních milníků projektu pyCub Studio, knihovny icub_pybullet, Blockly a samostatných instalátorů.",
       aboutTitle: "O projektu a citace — pyCub Studio",
       aboutDesc:
-        "Vyvinuto na Katedře kybernetiky FEL ČVUT v Praze (Lukáš Rustler & Matěj Hoffmann). Článek RiE 2026 a licence CC BY 4.0.",
+        "Vyvinuto ve skupině Humanoid and Cognitive Robotics Group na Katedře kybernetiky FEL ČVUT v Praze (Lukáš Rustler & Matěj Hoffmann). Článek RiE 2026 a licence CC BY 4.0.",
     },
     nav: {
       navigationLabel: "Navigace",
@@ -1210,7 +1208,7 @@ pycub-studio`,
           description:
             "Ideální pro dny otevřených dveří, workshopy a úplně první setkání s robotikou. Nabízí tlačítka přednastavených pohybů (Zamávání, Zvednutí rukou, Pohled na střed), posuvníky kroku a rychlosti, výběr vlastního .yaml světa, živou vzdálenost k míčku a konfety při zásahu.",
           cliFlag: "pycub-studio --mode kid_native --lang cs",
-          audience: "Děti, ukázky a popularizační akce",
+          audience: "Úplní začátečníci, ukázky a popularizační akce",
           screenshot: "/assets/screenshots/kid-native-cs.png",
           screenshotAlt: "pyCub Studio Režim 1 Dětské ovládání v češtině s 3D modelem iCub a červeným míčkem",
           highlights: [
@@ -1229,7 +1227,7 @@ pycub-studio`,
           description:
             "Postaveno na offline knihovně Google Blockly s kompletním českým překladem všech bloků. Během spuštění se aktuálně vykonávaný blok žlutě zvýrazňuje souběžně s pohybem robota v 3D scéně a postranní panel ukazuje vygenerovaný Python kód s možností exportu do Režimu 3.",
           cliFlag: "pycub-studio --mode kid_scratch --lang cs",
-          audience: "Žáci základních a středních škol (8–15 let)",
+          audience: "Začátečníci a zájemci o blokové programování",
           screenshot: "/assets/screenshots/kid-scratch-cs.png",
           screenshotAlt: "pyCub Studio Režim 2 České bloky Blockly vedle 3D simulátoru iCub",
           highlights: [
@@ -1248,7 +1246,7 @@ pycub-studio`,
           description:
             "Studenti píší čitelné skripty pomocí knihovny icub_pybullet.kid_api bez nutnosti řešit radiány či simulační smyčky. Editor nabízí klikací paletu příkazů, nápovědu signatur, startovní šablony a srozumitelné hlášky chyb.",
           cliFlag: "pycub-studio --mode kid_code --lang cs",
-          audience: "Středoškoláci a začátečníci v Pythonu",
+          audience: "Začínající a mírně pokročilí v Pythonu",
           screenshot: "/assets/screenshots/kid-code.png",
           screenshotAlt: "pyCub Studio Režim 3 Dětské programování s paletou příkazů, editorem a 3D scénou",
           highlights: [
@@ -1265,9 +1263,9 @@ pycub-studio`,
           title: "Normální režim — Plnohodnotné pyCub IDE",
           subtitle: "Vícepanelový editor Python/YAML s kamerami z očí robota, zobrazením os a testerem cvičení.",
           description:
-            "Pro vysokoškolskou výuku a výzkumné experimenty. Obsahuje vícepanelový editor s doplňováním kódu, dokumentací při najetí myší, přechodem na definici (F12), spouštěčem externích skriptů (--run-script + automatické spuštění při uložení), dokovatelnými pohledy z levého a pravého oka (RGB i hloubka) a instalátorem + testerem kurzových cvičení 1–5.",
+            "Pro pokročilou výuku a výzkumné experimenty. Obsahuje vícepanelový editor s doplňováním kódu, dokumentací při najetí myší, přechodem na definici (F12), spouštěčem externích skriptů (--run-script + automatické spuštění při uložení), dokovatelnými pohledy z levého a pravého oka (RGB i hloubka) a instalátorem + testerem kurzových cvičení 1–5.",
           cliFlag: "pycub-studio --mode normal --lang cs",
-          audience: "Vysokoškolské kurzy a výzkumníci v robotice",
+          audience: "Kurzy robotiky a výzkumníci",
           screenshot: "/assets/screenshots/normal-ide.png",
           screenshotDark: "/assets/screenshots/normal-ide-dark.png",
           screenshotAlt: "pyCub Studio Režim 4 Plné IDE při spuštění kartézského skriptu s pohledy l_eye RGB a r_eye Depth",
@@ -1554,7 +1552,7 @@ pycub-studio`,
       paperBtn: "Přečíst článek na arXiv",
       copyBibtex: "Kopírovat BibTeX",
       copiedBibtex: "BibTeX zkopírován!",
-      authorsNote: "Katedra kybernetiky, Fakulta elektrotechnická, České vysoké učení technické v Praze",
+      authorsNote: "Humanoid and Cognitive Robotics Group, Katedra kybernetiky, Fakulta elektrotechnická, České vysoké učení technické v Praze",
     },
     finalCta: {
       title: "Rozběhněte simulaci iCuba během pár minut",
@@ -1574,10 +1572,10 @@ pycub-studio`,
       },
       links: {
         studio: [
+          { name: "Domů", url: "/cs/" },
           { name: "Stáhnout nejnovější binárky", url: "/cs/downloads" },
           { name: "Všech 5 režimů", url: "/cs/modes" },
           { name: "Novinky", url: "/cs/changelog" },
-          { name: "English Version", url: "/" },
         ],
         developers: [
           { name: "Ukázky kódu & kid_api", url: "/cs/code" },
@@ -1586,10 +1584,8 @@ pycub-studio`,
           { name: "PyPI: icub_pybullet", url: "https://pypi.org/project/icub-pybullet/" },
         ],
         handbook: [
-          { name: "Česká HTML příručka", url: "https://rustlluk.github.io/pyCub/handbook/cs/index.html" },
-          { name: "English HTML Handbook", url: "https://rustlluk.github.io/pyCub/handbook/index.html" },
-          { name: "Česká PDF příručka", url: "https://rustlluk.github.io/pyCub/handbook/cs/pycub.pdf" },
-          { name: "English PDF Manual", url: "https://rustlluk.github.io/pyCub/handbook/pycub.pdf" },
+          { name: "HTML příručka", url: "https://rustlluk.github.io/pyCub/handbook/cs/index.html" },
+          { name: "PDF příručka", url: "https://rustlluk.github.io/pyCub/handbook/cs/pycub.pdf" },
         ],
         project: [
           { name: "O projektu & autoři", url: "/cs/about" },
@@ -1647,11 +1643,11 @@ pycub-studio`,
         exercisesDesc:
           "Navazující úlohy připravené k rozbalení přímo v Režimu 4 Studia, včetně zadání README a automatického testeru:",
         exercises: [
-          { num: 1, title: "Postrčení míčku (Push the Ball)", summary: "Seznámení se simulační smyčkou pyCub, řízením v kloubovém i kartézském prostoru a tolerancemi.", skills: "Kloubové & kartézské řízení" },
-          { num: 2, title: "Pracovní prostor a dosah", summary: "Plánování bezkolizního dosahu s koordinací trupu a paže.", skills: "IK a kontrola kolizí" },
-          { num: 3, title: "Počítačové vidění z očních kamer", summary: "Čtení RGB a hloubkových map z kamer l_eye / r_eye pro nalezení objektů.", skills: "Kamery RGB & Depth" },
-          { num: 4, title: "Hmatová kůže a reaktivní řízení", summary: "Využití paprskové simulace kůže pro detekci kontaktu a bezpečnou reakci.", skills: "Hmatová zpětná vazba" },
-          { num: 5, title: "Autonomní manipulace", summary: "Propojení zrakové percepce, kartézského řízení a hmatové kůže v jedné úloze.", skills: "Komplexní robotická úloha" },
+          { num: 1, title: "Odtlačení míčku (Push the Ball)", summary: "Seznámení se simulační smyčkou pyCub a využití pozičního či kartézského řízení k bezkoliznímu odtlačení míčku co nejdále od stolu.", skills: "Kloubové & kartézské řízení" },
+          { num: 2, title: "Plynulé pohyby (Smooth Movements)", summary: "Plánování spojité trajektorie koncového efektoru bez trhání po přímce nebo kružnici podél zadaných os.", skills: "Kartézské trajektorie" },
+          { num: 3, title: "Řízení pohledu (Gaze Control)", summary: "Implementace neblokujícího řízení krčních kloubů pro sledování míčku pohybujícího se po stole podle směrového vektoru pohledu.", skills: "Řízení krku & sledování" },
+          { num: 4, title: "Řízení pomocí jakobiánu (RRMC)", summary: "Využití rychlostního řízení podle jakobiánu (RRMC) a shluků aktivovaných taxelů umělé kůže k uhnutí jedné i více končetin před padajícími míčky.", skills: "RRMC & hmatová kůže" },
+          { num: 5, title: "Uchopení míčku (Grasp It!)", summary: "Detekce zeleného míčku v RGB obrazu z oční kamery, zpětná projekce jeho středu z hloubkové mapy do 3D a uchopení se zvednutím nad stůl.", skills: "Kamera, hloubka & úchop" },
         ],
       },
       downloads: {
@@ -1723,26 +1719,26 @@ pycub-studio`,
       },
       about: {
         heading: "O projektu pyCub a týmu na ČVUT",
-        subheading: "Open-source vzdělávací framework pro humanoidní robotiku vyvinutý na Katedře kybernetiky FEL ČVUT v Praze.",
+        subheading: "Open-source vzdělávací framework pro humanoidní robotiku vyvinutý ve skupině Humanoid and Cognitive Robotics Group na Katedře kybernetiky Fakulty elektrotechnické ČVUT v Praze.",
         tags: ["FEL ČVUT v Praze", "RiE 2026", "CC BY 4.0"],
         storyTitle: "Proč vzniklo pyCub Studio",
         storyParagraphs: [
           "Výuka humanoidní robotiky často naráží na technickou bariéru: skutečný robot iCub je vzácný a křehký, zatímco výzkumné simulátory vyžadují složitý Linux/ROS stack ještě předtím, než student pohne jediným kloubem.",
           "Projekt pyCub vznikl na ČVUT v Praze právě proto, aby tuto propast překlenul. Jeho jádro icub_pybullet zapouzdřuje PyBullet s přesnou kinematikou robota iCub, simulací hmatové kůže, stereo kamerami a reprodukovatelnými YAML scénami.",
-          "pyCub Studio vše balí do samostatných spustitelných binárek pro Windows, macOS i Linux (i balíčků na PyPI) — desetiletí žáci mohou skládat bloky Blockly česky nebo anglicky, středoškoláci zkoušet kid_api a vysokoškoláci ladit kartézskou kinematiku se živým pohledem z očních kamer.",
+          "pyCub Studio vše balí do samostatných spustitelných binárek pro Windows, macOS i Linux (i balíčků na PyPI) — začátečníci mohou skládat bloky Blockly česky nebo anglicky, pokročilejší zkoušet kid_api a odborné kurzy ladit kartézskou kinematiku se živým pohledem z očních kamer.",
         ],
         authorsTitle: "Autoři a pracoviště",
         authors: [
           {
             name: "Lukáš Rustler",
             role: "Hlavní autor a správce projektu",
-            org: "Katedra kybernetiky, FEL ČVUT v Praze",
+            org: "Humanoid and Cognitive Robotics Group, Katedra kybernetiky, Fakulta elektrotechnická, České vysoké učení technické v Praze",
             url: "https://www.lukasrustler.cz",
           },
           {
             name: "Matěj Hoffmann",
             role: "Vedoucí výzkumné skupiny a spoluautor",
-            org: "Humanoid and Cognitive Robotics Group, FEL ČVUT v Praze",
+            org: "Humanoid and Cognitive Robotics Group, Katedra kybernetiky, Fakulta elektrotechnická, České vysoké učení technické v Praze",
             url: "https://sites.google.com/site/matejhof/",
           },
         ],

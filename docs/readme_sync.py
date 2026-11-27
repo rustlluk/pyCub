@@ -36,6 +36,10 @@ def prepare_readme_include(
         f"]({PUBLIC_BASE}/handbook/cs/index.html)",
     )
     text = text.replace(
+        "](.devcontainer.json)",
+        f"]({GITHUB_BLOB_BASE}/.devcontainer.json)",
+    )
+    text = text.replace(
         "](.github/workflows/release-standalone.yml)",
         f"]({GITHUB_BLOB_BASE}/.github/workflows/release-standalone.yml)",
     )
@@ -65,6 +69,10 @@ def prepare_readme_include(
         text = text.replace("[![CC BY 4.0][cc-by-shield]][cc-by]\n", "")
         text = text.replace("[![CC BY 4.0][cc-by-image]][cc-by]\n", "")
         text = re.sub(r"^\[cc-by-(?:image|shield)\]:.*\n?", "", text, flags=re.MULTILINE)
+        text = text.replace(
+            "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1)",
+            "[Open in GitHub Codespaces](https://codespaces.new/rustlluk/pyCub?quickstart=1)",
+        )
         # Replace clickable remote wrapper on hero image with local image embed for LaTeX.
         text = text.replace(
             f"[![iCub Robot](../static/images/icub.png)]({PUBLIC_BASE})",

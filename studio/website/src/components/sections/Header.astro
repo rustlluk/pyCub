@@ -15,8 +15,6 @@ const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
 const targetLang: Locale = lang === "en" ? "cs" : "en";
 const currentPath = Astro.url.pathname;
 const switchHref = switchLangPath(currentPath, targetLang);
-const enHref = switchLangPath(currentPath, "en");
-const csHref = switchLangPath(currentPath, "cs");
 ---
 
 <!-- Spacer so fixed header never overlaps top hero content -->
@@ -131,28 +129,31 @@ const csHref = switchLangPath(currentPath, "cs");
       <!-- Desktop Actions -->
       <div class="relative hidden sm:flex items-center gap-2 ml-3 lg:ml-5 flex-shrink-0">
         <!-- Bilingual Pill Switcher -->
-        <div class="inline-flex items-center p-0.5 rounded-full bg-neutral-100/90 dark:bg-neutral-800/90 border border-primary/15 dark:border-neutral-700 text-xs font-semibold">
-          <a
-            href={enHref}
+        <a
+          href={switchHref}
+          aria-label={`Switch language to ${t.nav.langSwitchLabel}`}
+          title={lang === "en" ? "Switch to Čeština" : "Přepnout do angličtiny (English)"}
+          class="inline-flex items-center p-0.5 rounded-full bg-neutral-100/90 dark:bg-neutral-800/90 border border-primary/15 dark:border-neutral-700 hover:border-primary/50 text-xs font-semibold transition-colors cursor-pointer"
+        >
+          <span
             class={`lang-pill px-2.5 py-1 rounded-full transition-colors whitespace-nowrap ${
               lang === "en"
                 ? "bg-primary text-white shadow-xs"
-                : "text-neutral-600 dark:text-neutral-300 hover:text-primary"
+                : "text-neutral-600 dark:text-neutral-300"
             }`}
           >
             EN
-          </a>
-          <a
-            href={csHref}
+          </span>
+          <span
             class={`lang-pill px-2.5 py-1 rounded-full transition-colors whitespace-nowrap ${
               lang === "cs"
                 ? "bg-primary text-white shadow-xs"
-                : "text-neutral-600 dark:text-neutral-300 hover:text-primary"
+                : "text-neutral-600 dark:text-neutral-300"
             }`}
           >
             CS
-          </a>
-        </div>
+          </span>
+        </a>
 
         <!-- Dark Mode Toggle Pill (Desktop & Tablet) -->
         <button

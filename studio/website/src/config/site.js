@@ -41,7 +41,7 @@ export const releaseAssets = {
 export const siteConfig = {
   title: "pyCub Studio",
   version: "1.0.0",
-  releaseTag: "v2026-11-26",
+  releaseTag: "Latest Version",
   author: "Lukáš Rustler & Matěj Hoffmann (CTU in Prague)",
   url: SITE_URL,
   mail: "lukas.rustler@fel.cvut.cz",

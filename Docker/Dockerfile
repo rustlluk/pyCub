@@ -57,13 +57,30 @@ RUN groupadd -g $GID docker_users && useradd -l -u $UID -G $GID -md /home/docker
     sed -i.bkp -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers && \
     echo "docker  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN echo "export PATH=/usr/local/bin:$PATH" >> /home/docker/.bashrc
+ENV PATH="/home/docker/.local/bin:/usr/local/bin:${PATH}"
+
+RUN echo 'export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"' >> /home/docker/.bashrc
 
 USER docker
 WORKDIR /home/docker
 
-RUN cd /home/docker && git clone https://github.com/rustlluk/pyCub.git && cd pyCub/icub_pybullet && python3 -m pip install --break-system-packages --no-cache-dir -e .
-RUN cd /home/docker/pyCub/studio && python3 -m pip install --break-system-packages --no-cache-dir -e .
+RUN git clone https://github.com/rustlluk/pyCub.git && \
+    python3 -m pip install --break-system-packages --no-cache-dir -e /home/docker/pyCub/icub_pybullet && \
+    python3 -m pip install --break-system-packages --no-cache-dir -e /home/docker/pyCub/studio
+
+RUN sudo apt install -y \
+  libxcb-icccm4 \
+  libxcb-image0 \
+  libxcb-keysyms1 \
+  libxcb-render-util0 \
+  libxcb-shape0 \
+  libxcb-xinerama0 \
+  libxkbcommon-x11-0 \
+  libegl1 \
+  libgl1 \
+  libxcb-cursor0 \
+  fonts-noto-color-emoji fontconfig
+
 # Delete thingies from aptitude
 RUN sudo rm -Rf /var/lib/apt/lists/*
 
