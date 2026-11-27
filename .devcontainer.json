@@ -1,6 +1,10 @@
 {
     "name": "PyCub Development Environment",
     "image": "rustlluk/pycub:gitpod-amd64",
+    "containerEnv": {
+        "DISPLAY": ":11",
+        "DISPLAY_NUM": "11"
+    },
     "forwardPorts": [6080, 8888],
     "portsAttributes": {
         "6080": {
@@ -11,5 +15,5 @@
             "label": "Jupyter"
         }
     },
-    "postStartCommand": "setsid bash -c 'export DISPLAY=${DISPLAY:-:1} DISPLAY_NUM=${DISPLAY_NUM:-1}; rm -f /tmp/.X${DISPLAY_NUM}-lock; Xvfb ${DISPLAY} -screen 0 1920x1080x24 +extension GLX +render -noreset >/tmp/xvfb.log 2>&1 & sleep 2; startxfce4 >/tmp/xfce.log 2>&1 & x11vnc -display ${DISPLAY} -N -forever -shared -bg -noxdamage >/tmp/x11vnc.log 2>&1 & /opt/novnc/utils/novnc_proxy --web /opt/novnc --vnc localhost:59${DISPLAY_NUM} --listen 6080 >/dev/null 2>&1 &' </dev/null >/dev/null 2>&1 & sleep 3"
+"postStartCommand": "setsid bash -c 'export DISPLAY=${DISPLAY:-:11} DISPLAY_NUM=${DISPLAY_NUM:-11}; rm -f /tmp/.X${DISPLAY_NUM}-lock; Xvfb ${DISPLAY} -screen 0 1920x1080x24 +extension GLX +render -noreset >/tmp/xvfb.log 2>&1 & sleep 2; startxfce4 >/tmp/xfce.log 2>&1 & x11vnc -display ${DISPLAY} -N -forever -shared -bg -noxdamage >/tmp/x11vnc.log 2>&1 & /opt/novnc/utils/novnc_proxy --web /opt/novnc --vnc localhost:59${DISPLAY_NUM} --listen 6080 >/dev/null 2>&1 &' </dev/null >/dev/null 2>&1 & sleep 3"
 }
