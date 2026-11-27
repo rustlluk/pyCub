@@ -11,5 +11,5 @@
             "label": "Jupyter"
         }
     },
-    "postStartCommand": "nohup /path/to/your/start_vnc.sh > /tmp/vnc.log 2>&1 &"
+    "postStartCommand": "nohup start-vnc-session.sh > /tmp/vnc.log 2>&1 &"
 }

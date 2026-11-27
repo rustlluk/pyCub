@@ -244,6 +244,7 @@ export interface SiteStrings {
       project: NavItem[];
     };
     licenseText: string;
+    thirdPartyLicenseText: string;
     builtWith: string;
   };
   pages: {
@@ -304,6 +305,13 @@ export interface SiteStrings {
       authors: { name: string; role: string; org: string; url: string }[];
       highlightsTitle: string;
       highlights: { title: string; desc: string }[];
+      licenseSection: {
+        title: string;
+        subtitle: string;
+        items: { component: string; license: string; details: string; url?: string }[];
+        primaryLinkLabel: string;
+        thirdPartyLinkLabel: string;
+      };
     };
   };
 }
@@ -855,7 +863,8 @@ pycub-studio`,
           { name: "Course Exercises (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip" },
         ],
       },
-      licenseText: "Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).",
+      licenseText: "Original code & materials licensed under CC BY 4.0.",
+      thirdPartyLicenseText: "Third-party assets & runtime notices",
       builtWith: "pyCub Studio · CTU Prague",
     },
     pages: {
@@ -1007,8 +1016,41 @@ pycub-studio`,
           { title: "Accessible Progression", desc: "One consistent 3D robot from clickable buttons and Blockly up to low-level IK and sensor feedback." },
           { title: "Zero-Friction Binaries & pip", desc: "Ready-to-run .exe, .dmg, .AppImage, and .deb packages plus pip wheels and browser QR classroom mode." },
           { title: "Bilingual by Design", desc: "Full English & Czech experience across GUI, visual blocks, Python kid_api aliases, and handbooks." },
-          { title: "Open Educational Resource", desc: "Released under Creative Commons Attribution 4.0 (CC BY 4.0) with open exercises and documentation." },
+          { title: "Open Educational Resource", desc: "Original code, handbook, and exercises are released under CC BY 4.0, while bundled robot models and runtime libraries retain their own open licenses." },
         ],
+        licenseSection: {
+          title: "Licensing & Third-Party Notices",
+          subtitle:
+            "Original pyCub code, documentation, course exercises, and project-created meshes are released under Creative Commons Attribution 4.0 International (CC BY 4.0). Bundled third-party assets and standalone runtime dependencies remain under their respective open-source licenses:",
+          items: [
+            {
+              component: "Original pyCub, icub_pybullet & pyCub Studio",
+              license: "CC BY 4.0",
+              details: "All original Python/JS source code, docs/handbook sources, Course Exercises 1–5, and project-created meshes (icub_pybullet/other_meshes/).",
+              url: "https://creativecommons.org/licenses/by/4.0/",
+            },
+            {
+              component: "iCub Robot Models & Skin Data (icub_pybullet/iCub/)",
+              license: "CC-BY-SA-4.0",
+              details: "URDFs, visual meshes, derived VHACD collision meshes, and skin taxel data from robotology/icub-models (v1.25.0).",
+              url: "https://creativecommons.org/licenses/by-sa/4.0/",
+            },
+            {
+              component: "Offline Blockly Visual Editor (studio/assets/blockly/)",
+              license: "Apache-2.0",
+              details: "Google / Raspberry Pi Foundation Blockly v10.4.3 bundles, localizations, and media (pycub_blocks.js and index.html remain CC BY 4.0).",
+              url: "https://www.apache.org/licenses/LICENSE-2.0",
+            },
+            {
+              component: "Standalone Desktop Runtime (PySide6 / Qt 6, OpenCV)",
+              license: "LGPLv3 / LGPLv2.1",
+              details: "Dynamically linked PySide6 / Qt 6 / QtWebEngine in onedir bundles (LGPL-3.0, Chromium LGPL-2.1), opencv-python (Apache-2.0 / FFmpeg LGPL-2.1), and permissive Python packages (MIT, BSD, zlib).",
+              url: "https://github.com/rustlluk/pyCub/blob/master/THIRD_PARTY_LICENSES.md",
+            },
+          ],
+          primaryLinkLabel: "CC BY 4.0 License",
+          thirdPartyLinkLabel: "Full Third-Party Notices (GitHub)",
+        },
       },
     },
   },
@@ -1556,7 +1598,8 @@ pycub-studio`,
           { name: "Kurzová cvičení (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip" },
         ],
       },
-      licenseText: "Šířeno pod licencí Creative Commons Attribution 4.0 International (CC BY 4.0).",
+      licenseText: "Původní kód a materiály pod licencí CC BY 4.0.",
+      thirdPartyLicenseText: "Licence třetích stran",
       builtWith: "pyCub Studio · ČVUT v Praze",
     },
     pages: {
@@ -1708,8 +1751,41 @@ pycub-studio`,
           { title: "Plynulý růst obtížnosti", desc: "Jeden konzistentní 3D robot od klikacích tlačítek a Blockly až po IK a hmatovou zpětnou vazbu." },
           { title: "Samostatné binárky i pip", desc: "Hotové soubory .exe, .dmg, .AppImage a .deb i instalace přes pip a webový QR server pro celou třídu." },
           { title: "Přirozeně dvojjazyčné", desc: "Plná podpora češtiny i angličtiny v GUI, blocích, Python kid_api i v dokumentaci." },
-          { title: "Otevřený výukový materiál", desc: "Šířeno pod licencí Creative Commons Attribution 4.0 (CC BY 4.0) včetně cvičení a návodů." },
+          { title: "Otevřený výukový materiál", desc: "Původní kód, příručka i cvičení jsou šířeny pod CC BY 4.0; modely robota a přibalené knihovny si zachovávají své vlastní otevřené licence." },
         ],
+        licenseSection: {
+          title: "Licence a komponenty třetích stran",
+          subtitle:
+            "Veškerý původní kód pyCub, dokumentace, kurzová cvičení i vlastní 3D sítě autorů jsou šířeny pod licencí Creative Commons Attribution 4.0 International (CC BY 4.0). Přibalené modely třetích stran a běhové knihovny podléhají svým vlastním otevřeným licencím:",
+          items: [
+            {
+              component: "Původní pyCub, icub_pybullet & pyCub Studio",
+              license: "CC BY 4.0",
+              details: "Veškerý původní kód v Pythonu/JS, zdroje příruček, kurzová cvičení 1–5 a vlastní sítě objektů (icub_pybullet/other_meshes/).",
+              url: "https://creativecommons.org/licenses/by/4.0/",
+            },
+            {
+              component: "Modely robota iCub a data kůže (icub_pybullet/iCub/)",
+              license: "CC-BY-SA-4.0",
+              details: "URDF soubory, vizuální sítě, odvozené kolizní sítě VHACD a kalibrační data hmatové kůže z robotology/icub-models (v1.25.0).",
+              url: "https://creativecommons.org/licenses/by-sa/4.0/",
+            },
+            {
+              component: "Offline vizuální editor Blockly (studio/assets/blockly/)",
+              license: "Apache-2.0",
+              details: "Balíky Google / Raspberry Pi Foundation Blockly v10.4.3, překlady a média (vlastní pycub_blocks.js a index.html zůstávají pod CC BY 4.0).",
+              url: "https://www.apache.org/licenses/LICENSE-2.0",
+            },
+            {
+              component: "Desktopový runtime instalátorů (PySide6 / Qt 6, OpenCV)",
+              license: "LGPLv3 / LGPLv2.1",
+              details: "Dynamicky linkované PySide6 / Qt 6 / QtWebEngine v onedir balíčcích (LGPL-3.0, Chromium LGPL-2.1), opencv-python (Apache-2.0 / FFmpeg LGPL-2.1) a permisivní knihovny Pythonu (MIT, BSD, zlib).",
+              url: "https://github.com/rustlluk/pyCub/blob/master/THIRD_PARTY_LICENSES.md",
+            },
+          ],
+          primaryLinkLabel: "Licence CC BY 4.0",
+          thirdPartyLinkLabel: "Kompletní přehled licencí (GitHub)",
+        },
       },
     },
   },

@@ -110,6 +110,67 @@ const icons = [GraduationCap, Code, Globe, Heart];
     <!-- Citation -->
     <CitationCard lang={lang} />
 
+    <!-- Licensing & Third-Party Notices -->
+    <div
+      id="licensing"
+      class="scroll-mt-24 rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm space-y-6"
+      data-aos="fade-up-xs"
+      data-aos-once="true"
+    >
+      <div class="space-y-2">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100">
+            {page.licenseSection.title}
+          </h2>
+          <Badge variant="primary">CC BY 4.0</Badge>
+        </div>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+          {page.licenseSection.subtitle}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {page.licenseSection.items.map((item, idx) => (
+          <div class="p-4 rounded-xl bg-bg-primary/70 dark:bg-neutral-900/60 border border-primary/15 dark:border-neutral-700 flex flex-col justify-between gap-3">
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-sm font-semibold text-neutral-900 dark:text-neutral-100 leading-snug">
+                  {item.component}
+                </h3>
+                <span class="shrink-0 whitespace-nowrap">
+                  <Badge variant={idx === 0 ? "primary" : "neutral"} size="sm">
+                    {item.license}
+                  </Badge>
+                </span>
+              </div>
+              <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                {item.details}
+              </p>
+            </div>
+            {item.url && (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-xs font-medium text-primary dark:text-primary-light hover:underline w-fit"
+              >
+                {item.license} <ExternalLink class="w-3 h-3" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 pt-1">
+        <Button url={siteConfig.links.license} type="solid" size="sm" target="_blank">
+          {page.licenseSection.primaryLinkLabel} <ExternalLink size={13} />
+        </Button>
+        <Button url={siteConfig.links.thirdPartyLicenses} type="solid" size="sm" target="_blank">
+          {page.licenseSection.thirdPartyLinkLabel} <ExternalLink size={13} />
+        </Button>
+      </div>
+    </div>
+
     <!-- License & CTAs -->
     <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
       <Button url={`${prefix}/downloads`} type="fill">

@@ -75,6 +75,8 @@ export const siteConfig = {
     exercisesZip:
       "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip",
     license: "https://creativecommons.org/licenses/by/4.0/",
+    thirdPartyLicenses: "https://github.com/rustlluk/pyCub/blob/master/THIRD_PARTY_LICENSES.md",
+    icubModelsLicense: "https://creativecommons.org/licenses/by-sa/4.0/",
     authorLukas: "https://www.lukasrustler.cz",
     authorMatej: "https://sites.google.com/site/matejhof/",
     department: "https://cyber.felk.cvut.cz/",

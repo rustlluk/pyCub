@@ -114,6 +114,10 @@ const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
         <a href={siteConfig.links.license} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors ml-1">
           {t.footer.licenseText}
         </a>
+        <span class="mx-1 text-neutral-400">·</span>
+        <a href={siteConfig.links.thirdPartyLicenses} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors underline decoration-dotted underline-offset-2">
+          {t.footer.thirdPartyLicenseText}
+        </a>
       </p>
 
       <div class="flex items-center gap-4">

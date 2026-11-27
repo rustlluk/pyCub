@@ -154,6 +154,7 @@ class _StudioSdist(_sdist):
             stage_root / "examples",
             only_suffixes=(".py",),
         )
+        _copy_tree_filtered(REPO_ROOT / "licenses", stage_root / "licenses")
 
         readme_src = REPO_ROOT / "README.md"
         if readme_src.is_file():
@@ -163,6 +164,11 @@ class _StudioSdist(_sdist):
         if license_src.is_file():
             shutil.copy2(license_src, stage_root / "LICENSE")
             shutil.copy2(license_src, Path(base_dir) / "LICENSE")
+
+        third_party_src = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+        if third_party_src.is_file():
+            shutil.copy2(third_party_src, stage_root / "THIRD_PARTY_LICENSES.md")
+            shutil.copy2(third_party_src, Path(base_dir) / "THIRD_PARTY_LICENSES.md")
 
         icub_ver_src = REPO_ROOT / "icub_pybullet" / "VERSION"
         if icub_ver_src.is_file():
@@ -196,10 +202,18 @@ else:
     handbook_src = (data_base / "handbook") if data_base is not None else (REPO_ROOT / "docs" / "handbook")
     exercises_src = (data_base / "exercises") if data_base is not None else (REPO_ROOT / "exercises")
     examples_src = (data_base / "examples") if data_base is not None else (REPO_ROOT / "icub_pybullet" / "examples")
+    licenses_src = (data_base / "licenses") if data_base is not None else (REPO_ROOT / "licenses")
+    top_license_files: List[str] = []
+    for fname in ("LICENSE", "THIRD_PARTY_LICENSES.md"):
+        cand = (data_base / fname) if data_base is not None else (REPO_ROOT / fname)
+        if cand.is_file():
+            top_license_files.append(os.path.relpath(cand, HERE).replace(os.sep, "/"))
     data_files = [
         *_collect_data_files(handbook_src, "share/pycub-studio/handbook"),
         *_collect_data_files(exercises_src, "share/pycub-studio/exercises", exclude_filenames=("exercises.zip",)),
         *_collect_data_files(examples_src, "share/pycub-studio/examples", only_suffixes=(".py",)),
+        *_collect_data_files(licenses_src, "share/pycub-studio/licenses"),
+        *([("share/pycub-studio", top_license_files)] if top_license_files else []),
     ]
 
 subpackages = find_packages(where=".", exclude=["tests", "tests.*", "_sdist_data", "_sdist_data.*"])

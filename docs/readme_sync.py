@@ -44,6 +44,14 @@ def prepare_readme_include(
         f"]({GITHUB_BLOB_BASE}/icub_pybullet/kid_api.py)",
     )
     text = text.replace(
+        "](LICENSE)",
+        f"]({GITHUB_BLOB_BASE}/LICENSE)",
+    )
+    text = text.replace(
+        "](THIRD_PARTY_LICENSES.md)",
+        f"]({GITHUB_BLOB_BASE}/THIRD_PARTY_LICENSES.md)",
+    )
+    text = text.replace(
         "](docs/handbook/pycub.pdf)",
         f"]({PUBLIC_BASE}/handbook/pycub.pdf)",
     )

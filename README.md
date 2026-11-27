@@ -186,7 +186,6 @@ pyinstaller --noconfirm packaging/pycub.spec
    - Github Codespace: 
      - click on: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1) 
      - or open a new Codespace from the 'Code' button on top of the repository
-     - The VNC should run automatically and you can see it on port 6080 (select Ports tab in the Codespace and open the one 6080). If it is not running, run `start-vnc-session.sh` in the Codespace terminal.
 ### Examples & Core Modules
 
 - [push_the_ball_pure_joints.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
@@ -306,7 +305,12 @@ When used in academic work, please cite this repository as:
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
-This work is licensed under a [Creative Commons Attribution 4.0 International License][cc-by].
+All original code, documentation, exercises, and project-created meshes in this repository are licensed under the [Creative Commons Attribution 4.0 International License][cc-by] ([`LICENSE`](LICENSE)).
+
+Third-party components retain their respective licenses (see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md)):
+- **iCub robot models & skin data** (`icub_pybullet/iCub/` from [`robotology/icub-models`](https://github.com/robotology/icub-models)): **CC-BY-SA-4.0**
+- **Blockly visual programming library** (`studio/assets/blockly/`): **Apache-2.0**
+- **Bundled standalone installer libraries** (`PySide6` / Qt 6 / Qt WebEngine, `opencv-python`, etc.): **LGPLv3 / LGPLv2.1 / MIT / BSD / zlib** (license texts in `licenses/`)
 
 [![CC BY 4.0][cc-by-image]][cc-by]
 
