@@ -4,6 +4,22 @@
   <meta charset="utf-8">
   <title>pyCub Scratch Workspace</title>
   <style>
+    @font-face {
+      font-family: "PyCub Bundled Sans";
+      src: local("DejaVu Sans"), url("../fonts/DejaVuSans.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "PyCub Bundled Sans";
+      src: local("DejaVu Sans Bold"), url("../fonts/DejaVuSans-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: "PyCub Bundled Emoji";
+      src: local("Noto Color Emoji"), url("../fonts/NotoColorEmoji.ttf") format("truetype");
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -11,7 +27,10 @@
       height: 100%;
       overflow: hidden;
       background: #f8fafc;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI Emoji", "Apple Color Emoji", "PyCub Bundled Sans", "PyCub Bundled Emoji", sans-serif;
+    }
+    .blocklyText, .blocklyTreeLabel, .blocklyHtmlInput, .blocklyDropDownContent {
+      font-family: system-ui, -apple-system, "Segoe UI Emoji", "Apple Color Emoji", "PyCub Bundled Sans", "PyCub Bundled Emoji", sans-serif !important;
     }
     #blocklyDiv {
       position: absolute;

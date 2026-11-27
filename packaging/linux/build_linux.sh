@@ -104,23 +104,23 @@ BUNDLE_DIR="${DIST_DIR}/pyCub"
 echo "==> [2/3] Building Debian/Ubuntu .deb package (${DEB_ARCH})..."
 DEB_ROOT="${WORK_BASE}/deb_pkg/pycub-studio_${VERSION}_${DEB_ARCH}"
 mkdir -p "${DEB_ROOT}/DEBIAN" \
-         "${DEB_ROOT}/opt/pycub" \
+         "${DEB_ROOT}/opt/pycub-studio" \
          "${DEB_ROOT}/usr/bin" \
          "${DEB_ROOT}/usr/share/applications" \
          "${DEB_ROOT}/usr/share/icons/hicolor/512x512/apps"
 
-cp -a "${BUNDLE_DIR}/." "${DEB_ROOT}/opt/pycub/"
-ln -sf /opt/pycub/pyCub "${DEB_ROOT}/usr/bin/pycub"
+cp -a "${BUNDLE_DIR}/." "${DEB_ROOT}/opt/pycub-studio/"
+ln -sf /opt/pycub-studio/pyCub "${DEB_ROOT}/usr/bin/pycub-studio"
 cp "${REPO_ROOT}/studio/assets/icons/pycub.png" \
-   "${DEB_ROOT}/usr/share/icons/hicolor/512x512/apps/pycub.png"
+   "${DEB_ROOT}/usr/share/icons/hicolor/512x512/apps/pycub-studio.png"
 
-cat > "${DEB_ROOT}/usr/share/applications/pycub.desktop" <<'DESKTOP'
+cat > "${DEB_ROOT}/usr/share/applications/pycub-studio.desktop" <<'DESKTOP'
 [Desktop Entry]
 Type=Application
 Name=pyCub Studio
 Comment=iCub Humanoid Robot Simulator (Kid, Scratch, Python & Classroom Modes)
-Exec=/opt/pycub/pyCub
-Icon=pycub
+Exec=/opt/pycub-studio/pyCub
+Icon=pycub-studio
 Terminal=false
 Categories=Education;Science;Robotics;Development;
 DESKTOP

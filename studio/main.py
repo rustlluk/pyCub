@@ -35,7 +35,12 @@ def _is_headless_qt_platform() -> bool:
 
 
 def _configure_platform_qt_environment() -> None:
-    """Configure Qt/WebEngine flags before QApplication & QtWebEngine initialization."""
+    """Configure Qt/WebEngine flags and bundled Linux fonts before QApplication & QtWebEngine init."""
+    if sys.platform.startswith("linux"):
+        from studio.fonts import register_fontconfig_app_fonts
+
+        register_fontconfig_app_fonts()
+
     if sys.platform == "win32":
         # Ensure Windows taskbar shows the pyCub icon instead of a generic Python icon
         try:
@@ -162,6 +167,10 @@ def main(argv: list[str] | None = None) -> int:
     app = QApplication(sys.argv[:1])
     app.setApplicationName("pyCub Studio")
     app.setOrganizationName("pyCub")
+
+    from studio.fonts import configure_application_font_fallbacks
+
+    configure_application_font_fallbacks(app)
 
     from studio.widgets.splash import StudioSplashScreen, locate_app_icon
 

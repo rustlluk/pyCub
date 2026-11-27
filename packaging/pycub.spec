@@ -153,6 +153,14 @@ a = Analysis(
     noarchive=False,
 )
 
+if not sys.platform.startswith("linux"):
+    # Windows and macOS ship native system emoji/UI fonts; keep bundled Linux fonts Linux-only.
+    a.datas = [
+        entry
+        for entry in a.datas
+        if not entry[0].replace("\\", "/").startswith("studio/assets/fonts/")
+    ]
+
 if sys.platform.startswith("linux"):
     # Exclude host-ABI system libraries from the PyInstaller bundle so builds
     # created on older distros (e.g. Ubuntu 22.04) use the target host's C++

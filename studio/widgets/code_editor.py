@@ -119,7 +119,8 @@ class PythonCodeEditor(QPlainTextEdit):
     ):
         """Initialize the code editor with syntax highlighting, line numbers, and help timers."""
         super().__init__(parent)
-        font = QFont("JetBrains Mono, Fira Code, Consolas, DejaVu Sans Mono, monospace")
+        font = QFont()
+        font.setFamilies(["JetBrains Mono", "Fira Code", "Consolas", "DejaVu Sans Mono", "monospace"])
         font.setStyleHint(QFont.StyleHint.Monospace)
         font.setPointSize(11)
         self.setFont(font)

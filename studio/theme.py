@@ -13,6 +13,7 @@ from typing import Optional
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
+from studio.fonts import configure_application_font_fallbacks
 from studio.resource_paths import locate_studio_asset
 
 
@@ -479,6 +480,7 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
 def apply_studio_theme(app: QApplication, theme: str = "light") -> str:
     """Apply Fusion Light or Dark palette + crisp base widget stylesheet across all OS themes."""
     global _ACTIVE_THEME
+    configure_application_font_fallbacks(app)
     norm = normalize_theme(theme)
     _ACTIVE_THEME = norm
     t = get_theme_tokens(norm)

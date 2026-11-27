@@ -23,6 +23,10 @@ Third-party components, models, and bundled runtime libraries remain under their
 - **License Text:** [`studio/assets/blockly/LICENSE`](studio/assets/blockly/LICENSE) and [`licenses/Apache-2.0.txt`](licenses/Apache-2.0.txt)
 - *(Note: `studio/assets/blockly/pycub_blocks.js` and `studio/assets/blockly/index.html` are original pyCub files under CC BY 4.0.)*
 
+### Bundled UI & Emoji Fonts (`studio/assets/fonts/`)
+- **Noto Color Emoji (`NotoColorEmoji.ttf`):** Copyright 2013–2017 Google Inc., Arjen Nienhuis — **SIL Open Font License 1.1 (`OFL-1.1`)** ([`licenses/OFL-1.1.txt`](licenses/OFL-1.1.txt))
+- **DejaVu Sans & DejaVu Sans Mono (`DejaVuSans.ttf`, `DejaVuSans-Bold.ttf`, `DejaVuSansMono.ttf`):** Copyright (c) 2003 Bitstream, Inc., with public-domain DejaVu additions — **Bitstream Vera / DejaVu Fonts License** ([`licenses/DejaVu-Fonts.txt`](licenses/DejaVu-Fonts.txt))
+
 ### Documentation & Website Assets (`docs/` and `studio/website/`)
 - **Bulma, `bulma-carousel`, `bulma-slider` (`docs/static/`):** **MIT License**
 - **Font Awesome Free (`docs/static/`):** Icons **CC BY 4.0**, Fonts **SIL OFL 1.1**, Code **MIT License**
