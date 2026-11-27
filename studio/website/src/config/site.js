@@ -1,4 +1,4 @@
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL || "https://rustlluk.github.io/pyCub";
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || "https://pycub.lukasrustler.cz";
 
 export const releaseAssets = {
   "windows-exe": {

@@ -4,9 +4,12 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import { fileURLToPath } from "url";
 import path from "path";
+import { loadEnv } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || "https://rustlluk.github.io";
+const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "PUBLIC_");
+const siteUrl =
+  process.env.PUBLIC_SITE_URL || env.PUBLIC_SITE_URL || "https://pycub.lukasrustler.cz";
 
 export default defineConfig({
   site: siteUrl,

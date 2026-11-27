@@ -1,0 +1,8 @@
+{
+  "name": "pycub-studio",
+  "compatibility_date": "2026-11-27",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
