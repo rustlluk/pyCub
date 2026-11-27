@@ -61,6 +61,7 @@ export const siteConfig = {
   },
   links: {
     github: "https://github.com/rustlluk/pyCub",
+    githubIssues: "https://github.com/rustlluk/pyCub/issues",
     releases: "https://github.com/rustlluk/pyCub/releases",
     releasesLatest: "https://github.com/rustlluk/pyCub/releases/latest",
     releasesLatestApi: "https://api.github.com/repos/rustlluk/pyCub/releases/latest",
@@ -79,7 +80,7 @@ export const siteConfig = {
     icubModelsLicense: "https://creativecommons.org/licenses/by-sa/4.0/",
     authorLukas: "https://www.lukasrustler.cz",
     authorMatej: "https://sites.google.com/site/matejhof/",
-    department: "https://cyber.felk.cvut.cz/",
+    department: "https://cyber.felk.cvut.cz/research/groups-teams/humanoids/",
   },
   social: {
     twitter: "",

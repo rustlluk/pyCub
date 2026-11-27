@@ -107,7 +107,7 @@ const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
     <!-- Bottom bar -->
     <div class="border-t border-dashed border-primary/10 dark:border-primary-dark/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center sm:text-left">
-        © {currentYear}
+        © {currentYear}{" "}
         <a href={siteConfig.links.department} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors">
           {siteConfig.author}
         </a>.
@@ -120,13 +120,20 @@ const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
         </a>
       </p>
 
-      <div class="flex items-center gap-4">
-        <span class="inline-flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500">
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <span class="inline-flex flex-wrap items-center justify-center gap-2 text-xs text-neutral-400 dark:text-neutral-500">
           <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-dashed border-primary/30 text-primary dark:text-primary-light">
             <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-            v{siteConfig.version}
+            v{siteConfig.version} · {t.beta.badge}
           </span>
           <span>{t.footer.builtWith}</span>
+          <span class="text-neutral-300 dark:text-neutral-600">·</span>
+          <a
+            href={`mailto:${siteConfig.mail}`}
+            class="hover:text-primary dark:hover:text-primary-light transition-colors underline decoration-dotted underline-offset-2"
+          >
+            {siteConfig.mail}
+          </a>
         </span>
         <span class="inline-flex justify-center space-x-3">
           {socialLinks.map((social) => (

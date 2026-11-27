@@ -33,6 +33,7 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
         <Badge variant="primary">{t.hero.badges[0]}</Badge>
         <Badge variant="neutral">{t.hero.badges[1]}</Badge>
         <Badge variant="accent">{t.hero.badges[2]}</Badge>
+        <Badge variant="warning">{t.beta.badge}</Badge>
       </div>
 
       <h1 class="mb-5">
@@ -142,6 +143,32 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
           <Code size={16} /> {t.hero.tertiaryCta}
         </Button>
       </div>
+
+      <!-- Beta & Maintainer Contact Note -->
+      <p
+        class="mt-4 text-xs text-neutral-500 dark:text-neutral-400 flex flex-wrap items-center justify-center lg:justify-start gap-x-1.5 gap-y-1"
+        data-aos="fade-up-xs"
+        data-aos-delay="500"
+        data-aos-once="true"
+      >
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0"></span>
+        <span>{t.beta.shortNote}</span>
+        <a
+          href={siteConfig.links.githubIssues}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-medium text-primary dark:text-primary-light hover:underline"
+        >
+          GitHub
+        </a>
+        <span>{lang === "cs" ? "nebo" : "or"}</span>
+        <a
+          href={`mailto:${siteConfig.mail}`}
+          class="font-medium text-primary dark:text-primary-light hover:underline"
+        >
+          {siteConfig.mail}
+        </a>
+      </p>
     </div>
 
     <!-- Right: Real Studio Screenshot (adapts automatically to Light / Dark website mode) -->

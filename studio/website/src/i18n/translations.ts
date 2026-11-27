@@ -127,6 +127,15 @@ export interface SiteStrings {
     showcaseSubtitle: string;
     quickLinks: { label: string; url: string; external?: boolean }[];
   };
+  beta: {
+    badge: string;
+    statusLabel: string;
+    title: string;
+    description: string;
+    shortNote: string;
+    githubCta: string;
+    emailCta: string;
+  };
   hero: {
     badges: [string, string, string];
     title: string;
@@ -369,6 +378,16 @@ export const translations: Record<Locale, SiteStrings> = {
         { label: "Exercises (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip", external: true },
         { label: "5 Studio Modes", url: "#modes", external: false },
       ],
+    },
+    beta: {
+      badge: "Beta",
+      statusLabel: "Beta Release",
+      title: "pyCub Studio is currently in beta",
+      description:
+        "If you encounter any issues, bugs, or installation hiccups, please open an issue on GitHub or contact the maintainer directly via email.",
+      shortNote: "pyCub Studio is in beta — encounter a problem? Reach out on",
+      githubCta: "Report on GitHub",
+      emailCta: "Email Maintainer",
     },
     hero: {
       badges: ["Windows · macOS · Linux Binaries", "No Python Required", "English & Čeština"],
@@ -857,6 +876,7 @@ pycub-studio`,
         project: [
           { name: "About & CTU Team", url: "/about" },
           { name: "GitHub Repository", url: "https://github.com/rustlluk/pyCub" },
+          { name: "Report Issue (GitHub)", url: "https://github.com/rustlluk/pyCub/issues" },
           { name: "arXiv Paper (2506.01756)", url: "https://arxiv.org/abs/2506.01756" },
           { name: "Course Exercises (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip" },
         ],
@@ -1105,6 +1125,16 @@ pycub-studio`,
         { label: "Cvičení (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip", external: true },
         { label: "5 režimů Studia", url: "#modes", external: false },
       ],
+    },
+    beta: {
+      badge: "Beta",
+      statusLabel: "Beta verze",
+      title: "pyCub Studio je momentálně v beta verzi",
+      description:
+        "Pokud narazíte na jakýkoli problém, chybu nebo potíže při spuštění, nahlaste je prosím na GitHubu nebo napište přímo správci projektu e-mailem.",
+      shortNote: "pyCub Studio je v beta verzi — narazili jste na problém? Ozvěte se na",
+      githubCta: "Nahlásit na GitHubu",
+      emailCta: "Napsat správci",
     },
     hero: {
       badges: ["Windows · macOS · Linux aplikace", "Bez instalace Pythonu", "Čeština & English"],
@@ -1590,6 +1620,7 @@ pycub-studio`,
         project: [
           { name: "O projektu & autoři", url: "/cs/about" },
           { name: "GitHub repozitář", url: "https://github.com/rustlluk/pyCub" },
+          { name: "Nahlásit chybu (GitHub)", url: "https://github.com/rustlluk/pyCub/issues" },
           { name: "Článek arXiv (2506.01756)", url: "https://arxiv.org/abs/2506.01756" },
           { name: "Kurzová cvičení (.zip)", url: "https://raw.githubusercontent.com/rustlluk/pyCub/refs/heads/master/exercises/exercises.zip" },
         ],

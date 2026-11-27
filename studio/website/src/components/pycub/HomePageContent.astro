@@ -10,6 +10,7 @@ import ModeShowcase from "@/components/pycub/ModeShowcase.astro";
 import CodePlayground from "@/components/pycub/CodePlayground.astro";
 import ScreenshotGallery from "@/components/pycub/ScreenshotGallery.astro";
 import CitationCard from "@/components/pycub/CitationCard.astro";
+import BetaNotice from "@/components/pycub/BetaNotice.astro";
 import { siteConfig, releaseAssets } from "@/config/site";
 import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
 import {
@@ -314,6 +315,8 @@ const handbookUrl = lang === "cs" ? siteConfig.links.handbookCs : siteConfig.lin
         {t.downloadsSummary.ctaReleases} <ArrowRight size={16} />
       </Button>
     </div>
+
+    <BetaNotice lang={lang} className="mt-8 max-w-4xl mx-auto" />
   </section>
 
   <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>

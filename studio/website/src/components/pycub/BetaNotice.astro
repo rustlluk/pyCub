@@ -1,0 +1,60 @@
+---
+import Badge from "@/components/ui/Badge.astro";
+import { siteConfig } from "@/config/site";
+import { translations, type Locale } from "@/i18n/translations";
+import { TriangleAlert, ExternalLink, Mail } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+  className?: string;
+}
+
+const { lang = "en", className = "" } = Astro.props;
+const t = translations[lang];
+---
+
+<div
+  class={`rounded-2xl p-4 sm:p-5 bg-amber-50/80 dark:bg-amber-950/25 border border-amber-400/40 dark:border-amber-500/30 shadow-xs ${className}`}
+  role="note"
+  data-aos="fade-up-xs"
+  data-aos-once="true"
+>
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="flex items-start gap-3">
+      <div class="w-9 h-9 rounded-xl bg-amber-500/15 dark:bg-amber-400/15 border border-amber-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
+        <TriangleAlert class="w-4 h-4 text-amber-700 dark:text-amber-300" />
+      </div>
+      <div class="space-y-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <Badge variant="warning" size="sm">{t.beta.statusLabel}</Badge>
+          <h3 class="text-sm sm:text-base font-semibold text-neutral-900 dark:text-neutral-100">
+            {t.beta.title}
+          </h3>
+        </div>
+        <p class="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          {t.beta.description}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2.5 flex-shrink-0 pl-12 md:pl-0">
+      <a
+        href={siteConfig.links.githubIssues}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-white transition-colors whitespace-nowrap"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+        <span>{t.beta.githubCta}</span>
+        <ExternalLink class="w-3 h-3 opacity-75" />
+      </a>
+      <a
+        href={`mailto:${siteConfig.mail}`}
+        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-100 border border-amber-500/35 dark:border-amber-500/30 hover:border-primary dark:hover:border-primary-light transition-colors whitespace-nowrap"
+      >
+        <Mail class="w-3.5 h-3.5 text-primary dark:text-primary-light" />
+        <span>{siteConfig.mail}</span>
+      </a>
+    </div>
+  </div>
+</div>
