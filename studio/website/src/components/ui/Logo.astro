@@ -1,0 +1,18 @@
+---
+interface Props {
+  href?: string;
+}
+
+const { href = "/" } = Astro.props;
+---
+
+<a
+  href={href}
+  class="h-10 group relative z-30 inline-flex items-center gap-2.5 text-neutral-900 dark:text-neutral-100 hover:opacity-90 transition-opacity"
+>
+  <img src="/assets/logo.png" alt="pyCub Studio logo" class="w-9 h-9 rounded-xl shadow-sm object-contain bg-white dark:bg-neutral-800 p-0.5 border border-primary/15 dark:border-neutral-700" />
+  <span class="flex items-baseline gap-1 font-semibold tracking-tight text-base">
+    <span>pyCub</span>
+    <span class="text-primary dark:text-primary-light font-medium">Studio</span>
+  </span>
+</a>

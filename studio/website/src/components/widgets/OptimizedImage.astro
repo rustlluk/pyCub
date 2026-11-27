@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+
+interface InlineSvgProps {
+  src: string;
+  inlineSvg: true;
+  alt?: string;
+  width?: number | `${number}`;
+  height?: number | `${number}`;
+  class?: string;
+  style?: any;
+  [key: string]: any;
+}
+
+interface ImageProps {
+  src: string;
+  alt?: string;
+  width?: number | `${number}`;
+  height?: number | `${number}`;
+  loading?: "eager" | "lazy" | null | undefined;
+  decoding?: "async" | "auto" | "sync" | null | undefined;
+  format?: "avif" | "jpeg" | "png" | "svg" | "webp" | string;
+  class?: string;
+  style?: any;
+  [key: string]: any;
+}
+
+type Props = InlineSvgProps | ImageProps;
+
+let {
+  src,
+  alt,
+  inlineSvg,
+  width,
+  height,
+  loading,
+  decoding,
+  format,
+  style,
+  ...rest
+} = Astro.props;
+
+const numericWidth = typeof width === "number" ? width : width ? Number(width) : undefined;
+const numericHeight = typeof height === "number" ? height : height ? Number(height) : undefined;
+
+const isRemoteImage = src.startsWith("http://") || src.startsWith("https://");
+let image = src as any;
+let SVG = "" as any;
+
+if (!isRemoteImage) {
+  const images = import.meta.glob([
+    "/src/assets/**/*.{jpeg,jpg,png,avif,tiff,gif,webp,svg,gif}",
+    "/public/**/*.{jpeg,jpg,png,avif,tiff,gif,webp,svg,gif}",
+  ]);
+
+  const imagesRaw = import.meta.glob(
+    [
+      "/src/assets/**/*.svg",
+      "/public/**/*.svg",
+    ],
+    {
+      query: "raw",
+      import: "default",
+    },
+  );
+
+  if (inlineSvg && src.includes(".svg")) {
+    const key = Object.keys(images).find((k) => k.includes(src));
+    SVG = key ? await imagesRaw[key]() : null;
+
+    if (SVG && SVG.length > 1) {
+      SVG = SVG.split("<svg");
+
+      if (SVG.length > 1) {
+        const attributes = Object.entries(rest)
+          .map(([k, value]) => `${k}="${value}"`)
+          .join(" ");
+
+        SVG[1] = ` data-icon="true" ${attributes} ${SVG[1]}`;
+      }
+
+      SVG = SVG.join("<svg");
+    }
+  }
+
+  const key = Object.keys(images).find((k) => k.includes(src));
+  image = key ? await images[key]() : null;
+
+  image = image && image.default ? image.default : null;
+}
+---
+
+{
+  inlineSvg && SVG && src.includes(".svg") ? (
+    <Fragment set:html={SVG} />
+  ) : image ? (
+    <Image
+      style={style}
+      alt={alt || ""}
+      width={numericWidth}
+      height={numericHeight}
+      format={format}
+      loading={loading}
+      decoding={decoding}
+      src={image}
+      {...{ class: Astro.props.class }}
+      {...rest}
+    />
+  ) : null
+}

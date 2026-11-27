@@ -1,5 +1,15 @@
 {
     "name": "PyCub Development Environment",
     "image": "rustlluk/pycub:gitpod",
-    "forwardPorts": [6080, 8888]
+    "forwardPorts": [6080, 8888],
+    "portsAttributes": {
+        "6080": {
+            "label": "VNC Desktop",
+            "onAutoForward": "openPreview"
+        },
+        "8888": {
+            "label": "Jupyter"
+        }
+    },
+    "postStartCommand": "nohup /path/to/your/start_vnc.sh > /tmp/vnc.log 2>&1 &"
 }

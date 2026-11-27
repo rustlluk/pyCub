@@ -1,0 +1,124 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import Button from "@/components/ui/Button.astro";
+import Badge from "@/components/ui/Badge.astro";
+import CitationCard from "@/components/pycub/CitationCard.astro";
+import { siteConfig } from "@/config/site";
+import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
+import { ArrowRight, ExternalLink, GraduationCap, Heart, Code, Users, Globe, Download } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const page = t.pages.about;
+const prefix = getRoutePrefix(lang);
+const icons = [GraduationCap, Code, Globe, Heart];
+---
+
+<Layout title={t.meta.aboutTitle} description={t.meta.aboutDesc} lang={lang}>
+  <section class="site-container my-10">
+    <PageHeader title={page.heading} description={page.subheading} tags={page.tags} />
+  </section>
+
+  <section class="site-container max-w-4xl mx-auto pb-24 space-y-12">
+    <!-- Story -->
+    <div
+      class="rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+      data-aos="fade-up-xs"
+      data-aos-once="true"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-8 space-y-4">
+          <h2 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100">
+            {page.storyTitle}
+          </h2>
+          {page.storyParagraphs.map((p) => (
+            <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {p}
+            </p>
+          ))}
+        </div>
+        <div class="md:col-span-4 flex flex-col items-center">
+          <img
+            src="/assets/icub.png"
+            alt="iCub Humanoid Robot"
+            width="360"
+            height="360"
+            loading="lazy"
+            class="w-44 h-auto object-contain drop-shadow"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Authors -->
+    <div data-aos="fade-up-xs" data-aos-once="true">
+      <h2 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100 mb-6 text-center">
+        {page.authorsTitle}
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {page.authors.map((author) => (
+          <a
+            href={author.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group p-6 rounded-2xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 hover:border-primary/60 transition-all shadow-sm"
+          >
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center text-primary dark:text-primary-light">
+                  <Users class="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 group-hover:text-primary transition-colors">
+                    {author.name}
+                  </h3>
+                  <p class="text-xs font-medium text-primary dark:text-primary-light">{author.role}</p>
+                </div>
+              </div>
+              <ExternalLink class="w-4 h-4 text-neutral-400 group-hover:text-primary transition-colors" />
+            </div>
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mt-4">{author.org}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Principles -->
+    <div data-aos="fade-up-xs" data-aos-once="true">
+      <h2 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100 mb-6 text-center">
+        {page.highlightsTitle}
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {page.highlights.map((item, i) => {
+          const Icon = icons[i % icons.length];
+          return (
+            <div class="p-5 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700">
+              <Icon class="w-5 h-5 text-primary mb-3" />
+              <h3 class="text-base font-semibold text-neutral-800 dark:text-neutral-100 mb-1">{item.title}</h3>
+              <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">{item.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Citation -->
+    <CitationCard lang={lang} />
+
+    <!-- License & CTAs -->
+    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+      <Button url={`${prefix}/downloads`} type="fill">
+        <Download size={16} /> {t.finalCta.primary}
+      </Button>
+      <Button url={siteConfig.links.github} type="solid" target="_blank">
+        GitHub Repository <ArrowRight size={16} />
+      </Button>
+      <Badge variant="neutral">CC BY 4.0</Badge>
+    </div>
+  </section>
+</Layout>

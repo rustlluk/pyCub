@@ -1,0 +1,59 @@
+---
+import { siteConfig } from "@/config/site.js";
+
+interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	url?: string;
+	image?: string;
+	twitterHandle?: string;
+}
+
+const {
+  title = siteConfig.meta.title,
+  description = siteConfig.meta.description,
+  keywords = siteConfig.meta.keywords,
+  url = siteConfig.url,
+  image = siteConfig.meta.image,
+  twitterHandle = siteConfig.social.twitterName,
+} = Astro.props;
+
+// 构建完整的页面标题
+const metaTitle = title === siteConfig.meta.title ? title : `${title} | ${siteConfig.meta.title}`;
+const metaDescription = description || siteConfig.meta.description;
+const ogImage = image || siteConfig.meta.image;
+const canonicalUrl = url || siteConfig.url;
+---
+
+<!-- Basic Meta Tags -->
+<title>{metaTitle}</title>
+<meta name="description" content={metaDescription} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={siteConfig.author} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={metaTitle} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteConfig.meta.title} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={metaTitle} />
+<meta name="twitter:description" content={metaDescription} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:site" content={twitterHandle} />
+<meta name="twitter:creator" content={twitterHandle} />
+
+<!-- Additional Meta Tags -->
+<meta name="robots" content="index, follow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+
+
+

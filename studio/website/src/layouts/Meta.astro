@@ -1,0 +1,49 @@
+---
+import { siteConfig } from "@/config/site.js";
+import type { Locale } from "@/i18n/translations";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  url?: string;
+  ogImage?: string;
+  twitterHandle?: string;
+  lang?: Locale;
+}
+
+const {
+  title = siteConfig.meta.title,
+  description = siteConfig.meta.description,
+  keywords = siteConfig.meta.keywords,
+  url = siteConfig.url,
+  ogImage = siteConfig.meta.image,
+  lang = "en",
+} = Astro.props;
+
+const ogLocale = lang === "cs" ? "cs_CZ" : "en_US";
+---
+
+<!-- Meta Tags -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={siteConfig.author} />
+
+<!-- Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteConfig.title} />
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

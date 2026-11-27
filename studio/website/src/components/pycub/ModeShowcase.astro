@@ -1,0 +1,223 @@
+---
+import BrowserFrame from "@/components/ui/BrowserFrame.astro";
+import Badge from "@/components/ui/Badge.astro";
+import { translations, type Locale } from "@/i18n/translations";
+import { CircleCheck, Terminal, Users, Copy, Check } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+  initialMode?: string;
+}
+
+const { lang = "en", initialMode = "kid_native" } = Astro.props;
+const t = translations[lang];
+const modes = t.modesSection.modes;
+---
+
+<div class="mode-showcase w-full" data-aos="fade-up-sm" data-aos-once="true">
+  <!-- Mode Tabs -->
+  <div class="flex flex-wrap justify-center gap-2 mb-8" role="tablist" aria-label={t.modesSection.title}>
+    {modes.map((mode, idx) => {
+      const isActive = mode.id === initialMode || (idx === 0 && !modes.some((m) => m.id === initialMode));
+      return (
+        <button
+          type="button"
+          role="tab"
+          aria-selected={isActive ? "true" : "false"}
+          data-mode-tab={mode.id}
+          class:list={[
+            "mode-tab-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all cursor-pointer",
+            isActive
+              ? "bg-primary text-white border-primary shadow-md"
+              : "bg-bg-secondary dark:bg-bg-secondary-dark text-neutral-700 dark:text-neutral-300 border-primary/15 dark:border-neutral-700 hover:border-primary/50 hover:text-primary dark:hover:text-primary-light",
+          ]}
+        >
+          <span
+            class:list={[
+              "mode-tab-num text-[11px] font-semibold px-1.5 py-0.5 rounded-md",
+              isActive
+                ? "bg-white/20 text-white"
+                : "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light",
+            ]}
+          >
+            {idx + 1}
+          </span>
+          <span>{mode.tabLabel}</span>
+        </button>
+      );
+    })}
+  </div>
+
+  <!-- Active Mode Panels -->
+  <div class="relative">
+    {modes.map((mode, idx) => {
+      const isActive = mode.id === initialMode || (idx === 0 && !modes.some((m) => m.id === initialMode));
+      return (
+        <div
+          role="tabpanel"
+          data-mode-panel={mode.id}
+          class:list={[
+            "mode-panel grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-2xl p-4 sm:p-6 md:p-8 bg-bg-secondary/90 dark:bg-bg-secondary-dark/90 border border-primary/15 dark:border-neutral-700 shadow-sm",
+            !isActive && "hidden",
+          ]}
+        >
+          <!-- Details Column -->
+          <div class="lg:col-span-5 flex flex-col gap-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <Badge variant="primary">{mode.badge}</Badge>
+              <span class="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400">
+                <Users class="w-3.5 h-3.5 text-primary" />
+                <span>{mode.audience}</span>
+              </span>
+            </div>
+
+            <h3 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100 leading-tight">
+              {mode.title}
+            </h3>
+
+            <p class="text-sm font-medium text-primary dark:text-primary-light">
+              {mode.subtitle}
+            </p>
+
+            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              {mode.description}
+            </p>
+
+            <ul class="space-y-2.5 my-1">
+              {mode.highlights.map((item) => (
+                <li class="flex items-start gap-2.5 text-sm text-neutral-700 dark:text-neutral-200">
+                  <CircleCheck class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <!-- CLI Launch Bar -->
+            <div class="mt-2 pt-4 border-t border-dashed border-neutral-200 dark:border-neutral-700">
+              <span class="block text-[11px] uppercase tracking-wider text-neutral-400 dark:text-neutral-500 mb-1.5">
+                {t.modesSection.launchLabel}
+              </span>
+              <div class="flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-neutral-900 dark:bg-neutral-950 text-neutral-100 border border-neutral-700/80">
+                <div class="flex items-center gap-2 min-w-0">
+                  <Terminal class="w-3.5 h-3.5 text-primary-light flex-shrink-0" />
+                  <code class="text-xs font-mono truncate">{mode.cliFlag}</code>
+                </div>
+                <button
+                  type="button"
+                  class="copy-cli-btn flex-shrink-0 p-1 rounded hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                  data-copy={mode.cliFlag}
+                  aria-label="Copy launch command"
+                >
+                  <Copy class="w-3.5 h-3.5 copy-icon" />
+                  <Check class="w-3.5 h-3.5 text-emerald-400 hidden check-icon" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real Screenshot Column -->
+          <div class="lg:col-span-7">
+            <BrowserFrame url={`pycub-studio (${mode.badge})`} className="w-full shadow-xl">
+              {mode.screenshotDark ? (
+                <>
+                  <img
+                    src={mode.screenshot}
+                    alt={mode.screenshotAlt}
+                    width="1440"
+                    height="900"
+                    loading="lazy"
+                    class="w-full h-auto block dark:hidden object-cover"
+                  />
+                  <img
+                    src={mode.screenshotDark}
+                    alt={mode.screenshotAlt}
+                    width="1440"
+                    height="900"
+                    loading="lazy"
+                    class="w-full h-auto hidden dark:block object-cover"
+                  />
+                </>
+              ) : (
+                <img
+                  src={mode.screenshot}
+                  alt={mode.screenshotAlt}
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  class="w-full h-auto block object-cover"
+                />
+              )}
+            </BrowserFrame>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".mode-showcase").forEach((container) => {
+    const tabs = container.querySelectorAll<HTMLButtonElement>("[data-mode-tab]");
+    const panels = container.querySelectorAll<HTMLElement>("[data-mode-panel]");
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetId = tab.dataset.modeTab;
+        if (!targetId) return;
+
+        tabs.forEach((btn) => {
+          const active = btn.dataset.modeTab === targetId;
+          btn.setAttribute("aria-selected", active ? "true" : "false");
+          if (active) {
+            btn.classList.add("bg-primary", "text-white", "border-primary", "shadow-md");
+            btn.classList.remove(
+              "bg-bg-secondary",
+              "dark:bg-bg-secondary-dark",
+              "text-neutral-700",
+              "dark:text-neutral-300",
+              "border-primary/15",
+              "dark:border-neutral-700",
+            );
+            const num = btn.querySelector(".mode-tab-num");
+            num?.classList.add("bg-white/20", "text-white");
+            num?.classList.remove("bg-primary/10", "text-primary", "dark:bg-primary/20", "dark:text-primary-light");
+          } else {
+            btn.classList.remove("bg-primary", "text-white", "border-primary", "shadow-md");
+            btn.classList.add(
+              "bg-bg-secondary",
+              "dark:bg-bg-secondary-dark",
+              "text-neutral-700",
+              "dark:text-neutral-300",
+              "border-primary/15",
+              "dark:border-neutral-700",
+            );
+            const num = btn.querySelector(".mode-tab-num");
+            num?.classList.remove("bg-white/20", "text-white");
+            num?.classList.add("bg-primary/10", "text-primary", "dark:bg-primary/20", "dark:text-primary-light");
+          }
+        });
+
+        panels.forEach((panel) => {
+          panel.classList.toggle("hidden", panel.dataset.modePanel !== targetId);
+        });
+      });
+    });
+
+    container.querySelectorAll<HTMLButtonElement>(".copy-cli-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const text = btn.dataset.copy || "";
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.querySelector(".copy-icon")?.classList.add("hidden");
+          btn.querySelector(".check-icon")?.classList.remove("hidden");
+          setTimeout(() => {
+            btn.querySelector(".copy-icon")?.classList.remove("hidden");
+            btn.querySelector(".check-icon")?.classList.add("hidden");
+          }, 1500);
+        } catch {
+          /* ignore */
+        }
+      });
+    });
+  });
+</script>

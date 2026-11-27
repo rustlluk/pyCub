@@ -1,0 +1,293 @@
+---
+import { Moon, SunMedium, ChevronRight, Menu, X } from "@lucide/astro";
+import { siteConfig } from "@/config/site";
+import Button from "@/components/ui/Button.astro";
+import Logo from "@/components/ui/Logo.astro";
+import { translations, switchLangPath, getRoutePrefix, type Locale } from "@/i18n/translations";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
+const targetLang: Locale = lang === "en" ? "cs" : "en";
+const currentPath = Astro.url.pathname;
+const switchHref = switchLangPath(currentPath, targetLang);
+const enHref = switchLangPath(currentPath, "en");
+const csHref = switchLangPath(currentPath, "cs");
+---
+
+<!-- Spacer so fixed header never overlaps top hero content -->
+<div class="relative w-full h-16 sm:h-20 opacity-0 pointer-events-none"></div>
+<header id="header" class="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
+  <div
+    id="site-container"
+    class="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 border-transparent border-[0.5px] transition-all duration-300"
+  >
+    <!-- Logo -->
+    <div class="flex-shrink-0 z-50">
+      <Logo href={homeHref} />
+    </div>
+
+    <!-- Mobile Menu Background Overlay -->
+    <div
+      id="mobileMenuBackground"
+      class="fixed inset-0 z-20 hidden w-screen h-screen duration-300 ease-out bg-white/90 backdrop-blur-sm dark:bg-neutral-950/90"
+    ></div>
+
+    <!-- Navigation -->
+    <nav class="relative z-30 flex flex-row-reverse justify-start w-full text-sm sm:justify-end text-neutral-500 dark:text-neutral-400 sm:flex-row sm:items-center">
+      <!-- Mobile Actions -->
+      <div class="flex items-center gap-2 sm:hidden">
+        <!-- Quick Language Switch (Mobile) -->
+        <a
+          href={switchHref}
+          aria-label={`Switch language to ${t.nav.langSwitchLabel}`}
+          class="flex items-center justify-center h-9 px-2.5 text-xs font-semibold rounded-full bg-white/90 dark:bg-neutral-800 border border-primary/20 dark:border-neutral-600 text-primary dark:text-primary-light hover:bg-primary/5 transition-colors"
+        >
+          {targetLang.toUpperCase()}
+        </a>
+
+        <!-- Dark Mode Toggle (Mobile) -->
+        <button
+          type="button"
+          id="darkToggleMobile"
+          aria-label="Toggle dark mode"
+          aria-pressed="false"
+          class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-full bg-gradient-to-b from-white to-[#edeefa] border-[0.5px] border-[#dce6ff] dark:from-neutral-800 dark:to-neutral-700 dark:border-neutral-600 transition-transform duration-200 active:scale-95"
+        >
+          <span
+            class="flex justify-center items-center w-6 h-6 relative overflow-hidden rounded-full bg-gradient-to-b from-[#60a5fa] to-[#2563eb] border-[0.5px] border-[#60a5fa]"
+            style="box-shadow: 0px 2px 3px 0 rgba(37,99,235,0.25);"
+          >
+            <SunMedium class="text-white w-3.5 h-3.5 mobile-sun" />
+            <Moon class="hidden text-white w-3.5 h-3.5 mobile-moon" />
+          </span>
+        </button>
+
+        <!-- Hamburger Menu Button -->
+        <button
+          type="button"
+          id="openMenu"
+          aria-label="Open menu"
+          class="flex items-center justify-center w-9 h-9 cursor-pointer rounded-full bg-gradient-to-b from-white to-[#edeefa] border-[0.5px] border-[#f3f3ff] dark:from-neutral-800 dark:to-neutral-600 dark:border-neutral-600 transition-all duration-200 hover:shadow-md active:scale-90"
+        >
+          <Menu class="w-5 h-5 text-neutral-700 dark:text-neutral-200" stroke-width={2} />
+        </button>
+
+        <!-- Close Menu Button -->
+        <button
+          type="button"
+          id="closeMenu"
+          aria-label="Close menu"
+          class="hidden items-center justify-center w-9 h-9 cursor-pointer rounded-full bg-gradient-to-b from-white to-[#edeefa] border-[0.5px] border-[#f3f3ff] dark:from-neutral-800 dark:to-neutral-600 dark:border-neutral-600 transition-all duration-200 hover:shadow-md active:scale-90"
+        >
+          <X class="w-5 h-5 text-neutral-700 dark:text-neutral-200" stroke-width={2} />
+        </button>
+      </div>
+
+      <!-- Menu Links -->
+      <div
+        id="menu"
+        class="fixed top-[68px] sm:top-0 left-3 right-3 sm:left-0 sm:right-0 ease-out duration-300 z-40 flex-col items-center justify-start hidden w-auto h-auto text-sm pt-4 pb-4 sm:py-0 sm:relative sm:flex-row sm:flex"
+      >
+        <div class="absolute inset-0 top-0 right-0 block w-full h-full sm:hidden">
+          <div class="relative w-full h-full bg-white/95 dark:bg-bg-primary-dark/95 border border-dashed border-neutral-300 dark:border-neutral-700 backdrop-blur-md rounded-2xl shadow-lg"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col sm:flex-row items-stretch sm:items-center w-full sm:w-auto px-2 sm:px-0 gap-0.5 sm:gap-0">
+          <div class="block sm:hidden px-3 pt-1 pb-2">
+            <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-neutral-400 dark:text-neutral-500">
+              {t.nav.navigationLabel}
+            </span>
+          </div>
+          {
+            t.nav.items.map((menu) => (
+              <a
+                href={menu.url}
+                class="group relative flex items-center justify-between sm:justify-center w-full sm:w-auto px-3 py-3 sm:py-2 sm:px-2.5 lg:px-3.5 font-medium tracking-wide duration-200 ease-out rounded-lg sm:rounded-none text-neutral-700 dark:text-neutral-200 hover:text-primary hover:bg-primary/5 sm:hover:bg-transparent dark:hover:text-white dark:hover:bg-primary/10 sm:dark:hover:bg-transparent active:scale-[0.98] sm:active:scale-100 transition-all text-left sm:text-center whitespace-nowrap"
+              >
+                <span>{menu.name}</span>
+                <ChevronRight class="w-4 h-4 sm:hidden text-neutral-300 dark:text-neutral-600 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+              </a>
+            ))
+          }
+        </div>
+
+        <!-- Mobile CTA -->
+        <div class="relative z-10 w-full px-5 sm:hidden mt-3">
+          <div class="w-full border-t border-dashed border-neutral-200 dark:border-neutral-700"></div>
+        </div>
+        <div class="relative z-10 w-full px-5 mt-3 sm:hidden flex flex-col gap-2">
+          <Button url={siteConfig.links.github} type="fill" target="_blank" className="w-full justify-center max-w-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+            {t.nav.starGithub}
+          </Button>
+        </div>
+      </div>
+
+      <!-- Desktop Actions -->
+      <div class="relative hidden sm:flex items-center gap-2 ml-3 lg:ml-5 flex-shrink-0">
+        <!-- Bilingual Pill Switcher -->
+        <div class="inline-flex items-center p-0.5 rounded-full bg-neutral-100/90 dark:bg-neutral-800/90 border border-primary/15 dark:border-neutral-700 text-xs font-semibold">
+          <a
+            href={enHref}
+            class={`lang-pill px-2.5 py-1 rounded-full transition-colors whitespace-nowrap ${
+              lang === "en"
+                ? "bg-primary text-white shadow-xs"
+                : "text-neutral-600 dark:text-neutral-300 hover:text-primary"
+            }`}
+          >
+            EN
+          </a>
+          <a
+            href={csHref}
+            class={`lang-pill px-2.5 py-1 rounded-full transition-colors whitespace-nowrap ${
+              lang === "cs"
+                ? "bg-primary text-white shadow-xs"
+                : "text-neutral-600 dark:text-neutral-300 hover:text-primary"
+            }`}
+          >
+            CS
+          </a>
+        </div>
+
+        <!-- Dark Mode Toggle Pill (Desktop & Tablet) -->
+        <button
+          type="button"
+          id="darkToggle"
+          aria-label="Toggle dark mode"
+          aria-pressed="false"
+          title={lang === "cs" ? "Přepnout světlý / tmavý režim" : "Switch Light / Dark theme"}
+          class="relative inline-flex items-center h-9 px-2.5 gap-2 font-medium cursor-pointer rounded-full bg-white/90 dark:bg-neutral-800/90 border border-primary/20 dark:border-neutral-600 transition-all duration-200 hover:border-primary hover:shadow-md active:scale-95"
+        >
+          <span
+            class="flex justify-center items-center flex-shrink-0 w-6 h-6 relative overflow-hidden rounded-full bg-gradient-to-b from-[#60a5fa] to-[#2563eb] border-[0.5px] border-[#60a5fa]"
+            style="box-shadow: 0px 2px 3px 0 rgba(37,99,235,0.25);"
+          >
+            <SunMedium id="sun" class="text-white w-3.5 h-3.5 transition duration-200" />
+            <Moon id="moon" class="hidden text-white w-3.5 h-3.5 transition duration-200" />
+          </span>
+          <span class="inline-block whitespace-nowrap">
+            <span id="dayText" class="text-xs font-semibold text-neutral-700 dark:text-neutral-200">{t.nav.light}</span>
+            <span id="nightText" class="hidden text-xs font-semibold text-neutral-700 dark:text-neutral-200">{t.nav.dark}</span>
+          </span>
+        </button>
+
+        <!-- GitHub Button -->
+        <Button url={siteConfig.links.github} target="_blank" type="fill" size="sm" className="hidden md:flex">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+          {t.nav.github}
+        </Button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  #header {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (max-width: 639px) {
+    #menu {
+      max-width: calc(100vw - 24px);
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #menu:not(.hidden) {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  nav a {
+    position: relative;
+  }
+  @media (min-width: 640px) {
+    nav #menu a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 70%;
+      height: 2px;
+      background: var(--color-primary);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+    nav #menu a:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+  }
+  #darkToggle,
+  #darkToggleMobile {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+</style>
+
+<script>
+  declare global {
+    interface Window {
+      closeMobileMenu: () => void;
+    }
+  }
+
+  const darkToggle = document.getElementById("darkToggle");
+  const darkToggleMobile = document.getElementById("darkToggleMobile");
+
+  darkToggleMobile?.addEventListener("click", () => {
+    darkToggle?.click();
+  });
+
+  const openMenu = document.getElementById("openMenu");
+  const closeMenu = document.getElementById("closeMenu");
+  const menu = document.getElementById("menu");
+  const mobileMenuBackground = document.getElementById("mobileMenuBackground");
+
+  function openMobileMenu() {
+    menu?.classList.remove("hidden");
+    mobileMenuBackground?.classList.remove("hidden");
+    openMenu?.classList.add("hidden");
+    closeMenu?.classList.remove("hidden");
+    closeMenu?.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMobileMenu() {
+    menu?.classList.add("hidden");
+    mobileMenuBackground?.classList.add("hidden");
+    closeMenu?.classList.add("hidden");
+    closeMenu?.classList.remove("flex");
+    openMenu?.classList.remove("hidden");
+    document.body.style.overflow = "";
+  }
+
+  openMenu?.addEventListener("click", openMobileMenu);
+  closeMenu?.addEventListener("click", closeMobileMenu);
+  mobileMenuBackground?.addEventListener("click", closeMobileMenu);
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.innerWidth < 640) {
+        closeMobileMenu();
+      }
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 640) {
+      document.body.style.overflow = "";
+      if (menu?.classList.contains("hidden")) {
+        menu.classList.remove("hidden");
+      }
+    }
+  });
+
+  window.closeMobileMenu = closeMobileMenu;
+</script>

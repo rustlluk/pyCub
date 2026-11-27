@@ -1,0 +1,100 @@
+---
+import Badge from "@/components/ui/Badge.astro";
+import { translations, type Locale } from "@/i18n/translations";
+import { Maximize2, X } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const items = t.gallerySection.items;
+---
+
+<div class="gallery-root">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    {items.map((item, i) => (
+      <figure
+        class="group rounded-2xl overflow-hidden bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+        data-aos="fade-up-sm"
+        data-aos-delay={i * 90}
+        data-aos-once="true"
+      >
+        <div class="relative overflow-hidden bg-neutral-900">
+          <img
+            src={item.src}
+            alt={item.title}
+            width="1440"
+            height="900"
+            loading="lazy"
+            class="w-full h-auto block object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          />
+          <button
+            type="button"
+            class="gallery-zoom-btn absolute top-3 right-3 p-2 rounded-lg bg-neutral-900/75 hover:bg-primary text-white backdrop-blur-sm opacity-90 sm:opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+            data-src={item.src}
+            data-title={item.title}
+            aria-label={`Zoom ${item.title}`}
+          >
+            <Maximize2 class="w-4 h-4" />
+          </button>
+        </div>
+        <figcaption class="p-4 sm:p-5 flex flex-col gap-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="text-base font-semibold text-neutral-800 dark:text-neutral-100">
+              {item.title}
+            </h3>
+            <Badge variant="primary" size="sm">{item.tag}</Badge>
+          </div>
+          <p class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            {item.caption}
+          </p>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+
+  <!-- Lightbox Modal -->
+  <dialog
+    id="screenshotLightbox"
+    class="backdrop:bg-neutral-950/80 backdrop:backdrop-blur-sm bg-transparent p-2 sm:p-6 max-w-6xl w-full m-auto rounded-2xl"
+  >
+    <div class="relative rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-700 shadow-2xl">
+      <div class="flex items-center justify-between px-4 py-3 border-b border-neutral-800 text-neutral-200">
+        <span id="lightboxTitle" class="text-sm font-medium"></span>
+        <button
+          type="button"
+          id="closeLightbox"
+          class="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+          aria-label="Close preview"
+        >
+          <X class="w-5 h-5" />
+        </button>
+      </div>
+      <img id="lightboxImg" src="" alt="" class="w-full h-auto max-h-[82vh] object-contain bg-neutral-950" />
+    </div>
+  </dialog>
+</div>
+
+<script>
+  const dialog = document.getElementById("screenshotLightbox") as HTMLDialogElement | null;
+  const img = document.getElementById("lightboxImg") as HTMLImageElement | null;
+  const titleEl = document.getElementById("lightboxTitle");
+  const closeBtn = document.getElementById("closeLightbox");
+
+  document.querySelectorAll<HTMLButtonElement>(".gallery-zoom-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!dialog || !img) return;
+      img.src = btn.dataset.src || "";
+      img.alt = btn.dataset.title || "";
+      if (titleEl) titleEl.textContent = btn.dataset.title || "";
+      dialog.showModal();
+    });
+  });
+
+  closeBtn?.addEventListener("click", () => dialog?.close());
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>

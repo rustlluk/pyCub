@@ -4,8 +4,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-GITHUB_BLOB_BASE = "https://github.com/rustlluk/pycub/blob/master"
-PUBLIC_BASE = "https://rustlluk.github.io/pycub"
+GITHUB_BLOB_BASE = "https://github.com/rustlluk/pyCub/blob/master"
+PUBLIC_BASE = "https://rustlluk.github.io/pyCub"
 
 
 def prepare_readme_include(
@@ -32,6 +32,10 @@ def prepare_readme_include(
         text,
     )
     text = text.replace(
+        "](docs/handbook/cs/index.html)",
+        f"]({PUBLIC_BASE}/handbook/cs/index.html)",
+    )
+    text = text.replace(
         "](.github/workflows/release-standalone.yml)",
         f"]({GITHUB_BLOB_BASE}/.github/workflows/release-standalone.yml)",
     )
@@ -55,7 +59,7 @@ def prepare_readme_include(
         text = re.sub(r"^\[cc-by-(?:image|shield)\]:.*\n?", "", text, flags=re.MULTILINE)
         # Replace clickable remote wrapper on hero image with local image embed for LaTeX.
         text = text.replace(
-            "[![iCub Robot](../static/images/icub.png)](https://rustlluk.github.io/pycub)",
+            f"[![iCub Robot](../static/images/icub.png)]({PUBLIC_BASE})",
             "![iCub Robot](../static/images/icub.png)",
         )
         # Strip emojis not present in standard TeX fonts.

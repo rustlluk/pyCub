@@ -1,0 +1,55 @@
+---
+interface Props {
+  url?: string;
+  variant?: "light" | "dark" | "auto";
+  className?: string;
+}
+
+const {
+  url = "ricoui.com",
+  variant = "auto",
+  className = "",
+} = Astro.props;
+
+const surfaceClass =
+  variant === "light"
+    ? "bg-bg-secondary border-primary/10"
+    : variant === "dark"
+    ? "bg-bg-secondary-dark border-neutral-700"
+    : "bg-bg-secondary dark:bg-bg-secondary-dark border-primary/10 dark:border-neutral-700";
+
+const chromeClass =
+  variant === "light"
+    ? "border-neutral-200/50 bg-neutral-50"
+    : variant === "dark"
+    ? "border-neutral-700/50 bg-neutral-800/50"
+    : "border-neutral-200/50 dark:border-neutral-700/50 bg-neutral-50 dark:bg-neutral-800/50";
+
+const addressClass =
+  variant === "light"
+    ? "bg-neutral-200/50 text-neutral-500"
+    : variant === "dark"
+    ? "bg-neutral-700/50 text-neutral-400"
+    : "bg-neutral-200/50 dark:bg-neutral-700/50 text-neutral-500 dark:text-neutral-400";
+---
+
+<div class={`relative rounded-2xl overflow-hidden border shadow-lg ${surfaceClass} ${className}`}>
+  <!-- Browser chrome -->
+  <div class={`flex items-center gap-2 px-4 py-3 border-b ${chromeClass}`}>
+    <div class="flex gap-1.5">
+      <div class="w-3 h-3 rounded-full bg-red-400"></div>
+      <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+      <div class="w-3 h-3 rounded-full bg-green-400"></div>
+    </div>
+    <div class="flex-1 flex justify-center">
+      <div class={`px-4 py-1 rounded-md text-xs ${addressClass}`}>
+        {url}
+      </div>
+    </div>
+  </div>
+
+  <!-- Slot for body content -->
+  <div class="relative">
+    <slot />
+  </div>
+</div>

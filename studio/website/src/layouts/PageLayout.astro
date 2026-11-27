@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import type { Locale } from "@/i18n/translations";
+
+interface Props {
+  title?: string;
+  keywords?: string;
+  description?: string;
+  lang?: Locale;
+}
+
+const { title, description, keywords, lang = "en" } = Astro.props;
+---
+
+<Layout title={title} description={description} keywords={keywords} lang={lang}>
+  <main class="post-wrapper">
+    <slot />
+  </main>
+</Layout>

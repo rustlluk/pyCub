@@ -49,6 +49,41 @@
 .rst-content ul.handbook-sections p { margin: 0; line-height: 1.5; }
 .rst-content ul.handbook-sections p + p { margin-top: .25rem; color: #45575a; }
 .handbook-sections a { font-weight: bold; font-size: 1.08rem; }
+.wy-breadcrumbs-aside.handbook-lang-aside {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0.75rem;
+}
+.handbook-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 999px;
+    border: 1px solid #bbcecb;
+    background: #eaf3f1;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+.handbook-lang-switch .lang-active,
+.handbook-lang-switch .lang-link {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+}
+.handbook-lang-switch .lang-active {
+    background: #163e48;
+    color: #ffffff;
+}
+.wy-nav-content .rst-content .handbook-lang-switch .lang-link {
+    color: #163e48;
+}
+.wy-nav-content .rst-content .handbook-lang-switch .lang-link:hover {
+    background: #d3e5e2;
+    color: #0d2b32;
+}
 @media (max-width: 600px) {
     .handbook-intro { grid-template-columns: minmax(0, 1fr) 28%; }
     .rst-content .handbook-intro .introduction { padding: .85rem; font-size: 1rem; }

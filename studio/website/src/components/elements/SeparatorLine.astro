@@ -1,0 +1,43 @@
+---
+interface Props {
+  className?: string; // Custom CSS classes
+  color?: string; // Color, defaults to neutral
+  width?: "full" | "3/4" | "1/2" | "1/4"; // Width options
+  spacing?: "sm" | "md" | "lg" | "xl"; // Spacing options
+  thickness?: "thin" | "normal" | "thick"; // Thickness options
+}
+
+// Define default values
+const {
+  className = "",
+  color = "border-primary/25 dark:border-primary-light/25",
+  width = "full",
+  spacing = "md",
+  thickness = "thin"
+} = Astro.props;
+
+// Width mapping
+const widthClasses = {
+  "full": "w-full",
+  "3/4": "w-3/4",
+  "1/2": "w-1/2",
+  "1/4": "w-1/4"
+};
+
+// Spacing mapping
+const spacingClasses = {
+  "sm": "my-2",
+  "md": "my-4",
+  "lg": "my-8",
+  "xl": "my-12"
+};
+
+// Thickness mapping
+const thicknessClasses = {
+  "thin": "border-[0.5px]",
+  "normal": "border-[1px]",
+  "thick": "border-[2px]"
+};
+---
+
+<div class={`mx-auto ${widthClasses[width]} ${spacingClasses[spacing]} ${thicknessClasses[thickness]} ${color} border-dashed ${className}`} aria-hidden="true"></div>

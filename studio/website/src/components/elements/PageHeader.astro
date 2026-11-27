@@ -1,0 +1,38 @@
+---
+import AnimatedText from "@/components/ui/AnimatedText.astro";
+interface Props {
+	title?: string ;
+	description?: string ;
+	tags?: string[] ;
+  className?: string ;
+}
+
+const { title, description, tags = [], className = "" } = Astro.props;
+---
+
+<div class={`relative z-20 w-full mx-auto mt-16 mb-16 text-center ${className}`}>
+  <h2
+    class="text-4xl font-brand text-center tracking-normal text-neutral-800 dark:text-neutral-100 sm:text-4xl lg:text-5xl"
+  >
+  {title && <AnimatedText delay={0.2} stagger={0.08} content={title} />}
+  </h2>
+  {description && (
+    <div
+      class="mt-3 text-sm leading-6  sm:mt-4 lg:mt-6 sm:leading-7 lg:leading-8 sm:text-base lg:text-lg text-neutral-700 dark:text-neutral-300 max-w-full lg:max-w-2xl m-auto"
+    >
+      <AnimatedText delay={0.6} stagger={0.03} duration={1}  content={description} />
+    </div>
+  )}
+
+  {tags && tags.length > 0 && (
+    <div class="flex flex-wrap justify-center gap-2 mt-12 mb-2 ">
+      {tags.map((tag) => (
+        <span class="inline-flex items-center rounded-full bg-bg-secondary/8 dark:bg-bg-secondary/15 px-3 py-1 text-[11px] font-light text-primary/85 dark:text-primary-light/85 border border-primary/35 dark:border-primary/25 tracking-wide">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+  
+
+</div>

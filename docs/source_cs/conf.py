@@ -20,6 +20,7 @@ autoapi_options = ["members", "undoc-members", "show-module-summary"]
 html_theme = "sphinx_rtd_theme"
 html_title = "pyCub Studio (CZ)"
 html_theme_options = {"style_nav_header_background": "#163e48", "navigation_depth": 3}
+templates_path = ["../source/_templates"]
 html_static_path = ["../source/static"]
 html_css_files = ["handbook.css"]
 latex_logo = "../static/images/icub.png"

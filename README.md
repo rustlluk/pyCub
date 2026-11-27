@@ -5,12 +5,12 @@
 - **pyCub Studio** (`pycub-studio`) — a cross-platform desktop application with an embedded native OpenGL 3.3 / 2.1 viewport, five integrated learning/development modes, offline bilingual handbook, course exercises, live **English / Čeština** switching, and standalone OS installers.
 - **`icub_pybullet`** — a lightweight Python package for joint, velocity, and Cartesian control, tactile skin simulation, stereo eye cameras, and example controllers (without Studio GUI dependencies or handbook assets).
 
-[![iCub Robot](docs/static/images/icub.png)](https://rustlluk.github.io/pycub)
+[![iCub Robot](docs/static/images/icub.png)](https://rustlluk.github.io/pyCub)
 
 **Quick Links:**
-[Project Website](https://rustlluk.github.io/pycub) |
-[Local HTML Handbook](docs/handbook/index.html) |
-[Online Handbook](https://rustlluk.github.io/pycub/handbook/index.html) |
+[Project Website](https://rustlluk.github.io/pyCub) |
+[Local HTML Handbook (EN)](docs/handbook/index.html) / [(CZ)](docs/handbook/cs/index.html) |
+[Online Handbook (EN)](https://rustlluk.github.io/pyCub/handbook/index.html) / [(CZ)](https://rustlluk.github.io/pyCub/handbook/cs/index.html) |
 [PDF Handbook (EN)](docs/handbook/pycub.pdf) |
 [PDF příručka (CZ)](docs/handbook/cs/pycub.pdf)
 
@@ -183,22 +183,24 @@ pyinstaller --noconfirm packaging/pycub.spec
 3. **Docker / Gitpod:**
    - Native Docker (GNU/Linux): see [Native Version](#native-version)
    - VNC Docker (Windows/macOS/Linux): see [VNC Version](#vnc-version)
-   - Gitpod: open [https://app.gitpod.io/#https://github.com/rustlluk/pycub](https://app.gitpod.io/#https://github.com/rustlluk/pycub), log in with GitHub, open port `6080`, and run `start-vnc-session.sh` in the terminal.
-
+   - Github Codespace: 
+     - click on: [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1) 
+     - or open a new Codespace from the 'Code' button on top of the repository
+     - The VNC should run automatically and you can see it on port 6080 (select Ports tab in the Codespace and open the one 6080). If it is not running, run `start-vnc-session.sh` in the Codespace terminal.
 ### Examples & Core Modules
 
-- [push_the_ball_pure_joints.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
-- [push_the_ball_cartesian.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py) — controlling the robot in Cartesian space (`Pose` + IK).
-- [skin_test.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/skin_test.py) — tactile skin contacts with balls falling onto the robot (slow down simulation or check `skin_activations`).
-- Simulator core: [pycub.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py)
+- [push_the_ball_pure_joints.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
+- [push_the_ball_cartesian.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py) — controlling the robot in Cartesian space (`Pose` + IK).
+- [skin_test.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/skin_test.py) — tactile skin contacts with balls falling onto the robot (slow down simulation or check `skin_activations`).
+- Simulator core: [pycub.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/pycub.py)
 - Beginner API: [kid_api.py](icub_pybullet/kid_api.py)
-- Visualization backend: [visualizer.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py) (uses Open3D for standalone scripts, web fallback, or the embedded OpenGL viewport inside `pyCub Studio`).
+- Visualization backend: [visualizer.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/visualizer.py) (uses Open3D for standalone scripts, web fallback, or the embedded OpenGL viewport inside `pyCub Studio`).
 
 ---
 
 ## Documentation & Building the Handbook
 
-Open **Handbook** in `pyCub Studio` or browse the [local HTML handbook](docs/handbook/index.html) (online at [pyCub Handbook](https://rustlluk.github.io/pycub/handbook/index.html); PDF: [English](docs/handbook/pycub.pdf), [Čeština](docs/handbook/cs/pycub.pdf)). The handbook covers Studio modes, Python programming across Kid/Studio/Normal modes, examples, course exercises, and the auto-generated API reference.
+Open **Handbook** in `pyCub Studio` or browse the local HTML handbook ([English](docs/handbook/index.html), [Čeština](docs/handbook/cs/index.html)) — online at [pyCub Handbook (EN)](https://rustlluk.github.io/pyCub/handbook/index.html) / [(CZ)](https://rustlluk.github.io/pyCub/handbook/cs/index.html); PDF: [English](docs/handbook/pycub.pdf), [Čeština](docs/handbook/cs/pycub.pdf). The handbook covers Studio modes, Python programming across Kid/Studio/Normal modes, examples, course exercises, and the auto-generated API reference.
 
 To rebuild the English and Czech HTML + PDF handbooks from the repository root (Python 3.10–3.12):
 

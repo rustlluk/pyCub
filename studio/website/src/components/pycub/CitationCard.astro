@@ -1,0 +1,80 @@
+---
+import Button from "@/components/ui/Button.astro";
+import Badge from "@/components/ui/Badge.astro";
+import { siteConfig } from "@/config/site";
+import { BIBTEX_CITATION, translations, type Locale } from "@/i18n/translations";
+import { BookOpen, Copy, Check, ExternalLink } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+---
+
+<div
+  class="cite-card rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+  data-aos="fade-up-sm"
+  data-aos-once="true"
+>
+  <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+    <div class="lg:max-w-md space-y-3">
+      <div class="inline-flex items-center gap-2">
+        <Badge variant="primary">RiE 2026 · Springer</Badge>
+        <Badge variant="neutral">arXiv:2506.01756</Badge>
+      </div>
+      <h3 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100">
+        {t.cite.title}
+      </h3>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+        {t.cite.subtitle}
+      </p>
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
+        {t.cite.authorsNote}
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <Button url={siteConfig.links.arxiv} type="fill" size="sm" target="_blank">
+          <BookOpen size={15} /> {t.cite.paperBtn} <ExternalLink size={13} />
+        </Button>
+        <button
+          type="button"
+          class="copy-bibtex-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium border border-primary/20 dark:border-neutral-600 bg-bg-primary/60 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 hover:border-primary transition-colors cursor-pointer"
+          data-bibtex={BIBTEX_CITATION}
+          data-default={t.cite.copyBibtex}
+          data-copied={t.cite.copiedBibtex}
+        >
+          <Copy class="w-4 h-4 copy-icon" />
+          <Check class="w-4 h-4 text-emerald-500 hidden check-icon" />
+          <span class="bib-label">{t.cite.copyBibtex}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 min-w-0 rounded-xl bg-neutral-950 text-neutral-200 p-4 border border-neutral-800 overflow-x-auto">
+      <pre class="text-xs font-mono leading-relaxed whitespace-pre">{BIBTEX_CITATION}</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".copy-bibtex-btn").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const text = btn.dataset.bibtex || "";
+      try {
+        await navigator.clipboard.writeText(text);
+        const lbl = btn.querySelector(".bib-label");
+        btn.querySelector(".copy-icon")?.classList.add("hidden");
+        btn.querySelector(".check-icon")?.classList.remove("hidden");
+        if (lbl) lbl.textContent = btn.dataset.copied || "Copied!";
+        setTimeout(() => {
+          btn.querySelector(".copy-icon")?.classList.remove("hidden");
+          btn.querySelector(".check-icon")?.classList.add("hidden");
+          if (lbl) lbl.textContent = btn.dataset.default || "Copy BibTeX";
+        }, 1600);
+      } catch {
+        /* ignore */
+      }
+    });
+  });
+</script>
