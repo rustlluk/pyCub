@@ -1,6 +1,6 @@
 ---
 import { siteConfig } from "@/config/site.js";
-import type { Locale } from "@/i18n/translations";
+import { switchLangPath, type Locale } from "@/i18n/translations";
 
 export interface Props {
   title?: string;
@@ -22,6 +22,10 @@ const {
 } = Astro.props;
 
 const ogLocale = lang === "cs" ? "cs_CZ" : "en_US";
+const pathname = Astro.url.pathname;
+const is404 = pathname === "/404" || pathname === "/404.html";
+const enHref = is404 ? null : new URL(switchLangPath(pathname, "en"), siteConfig.url).toString();
+const csHref = is404 ? null : new URL(switchLangPath(pathname, "cs"), siteConfig.url).toString();
 ---
 
 <!-- Meta Tags -->
@@ -32,6 +36,13 @@ const ogLocale = lang === "cs" ? "cs_CZ" : "en_US";
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords} />
 <meta name="author" content={siteConfig.author} />
+{enHref && csHref && (
+  <>
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="cs" href={csHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+  </>
+)}
 
 <!-- Open Graph Tags -->
 <meta property="og:type" content="website" />

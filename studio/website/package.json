@@ -34,23 +34,26 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
+    "@astrojs/check": "^0.9.12",
     "@biomejs/biome": "1.7.3",
-    "@tailwindcss/typography": "^0.5.13",
-    "astro": "^6.4.2",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^4.1.14",
-    "typescript": "^5.4.5",
-    "vite": "^7.3.3"
+    "@tailwindcss/typography": "^0.5.20",
+    "astro": "^7.4.13",
+    "postcss": "^8.5.34",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3",
+    "vite": "^8.4.0"
   },
   "dependencies": {
-    "@astrojs/mdx": "^6.0.1",
-    "@astrojs/rss": "^4.0.18",
-    "@astrojs/sitemap": "^3.7.3",
-    "@lucide/astro": "^1.17.0",
-    "@tailwindcss/vite": "^4.1.14",
+    "@astrojs/mdx": "^8.1.6",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.6",
+    "@lucide/astro": "^1.82.0",
+    "@tailwindcss/vite": "^4.3.5",
     "aos": "^2.3.4",
     "motion": "^12.23.24",
-    "sharp": "^0.34.4"
+    "sharp": "^0.35.5"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^6.1.6"
   }
 }

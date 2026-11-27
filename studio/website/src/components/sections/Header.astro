@@ -42,6 +42,7 @@ const switchHref = switchLangPath(currentPath, targetLang);
         <!-- Quick Language Switch (Mobile) -->
         <a
           href={switchHref}
+          data-lang-switch={targetLang}
           aria-label={`Switch language to ${t.nav.langSwitchLabel}`}
           class="flex items-center justify-center h-9 px-2.5 text-xs font-semibold rounded-full bg-white/90 dark:bg-neutral-800 border border-primary/20 dark:border-neutral-600 text-primary dark:text-primary-light hover:bg-primary/5 transition-colors"
         >
@@ -131,6 +132,7 @@ const switchHref = switchLangPath(currentPath, targetLang);
         <!-- Bilingual Pill Switcher -->
         <a
           href={switchHref}
+          data-lang-switch={targetLang}
           aria-label={`Switch language to ${t.nav.langSwitchLabel}`}
           title={lang === "en" ? "Switch to Čeština" : "Přepnout do angličtiny (English)"}
           class="inline-flex items-center p-0.5 rounded-full bg-neutral-100/90 dark:bg-neutral-800/90 border border-primary/15 dark:border-neutral-700 hover:border-primary/50 text-xs font-semibold transition-colors cursor-pointer"

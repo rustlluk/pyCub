@@ -18,6 +18,25 @@ const unstickyClassesContainer = [
 ];
 let headerElement = null;
 
+function persistLanguageCookie(target) {
+  const switchEl = target instanceof Element ? target.closest("[data-lang-switch]") : null;
+  if (!switchEl) return;
+  const lang = switchEl.getAttribute("data-lang-switch");
+  if (lang !== "en" && lang !== "cs") return;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `pycub_lang=${lang}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+}
+
+document.addEventListener("click", (event) => {
+  persistLanguageCookie(event.target);
+});
+
+document.addEventListener("auxclick", (event) => {
+  if (event.button === 1) {
+    persistLanguageCookie(event.target);
+  }
+});
+
 function normalizePath(p) {
   if (!p || p === "/") return "/";
   return p.replace(/\/+$/, "");

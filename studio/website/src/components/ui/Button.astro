@@ -5,9 +5,10 @@ export interface Props {
 	className?: string; // Custom CSS classes
 	target?: "_blank" | "_self" | "_parent" | "_top"; // Link target, default is "_self"
 	size?: "xs" | "sm" | "md" | "lg" | "xl"; // Button size, optional, default is "md"
+	dataLangSwitch?: string; // Optional locale cookie target ("en" | "cs")
 }
 
-	const { url, type = "solid", className = "", target = "_self", size = "md" } = Astro.props;
+	const { url, type = "solid", className = "", target = "_self", size = "md", dataLangSwitch } = Astro.props;
 
 	// Outline variant uses same padding as solid but with border style
 
@@ -46,6 +47,7 @@ const currentSizeClasses = sizeClasses[size];
 <a
   href={type === "disabled" ? "javascript:void(0)" : url}
   target={type === "disabled" ? undefined : target}
+  data-lang-switch={dataLangSwitch}
   class={`${
     type === "solid"
       ? `flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5 ${currentSizeClasses.padding} rounded-xl bg-gradient-to-b from-white to-[#edf1fa] dark:from-[#15233b] dark:to-[#0f1b2d] border-[1px] border-primary/20 dark:border-[#243757] max-w-60 transition duration-400 ease-in-out hover:translate-y-[-2px] hover:shadow-[0px_6px_9px_0_rgba(61,99,171,0.15)] dark:hover:shadow-[0px_6x_9px_0_rgba(59,123,217,0.25)]`

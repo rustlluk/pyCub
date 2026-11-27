@@ -1,8 +1,22 @@
 {
   "name": "pycub-studio",
   "compatibility_date": "2026-11-27",
+  "main": "./src/worker.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": [
+      "/*",
+      "!/_astro/*",
+      "!/assets/*",
+      "!/cs",
+      "!/cs/*",
+      "!/favicon.png",
+      "!/og.jpg",
+      "!/robots.txt",
+      "!/sitemap-0.xml",
+      "!/sitemap-index.xml"
+    ]
   }
 }
