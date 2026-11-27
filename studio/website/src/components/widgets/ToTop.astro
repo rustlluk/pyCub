@@ -1,0 +1,116 @@
+<!-- Back to top button -->
+<button id="back-to-top" class="back-to-top" aria-label="Back to top">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--color-primary, #2d6dc3);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(91, 84, 211, 0.3);
+  }
+
+  .back-to-top:hover {
+    background: var(--color-primary-light, #0066ff);
+    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(91, 84, 211, 0.4);
+  }
+
+  .back-to-top:active {
+    transform: translateY(0) scale(0.95);
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Dark mode */
+  :root.dark .back-to-top {
+    background: var(--color-primary-light, #c2bdff);
+    color: #1a1a1a;
+    box-shadow: 0 4px 12px rgba(194, 189, 255, 0.3);
+  }
+
+  :root.dark .back-to-top:hover {
+    background:  var(--color-primary-lighter, #c2bdff);
+    box-shadow: 0 8px 20px rgba(194, 189, 255, 0.4);
+  }
+
+  /* Mobile adaptation */
+  @media (max-width: 768px) {
+    .back-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Back to top button functionality
+  function initBackToTop() {
+    const backToTopButton = document.getElementById('back-to-top');
+    if (!backToTopButton) return;
+
+    // Update button visibility state
+    function updateBackToTopButton() {
+      if (!backToTopButton) return;
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    }
+
+    // Smooth scroll to top
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Scroll event listener
+    window.addEventListener('scroll', updateBackToTopButton, { passive: true });
+
+    // Click event listener
+    if (backToTopButton) {
+      backToTopButton.addEventListener('click', scrollToTop);
+    }
+
+    // Initialize
+    updateBackToTopButton();
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBackToTop);
+  } else {
+    initBackToTop();
+  }
+
+  // Support View Transitions
+  document.addEventListener('astro:page-load', initBackToTop);
+</script>
+

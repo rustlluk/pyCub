@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import Badge from "@/components/ui/Badge.astro";
+import { translations, type Locale } from "@/i18n/translations";
+import { CircleCheck } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const page = t.pages.changelog;
+---
+
+<Layout title={t.meta.changelogTitle} description={t.meta.changelogDesc} lang={lang}>
+  <section class="site-container my-10">
+    <PageHeader title={page.heading} description={page.subheading} tags={page.tags} />
+  </section>
+
+  <section class="site-container max-w-3xl mx-auto pb-24">
+    <div class="relative">
+      <div class="absolute left-4 md:left-6 top-0 bottom-0 w-px bg-neutral-200 dark:bg-neutral-700"></div>
+
+      <div class="space-y-12">
+        {page.milestones.map((entry, i) => (
+          <div
+            class="relative pl-12 md:pl-16"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 90}
+            data-aos-once="true"
+          >
+            <div class="absolute left-2.5 md:left-4.5 top-1.5 w-3.5 h-3.5 rounded-full bg-primary border-2 border-bg-primary dark:border-bg-primary-dark"></div>
+
+            <div class="mb-2 flex items-center gap-3 flex-wrap">
+              <Badge variant="primary" size="sm">{entry.version}</Badge>
+              <time class="text-sm text-neutral-400 dark:text-neutral-500">{entry.date}</time>
+            </div>
+
+            <h2 class="text-xl sm:text-2xl font-brand text-neutral-900 dark:text-neutral-100 mb-4">
+              {entry.title}
+            </h2>
+
+            <div class="p-5 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700">
+              <ul class="space-y-2.5">
+                {entry.highlights.map((item) => (
+                  <li class="flex items-start gap-2.5 text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                    <CircleCheck class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,591 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface HeadingNode extends Heading {
+  children: HeadingNode[];
+}
+
+const { headings = [] } = Astro.props as { headings: Heading[] };
+
+function buildTree(list: Heading[]): HeadingNode[] {
+  const root: HeadingNode[] = [];
+  const stack: HeadingNode[] = [];
+  list.forEach(h => {
+    const node: HeadingNode = { ...h, children: [] };
+    while (stack.length && stack[stack.length - 1].depth >= h.depth) {
+      stack.pop();
+    }
+    if (stack.length === 0) {
+      root.push(node);
+    } else {
+      stack[stack.length - 1].children.push(node);
+    }
+    stack.push(node);
+  });
+  return root;
+}
+const tree = buildTree(headings);
+---
+
+<div class="toc-container">
+  <div class="toc-header">
+    <button id="toc-toggle" aria-expanded="false" aria-controls="toc-content">
+      <span class="font-brand text-lg">TOC</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron-down">
+        <path d="m6 9 6 6 6-6"/>
+      </svg>
+    </button>
+  </div>
+  <div class="toc-title">
+    <span class="toc-title-text font-brand text-base">TOC</span>
+    <button id="toc-toggle-desktop" class="toc-toggle-desktop" aria-expanded="true" aria-controls="toc-content" aria-label="Toggle table of contents">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron-up">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </button>
+  </div>
+  <nav id="toc-content" class="toc" aria-label="TOC">
+    <ul>
+      {tree.map(node => (
+        <li class={`toc-item font-brand depth-${node.depth}`}>
+          <a href={`#${node.slug}`} data-depth={node.depth} class="toc-link">{node.text}</a>
+          {node.children.length > 0 && (
+            <ul>
+              {node.children.map((c: HeadingNode) => (
+                <li class={`toc-item font-brand depth-${c.depth}`}>
+                  <a href={`#${c.slug}`} data-depth={c.depth} class="toc-link">{c.text}</a>
+                  {c.children.length > 0 && (
+                    <ul>
+                      {c.children.map((cc: HeadingNode) => (
+                        <li class={`toc-item font-brand depth-${cc.depth}`}>
+                          <a href={`#${cc.slug}`} data-depth={cc.depth} class="toc-link">{cc.text}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
+<style>
+.toc-container {
+  position: relative;
+}
+
+.toc-header {
+  display: none;
+}
+
+.toc {
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  font-size: 1rem;
+  padding: 0;
+  border-radius: 0.75rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-width: thin;
+  z-index: 1;
+}
+
+
+
+.toc::-webkit-scrollbar {
+  width: 6px;
+}
+
+.toc::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0.5rem 0;
+}
+
+.toc::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.toc::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+:global(.dark) .toc::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+:global(.dark) .toc::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+.toc-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+:global(.dark) .toc-title {
+  border-bottom-color: var(--color-neutral-700);
+}
+
+.toc-title-text {
+  letter-spacing: 1px;
+  color: var(--color-text-primary);
+}
+
+:global(.dark) .toc-title-text {
+  color: var(--color-text-primary-dark);
+}
+
+.toc-toggle-desktop {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-neutral-500);
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+:global(.dark) .toc-toggle-desktop {
+  color: var(--color-text-secondary-dark);
+}
+
+.toc-toggle-desktop:hover {
+  color: var(--color-primary);
+  background: var(--color-neutral-100);
+}
+
+:global(.dark) .toc-toggle-desktop:hover {
+  color: var(--color-primary-light-dark);
+  background: var(--color-bg-tertiary-dark);
+}
+
+.toc-toggle-desktop:active {
+  transform: scale(0.95);
+}
+
+.toc-toggle-desktop svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+.toc-toggle-desktop[aria-expanded="false"] svg {
+  transform: rotate(180deg);
+}
+
+
+.toc ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0.75rem;
+}
+.toc > ul {
+  padding-left: 0;
+}
+
+.toc-item {
+  margin: 0.25rem 0;
+}
+.toc-item a {
+  display: block;
+  color: var(--color-neutral-500);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  margin: 0.125rem 0;
+  border-radius: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.5;
+  font-weight: 400;
+  font-size:1rem;
+  letter-spacing: .5px;
+  position: relative;
+}
+
+:global(.dark) .toc-item a {
+  color: var(--color-text-secondary-dark);
+}
+
+.toc-item a:hover {
+  color: var(--color-primary);
+  background: var(--color-neutral-100);
+}
+
+:global(.dark) .toc-item a:hover {
+  color: var(--color-primary-light-dark);
+  background: var(--color-bg-tertiary-dark);
+}
+
+.toc-item a.active {
+  color: var(--color-primary);
+  background: var(--color-neutral-100);
+  font-weight: 500;
+}
+
+:global(.dark) .toc-item a.active {
+  color: var(--color-primary-light-dark);
+  background: var(--color-bg-tertiary-dark);
+}
+
+.toc-item a.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 60%;
+  background: var(--color-primary);
+  border-radius: 0 2px 2px 0;
+}
+
+:global(.dark) .toc-item a.active::before {
+  background: var(--color-primary);
+}
+
+.depth-1 { font-weight: 600; }
+.depth-2 { padding-left: 0.5rem; }
+.depth-3 { padding-left: .2em; font-size: 0.875em; }
+
+/* 响应式样式 */
+@media (max-width: 1023px) {
+  .toc-container {
+    position: relative;
+    margin: 1.5rem 0;
+  }
+  .toc-title {
+    display: none;
+  }
+  .toc-header {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  #toc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: 0.75rem;
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :global(.dark) #toc-toggle {
+    background: var(--color-bg-secondary-dark);
+    border-color: var(--color-neutral-700);
+    color: var(--color-text-primary-dark);
+  }
+
+  #toc-toggle:hover {
+    background: var(--color-neutral-100);
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.dark) #toc-toggle:hover {
+    background: var(--color-bg-tertiary-dark);
+    border-color: var(--color-primary-light-dark);
+  }
+
+  #toc-toggle:active {
+    transform: scale(0.98);
+  }
+  .chevron-down {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+  #toc-toggle[aria-expanded="true"] .chevron-down {
+    transform: rotate(180deg);
+  }
+
+  .toc {
+    display: none;
+    position: static; /* 移动端不使用 sticky */
+    max-height: none;
+    margin-top: 0.5rem;
+  }
+  .toc.expanded {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .toc-container {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+  .toc {
+    width: 100%;
+  }
+  .toc-toggle-desktop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toc.collapsed {
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-width: 0;
+    visibility: hidden;
+  }
+  .chevron-up {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toc-toggle-desktop[aria-expanded="true"] .chevron-up {
+    transform: rotate(0deg);
+  }
+
+  .toc-toggle-desktop[aria-expanded="false"] .chevron-up {
+    transform: rotate(180deg);
+  }
+}
+
+
+@media (max-width: 576px) {
+  .toc-container {
+    margin: 1rem 0;
+  }
+  #toc-toggle {
+    padding: 0.5rem 0.75rem;
+    font-size: var(--text-sm);
+  }
+}
+
+#toc-content::-webkit-scrollbar {
+  width: 6px !important; }
+
+#toc-content::-webkit-scrollbar-track {
+  background: var(--color-neutral-200) !important;
+  border-radius: 6px !important;
+  -webkit-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+  -ms-border-radius: 6px !important;
+  -o-border-radius: 6px !important; }
+
+#toc-content::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300) !important;
+  border-radius: 6px !important; }
+  #toc-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary) !important; }
+  #toc-content::-webkit-scrollbar-thumb:active {
+    background: var(--color-primary-dark) !important; }
+
+</style>
+
+<script>
+  // Use IIFE to avoid multiple instance conflicts
+  (() => {
+    // Get the current container of the component
+    const containers = document.querySelectorAll('.toc-container');
+
+    containers.forEach((container) => {
+      const tocToggle = container.querySelector('#toc-toggle');
+      const tocToggleDesktop = container.querySelector('#toc-toggle-desktop');
+      const tocContent = container.querySelector('#toc-content');
+
+      // Handle mobile fold/unfold
+      if (tocToggle && tocContent) {
+        tocToggle.addEventListener('click', () => {
+          const expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+          tocToggle.setAttribute('aria-expanded', (!expanded).toString());
+          tocContent.classList.toggle('expanded');
+        });
+      }
+
+      // Handle desktop fold/unfold
+      if (tocToggleDesktop && tocContent) {
+        tocToggleDesktop.addEventListener('click', (e) => {
+          e.preventDefault();
+          const expanded = tocToggleDesktop.getAttribute('aria-expanded') === 'true';
+          tocToggleDesktop.setAttribute('aria-expanded', (!expanded).toString());
+
+          if (expanded) {
+            tocContent.classList.add('collapsed');
+            const chevronUp = tocToggleDesktop.querySelector('.chevron-up');
+            if (chevronUp instanceof HTMLElement) {
+              chevronUp.style.transform = 'rotate(180deg)';
+            }
+          } else {
+            tocContent.classList.remove('collapsed');
+            const chevronUp = tocToggleDesktop.querySelector('.chevron-up');
+            if (chevronUp instanceof HTMLElement) {
+              chevronUp.style.transform = 'rotate(0)';
+            }
+          }
+        });
+      }
+
+      // Initial state - mobile default fold, desktop default display
+      const isMobile = window.innerWidth < 1024;
+      if (tocToggle && tocContent) {
+        if (isMobile) {
+          tocToggle.setAttribute('aria-expanded', 'false');
+        } else {
+          tocToggle.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      // Get all directory links in the current container
+      const tocLinks = container.querySelectorAll('.toc-link');
+      const headingElements = Array.from(document.querySelectorAll('main h1[id], main h2[id], main h3[id]'));
+
+      // Create mapping from ID to link
+      const idToLinkMap = new Map();
+      tocLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const id = href.substring(1);
+          idToLinkMap.set(id, link);
+        }
+      });
+
+      // Handle click on directory link
+      tocLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+
+          if (isMobile && tocToggle && tocContent) {
+            tocToggle.setAttribute('aria-expanded', 'false');
+            tocContent.classList.remove('expanded');
+          }
+        });
+      });
+
+      // Use IntersectionObserver to listen to title elements
+      let activeHeadingId: string | null = null;
+
+      const observerOptions = {
+        rootMargin: '-80px 0px -60% 0px',
+        threshold: [0, 0.1, 0.25, 0.5]
+      };
+
+      const headingObserver = new IntersectionObserver((entries) => {
+        const visibleHeadings = entries
+          .filter(entry => entry.isIntersecting)
+          .map(entry => ({
+            id: entry.target.id,
+            ratio: entry.intersectionRatio,
+            top: entry.boundingClientRect.top
+          }))
+          .sort((a, b) => {
+            if (Math.abs(a.ratio - b.ratio) > 0.1) return b.ratio - a.ratio;
+            return a.top - b.top;
+          });
+
+        if (visibleHeadings.length > 0) {
+          const topHeadingId = visibleHeadings[0].id;
+          if (topHeadingId !== activeHeadingId) {
+            activeHeadingId = topHeadingId;
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+
+            const activeLink = idToLinkMap.get(topHeadingId);
+            if (activeLink) {
+              activeLink.classList.add('active');
+
+              // Scroll to visible in the directory
+              const tocContainer = tocContent;
+              if (tocContainer && !tocContainer.classList.contains('collapsed')) {
+                const linkRect = activeLink.getBoundingClientRect();
+                const containerRect = tocContainer.getBoundingClientRect();
+                if (linkRect.bottom > containerRect.bottom || linkRect.top < containerRect.top) {
+                  activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+              }
+            }
+          }
+        }
+      }, observerOptions);
+
+      headingElements.forEach(heading => {
+        headingObserver.observe(heading);
+      });
+
+            // Initial active state
+      setTimeout(() => {
+        const hash = window.location.hash.substring(1);
+        if (hash && idToLinkMap.has(hash)) {
+          const link = idToLinkMap.get(hash);
+          tocLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          activeHeadingId = hash;
+          return;
+        }
+
+        const visibleHeadingsInit = headingElements.filter(heading => {
+          const rect = heading.getBoundingClientRect();
+          return rect.top >= 0 && rect.top <= window.innerHeight / 2;
+        });
+
+        if (visibleHeadingsInit.length > 0) {
+          const topHeading = visibleHeadingsInit[0];
+          const link = idToLinkMap.get(topHeading.id);
+          if (link) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            activeHeadingId = topHeading.id;
+          }
+        } else if (headingElements.length > 0) {
+          const firstHeading = headingElements[0];
+          const link = idToLinkMap.get(firstHeading.id);
+          if (link) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            activeHeadingId = firstHeading.id;
+          }
+        }
+      }, 100);
+
+      // Handle hash change
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.substring(1);
+        if (hash && idToLinkMap.has(hash)) {
+          const link = idToLinkMap.get(hash);
+          tocLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          activeHeadingId = hash;
+        }
+      });
+    }); // End forEach loop
+  })(); // End IIFE
+</script>

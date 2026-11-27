@@ -90,8 +90,24 @@ COPY additional_files/start-vnc-session.sh /usr/bin/start-vnc-session.sh
 RUN sudo chmod +x /usr/bin/start-vnc-session.sh && \
     sudo dos2unix /usr/bin/start-vnc-session.sh
 
-RUN echo "export DISPLAY=:11" >> /home/$USERNAME/.bashrc && echo "export DISPLAY_NUM=11" >> /home/$USERNAME/.bashrc &&  \
-    echo "export PATH=/usr/local/bin:$PATH" >> /home/$USERNAME/.bashrc && echo "export BROWSER=/usr/bin/firefox" >> /home/$USERNAME/.bashrc
+ENV PATH="/home/${USERNAME}/.local/bin:/usr/local/bin:${PATH}"
+
+RUN echo 'export DISPLAY=:11' >> /home/$USERNAME/.bashrc && \
+    echo 'export DISPLAY_NUM=11' >> /home/$USERNAME/.bashrc && \
+    echo 'export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"' >> /home/$USERNAME/.bashrc && \
+    echo 'export BROWSER=/usr/bin/firefox' >> /home/$USERNAME/.bashrc
+RUN sudo apt install -y \
+  libxcb-icccm4 \
+  libxcb-image0 \
+  libxcb-keysyms1 \
+  libxcb-render-util0 \
+  libxcb-shape0 \
+  libxcb-xinerama0 \
+  libxkbcommon-x11-0 \
+  libegl1 \
+  libgl1 \
+  libxcb-cursor0 \
+  fonts-noto-color-emoji fontconfig
 # Clean up unnecessary installation products
 RUN sudo rm -Rf /var/lib/apt/lists/*
 

@@ -1,0 +1,352 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TopBanner from "@/components/pycub/TopBanner.astro";
+import HeroSection from "@/components/home/HeroSection.astro";
+import SectionHeader from "@/components/elements/SectionHeader.astro";
+import FAQ from "@/components/sections/FAQ.astro";
+import Button from "@/components/ui/Button.astro";
+import Badge from "@/components/ui/Badge.astro";
+import ModeShowcase from "@/components/pycub/ModeShowcase.astro";
+import CodePlayground from "@/components/pycub/CodePlayground.astro";
+import ScreenshotGallery from "@/components/pycub/ScreenshotGallery.astro";
+import CitationCard from "@/components/pycub/CitationCard.astro";
+import { siteConfig, releaseAssets } from "@/config/site";
+import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
+import {
+  ArrowRight,
+  Monitor,
+  Laptop,
+  Terminal,
+  Package,
+  Container,
+  CircleCheck,
+  BookOpen,
+  Download,
+  ExternalLink,
+  Cpu,
+} from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const prefix = getRoutePrefix(lang);
+const stripIcons = [Monitor, Laptop, Laptop, Terminal, Package, Container];
+const handbookUrl = lang === "cs" ? siteConfig.links.handbookCs : siteConfig.links.handbookEn;
+---
+
+<Layout title={t.meta.homeTitle} description={t.meta.homeDesc} lang={lang}>
+  <!-- 0. Top Release Banner -->
+  <TopBanner lang={lang} />
+
+  <!-- 1. Hero & Showcase Banner -->
+  <HeroSection lang={lang} />
+
+  <!-- 2. Platform & Compatibility Strip -->
+  <section class="py-8 md:py-12 site-container" data-aos="fade-up-xs" data-aos-once="true">
+    <p class="text-center text-xs uppercase tracking-[0.14em] font-medium text-neutral-400 dark:text-neutral-500 mb-5">
+      {t.strip.label}
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      {t.strip.items.map((item, i) => {
+        const Icon = stripIcons[i] || Cpu;
+        return (
+          <a
+            href={`${prefix}/downloads`}
+            class="flex items-center gap-3 px-4 py-3 rounded-xl border border-dashed border-primary/20 dark:border-neutral-700 bg-bg-secondary/60 dark:bg-bg-secondary-dark/60 hover:border-primary/60 transition-colors"
+          >
+            <div class="w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
+              <Icon class="w-4 h-4 text-primary dark:text-primary-light" />
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs font-semibold text-neutral-800 dark:text-neutral-100 truncate">{item.name}</div>
+              <div class="text-[11px] text-neutral-500 dark:text-neutral-400 truncate">{item.sub}</div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- 3. Three Pillars -->
+  <section class="py-12 md:py-16 site-container">
+    <SectionHeader title={t.pillars.title} description={t.pillars.description} />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      {t.pillars.items.map((pillar, i) => (
+        <div
+          class="p-6 rounded-2xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 90}
+          data-aos-once="true"
+        >
+          <img
+            src={pillar.icon}
+            alt={pillar.title}
+            loading="lazy"
+            width="56"
+            height="56"
+            class="w-14 h-14 mb-4 object-contain"
+          />
+          <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-100 mb-2">{pillar.title}</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{pillar.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 4. Architecture Split (Standalone pyCub Studio + icub_pybullet) -->
+  <section class="py-12 md:py-16 site-container">
+    <SectionHeader title={t.architectureSplit.title} description={t.architectureSplit.description} />
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 items-stretch">
+      <!-- Visual iCub Robot Card -->
+      <div
+        class="lg:col-span-4 rounded-2xl p-6 bg-gradient-to-b from-primary/10 via-bg-secondary to-bg-secondary dark:from-primary/15 dark:via-bg-secondary-dark dark:to-bg-secondary-dark border border-primary/20 dark:border-neutral-700 flex flex-col items-center justify-center text-center"
+        data-aos="fade-up-sm"
+        data-aos-once="true"
+      >
+        <img
+          src="/assets/icub.png"
+          alt="Simulated iCub humanoid robot in PyBullet"
+          width="480"
+          height="480"
+          loading="lazy"
+          class="w-48 sm:w-56 h-auto object-contain mb-4 drop-shadow-md"
+        />
+        <Badge variant="primary">iCub Humanoid URDF + VHACD</Badge>
+        <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-3 max-w-xs leading-relaxed">
+          {lang === "cs"
+            ? "Kompletní kinematický řetězec paží, krku, trupu i stereo kamer očí a hmatové kůže."
+            : "Full upper-body & neck kinematics, stereo eye RGB/Depth cameras, and ray-cast tactile skin."}
+        </p>
+      </div>
+
+      <!-- Two Distribution Cards -->
+      <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {t.architectureSplit.cards.map((card, i) => (
+          <div
+            class="rounded-2xl p-6 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 flex flex-col justify-between gap-4 shadow-sm"
+            data-aos="fade-up-sm"
+            data-aos-delay={(i + 1) * 100}
+            data-aos-once="true"
+          >
+            <div>
+              <Badge variant={i === 0 ? "primary" : "accent"}>{card.tag}</Badge>
+              <div class="flex items-baseline justify-between gap-2 mt-3 mb-2">
+                <h3 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{card.title}</h3>
+                <code class="text-xs font-mono px-2 py-0.5 rounded bg-primary/10 text-primary dark:text-primary-light">
+                  {card.pkg}
+                </code>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed mb-4">
+                {card.desc}
+              </p>
+              <ul class="space-y-2">
+                {card.bullets.map((b) => (
+                  <li class="flex items-start gap-2 text-xs sm:text-sm text-neutral-600 dark:text-neutral-300">
+                    <CircleCheck class="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="pt-3 border-t border-dashed border-neutral-200 dark:border-neutral-700 space-y-2">
+              {i === 0 ? (
+                <>
+                  <a
+                    href={`${prefix}/downloads#binaries`}
+                    class="flex items-center justify-between gap-2 text-xs font-semibold px-3 py-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors"
+                  >
+                    <span class="inline-flex items-center gap-2 truncate">
+                      <Download class="w-3.5 h-3.5 flex-shrink-0" />
+                      <span class="truncate">{card.cmd}</span>
+                    </span>
+                    <ArrowRight class="w-3.5 h-3.5 flex-shrink-0" />
+                  </a>
+                  <code class="block text-[11px] font-mono px-3 py-1.5 rounded-lg bg-neutral-900 text-neutral-200 overflow-x-auto">
+                    $ pip install pycub-studio
+                  </code>
+                </>
+              ) : (
+                <code class="block text-xs font-mono px-3 py-2 rounded-lg bg-neutral-900 text-neutral-100 overflow-x-auto">
+                  $ {card.cmd}
+                </code>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- 5. Interactive 5-Mode Showcase -->
+  <section id="modes" class="py-12 md:py-20 site-container scroll-mt-24">
+    <SectionHeader title={t.modesSection.title} description={t.modesSection.description} />
+    <ModeShowcase lang={lang} />
+    <div class="mt-8 flex justify-center">
+      <Button url={`${prefix}/modes`} type="solid">
+        {t.modesSection.viewAllCta} <ArrowRight size={16} />
+      </Button>
+    </div>
+  </section>
+
+  <!-- 6. Bilingual & Light/Dark Gallery -->
+  <section class="py-12 md:py-16 site-container">
+    <SectionHeader title={t.gallerySection.title} description={t.gallerySection.description} />
+    <ScreenshotGallery lang={lang} />
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- 7. Interactive Code Samples -->
+  <section id="code" class="py-12 md:py-20 site-container scroll-mt-24">
+    <SectionHeader title={t.codeSection.title} description={t.codeSection.description} />
+    <div class="mt-6">
+      <CodePlayground lang={lang} />
+    </div>
+    <div class="mt-8 flex justify-center">
+      <Button url={`${prefix}/code`} type="solid">
+        {t.codeSection.exploreApiCta} <ArrowRight size={16} />
+      </Button>
+    </div>
+  </section>
+
+  <!-- 8. Tech Foundations -->
+  <section class="py-12 md:py-16 site-container">
+    <SectionHeader title={t.techStack.title} description={t.techStack.description} />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
+      {t.techStack.cards.map((card, i) => (
+        <div
+          class="p-5 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 hover:border-primary/40 transition-colors"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 70}
+          data-aos-once="true"
+        >
+          <span class="text-[11px] uppercase tracking-wider font-semibold text-primary dark:text-primary-light">
+            {card.role}
+          </span>
+          <h3 class="text-base font-semibold text-neutral-900 dark:text-neutral-100 mt-1 mb-2">
+            {card.name}
+          </h3>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">{card.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 9. Standalone Binaries & Installers Showcase (Exact Latest Release Links) -->
+  <section id="downloads" class="py-12 md:py-16 site-container scroll-mt-24">
+    <SectionHeader title={t.downloadsSummary.title} description={t.downloadsSummary.description} />
+    <div class="flex justify-center mt-3 mb-6">
+      <a
+        href={siteConfig.links.releasesLatest}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light border border-primary/20 hover:border-primary transition-colors"
+      >
+        <span>{t.downloadsSummary.latestReleaseBadge}:</span>
+        <code class="font-mono font-semibold release-latest-tag">{siteConfig.releaseTag}</code>
+        <ExternalLink class="w-3 h-3" />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {t.downloadsSummary.targets.map((target, i) => (
+        <div
+          class="p-5 rounded-2xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 hover:border-primary/50 transition-all flex flex-col justify-between gap-3 shadow-xs"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 80}
+          data-aos-once="true"
+        >
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <span class="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{target.os}</span>
+              <Badge variant="primary" size="sm">{target.format}</Badge>
+            </div>
+            <div class="text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-2">{target.arch}</div>
+            <p class="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed mb-2">{target.notes}</p>
+            <p class="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">{target.howTo}</p>
+          </div>
+          <div class="space-y-1.5 pt-2.5 border-t border-dashed border-neutral-200 dark:border-neutral-700">
+            {target.downloads.map((dl) => {
+              const asset = releaseAssets[dl.assetKey as keyof typeof releaseAssets];
+              return (
+                <a
+                  href={asset ? asset.url : siteConfig.links.releasesLatest}
+                  data-release-asset={dl.assetKey}
+                  title={asset ? `${asset.filename} (${asset.size})` : undefined}
+                  class="flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-primary/8 hover:bg-primary text-primary dark:text-primary-light hover:text-white border border-primary/20 hover:border-primary text-xs font-semibold transition-all"
+                >
+                  <span class="inline-flex items-center gap-1.5 min-w-0 truncate">
+                    <Download class="w-3.5 h-3.5 flex-shrink-0" />
+                    <span class="truncate">{dl.label}</span>
+                  </span>
+                  <span class="text-[10px] font-mono opacity-80 flex-shrink-0 release-asset-size">
+                    {asset?.size}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-5 text-center text-xs text-neutral-500 dark:text-neutral-400">
+      {t.downloadsSummary.altDevNote}{" "}
+      <a href={`${prefix}/downloads#pip`} class="font-mono underline decoration-dotted hover:text-primary dark:hover:text-primary-light">
+        pip install pycub-studio
+      </a>
+      {" · "}
+      <a href={`${prefix}/downloads#docker`} class="underline decoration-dotted hover:text-primary dark:hover:text-primary-light">
+        Docker & VNC
+      </a>
+    </div>
+
+    <div class="mt-7 flex flex-wrap justify-center gap-3">
+      <Button url={siteConfig.links.releasesLatest} type="fill" target="_blank">
+        <Download size={16} /> {t.downloadsSummary.ctaGuide} <ExternalLink size={14} />
+      </Button>
+      <Button url={`${prefix}/downloads`} type="solid">
+        {t.downloadsSummary.ctaReleases} <ArrowRight size={16} />
+      </Button>
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- 10. FAQ -->
+  <FAQ title={t.faq.title} description={t.faq.description} items={t.faq.items} />
+
+  <!-- 11. Citation -->
+  <section class="py-8 md:py-12 site-container">
+    <CitationCard lang={lang} />
+  </section>
+
+  <!-- 12. Final CTA -->
+  <section
+    class="py-12 md:py-16 px-6 site-container rounded-2xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm mt-8"
+    data-aos="fade-up-xs"
+    data-aos-once="true"
+  >
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-brand mb-4 text-neutral-900 dark:text-neutral-100">
+        {t.finalCta.title}
+      </h2>
+      <p class="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed">
+        {t.finalCta.description}
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button url={`${prefix}/downloads`} type="fill" size="lg">
+          <Download size={18} /> {t.finalCta.primary}
+        </Button>
+        <Button url={handbookUrl} type="solid" size="lg" target="_blank">
+          <BookOpen size={18} /> {t.finalCta.secondary}
+        </Button>
+      </div>
+    </div>
+  </section>
+</Layout>

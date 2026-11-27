@@ -1,0 +1,56 @@
+{
+  "name": "pycub-studio-website",
+  "type": "module",
+  "version": "1.4.0",
+  "description": "Bilingual (EN/CS) showcase & documentation website for pyCub Studio and icub_pybullet built with Astro, Tailwind CSS v4, and MDX.",
+  "keywords": [
+    "pycub",
+    "pycub-studio",
+    "icub",
+    "pybullet",
+    "humanoid-robotics",
+    "astro",
+    "tailwindcss"
+  ],
+  "author": {
+    "name": "Lukáš Rustler & Matěj Hoffmann",
+    "email": "lukas.rustler@fel.cvut.cz",
+    "url": "https://rustlluk.github.io/pyCub"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rustlluk/pyCub.git"
+  },
+  "homepage": "https://rustlluk.github.io/pyCub",
+  "license": "CC-BY-4.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@biomejs/biome": "1.7.3",
+    "@tailwindcss/typography": "^0.5.13",
+    "astro": "^6.4.2",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.4.5",
+    "vite": "^7.3.3"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^6.0.1",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "@lucide/astro": "^1.17.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "aos": "^2.3.4",
+    "motion": "^12.23.24",
+    "sharp": "^0.34.4"
+  }
+}

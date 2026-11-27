@@ -1,0 +1,25 @@
+---
+import SectionHeader from "@/components/elements/SectionHeader.astro";
+import AccordionItem from "@/components/ui/AccordionItem.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  items: Array<{ question: string; answer: string }>;
+}
+
+const {
+  title = "Frequently asked questions",
+  description = "",
+  items = []
+} = Astro.props;
+---
+
+<section class="py-16 md:py-24 site-container">
+  <SectionHeader title={title} description={description} />
+  <div class="max-w-2xl mx-auto mt-8">
+    {items.map((item: { question: string; answer: string }, index: number) => (
+      <AccordionItem question={item.question} answer={item.answer} index={index}  data-aos="fade-up-xs" data-aos-once="true" data-aos-delay={index * 100}  />
+    ))}
+  </div>
+</section>

@@ -20,6 +20,7 @@ autoapi_options = ["members", "undoc-members", "show-module-summary"]
 html_theme = "sphinx_rtd_theme"
 html_title = "pyCub Studio (CZ)"
 html_theme_options = {"style_nav_header_background": "#163e48", "navigation_depth": 3}
+templates_path = ["../source/_templates"]
 html_static_path = ["../source/static"]
 html_css_files = ["handbook.css"]
 latex_logo = "../static/images/icub.png"
@@ -29,9 +30,32 @@ latex_elements = {
     "preamble": "\n".join([
         r"\ifdefined\DeclareUnicodeCharacter",
         r"  \DeclareUnicodeCharacter{2212}{-}",
+        r"  \DeclareUnicodeCharacter{23F1}{}",
+        r"  \DeclareUnicodeCharacter{23F3}{}",
+        r"  \DeclareUnicodeCharacter{23F9}{}",
+        r"  \DeclareUnicodeCharacter{26BD}{}",
+        r"  \DeclareUnicodeCharacter{2705}{}",
+        r"  \DeclareUnicodeCharacter{270B}{}",
+        r"  \DeclareUnicodeCharacter{2B50}{}",
+        r"  \DeclareUnicodeCharacter{FE0F}{}",
+        r"  \DeclareUnicodeCharacter{1F30D}{}",
+        r"  \DeclareUnicodeCharacter{1F3A5}{}",
+        r"  \DeclareUnicodeCharacter{1F3C3}{}",
         r"  \DeclareUnicodeCharacter{1F3E0}{}",
+        r"  \DeclareUnicodeCharacter{1F407}{}",
+        r"  \DeclareUnicodeCharacter{1F422}{}",
+        r"  \DeclareUnicodeCharacter{1F465}{}",
         r"  \DeclareUnicodeCharacter{1F4C2}{}",
         r"  \DeclareUnicodeCharacter{1F4E6}{}",
+        r"  \DeclareUnicodeCharacter{1F504}{}",
+        r"  \DeclareUnicodeCharacter{1F50C}{}",
+        r"  \DeclareUnicodeCharacter{1F517}{}",
+        r"  \DeclareUnicodeCharacter{1F5A5}{}",
+        r"  \DeclareUnicodeCharacter{1F680}{}",
+        r"  \DeclareUnicodeCharacter{1F6B6}{}",
+        r"  \DeclareUnicodeCharacter{1F916}{}",
+        r"  \DeclareUnicodeCharacter{1F9CD}{}",
+        r"  \DeclareUnicodeCharacter{1FA9F}{}",
         r"\fi",
     ]),
 }

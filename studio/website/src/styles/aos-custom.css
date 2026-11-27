@@ -1,0 +1,205 @@
+/**
+ * Custom AOS Animations - Small Variants
+ * 所有 fade 动画的 sm 版本（移动距离更小，更细腻）
+ */
+
+/* fade-up-sm: 从下方 30px 淡入（原版 100px） */
+[data-aos="fade-up-sm"] {
+  transform: translateY(30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-sm"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-down-sm: 从上方 30px 淡入 */
+[data-aos="fade-down-sm"] {
+  transform: translateY(-30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-down-sm"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-left-sm: 从右侧 30px 滑入 */
+[data-aos="fade-left-sm"] {
+  transform: translateX(30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-left-sm"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* fade-right-sm: 从左侧 30px 滑入 */
+[data-aos="fade-right-sm"] {
+  transform: translateX(-30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-right-sm"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* fade-up-right-sm: 从左下角 30px 对角滑入 */
+[data-aos="fade-up-right-sm"] {
+  transform: translate(-30px, 30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-right-sm"].aos-animate {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/* fade-up-left-sm: 从右下角 30px 对角滑入 */
+[data-aos="fade-up-left-sm"] {
+  transform: translate(30px, 30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-left-sm"].aos-animate {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/* fade-down-right-sm: 从左上角 30px 对角滑入 */
+[data-aos="fade-down-right-sm"] {
+  transform: translate(-30px, -30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-down-right-sm"].aos-animate {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/* fade-down-left-sm: 从右上角 30px 对角滑入 */
+[data-aos="fade-down-left-sm"] {
+  transform: translate(30px, -30px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-down-left-sm"].aos-animate {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/*
+ * 额外：xs 版本（更微妙的动画，15px）
+ */
+
+/* fade-up-xs: 从下方 15px 淡入 */
+[data-aos="fade-up-xs"] {
+  transform: translateY(15px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-xs"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-down-xs: 从上方 15px 淡入 */
+[data-aos="fade-down-xs"] {
+  transform: translateY(-15px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-down-xs"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-left-xs: 从右侧 15px 滑入 */
+[data-aos="fade-left-xs"] {
+  transform: translateX(15px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-left-xs"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* fade-right-xs: 从左侧 15px 滑入 */
+[data-aos="fade-right-xs"] {
+  transform: translateX(-15px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-right-xs"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/*
+ * 可选：lg 版本（更大的移动距离，150px）
+ */
+
+/* fade-up-lg: 从下方 150px 淡入 */
+[data-aos="fade-up-lg"] {
+  transform: translateY(150px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-up-lg"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-down-lg: 从上方 150px 淡入 */
+[data-aos="fade-down-lg"] {
+  transform: translateY(-150px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-down-lg"].aos-animate {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* fade-left-lg: 从右侧 150px 滑入 */
+[data-aos="fade-left-lg"] {
+  transform: translateX(150px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-left-lg"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* fade-right-lg: 从左侧 150px 滑入 */
+[data-aos="fade-right-lg"] {
+  transform: translateX(-150px);
+  opacity: 0;
+  transition-property: transform, opacity;
+}
+
+[data-aos="fade-right-lg"].aos-animate {
+  transform: translateX(0);
+  opacity: 1;
+}
+

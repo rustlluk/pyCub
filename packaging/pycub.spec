@@ -33,6 +33,9 @@ datas = [
     (os.path.join(REPO_ROOT, "studio", "assets"), os.path.join("studio", "assets")),
     (os.path.join(REPO_ROOT, "studio", "VERSION"), "studio"),
     (os.path.join(REPO_ROOT, "docs", "handbook"), os.path.join("docs", "handbook")),
+    (os.path.join(REPO_ROOT, "LICENSE"), "."),
+    (os.path.join(REPO_ROOT, "THIRD_PARTY_LICENSES.md"), "."),
+    (os.path.join(REPO_ROOT, "licenses"), "licenses"),
 ]
 # Jedi resolves simulator definitions from source inside the installer.
 for module in ("__init__", "pycub", "utils", "visualizer", "kid_api", "runtime_paths"):

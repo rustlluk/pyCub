@@ -1,0 +1,27 @@
+---
+interface Props {
+  variant?: "primary" | "accent" | "neutral" | "success" | "warning" | "error";
+  size?: "sm" | "default" | "lg";
+}
+
+const { variant = "neutral", size = "default" } = Astro.props;
+
+const variantClasses: Record<string, string> = {
+  primary: "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light",
+  accent: "bg-accent/25 text-neutral-800 dark:bg-accent/20 dark:text-accent-light",
+  neutral: "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300",
+  success: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+  warning: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+  error: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: "px-2 py-0.5 text-xs",
+  default: "px-2.5 py-1 text-xs",
+  lg: "px-3 py-1.5 text-sm",
+};
+---
+
+<span class={`inline-flex items-center font-medium rounded-md transition-colors ${variantClasses[variant]} ${sizeClasses[size]}`}>
+  <slot />
+</span>

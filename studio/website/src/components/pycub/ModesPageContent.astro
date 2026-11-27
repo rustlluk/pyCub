@@ -1,0 +1,129 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SectionHeader from "@/components/elements/SectionHeader.astro";
+import BrowserFrame from "@/components/ui/BrowserFrame.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
+import { CircleCheck, FolderOpen, Terminal, ArrowRight, Download } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const prefix = getRoutePrefix(lang);
+const page = t.pages.modes;
+---
+
+<Layout title={t.meta.modesTitle} description={t.meta.modesDesc} lang={lang}>
+  <section class="site-container my-10">
+    <PageHeader title={page.heading} description={page.subheading} tags={page.tags} />
+  </section>
+
+  <!-- All 5 Modes Full Walkthrough -->
+  <section class="site-container space-y-12 pb-16">
+    {t.modesSection.modes.map((mode, i) => (
+      <article
+        id={mode.id}
+        class="scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-2xl p-5 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+        data-aos="fade-up-sm"
+        data-aos-once="true"
+      >
+        <div class:list={["lg:col-span-5 space-y-4", i % 2 === 1 && "lg:order-2"]}>
+          <div class="flex items-center gap-2 flex-wrap">
+            <Badge variant="primary">{mode.badge}</Badge>
+            <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400">{mode.audience}</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-brand text-neutral-900 dark:text-neutral-100 leading-tight">
+            {mode.title}
+          </h2>
+          <p class="text-sm font-medium text-primary dark:text-primary-light">{mode.subtitle}</p>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{mode.description}</p>
+          <ul class="space-y-2">
+            {mode.highlights.map((h) => (
+              <li class="flex items-start gap-2.5 text-sm text-neutral-700 dark:text-neutral-200">
+                <CircleCheck class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                <span>{h}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="pt-2">
+            <div class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-900 text-neutral-100 text-xs font-mono">
+              <Terminal class="w-3.5 h-3.5 text-primary-light" />
+              <code>{mode.cliFlag}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class:list={["lg:col-span-7", i % 2 === 1 && "lg:order-1"]}>
+          <BrowserFrame url={mode.cliFlag} className="w-full shadow-lg">
+            {mode.screenshotDark ? (
+              <>
+                <img
+                  src={mode.screenshot}
+                  alt={mode.screenshotAlt}
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  class="w-full h-auto block dark:hidden object-cover"
+                />
+                <img
+                  src={mode.screenshotDark}
+                  alt={mode.screenshotAlt}
+                  width="1440"
+                  height="900"
+                  loading="lazy"
+                  class="w-full h-auto hidden dark:block object-cover"
+                />
+              </>
+            ) : (
+              <img
+                src={mode.screenshot}
+                alt={mode.screenshotAlt}
+                width="1440"
+                height="900"
+                loading="lazy"
+                class="w-full h-auto block object-cover"
+              />
+            )}
+          </BrowserFrame>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- User Workspace ~/Documents/pyCub/ -->
+  <section class="site-container py-12 md:py-16">
+    <SectionHeader title={page.workspaceTitle} description={page.workspaceDesc} />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+      {page.workspaceDirs.map((item, i) => (
+        <div
+          class="p-5 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 70}
+          data-aos-once="true"
+        >
+          <div class="flex items-center gap-2.5 mb-2">
+            <FolderOpen class="w-4 h-4 text-primary flex-shrink-0" />
+            <code class="text-sm font-mono font-semibold text-neutral-900 dark:text-neutral-100">{item.dir}</code>
+          </div>
+          <p class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-3">
+      <Button url={`${prefix}/downloads`} type="fill">
+        <Download size={16} /> {t.finalCta.primary}
+      </Button>
+      <Button url={`${prefix}/code`} type="solid">
+        {t.codeSection.exploreApiCta} <ArrowRight size={16} />
+      </Button>
+    </div>
+  </section>
+</Layout>

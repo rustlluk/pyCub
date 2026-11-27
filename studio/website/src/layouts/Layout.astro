@@ -1,0 +1,54 @@
+---
+import Meta from "./Meta.astro";
+import TopBg from "@/components/ui/TopBg.astro";
+import Footer from "@/components/sections/Footer.astro";
+import Header from "@/components/sections/Header.astro";
+import TrackGa from "@/components/widgets/TrackGa.astro";
+import type { Locale } from "@/i18n/translations";
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  lang?: Locale;
+}
+
+const { title, description, keywords, lang = "en" } = Astro.props;
+
+import "../styles/global.css";
+import "aos/dist/aos.css";
+import "../styles/aos-custom.css";
+import "../styles/article.css";
+import "../styles/article-enhancements.css";
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <Meta title={title} description={description} keywords={keywords} lang={lang} />
+    <TrackGa />
+    <!-- Apply stored or system theme immediately before paint to prevent flicker -->
+    <script is:inline>
+      (function () {
+        try {
+          var saved = typeof Storage !== "undefined" ? localStorage.getItem("dark_mode") : null;
+          var prefersDark =
+            window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (saved === "true" || (saved === null && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+  </head>
+  <body class="antialiased bg-bg-primary dark:bg-bg-primary-dark max-w-full overflow-x-hidden transition-colors duration-200">
+    <TopBg />
+    <Header lang={lang} />
+    <slot />
+    <Footer lang={lang} />
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

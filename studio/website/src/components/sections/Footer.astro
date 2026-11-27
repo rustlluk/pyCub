@@ -1,0 +1,168 @@
+---
+import Logo from "@/components/ui/Logo.astro";
+import ToTop from "@/components/widgets/ToTop.astro";
+import { siteConfig, socialLinks } from "@/config/site.js";
+import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const currentYear = new Date().getFullYear();
+const homeHref = `${getRoutePrefix(lang) || ""}/` || "/";
+---
+
+<footer class="text-gray-700 border-t mt-16 md:mt-28 border-dashed border-primary/15 dark:border-primary-dark/15 border-[.75px]">
+  <div class="container mx-auto px-7 max-w-7xl py-12 md:py-16">
+    <!-- Top: Logo + Description + 4 Columns -->
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 mb-12">
+      <div class="max-w-sm">
+        <Logo href={homeHref} />
+        <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          {t.footer.description}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-10">
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">{t.footer.cols.studio}</h4>
+          <ul class="space-y-2.5">
+            {t.footer.links.studio.map((link) => (
+              <li>
+                <a
+                  href={link.url}
+                  class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">{t.footer.cols.developers}</h4>
+          <ul class="space-y-2.5">
+            {t.footer.links.developers.map((link) => {
+              const isExternal = link.url.startsWith("http");
+              return (
+                <li>
+                  <a
+                    href={link.url}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">{t.footer.cols.handbook}</h4>
+          <ul class="space-y-2.5">
+            {t.footer.links.handbook.map((link) => (
+              <li>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">{t.footer.cols.project}</h4>
+          <ul class="space-y-2.5">
+            {t.footer.links.project.map((link) => {
+              const isExternal = link.url.startsWith("http");
+              return (
+                <li>
+                  <a
+                    href={link.url}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-dashed border-primary/10 dark:border-primary-dark/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center sm:text-left">
+        © {currentYear}
+        <a href={siteConfig.links.department} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors">
+          {siteConfig.author}
+        </a>.
+        <a href={siteConfig.links.license} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors ml-1">
+          {t.footer.licenseText}
+        </a>
+        <span class="mx-1 text-neutral-400">·</span>
+        <a href={siteConfig.links.thirdPartyLicenses} target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-primary-light transition-colors underline decoration-dotted underline-offset-2">
+          {t.footer.thirdPartyLicenseText}
+        </a>
+      </p>
+
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-dashed border-primary/30 text-primary dark:text-primary-light">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            v{siteConfig.version}
+          </span>
+          <span>{t.footer.builtWith}</span>
+        </span>
+        <span class="inline-flex justify-center space-x-3">
+          {socialLinks.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-social-icon-link text-neutral-400 dark:text-neutral-500 hover:text-primary dark:hover:text-primary-light transition-colors duration-200"
+              title={social.name}
+            >
+              <span class="sr-only">{social.name}</span>
+              <div class="footer-social-icon">
+                <Fragment set:html={social.icon} />
+              </div>
+            </a>
+          ))}
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<ToTop />
+
+<style is:global>
+  .footer-social-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .footer-social-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+</style>

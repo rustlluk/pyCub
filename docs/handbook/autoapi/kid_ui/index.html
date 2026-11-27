@@ -1,0 +1,916 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kid_ui &mdash; pyCub Studio</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/handbook.css?v=5e2076f9" />
+
+  
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=7f41d439"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="skin_test" href="../skin_test/index.html" />
+    <link rel="prev" title="API Reference" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../studio.html">Using Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming.html">Programming the robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Example controllers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../exercises.html">Course exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Project README</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">kid_ui</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-contents">Module Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kid_ui_multi/index.html">kid_ui_multi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../icub_pybullet/index.html">icub_pybullet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kid_ui_landing/index.html">kid_ui_landing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">kid_ui</li>
+  <li class="wy-breadcrumbs-aside handbook-lang-aside">
+      <div class="handbook-lang-switch" role="group" aria-label="Language switch">
+        <span class="lang-active" aria-current="page">EN</span>
+        <a href="../../cs/autoapi/kid_ui/index.html" class="lang-link" title="Přepnout do češtiny">CZ</a>
+      </div>
+  </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-kid_ui">
+<span id="kid-ui"></span><h1>kid_ui<a class="headerlink" href="#module-kid_ui" title="Link to this heading"></a></h1>
+<p>A simple web control panel for pyCub that is easy for children to use.</p>
+<p>Starts a small web server (default address <a class="reference external" href="http://localhost:5000">http://localhost:5000</a>) with large buttons
+such as “Raise the left arm” and “Restart world”. The simulation runs in its own
+process and is displayed directly on the page (Open3D WebRTC), so loading or
+restarting a world simply starts a new simulation.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><dl class="simple">
+<dt>python3 kid_ui.py [–host 0.0.0.0] [–port 5000] [–stream-port 6000]</dt><dd><p>[–world ball] [–separate-window] [–headless]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyCub contributors</p>
+</dd>
+</dl>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.FILE_DIR" title="kid_ui.FILE_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILE_DIR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.WORLDS" title="kid_ui.WORLDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WORLDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.ARM_UP" title="kid_ui.ARM_UP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ARM_UP</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.ARM_DOWN" title="kid_ui.ARM_DOWN"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ARM_DOWN</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.ACTIONS" title="kid_ui.ACTIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ACTIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.JOGS" title="kid_ui.JOGS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JOGS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.SECTIONS" title="kid_ui.SECTIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SECTIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.PAGE" title="kid_ui.PAGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAGE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.CLIENT_TIMEOUT" title="kid_ui.CLIENT_TIMEOUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CLIENT_TIMEOUT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.RESERVATION_CLAIM_TTL" title="kid_ui.RESERVATION_CLAIM_TTL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RESERVATION_CLAIM_TTL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.Simulation" title="kid_ui.Simulation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Simulation</span></code></a></p></td>
+<td><p>Supervisor that (re)starts the simulation process and relays commands to it</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.go" title="kid_ui.go"><code class="xref py py-obj docutils literal notranslate"><span class="pre">go</span></code></a>(client, targets[, velocity]) → Generator</p></td>
+<td><p>Move joints to the target positions (radians) and yield until done (or timed out)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.jog_wait" title="kid_ui.jog_wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">jog_wait</span></code></a>(client, joints) → Generator</p></td>
+<td><p>Yield until all joints moved by step buttons reach their targets</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.arm" title="kid_ui.arm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arm</span></code></a>(side, **joints) → Dict[str, float]</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.merge" title="kid_ui.merge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge</span></code></a>(*dicts) → Dict[str, float]</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.make_arm_actions" title="kid_ui.make_arm_actions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_arm_actions</span></code></a>(side) → Dict[str, Callable]</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.both_arms_up" title="kid_ui.both_arms_up"><code class="xref py py-obj docutils literal notranslate"><span class="pre">both_arms_up</span></code></a>(client)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.both_arms_down" title="kid_ui.both_arms_down"><code class="xref py py-obj docutils literal notranslate"><span class="pre">both_arms_down</span></code></a>(client)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.look" title="kid_ui.look"><code class="xref py py-obj docutils literal notranslate"><span class="pre">look</span></code></a>(**joints) → Callable</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.reset_pose" title="kid_ui.reset_pose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset_pose</span></code></a>(client)</p></td>
+<td><p>Return all joints to the angles defined in the config</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.add_jog" title="kid_ui.add_jog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_jog</span></code></a>(jog_id, joint, sign) → str</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.arm_rows" title="kid_ui.arm_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arm_rows</span></code></a>(side)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.head_rows" title="kid_ui.head_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">head_rows</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.body_rows" title="kid_ui.body_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">body_rows</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.make_config" title="kid_ui.make_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_config</span></code></a>(world, web_gui, headless) → str</p></td>
+<td><p>Copy the world's config into a temp file with the GUI settings required by this UI</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.free_port" title="kid_ui.free_port"><code class="xref py py-obj docutils literal notranslate"><span class="pre">free_port</span></code></a>() → int</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.sim_process" title="kid_ui.sim_process"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sim_process</span></code></a>(world, web_gui, headless, commands, ...[, ...]) → None</p></td>
+<td><p>Runs the simulation, executing actions sent through the commands queue</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui.create_app" title="kid_ui.create_app"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_app</span></code></a>(sim, embed) → flask.Flask</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui.main" title="kid_ui.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>() → None</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.FILE_DIR">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">FILE_DIR</span></span><a class="headerlink" href="#kid_ui.FILE_DIR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.WORLDS">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">WORLDS</span></span><a class="headerlink" href="#kid_ui.WORLDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.go">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">go</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span></span></span><a class="headerlink" href="#kid_ui.go" title="Link to this definition"></a></dt>
+<dd><p>Move joints to the target positions (radians) and yield until done (or timed out)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.jog_wait">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">jog_wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span></span></span><a class="headerlink" href="#kid_ui.jog_wait" title="Link to this definition"></a></dt>
+<dd><p>Yield until all joints moved by step buttons reach their targets</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.arm">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">arm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#kid_ui.arm" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.merge">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dicts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#kid_ui.merge" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.ARM_UP">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">ARM_UP</span></span><a class="headerlink" href="#kid_ui.ARM_UP" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.ARM_DOWN">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">ARM_DOWN</span></span><a class="headerlink" href="#kid_ui.ARM_DOWN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.make_arm_actions">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">make_arm_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#kid_ui.make_arm_actions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.both_arms_up">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">both_arms_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.both_arms_up" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.both_arms_down">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">both_arms_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.both_arms_down" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.look">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">look</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">joints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#kid_ui.look" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.reset_pose">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">reset_pose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.reset_pose" title="Link to this definition"></a></dt>
+<dd><p>Return all joints to the angles defined in the config</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.ACTIONS">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">ACTIONS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#kid_ui.ACTIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.JOGS">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">JOGS</span></span><a class="headerlink" href="#kid_ui.JOGS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.add_jog">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">add_jog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jog_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#kid_ui.add_jog" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.arm_rows">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">arm_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">side</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.arm_rows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.head_rows">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">head_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.head_rows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.body_rows">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">body_rows</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.body_rows" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.SECTIONS">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">SECTIONS</span></span><a class="headerlink" href="#kid_ui.SECTIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.make_config">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">make_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">web_gui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#kid_ui.make_config" title="Link to this definition"></a></dt>
+<dd><p>Copy the world’s config into a temp file with the GUI settings required by this UI</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.free_port">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">free_port</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#kid_ui.free_port" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.sim_process">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">sim_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">web_gui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">multiprocessing.Queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">multiprocessing.Queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ball_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui.sim_process" title="Link to this definition"></a></dt>
+<dd><p>Runs the simulation, executing actions sent through the commands queue</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kid_ui.Simulation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">Simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web_gui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headless</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kid_ui.Simulation" title="Link to this definition"></a></dt>
+<dd><p>Supervisor that (re)starts the simulation process and relays commands to it</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.web_gui">
+<span class="sig-name descname"><span class="pre">web_gui</span></span><a class="headerlink" href="#kid_ui.Simulation.web_gui" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.headless">
+<span class="sig-name descname"><span class="pre">headless</span></span><a class="headerlink" href="#kid_ui.Simulation.headless" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.stream_host">
+<span class="sig-name descname"><span class="pre">stream_host</span></span><a class="headerlink" href="#kid_ui.Simulation.stream_host" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.configured_stream_port">
+<span class="sig-name descname"><span class="pre">configured_stream_port</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#kid_ui.Simulation.configured_stream_port" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.ctx">
+<span class="sig-name descname"><span class="pre">ctx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#kid_ui.Simulation.ctx" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.process">
+<span class="sig-name descname"><span class="pre">process</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#kid_ui.Simulation.process" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.world">
+<span class="sig-name descname"><span class="pre">world</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#kid_ui.Simulation.world" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.state">
+<span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#kid_ui.Simulation.state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><a class="headerlink" href="#kid_ui.Simulation.lock" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.ball_info">
+<span class="sig-name descname"><span class="pre">ball_info</span></span><a class="headerlink" href="#kid_ui.Simulation.ball_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.stream_port">
+<span class="sig-name descname"><span class="pre">stream_port</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#kid_ui.Simulation.stream_port" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kid_ui.Simulation.run">
+<span class="sig-name descname"><span class="pre">run</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#kid_ui.Simulation.run" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kid_ui.Simulation.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui.Simulation.start" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kid_ui.Simulation.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui.Simulation.stop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kid_ui.Simulation.send">
+<span class="sig-name descname"><span class="pre">send</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#kid_ui.Simulation.send" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kid_ui.Simulation.get_state">
+<span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#kid_ui.Simulation.get_state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.PAGE">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">PAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Multiline-String</span></em><a class="headerlink" href="#kid_ui.PAGE" title="Link to this definition"></a></dt>
+<dd><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;&lt;!doctype html&gt;</span>
+<span class="sd">&lt;html lang=&quot;cs&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span>
+<span class="sd">&lt;title&gt;pyCub – Ovládání robota&lt;/title&gt;</span>
+<span class="sd">&lt;style&gt;</span>
+<span class="sd">  * { box-sizing: border-box; }</span>
+<span class="sd">  body { font-family: &quot;Comic Sans MS&quot;, &quot;Trebuchet MS&quot;, sans-serif; background: #eef6ff; margin: 0; padding: 10px; }</span>
+<span class="sd">  h1 { color: #1b4f8a; margin: 0; font-size: 1.4em; min-width: 0; }</span>
+<span class="sd">  #heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }</span>
+<span class="sd">  #language { flex: 0 0 auto; padding: 6px 10px; font-size: 0.85em; }</span>
+<span class="sd">  #status { font-size: 1em; margin: 2px 0 6px; min-height: 1.3em; }</span>
+<span class="sd">  #layout { display: flex; gap: 12px; align-items: flex-start; }</span>
+<span class="sd">  #left { flex: 0 0 46%; position: sticky; top: 10px; max-height: calc(100vh - 20px); max-height: calc(100dvh - 20px); overflow: auto; }</span>
+<span class="sd">  #right { flex: 1 1 0; min-width: 0; }</span>
+<span class="sd">  #sections { columns: 290px; column-gap: 10px; }</span>
+<span class="sd">  section { background: #fff; border-radius: 12px; padding: 8px 10px; margin: 0 0 10px;</span>
+<span class="sd">            box-shadow: 0 2px 6px rgba(0,0,0,.15); }</span>
+<span class="sd">  #sections section { break-inside: avoid; }</span>
+<span class="sd">  h2 { margin: 0 0 6px; color: #1b4f8a; font-size: 1.05em; }</span>
+<span class="sd">  .row { display: flex; flex-wrap: wrap; gap: 6px; }</span>
+<span class="sd">  button { font: inherit; font-size: 0.95em; padding: 8px 10px; border: 0; border-radius: 10px; cursor: pointer;</span>
+<span class="sd">           background: #4a9df8; color: #fff; flex: 1 1 110px; box-shadow: 0 3px #2d6fb8; }</span>
+<span class="sd">  button:active { transform: translateY(2px); box-shadow: 0 1px #2d6fb8; }</span>
+<span class="sd">  button:disabled { background: #aaa; box-shadow: 0 3px #777; cursor: not-allowed; }</span>
+<span class="sd">  button.world { background: #34a853; box-shadow: 0 3px #1f7a37; }</span>
+<span class="sd">  button.world.active { outline: 3px solid #ffd54f; }</span>
+<span class="sd">  button.restart { background: #f9a825; box-shadow: 0 3px #b27700; }</span>
+<span class="sd">  button.stop { background: #e53935; box-shadow: 0 3px #9c1f1c; }</span>
+<span class="sd">  .step { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }</span>
+<span class="sd">  .step button { flex: 0 0 auto; padding: 6px 12px; background: #8e6cd8; box-shadow: 0 3px #5a3fa0; }</span>
+<span class="sd">  .step button.on { outline: 3px solid #ffd54f; }</span>
+<span class="sd">  .step input { font: inherit; width: 4em; padding: 5px; border-radius: 8px; border: 2px solid #8e6cd8; }</span>
+<span class="sd">  .jog { display: flex; align-items: center; gap: 6px; margin: 4px 0; }</span>
+<span class="sd">  .jog .name { flex: 0 0 105px; color: #1b4f8a; font-weight: bold; font-size: 0.85em; line-height: 1.1; }</span>
+<span class="sd">  .jog button { flex: 1 1 0; min-width: 0; padding: 7px 4px; }</span>
+<span class="sd">  section .row + .row { margin-top: 6px; }</span>
+<span class="sd">  #right .row { margin-top: 6px; }</span>
+<span class="sd">  #view { position: relative; }</span>
+<span class="sd">  #view video { display: block; width: 100%; max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); object-fit: contain; background: #fff;</span>
+<span class="sd">                border-radius: 10px;</span>
+<span class="sd">                touch-action: none; }</span>
+<span class="sd">  #reset-view { position: absolute; top: 8px; right: 8px; z-index: 2; flex: 0 0 auto;</span>
+<span class="sd">                padding: 5px 10px; font-size: 0.8em; background: rgba(27, 79, 138, 0.85);</span>
+<span class="sd">                box-shadow: 0 2px rgba(15, 48, 87, 0.7); }</span>
+<span class="sd">  #fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }</span>
+<span class="sd">  @keyframes ballPop { 0% { box-shadow: 0 0 0 0 rgba(255, 213, 79, 0.9); }</span>
+<span class="sd">                       50% { box-shadow: 0 0 0 10px rgba(255, 213, 79, 0.45); }</span>
+<span class="sd">                       100% { box-shadow: 0 2px 6px rgba(0,0,0,.15); } }</span>
+<span class="sd">  #ball.hit { animation: ballPop 0.8s ease-out; }</span>
+<span class="sd">  @media (max-width: 900px) and (orientation: portrait), (max-width: 560px) {</span>
+<span class="sd">    body { padding-top: 0; }</span>
+<span class="sd">    #layout { flex-direction: column; gap: 6px; }</span>
+<span class="sd">    #left { position: sticky; top: 0; z-index: 10; flex-basis: auto; width: 100%; max-height: none;</span>
+<span class="sd">            overflow: visible; background: #eef6ff; padding: 8px 0 6px; }</span>
+<span class="sd">    #left section { margin: 0 0 6px; padding: 6px 8px; }</span>
+<span class="sd">    #left section:last-child { margin-bottom: 0; }</span>
+<span class="sd">    #left button { font-size: 0.85em; padding: 6px; flex: 1 1 85px; }</span>
+<span class="sd">    #view video { max-height: 36vh; max-height: 36dvh; }</span>
+<span class="sd">  }</span>
+<span class="sd">  @media (max-width: 450px) {</span>
+<span class="sd">    body { padding: 0 6px 6px; }</span>
+<span class="sd">    .jog .name { flex: 0 0 84px; font-size: 0.8em; }</span>
+<span class="sd">    .jog button { font-size: 0.85em; padding: 7px 3px; }</span>
+<span class="sd">  }</span>
+<span class="sd">  @media (orientation: landscape) and (max-height: 600px) and (min-width: 561px) {</span>
+<span class="sd">    body { padding: 6px; }</span>
+<span class="sd">    #layout { gap: 8px; align-items: flex-start; }</span>
+<span class="sd">    #left { position: sticky; top: 6px; flex: 0 0 46%; max-width: 46%; height: calc(100vh - 12px); height: calc(100dvh - 12px); max-height: none;</span>
+<span class="sd">            display: flex; flex-direction: column; gap: 6px; overflow-y: auto; overflow-x: hidden; padding: 1px 2px 3px; }</span>
+<span class="sd">    #left section { margin: 0; }</span>
+<span class="sd">    #view { flex: 1 1 0; min-height: 140px; padding: 4px; display: flex; align-items: center; justify-content: center; }</span>
+<span class="sd">    #view video { width: 100%; height: 100%; max-height: 100%; }</span>
+<span class="sd">    #left &gt; section:not(#view) { flex: 0 0 auto; padding: 6px 7px; }</span>
+<span class="sd">    #left .row { gap: 5px; }</span>
+<span class="sd">    #left .row + .row { margin-top: 6px; }</span>
+<span class="sd">    #left button { font-size: 0.78em; padding: 5px 5px; flex: 1 1 70px; }</span>
+<span class="sd">    #reset-view { top: 6px; right: 6px; padding: 4px 8px; font-size: 0.75em; }</span>
+<span class="sd">    #right { flex: 1 1 0; min-width: 0; padding: 1px 2px 3px; }</span>
+<span class="sd">    #heading h1 { font-size: 1.05em; }</span>
+<span class="sd">    #language { padding: 4px 8px; font-size: 0.78em; }</span>
+<span class="sd">    #status { font-size: 0.85em; margin: 1px 0 4px; min-height: 1.1em; }</span>
+<span class="sd">    #ball { font-size: 0.82em; padding: 4px 8px; margin-bottom: 6px !important; line-height: 1.25; }</span>
+<span class="sd">    #sections { columns: 290px; column-gap: 8px; }</span>
+<span class="sd">    #right section { padding: 6px 8px; margin: 0 0 6px; }</span>
+<span class="sd">    h2 { font-size: 0.95em; margin: 0 0 4px; }</span>
+<span class="sd">    .jog { gap: 4px; margin: 3px 0; }</span>
+<span class="sd">    .jog .name { flex: 0 0 88px; font-size: 0.78em; }</span>
+<span class="sd">    .jog button { font-size: 0.82em; padding: 5px 4px; }</span>
+<span class="sd">    button { font-size: 0.85em; padding: 6px 8px; }</span>
+<span class="sd">    .step { gap: 4px; font-size: 0.85em; }</span>
+<span class="sd">    .step button { padding: 4px 8px; }</span>
+<span class="sd">    .step input { width: 3.4em; padding: 3px; }</span>
+<span class="sd">  }</span>
+<span class="sd">&lt;/style&gt;&lt;/head&gt;&lt;body&gt;</span>
+<span class="sd">&lt;canvas id=&quot;fx&quot;&gt;&lt;/canvas&gt;</span>
+<span class="sd">&lt;div id=&quot;layout&quot;&gt;</span>
+<span class="sd">&lt;div id=&quot;left&quot;&gt;</span>
+<span class="sd">  &lt;section id=&quot;view&quot; style=&quot;display:none&quot;&gt;&lt;video id=&quot;sim&quot; autoplay muted playsinline&gt;&lt;/video&gt;</span>
+<span class="sd">    &lt;button id=&quot;reset-view&quot; class=&quot;action&quot; data-i18n=&quot;resetView&quot; onclick=&quot;post(&#39;/api/action/reset_view&#39;)&quot;&gt;&lt;/button&gt;&lt;/section&gt;</span>
+<span class="sd">  &lt;section&gt;&lt;div class=&quot;row&quot; id=&quot;worlds&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">    &lt;div class=&quot;row&quot;&gt;</span>
+<span class="sd">      &lt;button class=&quot;restart&quot; data-i18n=&quot;restart&quot; onclick=&quot;post(&#39;/api/restart&#39;)&quot;&gt;&lt;/button&gt;</span>
+<span class="sd">      &lt;button class=&quot;stop&quot; data-i18n=&quot;stop&quot; onclick=&quot;post(&#39;/api/action/stop&#39;)&quot;&gt;&lt;/button&gt;</span>
+<span class="sd">      &lt;button class=&quot;restart&quot; data-i18n=&quot;resetPose&quot; onclick=&quot;post(&#39;/api/action/reset_pose&#39;)&quot;&gt;&lt;/button&gt;</span>
+<span class="sd">    &lt;/div&gt;&lt;/section&gt;</span>
+<span class="sd">&lt;/div&gt;</span>
+<span class="sd">&lt;div id=&quot;right&quot;&gt;</span>
+<span class="sd">  &lt;div id=&quot;heading&quot;&gt;&lt;h1 data-i18n=&quot;heading&quot;&gt;&lt;/h1&gt;&lt;button id=&quot;language&quot; onclick=&quot;toggleLanguage()&quot;&gt;&lt;/button&gt;&lt;/div&gt;</span>
+<span class="sd">  &lt;div id=&quot;status&quot;&gt;…&lt;/div&gt;</span>
+<span class="sd">  &lt;div id=&quot;ball&quot; style=&quot;display:none; background:#fff; border-radius:12px; padding:6px 10px; margin-bottom:8px&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">  &lt;div id=&quot;sections&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">  &lt;section id=&quot;settings&quot;&gt;&lt;div class=&quot;step&quot; id=&quot;steps&quot;&gt;&lt;b data-i18n=&quot;step&quot;&gt;&lt;/b&gt;&lt;/div&gt;</span>
+<span class="sd">    &lt;div class=&quot;step&quot; id=&quot;speeds&quot; style=&quot;margin-top:6px&quot;&gt;&lt;b data-i18n=&quot;speed&quot;&gt;&lt;/b&gt;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;</span>
+<span class="sd">&lt;/div&gt;</span>
+<span class="sd">&lt;script&gt;</span>
+<span class="sd">const CFG = __CONFIG__;</span>
+<span class="sd">const TEXT = {</span>
+<span class="sd">  cs: {</span>
+<span class="sd">    pageTitle: &quot;pyCub – Ovládání robota&quot;, heading: &quot;🤖 Ovládání robota&quot;,</span>
+<span class="sd">    restart: &quot;🔄 Restartovat svět&quot;, stop: &quot;✋ Zastavit&quot;, resetPose: &quot;🧍 Základní postoj&quot;, resetView: &quot;🎥 Obnovit pohled&quot;,</span>
+<span class="sd">    step: &quot;Krok:&quot;, speed: &quot;Rychlost:&quot;, switchLanguage: &quot;English&quot;,</span>
+<span class="sd">    loading: &quot;⏳ Načítám svět, chvilku strpení…&quot;, ready: &quot;✅ Připraveno! Zmáčkni tlačítko.&quot;,</span>
+<span class="sd">    busy: &quot;🏃 Robot se hýbe…&quot;, closed: &quot;🪟 Simulace skončila. Zmáčkni „Restartovat svět“.&quot;,</span>
+<span class="sd">    stopped: &quot;Vyber svět, ve kterém to začne.&quot;,</span>
+<span class="sd">    slow: &quot;🐢 Pomalu&quot;, medium: &quot;🚶 Středně&quot;, fast: &quot;🐇 Rychle&quot;,</span>
+<span class="sd">    ballDistance: &quot;⚽ Vzdálenost míčku od stolu:&quot;,</span>
+<span class="sd">    ballAfter: &quot;⏱️ 3 s po posledním dotyku robota:&quot;,</span>
+<span class="sd">    ballElapsed: &quot;🏃 Čas od posledního dotyku (míček se hýbe):&quot;,</span>
+<span class="sd">    waiting: &quot;čekám…&quot;, untouched: &quot;míček se ještě nedotkl robota&quot;</span>
+<span class="sd">  },</span>
+<span class="sd">  en: {</span>
+<span class="sd">    pageTitle: &quot;pyCub – Robot controls&quot;, heading: &quot;🤖 Robot controls&quot;,</span>
+<span class="sd">    restart: &quot;🔄 Restart world&quot;, stop: &quot;✋ Stop&quot;, resetPose: &quot;🧍 Reset posture&quot;, resetView: &quot;🎥 Reset view&quot;,</span>
+<span class="sd">    step: &quot;Step:&quot;, speed: &quot;Speed:&quot;, switchLanguage: &quot;Čeština&quot;,</span>
+<span class="sd">    loading: &quot;⏳ Loading the world, please wait…&quot;, ready: &quot;✅ Ready! Press a button.&quot;,</span>
+<span class="sd">    busy: &quot;🏃 The robot is moving…&quot;, closed: &quot;🪟 The simulation has ended. Press “Restart world”.&quot;,</span>
+<span class="sd">    stopped: &quot;Choose a world to get started.&quot;,</span>
+<span class="sd">    slow: &quot;🐢 Slow&quot;, medium: &quot;🚶 Medium&quot;, fast: &quot;🐇 Fast&quot;,</span>
+<span class="sd">    ballDistance: &quot;⚽ Ball distance from the table:&quot;,</span>
+<span class="sd">    ballAfter: &quot;⏱️ 3 s after the robot&#39;s last touch:&quot;,</span>
+<span class="sd">    ballElapsed: &quot;🏃 Time since the last touch (while the ball is moving):&quot;,</span>
+<span class="sd">    waiting: &quot;waiting…&quot;, untouched: &quot;the ball has not touched the robot yet&quot;</span>
+<span class="sd">  }</span>
+<span class="sd">};</span>
+<span class="sd">let language = &quot;cs&quot;;</span>
+<span class="sd">function setPair(element, pair, prefix = &quot;&quot;) {</span>
+<span class="sd">  element.dataset.cs = pair[0];</span>
+<span class="sd">  element.dataset.en = pair[1];</span>
+<span class="sd">  element.dataset.prefix = prefix;</span>
+<span class="sd">  element.textContent = prefix + pair[language === &quot;en&quot; ? 1 : 0];</span>
+<span class="sd">}</span>
+<span class="sd">function applyLanguage() {</span>
+<span class="sd">  document.documentElement.lang = language;</span>
+<span class="sd">  document.title = TEXT[language].pageTitle;</span>
+<span class="sd">  for (const element of document.querySelectorAll(&quot;[data-i18n]&quot;))</span>
+<span class="sd">    element.textContent = TEXT[language][element.dataset.i18n];</span>
+<span class="sd">  for (const element of document.querySelectorAll(&quot;[data-cs][data-en]&quot;))</span>
+<span class="sd">    element.textContent = element.dataset.prefix + element.dataset[language];</span>
+<span class="sd">  document.getElementById(&quot;language&quot;).textContent = TEXT[language].switchLanguage;</span>
+<span class="sd">  refresh();</span>
+<span class="sd">}</span>
+<span class="sd">function toggleLanguage() {</span>
+<span class="sd">  language = language === &quot;cs&quot; ? &quot;en&quot; : &quot;cs&quot;;</span>
+<span class="sd">  applyLanguage();</span>
+<span class="sd">}</span>
+<span class="sd">async function post(url, body) {</span>
+<span class="sd">  await fetch(url, {method: &quot;POST&quot;, headers: {&quot;Content-Type&quot;: &quot;application/json&quot;}, body: JSON.stringify(body || {})});</span>
+<span class="sd">  refresh();</span>
+<span class="sd">}</span>
+<span class="sd">function stepDegrees() {</span>
+<span class="sd">  const v = parseFloat(document.getElementById(&quot;stepInput&quot;).value);</span>
+<span class="sd">  return (v &gt; 0 &amp;&amp; v &lt;= 90) ? v : 10;</span>
+<span class="sd">}</span>
+<span class="sd">const SPEEDS = [[&quot;slow&quot;, 0.6], [&quot;medium&quot;, 1.5], [&quot;fast&quot;, 4]];</span>
+<span class="sd">let speed = 1.5;</span>
+<span class="sd">function buildSpeeds() {</span>
+<span class="sd">  const box = document.getElementById(&quot;speeds&quot;);</span>
+<span class="sd">  for (const [key, v] of SPEEDS) {</span>
+<span class="sd">    const b = document.createElement(&quot;button&quot;);</span>
+<span class="sd">    b.textContent = TEXT[language][key]; b.dataset.i18n = key; b.dataset.speed = v;</span>
+<span class="sd">    b.onclick = () =&gt; { speed = v; mark(); };</span>
+<span class="sd">    box.appendChild(b);</span>
+<span class="sd">  }</span>
+<span class="sd">  const mark = () =&gt; {</span>
+<span class="sd">    for (const b of box.querySelectorAll(&quot;button&quot;)) b.classList.toggle(&quot;on&quot;, parseFloat(b.dataset.speed) === speed);</span>
+<span class="sd">  };</span>
+<span class="sd">  mark();</span>
+<span class="sd">}</span>
+<span class="sd">function buildSteps() {</span>
+<span class="sd">  const box = document.getElementById(&quot;steps&quot;);</span>
+<span class="sd">  const input = document.createElement(&quot;input&quot;);</span>
+<span class="sd">  input.id = &quot;stepInput&quot;; input.type = &quot;number&quot;; input.min = 1; input.max = 90; input.value = 10;</span>
+<span class="sd">  const mark = () =&gt; {</span>
+<span class="sd">    for (const b of box.querySelectorAll(&quot;button&quot;)) b.classList.toggle(&quot;on&quot;, parseFloat(b.dataset.deg) === stepDegrees());</span>
+<span class="sd">  };</span>
+<span class="sd">  for (const deg of [5, 10, 20, 45]) {</span>
+<span class="sd">    const b = document.createElement(&quot;button&quot;);</span>
+<span class="sd">    b.textContent = deg + &quot;°&quot;; b.dataset.deg = deg;</span>
+<span class="sd">    b.onclick = () =&gt; { input.value = deg; mark(); };</span>
+<span class="sd">    box.appendChild(b);</span>
+<span class="sd">  }</span>
+<span class="sd">  input.oninput = mark;</span>
+<span class="sd">  box.appendChild(input);</span>
+<span class="sd">  box.appendChild(document.createTextNode(&quot;°&quot;));</span>
+<span class="sd">  mark();</span>
+<span class="sd">}</span>
+<span class="sd">function build() {</span>
+<span class="sd">  const w = document.getElementById(&quot;worlds&quot;);</span>
+<span class="sd">  for (const [id, label] of CFG.worlds) {</span>
+<span class="sd">    const b = document.createElement(&quot;button&quot;);</span>
+<span class="sd">    b.className = &quot;world&quot;; b.id = &quot;world-&quot; + id; setPair(b, label, &quot;🌍 &quot;);</span>
+<span class="sd">    b.onclick = () =&gt; post(&quot;/api/world&quot;, {world: id});</span>
+<span class="sd">    w.appendChild(b);</span>
+<span class="sd">  }</span>
+<span class="sd">  buildSteps();</span>
+<span class="sd">  buildSpeeds();</span>
+<span class="sd">  const s = document.getElementById(&quot;sections&quot;);</span>
+<span class="sd">  for (const sc of CFG.sections) {</span>
+<span class="sd">    const sec = document.createElement(&quot;section&quot;);</span>
+<span class="sd">    sec.innerHTML = &quot;&lt;h2&gt;&lt;/h2&gt;&quot;;</span>
+<span class="sd">    setPair(sec.querySelector(&quot;h2&quot;), sc.title);</span>
+<span class="sd">    for (const [name, id, plus, minus] of sc.rows) {</span>
+<span class="sd">      const row = document.createElement(&quot;div&quot;);</span>
+<span class="sd">      row.className = &quot;jog&quot;;</span>
+<span class="sd">      row.innerHTML = &quot;&lt;span class=&#39;name&#39;&gt;&lt;/span&gt;&quot;;</span>
+<span class="sd">      setPair(row.querySelector(&quot;.name&quot;), name);</span>
+<span class="sd">      for (const [label, dir] of [[plus, 1], [minus, -1]]) {</span>
+<span class="sd">        const b = document.createElement(&quot;button&quot;);</span>
+<span class="sd">        b.className = &quot;action&quot;; setPair(b, label);</span>
+<span class="sd">        b.onclick = () =&gt; post(&quot;/api/jog&quot;, {id: id, direction: dir, degrees: stepDegrees(), speed: speed});</span>
+<span class="sd">        row.appendChild(b);</span>
+<span class="sd">      }</span>
+<span class="sd">      sec.appendChild(row);</span>
+<span class="sd">    }</span>
+<span class="sd">    if (sc.buttons.length) {</span>
+<span class="sd">      const r = document.createElement(&quot;div&quot;);</span>
+<span class="sd">      r.className = &quot;row&quot;; r.style.marginTop = &quot;8px&quot;;</span>
+<span class="sd">      for (const [id, label] of sc.buttons) {</span>
+<span class="sd">        const b = document.createElement(&quot;button&quot;);</span>
+<span class="sd">        b.className = &quot;action&quot;; setPair(b, label);</span>
+<span class="sd">        b.onclick = () =&gt; post(&quot;/api/action/&quot; + id);</span>
+<span class="sd">        r.appendChild(b);</span>
+<span class="sd">      }</span>
+<span class="sd">      sec.appendChild(r);</span>
+<span class="sd">    }</span>
+<span class="sd">    s.appendChild(sec);</span>
+<span class="sd">  }</span>
+<span class="sd">  if (CFG.embed) document.getElementById(&quot;view&quot;).style.display = &quot;&quot;;</span>
+<span class="sd">}</span>
+
+<span class="sd">// Embedded view: the Open3D WebRTC server streams the simulation window into the &lt;video&gt; element</span>
+<span class="sd">let streamer = null, streamedRun = null, scriptsLoaded = null;</span>
+<span class="sd">function loadScript(src) {</span>
+<span class="sd">  return new Promise((resolve, reject) =&gt; {</span>
+<span class="sd">    const el = document.createElement(&quot;script&quot;);</span>
+<span class="sd">    el.src = src; el.onload = resolve; el.onerror = reject;</span>
+<span class="sd">    document.head.appendChild(el);</span>
+<span class="sd">  });</span>
+<span class="sd">}</span>
+<span class="sd">// The stream library mishandles touch (no button, crashes on touchend), so touch is translated here:</span>
+<span class="sd">// one finger rotates the view, two fingers (pinch) zoom it.</span>
+<span class="sd">(function () {</span>
+<span class="sd">  const video = document.getElementById(&quot;sim&quot;);</span>
+<span class="sd">  let mode = null, lastDist = 0;</span>
+<span class="sd">  const pos = t =&gt; { const r = video.getBoundingClientRect();</span>
+<span class="sd">                     return [Math.round(t.clientX - r.left), Math.round(t.clientY - r.top)]; };</span>
+<span class="sd">  const send = (type, t, extra) =&gt; {</span>
+<span class="sd">    if (!streamer) return;</span>
+<span class="sd">    const [x, y] = pos(t);</span>
+<span class="sd">    streamer.sendJsonData(Object.assign({window_uid: &quot;window_0&quot;, class_name: &quot;MouseEvent&quot;, type, x, y,</span>
+<span class="sd">                                         modifiers: 0}, extra));</span>
+<span class="sd">  };</span>
+<span class="sd">  const button = {button: {button: &quot;LEFT&quot;, count: 1}};</span>
+<span class="sd">  const spread = e =&gt; Math.hypot(e.touches[0].clientX - e.touches[1].clientX,</span>
+<span class="sd">                                 e.touches[0].clientY - e.touches[1].clientY);</span>
+<span class="sd">  video.addEventListener(&quot;touchstart&quot;, e =&gt; {</span>
+<span class="sd">    e.preventDefault(); e.stopImmediatePropagation();</span>
+<span class="sd">    if (e.touches.length === 1) { mode = &quot;rotate&quot;; send(&quot;BUTTON_DOWN&quot;, e.touches[0], button); }</span>
+<span class="sd">    else if (e.touches.length === 2) {</span>
+<span class="sd">      if (mode === &quot;rotate&quot;) send(&quot;BUTTON_UP&quot;, e.touches[0], button);</span>
+<span class="sd">      mode = &quot;zoom&quot;; lastDist = spread(e);</span>
+<span class="sd">    }</span>
+<span class="sd">  }, {capture: true, passive: false});</span>
+<span class="sd">  video.addEventListener(&quot;touchmove&quot;, e =&gt; {</span>
+<span class="sd">    e.preventDefault(); e.stopImmediatePropagation();</span>
+<span class="sd">    if (mode === &quot;rotate&quot; &amp;&amp; e.touches.length === 1) send(&quot;DRAG&quot;, e.touches[0], {move: {buttons: 1}});</span>
+<span class="sd">    else if (mode === &quot;zoom&quot; &amp;&amp; e.touches.length === 2) {</span>
+<span class="sd">      const d = spread(e);</span>
+<span class="sd">      if (Math.abs(d - lastDist) &gt; 8) {</span>
+<span class="sd">        send(&quot;WHEEL&quot;, e.touches[0], {wheel: {dx: 0, dy: d &gt; lastDist ? 1 : -1, isTrackpad: 0}});</span>
+<span class="sd">        lastDist = d;</span>
+<span class="sd">      }</span>
+<span class="sd">    }</span>
+<span class="sd">  }, {capture: true, passive: false});</span>
+<span class="sd">  const end = e =&gt; {</span>
+<span class="sd">    e.preventDefault(); e.stopImmediatePropagation();</span>
+<span class="sd">    if (mode === &quot;rotate&quot;) send(&quot;BUTTON_UP&quot;, e.changedTouches[0], button);</span>
+<span class="sd">    if (e.touches.length === 0) mode = null; else mode = &quot;none&quot;;</span>
+<span class="sd">  };</span>
+<span class="sd">  video.addEventListener(&quot;touchend&quot;, end, {capture: true, passive: false});</span>
+<span class="sd">  video.addEventListener(&quot;touchcancel&quot;, end, {capture: true, passive: false});</span>
+<span class="sd">})();</span>
+<span class="sd">async function connectView(run, port) {</span>
+<span class="sd">  streamedRun = run;</span>
+<span class="sd">  const STREAM_URL = location.protocol + &quot;//&quot; + location.hostname + &quot;:&quot; + port;</span>
+<span class="sd">  if (streamer) { try { streamer.disconnect(); } catch (e) {} streamer = null; }</span>
+<span class="sd">  try {</span>
+<span class="sd">    // the stream server only exists while a simulation runs, so the scripts are loaded lazily</span>
+<span class="sd">    scriptsLoaded = scriptsLoaded || loadScript(STREAM_URL + &quot;/libs/adapter.min.js&quot;)</span>
+<span class="sd">        .then(() =&gt; loadScript(STREAM_URL + &quot;/webrtcstreamer.js&quot;));</span>
+<span class="sd">    await scriptsLoaded;</span>
+<span class="sd">    streamer = new WebRtcStreamer(&quot;sim&quot;, STREAM_URL);</span>
+<span class="sd">    streamer.connect(&quot;window_0&quot;, null, &quot;rtptransport=tcp&amp;timeout=60&quot;);</span>
+<span class="sd">  } catch (e) {</span>
+<span class="sd">    scriptsLoaded = null; streamedRun = null;  // try again on the next refresh</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+<span class="sd">const CLIENT_ID = (window.crypto &amp;&amp; crypto.randomUUID)</span>
+<span class="sd">  ? crypto.randomUUID()</span>
+<span class="sd">  : Math.random().toString(36).slice(2) + Date.now().toString(36);</span>
+<span class="sd">let reservationId = new URLSearchParams(location.search).get(&quot;res&quot;);</span>
+<span class="sd">if (reservationId &amp;&amp; window.history &amp;&amp; history.replaceState) {</span>
+<span class="sd">  history.replaceState(null, &quot;&quot;, location.pathname);</span>
+<span class="sd">}</span>
+<span class="sd">window.addEventListener(&quot;pagehide&quot;, () =&gt; {</span>
+<span class="sd">  if (navigator.sendBeacon) navigator.sendBeacon(&quot;/api/leave?client=&quot; + encodeURIComponent(CLIENT_ID));</span>
+<span class="sd">});</span>
+<span class="sd">const fx = document.getElementById(&quot;fx&quot;), fxCtx = fx.getContext(&quot;2d&quot;);</span>
+<span class="sd">let flares = [], fxRaf = null, lastHitRun = null, lastHits = 0;</span>
+<span class="sd">function launchFlares() {</span>
+<span class="sd">  const dpr = window.devicePixelRatio || 1;</span>
+<span class="sd">  const W = window.innerWidth, H = window.innerHeight;</span>
+<span class="sd">  fx.width = W * dpr; fx.height = H * dpr;</span>
+<span class="sd">  fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);</span>
+<span class="sd">  const colors = [&quot;#ff5252&quot;, &quot;#ffd54f&quot;, &quot;#4caf50&quot;, &quot;#40c4ff&quot;, &quot;#ff6ec7&quot;, &quot;#ff9100&quot;, &quot;#ffffff&quot;];</span>
+<span class="sd">  const viewBox = document.getElementById(&quot;view&quot;).getBoundingClientRect();</span>
+<span class="sd">  const origins = viewBox.width &gt; 0</span>
+<span class="sd">    ? [[viewBox.left + viewBox.width * 0.5, viewBox.top + viewBox.height * 0.45],</span>
+<span class="sd">       [W * 0.28, H * 0.3], [W * 0.72, H * 0.3]]</span>
+<span class="sd">    : [[W * 0.35, H * 0.35], [W * 0.65, H * 0.35]];</span>
+<span class="sd">  for (const [ox, oy] of origins) {</span>
+<span class="sd">    for (let i = 0; i &lt; 36; i++) {</span>
+<span class="sd">      const ang = (Math.PI * 2 * i) / 36 + (Math.random() - 0.5) * 0.25;</span>
+<span class="sd">      const spd = 2.2 + Math.random() * 5.8;</span>
+<span class="sd">      flares.push({</span>
+<span class="sd">        x: ox, y: oy, px: ox, py: oy,</span>
+<span class="sd">        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 1.5,</span>
+<span class="sd">        r: 2.2 + Math.random() * 2.8, life: 1, decay: 0.014 + Math.random() * 0.012,</span>
+<span class="sd">        color: colors[(Math.random() * colors.length) | 0],</span>
+<span class="sd">        star: Math.random() &lt; 0.35</span>
+<span class="sd">      });</span>
+<span class="sd">    }</span>
+<span class="sd">  }</span>
+<span class="sd">  const ballEl = document.getElementById(&quot;ball&quot;);</span>
+<span class="sd">  ballEl.classList.remove(&quot;hit&quot;); void ballEl.offsetWidth; ballEl.classList.add(&quot;hit&quot;);</span>
+<span class="sd">  if (!fxRaf) fxRaf = requestAnimationFrame(stepFlares);</span>
+<span class="sd">}</span>
+<span class="sd">function stepFlares() {</span>
+<span class="sd">  const dpr = window.devicePixelRatio || 1;</span>
+<span class="sd">  const W = window.innerWidth, H = window.innerHeight;</span>
+<span class="sd">  if (fx.width !== W * dpr || fx.height !== H * dpr) {</span>
+<span class="sd">    fx.width = W * dpr; fx.height = H * dpr;</span>
+<span class="sd">    fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);</span>
+<span class="sd">  }</span>
+<span class="sd">  fxCtx.clearRect(0, 0, W, H);</span>
+<span class="sd">  flares = flares.filter(p =&gt; p.life &gt; 0);</span>
+<span class="sd">  for (const p of flares) {</span>
+<span class="sd">    p.px = p.x; p.py = p.y;</span>
+<span class="sd">    p.x += p.vx; p.y += p.vy;</span>
+<span class="sd">    p.vy += 0.14; p.vx *= 0.985;</span>
+<span class="sd">    p.life -= p.decay;</span>
+<span class="sd">    if (p.life &lt;= 0) continue;</span>
+<span class="sd">    fxCtx.save();</span>
+<span class="sd">    fxCtx.globalAlpha = Math.max(0, p.life);</span>
+<span class="sd">    fxCtx.strokeStyle = p.color; fxCtx.fillStyle = p.color;</span>
+<span class="sd">    fxCtx.shadowColor = p.color; fxCtx.shadowBlur = 10;</span>
+<span class="sd">    fxCtx.lineWidth = p.r;</span>
+<span class="sd">    fxCtx.beginPath(); fxCtx.moveTo(p.px, p.py); fxCtx.lineTo(p.x, p.y); fxCtx.stroke();</span>
+<span class="sd">    fxCtx.beginPath(); fxCtx.arc(p.x, p.y, p.star ? p.r * 1.3 : p.r * 0.85, 0, Math.PI * 2); fxCtx.fill();</span>
+<span class="sd">    fxCtx.restore();</span>
+<span class="sd">  }</span>
+<span class="sd">  if (flares.length) {</span>
+<span class="sd">    fxRaf = requestAnimationFrame(stepFlares);</span>
+<span class="sd">  } else {</span>
+<span class="sd">    fxCtx.clearRect(0, 0, W, H); fxRaf = null;</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+<span class="sd">async function refresh() {</span>
+<span class="sd">  let statusUrl = &quot;/api/status?client=&quot; + encodeURIComponent(CLIENT_ID);</span>
+<span class="sd">  if (reservationId) statusUrl += &quot;&amp;res=&quot; + encodeURIComponent(reservationId);</span>
+<span class="sd">  const resp = await fetch(statusUrl);</span>
+<span class="sd">  const st = await resp.json();</span>
+<span class="sd">  if (resp.ok) reservationId = null;</span>
+<span class="sd">  document.getElementById(&quot;status&quot;).textContent = TEXT[language][st.state] || st.state;</span>
+<span class="sd">  const ballEl = document.getElementById(&quot;ball&quot;);</span>
+<span class="sd">  const hits = st.ball ? (st.ball.hits || 0) : 0;</span>
+<span class="sd">  if (st.run !== lastHitRun) {</span>
+<span class="sd">    lastHitRun = st.run;</span>
+<span class="sd">    lastHits = hits;</span>
+<span class="sd">  } else if (hits &gt; lastHits) {</span>
+<span class="sd">    lastHits = hits;</span>
+<span class="sd">    launchFlares();</span>
+<span class="sd">  }</span>
+<span class="sd">  ballEl.style.display = st.ball ? &quot;block&quot; : &quot;none&quot;;</span>
+<span class="sd">  if (st.ball) {</span>
+<span class="sd">    const f = v =&gt; v === null ? &quot;–&quot; : v + &quot; cm&quot;;</span>
+<span class="sd">    const text = TEXT[language];</span>
+<span class="sd">    ballEl.innerHTML = text.ballDistance + &quot; &lt;b&gt;&quot; + f(st.ball.distance) + &quot;&lt;/b&gt;&lt;br&gt;&quot; +</span>
+<span class="sd">      text.ballAfter + &quot; &lt;b&gt;&quot; + (st.ball.after !== null ? f(st.ball.after)</span>
+<span class="sd">        : st.ball.touched ? text.waiting : text.untouched) + &quot;&lt;/b&gt;&lt;br&gt;&quot; +</span>
+<span class="sd">      text.ballElapsed + &quot; &lt;b&gt;&quot; + (st.ball.moving !== null ? st.ball.moving + &quot; s&quot; : &quot;–&quot;) + &quot;&lt;/b&gt;&quot;;</span>
+<span class="sd">  }</span>
+<span class="sd">  const running = st.state === &quot;ready&quot; || st.state === &quot;busy&quot;;</span>
+<span class="sd">  for (const b of document.querySelectorAll(&quot;button.action&quot;)) b.disabled = !running;</span>
+<span class="sd">  for (const [id] of CFG.worlds)</span>
+<span class="sd">    document.getElementById(&quot;world-&quot; + id).classList.toggle(&quot;active&quot;, st.world === id);</span>
+<span class="sd">  if (CFG.embed &amp;&amp; running &amp;&amp; streamedRun !== st.run) connectView(st.run, st.stream_port);</span>
+<span class="sd">}</span>
+<span class="sd">build(); applyLanguage(); setInterval(refresh, 700);</span>
+<span class="sd">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</details></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.CLIENT_TIMEOUT">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">CLIENT_TIMEOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#kid_ui.CLIENT_TIMEOUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui.RESERVATION_CLAIM_TTL">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">RESERVATION_CLAIM_TTL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30.0</span></em><a class="headerlink" href="#kid_ui.RESERVATION_CLAIM_TTL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.create_app">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#kid_ui.Simulation" title="kid_ui.Simulation"><span class="pre">Simulation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">flask.Flask</span></span></span><a class="headerlink" href="#kid_ui.create_app" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui.main">
+<span class="sig-prename descclassname"><span class="pre">kid_ui.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../skin_test/index.html" class="btn btn-neutral float-right" title="skin_test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

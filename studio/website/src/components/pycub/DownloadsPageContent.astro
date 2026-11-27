@@ -1,0 +1,238 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+import { siteConfig, releaseAssets } from "@/config/site";
+import { translations, type Locale } from "@/i18n/translations";
+import { Code } from "astro:components";
+import { Download, BookOpen, ExternalLink, Package, Container, Wrench, Sparkles, CircleCheck } from "@lucide/astro";
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = "en" } = Astro.props;
+const t = translations[lang];
+const page = t.pages.downloads;
+
+const pipCode = `python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\\Scripts\\Activate.ps1
+python3 -m pip install --upgrade pip
+
+# 1) Full pyCub Studio (icub_pybullet + Qt OpenGL + Blockly + Handbook + Exercises)
+python3 -m pip install pycub-studio
+
+# 2) Or lightweight simulator library only (without Qt GUI or handbook assets)
+python3 -m pip install icub_pybullet
+
+# Launch Home selector or a specific mode:
+pycub-studio
+pycub-studio --mode kid_scratch --lang ${lang}`;
+
+const dockerCode = `git clone https://github.com/rustlluk/pyCub.git
+cd pyCub/Docker
+
+# Native Linux GUI inside Docker (pulls prebuilt image):
+./deploy.py -p /path/to/pyCub -c pycub -pu
+
+# Cross-platform Browser VNC (Windows / macOS / Linux -> http://localhost:6080):
+./deploy.py -p /path/to/pyCub -c pycub -pu -vnc
+# Inside container run:
+start-vnc-session.sh`;
+
+const buildSourceCode = `# Linux (x86_64 & arm64): produces .AppImage and .deb in packaging/out/
+bash packaging/linux/build_linux.sh
+
+# Windows (x64, requires Inno Setup 6): produces Setup .exe
+powershell -ExecutionPolicy Bypass -File packaging\\windows\\build_windows.ps1
+
+# macOS (arm64 & x86_64): produces .app + .dmg
+PYCUB_VERSION=1.0.0 bash packaging/macos/build_dmg.sh`;
+---
+
+<Layout title={t.meta.downloadsTitle} description={t.meta.downloadsDesc} lang={lang}>
+  <section class="site-container my-10">
+    <PageHeader title={page.heading} description={page.subheading} tags={page.tags} />
+  </section>
+
+  <section class="site-container max-w-4xl mx-auto space-y-12 pb-20">
+    <!-- 1. Standalone Desktop Binaries & Installers (Primary / Direct Latest Release Assets) -->
+    <div
+      id="binaries"
+      class="scroll-mt-24 rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border-2 border-primary/35 dark:border-primary-light/30 shadow-md"
+      data-aos="fade-up-sm"
+      data-aos-once="true"
+    >
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+        <div class="flex items-center gap-2.5">
+          <Download class="w-5 h-5 text-primary dark:text-primary-light" />
+          <h2 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{page.installersTitle}</h2>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a
+            href={siteConfig.links.releasesLatest}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700 hover:border-primary transition-colors"
+          >
+            <span class="release-latest-tag">{siteConfig.releaseTag}</span>
+            <ExternalLink class="w-3 h-3 opacity-70" />
+          </a>
+          <Badge variant="primary" size="sm">
+            <Sparkles class="w-3 h-3 mr-1" /> {page.recommendedBadge}
+          </Badge>
+        </div>
+      </div>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-6">{page.installersDesc}</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        {t.downloadsSummary.targets.map((target) => (
+          <div class="p-4 rounded-xl bg-bg-primary/80 dark:bg-neutral-900/70 border border-primary/15 dark:border-neutral-700 flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <span class="font-semibold text-neutral-900 dark:text-neutral-100">{target.os}</span>
+                <Badge variant="primary" size="sm">{target.format}</Badge>
+              </div>
+              <div class="text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-2">{target.arch}</div>
+              <p class="text-xs text-neutral-700 dark:text-neutral-200 mb-1.5">{target.notes}</p>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">{target.howTo}</p>
+            </div>
+            <div class="space-y-1.5 pt-2.5 border-t border-dashed border-neutral-200 dark:border-neutral-700">
+              {target.downloads.map((dl) => {
+                const asset = releaseAssets[dl.assetKey as keyof typeof releaseAssets];
+                return (
+                  <a
+                    href={asset ? asset.url : siteConfig.links.releasesLatest}
+                    data-release-asset={dl.assetKey}
+                    title={asset ? `${asset.filename} (${asset.size})` : undefined}
+                    class="flex items-center justify-between gap-2 px-3 py-2 rounded-lg bg-primary/8 hover:bg-primary text-primary dark:text-primary-light hover:text-white border border-primary/20 hover:border-primary text-xs font-semibold transition-all"
+                  >
+                    <span class="min-w-0 flex items-center gap-1.5 truncate">
+                      <Download class="w-3.5 h-3.5 flex-shrink-0" />
+                      <span class="truncate release-asset-name">{asset?.filename || dl.label}</span>
+                    </span>
+                    <span class="text-[10px] font-mono opacity-80 flex-shrink-0 release-asset-size">
+                      {asset?.size}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Built-in workspace & extra packages note -->
+      <div class="rounded-xl p-4 bg-primary/5 dark:bg-primary/10 border border-primary/15 dark:border-primary-light/20 mb-6 flex items-start gap-3">
+        <CircleCheck class="w-5 h-5 text-primary dark:text-primary-light flex-shrink-0 mt-0.5" />
+        <p class="text-xs sm:text-sm text-neutral-700 dark:text-neutral-200 leading-relaxed">
+          {page.binariesIncludedNote}
+        </p>
+      </div>
+
+      <Button url={siteConfig.links.releasesLatest} type="fill" target="_blank">
+        <Download size={16} /> {t.downloadsSummary.ctaGuide} <ExternalLink size={14} />
+      </Button>
+    </div>
+
+    <!-- 2. Bilingual Handbooks & Exercises -->
+    <div
+      class="rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+      data-aos="fade-up-sm"
+      data-aos-once="true"
+    >
+      <div class="flex items-center gap-2.5 mb-2">
+        <BookOpen class="w-5 h-5 text-primary" />
+        <h2 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{page.handbookTitle}</h2>
+      </div>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-6">{page.handbookDesc}</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+        {page.handbookLinks.map((hl) => (
+          <a
+            href={hl.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-between gap-3 p-4 rounded-xl border border-primary/15 dark:border-neutral-700 bg-bg-primary/50 dark:bg-neutral-900/50 hover:border-primary transition-colors"
+          >
+            <div class="flex items-center gap-2.5">
+              <Badge variant="primary" size="sm">{hl.badge}</Badge>
+              <span class="text-sm font-medium text-neutral-800 dark:text-neutral-100">{hl.label}</span>
+            </div>
+            <ExternalLink class="w-4 h-4 text-neutral-400" />
+          </a>
+        ))}
+      </div>
+      <Button url={siteConfig.links.exercisesZip} type="solid" size="sm" target="_blank">
+        <Download size={14} /> {page.exercisesZipLabel} <ExternalLink size={13} />
+      </Button>
+    </div>
+
+    <!-- 3. Install via pip (Python 3.10–3.12) -->
+    <div
+      id="pip"
+      class="scroll-mt-24 rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+      data-aos="fade-up-sm"
+      data-aos-once="true"
+    >
+      <div class="flex items-center gap-2.5 mb-2">
+        <Package class="w-5 h-5 text-primary" />
+        <h2 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{page.pipSectionTitle}</h2>
+      </div>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-5">{page.pipSectionDesc}</p>
+      <div class="rounded-xl overflow-hidden bg-[#0d1117] border border-neutral-800 p-4 text-xs sm:text-[13px] overflow-x-auto dl-code">
+        <Code code={pipCode} lang="bash" theme="github-dark" />
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <Button url={siteConfig.links.pypiStudio} type="solid" size="sm" target="_blank">
+          PyPI: pycub-studio <ExternalLink size={14} />
+        </Button>
+        <Button url={siteConfig.links.pypiCore} type="solid" size="sm" target="_blank">
+          PyPI: icub_pybullet <ExternalLink size={14} />
+        </Button>
+      </div>
+    </div>
+
+    <!-- 4. Docker -->
+    <div
+      id="docker"
+      class="scroll-mt-24 rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+      data-aos="fade-up-sm"
+      data-aos-once="true"
+    >
+      <div class="flex items-center gap-2.5 mb-2">
+        <Container class="w-5 h-5 text-primary" />
+        <h2 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{page.dockerTitle}</h2>
+      </div>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-5">{page.dockerDesc}</p>
+      <div class="rounded-xl overflow-hidden bg-[#0d1117] border border-neutral-800 p-4 text-xs sm:text-[13px] overflow-x-auto dl-code">
+        <Code code={dockerCode} lang="bash" theme="github-dark" />
+      </div>
+    </div>
+
+    <!-- 5. Build Binaries from Source -->
+    <div
+      id="source"
+      class="scroll-mt-24 rounded-2xl p-6 sm:p-8 bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/15 dark:border-neutral-700 shadow-sm"
+      data-aos="fade-up-sm"
+      data-aos-once="true"
+    >
+      <div class="flex items-center gap-2.5 mb-2">
+        <Wrench class="w-5 h-5 text-primary" />
+        <h2 class="text-2xl font-brand text-neutral-900 dark:text-neutral-100">{page.buildFromSourceTitle}</h2>
+      </div>
+      <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-5">{page.buildFromSourceDesc}</p>
+      <div class="rounded-xl overflow-hidden bg-[#0d1117] border border-neutral-800 p-4 text-xs sm:text-[13px] overflow-x-auto dl-code">
+        <Code code={buildSourceCode} lang="bash" theme="github-dark" />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .dl-code :global(pre.astro-code) {
+    background: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>

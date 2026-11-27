@@ -1,0 +1,19 @@
+{% extends "!breadcrumbs.html" %}
+{% block breadcrumbs_aside %}
+  <li class="wy-breadcrumbs-aside handbook-lang-aside">
+    {%- set _depth = (pagename.split('/') | length) - 1 if pagename else 0 %}
+    {%- set _root_prefix = '../' * _depth %}
+    {%- set _target_page = (pagename ~ '.html') if pagename else 'index.html' %}
+    {%- if language == 'cs' %}
+      <div class="handbook-lang-switch" role="group" aria-label="Language switch">
+        <a href="{{ _root_prefix }}../{{ _target_page }}" class="lang-link" title="Switch to English">EN</a>
+        <span class="lang-active" aria-current="page">CZ</span>
+      </div>
+    {%- else %}
+      <div class="handbook-lang-switch" role="group" aria-label="Language switch">
+        <span class="lang-active" aria-current="page">EN</span>
+        <a href="{{ _root_prefix }}cs/{{ _target_page }}" class="lang-link" title="Přepnout do češtiny">CZ</a>
+      </div>
+    {%- endif %}
+  </li>
+{% endblock %}

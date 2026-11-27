@@ -1,0 +1,230 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@import "tailwindcss";
+
+/* Path relative to current CSS file */
+@config "../../tailwind.config.mjs";
+
+/* Define theme font and color mappings */
+@theme {
+  --font-brand: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --max-screen: 1200px;
+  --inner-screen: 860px;
+
+  --color-neutral-50: #f7f9fc;
+  --color-neutral-100: #edf1f8;
+  --color-neutral-200: #dfe4ed;
+  --color-neutral-300: #c5cedb;
+  --color-neutral-400: #92a1b7;
+  --color-neutral-500: #677487;
+  --color-neutral-600: #4f5a6d;
+  --color-neutral-700: #3f4a5a;
+  --color-neutral-800: #2c3542;
+  --color-neutral-900: #19222f;
+  --color-neutral-950: #10161f;
+
+  /* pyCub Studio blue & indigo accent tokens */
+  --color-primary: #2563eb;
+  --color-primary-rgb: 37, 99, 235;
+  --color-primary-strong: #1d4ed8;
+  --color-primary-dark: #3b82f6;
+  --color-primary-light: #93c5fd;
+  --color-primary-light-dark: #bfdbfe;
+  --color-primary-lighter: #60a5fa;
+
+  --color-primary-bg: var(--color-bg-primary-light);
+  --color-primary-bg-light: var(--color-bg-secondary);
+
+  --color-btn-primary: #2563eb;
+  --color-btn-primary-hover: #1d4ed8;
+  --color-btn-primary-dark: #3b82f6;
+  --color-btn-primary-dark-hover: #2563eb;
+
+  /* Warm amber highlight matching Kid mode */
+  --color-accent: #facc15;
+  --color-accent-light: #fef08a;
+
+  /* Warm paper light surface & deep slate dark canvas */
+  --color-bg-primary: #fdfaf5;
+  --color-bg-secondary: #ffffff;
+  --color-bg-primary-light: #faf9f5;
+  --color-bg-primary-deep: #fefcf4;
+
+  --color-bg-primary-dark: #0b1220;
+  --color-bg-secondary-dark: #111c30;
+
+  /* Text colors */
+  --color-text-primary: #1d4ed8;
+  --color-text-secondary: #3f4a5a;
+  --color-text-tertiary: #7a6550;
+
+  --color-text-primary-dark: #60a5fa;
+  --color-text-secondary-dark: #cbd5e1;
+  --color-text-tertiary-dark: #94a3b8;
+}
+
+/* Dark mode variable overrides */
+html.dark {
+  --color-primary-rgb: 59, 130, 246;
+  --color-primary-light-dark: #60a5fa;
+  --color-primary-lighter: #93c5fd;
+  --color-primary-bg: rgba(59, 130, 246, 0.15);
+  --color-primary-bg-light: rgba(59, 130, 246, 0.05);
+}
+
+@layer components {
+  .font-brand {
+    font-weight: 400 !important;
+  }
+  .prose {
+    max-width: 65ch;
+  }
+  .prose img {
+    border-radius: 20px;
+  }
+  .container,
+  .site-container {
+    max-width: var(--max-screen);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .inner-container {
+    max-width: var(--inner-screen);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .gradient-title {
+    background: linear-gradient(to right, #2563eb, #6d28d9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-title-light {
+    background: linear-gradient(to right, #93c5fd, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+html,
+body {
+  color: var(--color-text-secondary);
+}
+html.dark,
+html.dark body {
+  color: var(--color-text-secondary-dark);
+}
+h1,
+h2,
+h3 {
+  color: var(--color-text-primary);
+}
+html.dark h1,
+html.dark h2,
+html.dark h3 {
+  color: var(--color-text-primary-dark);
+}
+
+/* Custom CSS styles for Dark Mode Toggle */
+#sun {
+  transform: rotate(0);
+}
+#moon {
+  transform: rotate(0);
+}
+#darkToggle:hover #sun {
+  transform: rotate(360deg);
+}
+#darkToggle:hover #moon {
+  transform: rotate(45deg);
+}
+html.dark #darkToggle:hover .horizon {
+  border-color: #718096 !important;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+.horizon .setting {
+  animation: 1s ease 0s 1 setting;
+}
+.horizon .rising {
+  animation: 1s ease 0s 1 rising;
+}
+
+@keyframes setting {
+  0% {
+    transform: translate3d(0, 10px, 0);
+  }
+  40% {
+    transform: translate3d(0, -2px, 0);
+  }
+  to {
+    transform: translate3d(0, 30px, 0);
+  }
+}
+
+@keyframes rising {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+  }
+  40% {
+    opacity: 1;
+    transform: translate3d(0, -2px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+  background: var(--color-neutral-200) !important;
+  border-radius: 6px !important;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light) !important;
+  border-radius: 6px !important;
+}
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary) !important;
+}
+html::-webkit-scrollbar-thumb:active,
+body::-webkit-scrollbar-thumb:active,
+div::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary-dark) !important;
+}

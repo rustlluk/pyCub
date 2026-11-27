@@ -1,0 +1,96 @@
+---
+export interface Props {
+	url: string; // Button link URL
+	type?: "solid" | "fill" | "outline" | "disabled"; // Button type, optional, default is "solid"
+	className?: string; // Custom CSS classes
+	target?: "_blank" | "_self" | "_parent" | "_top"; // Link target, default is "_self"
+	size?: "xs" | "sm" | "md" | "lg" | "xl"; // Button size, optional, default is "md"
+}
+
+	const { url, type = "solid", className = "", target = "_self", size = "md" } = Astro.props;
+
+	// Outline variant uses same padding as solid but with border style
+
+// Define padding and font size for different button sizes
+const sizeClasses = {
+  xs: {
+    padding: "px-3 py-1.5",
+    fontSize: "text-xs",
+    borderRadius: "rounded-lg",
+  },
+  sm: {
+    padding: "px-4 py-2",
+    fontSize: "text-sm",
+    borderRadius: "rounded-lg",
+  },
+  md: {
+    padding: "px-5 py-[12px]",
+    fontSize: "text-base",
+    borderRadius: "rounded-xl",
+  },
+  lg: {
+    padding: "px-6 py-3.5",
+    fontSize: "text-lg",
+    borderRadius: "rounded-xl",
+  },
+  xl: {
+    padding: "px-8 py-4",
+    fontSize: "text-xl",
+    borderRadius: "rounded-2xl",
+  },
+};
+
+// Get classes for current size
+const currentSizeClasses = sizeClasses[size];
+---
+<a
+  href={type === "disabled" ? "javascript:void(0)" : url}
+  target={type === "disabled" ? undefined : target}
+  class={`${
+    type === "solid"
+      ? `flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5 ${currentSizeClasses.padding} rounded-xl bg-gradient-to-b from-white to-[#edf1fa] dark:from-[#15233b] dark:to-[#0f1b2d] border-[1px] border-primary/20 dark:border-[#243757] max-w-60 transition duration-400 ease-in-out hover:translate-y-[-2px] hover:shadow-[0px_6px_9px_0_rgba(61,99,171,0.15)] dark:hover:shadow-[0px_6x_9px_0_rgba(59,123,217,0.25)]`
+      : type === "fill"
+      ? `flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5 ${currentSizeClasses.padding} rounded-xl bg-btn-primary dark:bg-btn-primary-dark border-[0] border-[rgba(138,127,255,0.2)] shadow-[0px_2px_3px_0_rgba(0,0,0,0.1)] max-w-60 transition duration-400 ease-in-out hover:bg-btn-primary-hover dark:hover:bg-btn-primary-dark-hover hover:translate-y-[-2px] hover:shadow-[0px_6px_9px_0_rgba(61,99,171,0.15)]  dark:shadow-[0px_6px_9px_0_rgba(0,0,0,0.2)]`
+      : type === "outline"
+      ? `flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5 ${currentSizeClasses.padding} rounded-xl bg-transparent border-[1px] border-neutral-300 dark:border-neutral-600 max-w-60 transition duration-400 ease-in-out hover:border-primary hover:text-primary hover:translate-y-[-2px]`
+      : type === "disabled"
+      ? `flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1.5 ${currentSizeClasses.padding} rounded-xl bg-gradient-to-b from-neutral-100 to-neutral-200 border-[0.75px] border-neutral-300 max-w-60 cursor-not-allowed opacity-70`
+      : `inline-flex w-auto ${currentSizeClasses.padding} mt-5 ${currentSizeClasses.fontSize} font-medium duration-400 ease-out border rounded-full bg-neutral-900 dark:bg-white dark:text-neutral-900 text-neutral-100 hover:border-neutral-700 border-neutral-900 dark:hover:border-neutral-300 hover:bg-white dark:hover:bg-black dark:hover:text-white hover:text-neutral-900 max-w-60`
+  } ${className}`}
+  aria-disabled={type === "disabled" ? "true" : undefined}
+  tabindex={type === "disabled" ? "-1" : undefined}
+  onclick={type === "disabled" ? "return false;" : undefined}
+>
+  {type === "solid" ? (
+    <div class={`flex gap-1 items-center justify-center ${currentSizeClasses.fontSize} font-medium text-center text-neutral-700 dark:text-neutral-300`}>
+      <slot />
+    </div>
+  ) : type === "outline" ? (
+    <div class={`flex gap-1 items-center justify-center ${currentSizeClasses.fontSize} font-medium text-center text-neutral-700 dark:text-neutral-300`}>
+      <slot />
+    </div>
+  ) : type === "fill" ? (
+    <span class={`flex gap-1 items-center justify-center ${size === "md" ? "text-sm" : currentSizeClasses.fontSize} font-medium text-center text-neutral-50`}>
+      <slot />
+    </span>
+  ) : type === "disabled" ? (
+    <div class={`flex gap-1 items-center justify-center ${currentSizeClasses.fontSize} font-medium text-center text-neutral-500`}>
+      <slot />
+    </div>
+  ) : (
+    <span class={currentSizeClasses.fontSize}><slot /></span>
+  )}
+</a>
+
+<style>
+  /* Disabled button styles in dark mode */
+  :global(.dark) a[aria-disabled="true"] {
+    background: linear-gradient(to bottom, var(--color-neutral-800), var(--color-neutral-900));
+    border-color: var(--color-neutral-700);
+    color: var(--color-neutral-600);
+  }
+
+  :global(.dark) a[aria-disabled="true"] div {
+    color: var(--color-neutral-600);
+  }
+</style>

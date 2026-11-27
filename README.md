@@ -5,12 +5,12 @@
 - **pyCub Studio** (`pycub-studio`) — a cross-platform desktop application with an embedded native OpenGL 3.3 / 2.1 viewport, five integrated learning/development modes, offline bilingual handbook, course exercises, live **English / Čeština** switching, and standalone OS installers.
 - **`icub_pybullet`** — a lightweight Python package for joint, velocity, and Cartesian control, tactile skin simulation, stereo eye cameras, and example controllers (without Studio GUI dependencies or handbook assets).
 
-[![iCub Robot](docs/static/images/icub.png)](https://rustlluk.github.io/pycub)
+[![iCub Robot](docs/static/images/icub.png)](https://rustlluk.github.io/pyCub)
 
 **Quick Links:**
-[Project Website](https://rustlluk.github.io/pycub) |
-[Local HTML Handbook](docs/handbook/index.html) |
-[Online Handbook](https://rustlluk.github.io/pycub/handbook/index.html) |
+[Project Website](https://rustlluk.github.io/pyCub) |
+[Local HTML Handbook (EN)](docs/handbook/index.html) / [(CZ)](docs/handbook/cs/index.html) |
+[Online Handbook (EN)](https://rustlluk.github.io/pyCub/handbook/index.html) / [(CZ)](https://rustlluk.github.io/pyCub/handbook/cs/index.html) |
 [PDF Handbook (EN)](docs/handbook/pycub.pdf) |
 [PDF příručka (CZ)](docs/handbook/cs/pycub.pdf)
 
@@ -180,25 +180,27 @@ pyinstaller --noconfirm packaging/pycub.spec
    python3 -m pip install ./icub_pybullet        # simulator library only
    python3 -m pip install ./icub_pybullet ./studio   # simulator + pycub-studio command
    ```
-3. **Docker / Gitpod:**
-   - Native Docker (GNU/Linux): see [Native Version](#native-version)
-   - VNC Docker (Windows/macOS/Linux): see [VNC Version](#vnc-version)
-   - Gitpod: open [https://app.gitpod.io/#https://github.com/rustlluk/pycub](https://app.gitpod.io/#https://github.com/rustlluk/pycub), log in with GitHub, open port `6080`, and run `start-vnc-session.sh` in the terminal.
+3. **Docker & GitHub Codespaces (preconfigured environments):**
+   - **GitHub Codespaces (in browser):**
+     [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1)
+     See [GitHub Codespaces](#github-codespaces) for launch and VNC desktop instructions.
+   - **Native Docker (GNU/Linux):** see [Native Version](#native-version).
+   - **VNC Docker (Windows/macOS/Linux):** see [VNC Version](#vnc-version).
 
 ### Examples & Core Modules
 
-- [push_the_ball_pure_joints.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
-- [push_the_ball_cartesian.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py) — controlling the robot in Cartesian space (`Pose` + IK).
-- [skin_test.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/examples/skin_test.py) — tactile skin contacts with balls falling onto the robot (slow down simulation or check `skin_activations`).
-- Simulator core: [pycub.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/pycub.py)
+- [push_the_ball_pure_joints.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_pure_joints.py) — controlling the robot in joint space.
+- [push_the_ball_cartesian.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/push_the_ball_cartesian.py) — controlling the robot in Cartesian space (`Pose` + IK).
+- [skin_test.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/examples/skin_test.py) — tactile skin contacts with balls falling onto the robot (slow down simulation or check `skin_activations`).
+- Simulator core: [pycub.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/pycub.py)
 - Beginner API: [kid_api.py](icub_pybullet/kid_api.py)
-- Visualization backend: [visualizer.py](https://github.com/rustlluk/pycub/blob/master/icub_pybullet/visualizer.py) (uses Open3D for standalone scripts, web fallback, or the embedded OpenGL viewport inside `pyCub Studio`).
+- Visualization backend: [visualizer.py](https://github.com/rustlluk/pyCub/blob/master/icub_pybullet/visualizer.py) (uses Open3D for standalone scripts, web fallback, or the embedded OpenGL viewport inside `pyCub Studio`).
 
 ---
 
 ## Documentation & Building the Handbook
 
-Open **Handbook** in `pyCub Studio` or browse the [local HTML handbook](docs/handbook/index.html) (online at [pyCub Handbook](https://rustlluk.github.io/pycub/handbook/index.html); PDF: [English](docs/handbook/pycub.pdf), [Čeština](docs/handbook/cs/pycub.pdf)). The handbook covers Studio modes, Python programming across Kid/Studio/Normal modes, examples, course exercises, and the auto-generated API reference.
+Open **Handbook** in `pyCub Studio` or browse the local HTML handbook ([English](docs/handbook/index.html), [Čeština](docs/handbook/cs/index.html)) — online at [pyCub Handbook (EN)](https://rustlluk.github.io/pyCub/handbook/index.html) / [(CZ)](https://rustlluk.github.io/pyCub/handbook/cs/index.html); PDF: [English](docs/handbook/pycub.pdf), [Čeština](docs/handbook/cs/pycub.pdf). The handbook covers Studio modes, Python programming across Kid/Studio/Normal modes, examples, course exercises, and the auto-generated API reference.
 
 To rebuild the English and Czech HTML + PDF handbooks from the repository root (Python 3.10–3.12):
 
@@ -218,13 +220,29 @@ For additional Sphinx targets, run `make -C docs help` or `docs\make.bat help`.
 1. **Visualization errors or segmentation faults (e.g. with Open3D):**
    1. Run `pyCub Studio` (`pycub-studio` or `python3 -m studio.main`), which uses an embedded native OpenGL 3.3 / 2.1 viewport instead of a separate Open3D GUI window.
    2. Check your graphics drivers (Mesa / OpenGL / NVIDIA).
-   3. Use [Native Docker](#native-version) (Linux) or [VNC Docker](#vnc-version).
+   3. Use [GitHub Codespaces](#github-codespaces), [Native Docker](#native-version) (Linux), or [VNC Docker](#vnc-version).
    4. In your `.yaml` config, set `gui.standard: False` and `gui.web: True` to use the browser visualizer.
 2. **Import errors (e.g. `No module named icub_pybullet`):**
    1. Install from PyPI (`python3 -m pip install icub_pybullet` or `pycub-studio`) or from source (`python3 -m pip install ./icub_pybullet`).
    2. Or add the repository root directory to your `PYTHONPATH`.
 3. **Known bug with Open3D skin visualization:**
    - In standalone Open3D mode, visualization with tactile skin active can crash after ~65k steps (see [Open3D#4992](https://github.com/isl-org/Open3D/issues/4992)). `pyCub Studio`'s embedded OpenGL viewport is not affected.
+
+---
+
+## GitHub Codespaces
+
+Run `pyCub` and `pyCub Studio` directly in your browser without any local installation using the preconfigured [`.devcontainer.json`](.devcontainer.json) environment (`icub_pybullet`, `pycub-studio`, VS Code, PyCharm, and noVNC preinstalled).
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/rustlluk/pyCub?quickstart=1)
+
+1. **Launch a Codespace:** Click the badge above, or select **Code → Codespaces → Create codespace** at the top of the GitHub repository.
+2. **Open the VNC Desktop:** Once the container starts, the virtual desktop (`Xvfb` + XFCE + `x11vnc` + noVNC) launches automatically and forwards port **`6080` (`VNC Desktop`)**:
+   - A browser preview of the GUI should open automatically.
+   - If you close the preview or it does not appear, open the **Ports** tab in the Codespaces panel and click the globe/preview icon next to port **`6080`**.
+   - Port **`8888` (`Jupyter`)** is also forwarded if you run Jupyter notebooks inside the environment.
+3. **Run `pyCub`:** Inside the VNC desktop, open a terminal (or use the desktop shortcuts) to launch `pycub-studio`, run example scripts, or open PyCharm / VS Code.
+4. **Troubleshooting:** If the VNC desktop does not start or stops responding, run `start-vnc-session.sh` in the Codespace terminal and reopen port **`6080`** from the **Ports** tab.
 
 ---
 
@@ -263,7 +281,7 @@ For additional Sphinx targets, run `make -C docs help` or `docs\make.bat help`.
 ### Docker + PyCharm
 
 - **Native Version:** Either launch PyCharm inside Docker, or configure an SSH interpreter in host PyCharm (`user: docker`, host `localhost` or server IP, port `2222`, disable automatic upload, map remote path to `/home/docker/pycub_ws`).
-- **VNC / Gitpod Version:** Open PyCharm directly inside the container.
+- **VNC Docker / GitHub Codespaces:** Open PyCharm directly inside the container (via the desktop shortcut or `pycharm`).
 
 ### Deploy Parameters
 
@@ -304,7 +322,12 @@ When used in academic work, please cite this repository as:
 
 [![CC BY 4.0][cc-by-shield]][cc-by]
 
-This work is licensed under a [Creative Commons Attribution 4.0 International License][cc-by].
+All original code, documentation, exercises, and project-created meshes in this repository are licensed under the [Creative Commons Attribution 4.0 International License][cc-by] ([`LICENSE`](LICENSE)).
+
+Third-party components retain their respective licenses (see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md)):
+- **iCub robot models & skin data** (`icub_pybullet/iCub/` from [`robotology/icub-models`](https://github.com/robotology/icub-models)): **CC-BY-SA-4.0**
+- **Blockly visual programming library** (`studio/assets/blockly/`): **Apache-2.0**
+- **Bundled standalone installer libraries** (`PySide6` / Qt 6 / Qt WebEngine, `opencv-python`, etc.): **LGPLv3 / LGPLv2.1 / MIT / BSD / zlib** (license texts in `licenses/`)
 
 [![CC BY 4.0][cc-by-image]][cc-by]
 

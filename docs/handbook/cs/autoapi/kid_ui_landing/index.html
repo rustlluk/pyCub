@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="cs" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kid_ui_landing &mdash; pyCub Studio (CZ)</title>
+      <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../static/handbook.css?v=5e2076f9" />
+
+  
+      <script src="../../static/jquery.js?v=5d32c60e"></script>
+      <script src="../../static/sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../static/documentation_options.js?v=d153090d"></script>
+      <script src="../../static/doctools.js?v=9bcbadda"></script>
+      <script src="../../static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../static/translations.js?v=22e1c300"></script>
+    <script src="../../static/js/theme.js"></script>
+    <link rel="index" title="Rejstřík" href="../../genindex.html" />
+    <link rel="search" title="Vyhledávání" href="../../search.html" />
+    <link rel="next" title="push_the_ball_cartesian" href="../push_the_ball_cartesian/index.html" />
+    <link rel="prev" title="icub_pybullet.visualizer" href="../icub_pybullet/visualizer/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #163e48" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pyCub Studio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../studio.html">Použití Studia</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../programming.html">Programování robota</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Ukázkové programy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../exercises.html">Kurzovní cvičení</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">Dokumentace projektu (README)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../kid_ui/index.html">kid_ui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skin_test/index.html">skin_test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kid_ui_multi/index.html">kid_ui_multi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../icub_pybullet/index.html">icub_pybullet</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">kid_ui_landing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-contents">Module Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../push_the_ball_cartesian/index.html">push_the_ball_cartesian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../push_the_ball_pure_joints/index.html">push_the_ball_pure_joints</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #163e48" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pyCub Studio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+      <li class="breadcrumb-item active">kid_ui_landing</li>
+  <li class="wy-breadcrumbs-aside handbook-lang-aside">
+      <div class="handbook-lang-switch" role="group" aria-label="Language switch">
+        <a href="../../../autoapi/kid_ui_landing/index.html" class="lang-link" title="Switch to English">EN</a>
+        <span class="lang-active" aria-current="page">CZ</span>
+      </div>
+  </li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-kid_ui_landing">
+<span id="kid-ui-landing"></span><h1>kid_ui_landing<a class="headerlink" href="#module-kid_ui_landing" title="Link to this heading"></a></h1>
+<p>Landing page for kid_ui that starts multiple kid_ui.py instances via kid_ui_multi.py,
+shows all running instances (IP and port) with the number of connected users,
+and lets users either pick an instance to connect to or click „Auto-connect“
+to connect to the best available instance.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><dl class="simple">
+<dt>python3 kid_ui_landing.py [-n 5] [–host 0.0.0.0] [–port 5000]</dt><dd><p>[–instance-port 5001] [–stream-port 6001]
+[–world ball] [–log-dir DIR]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pyCub contributors</p>
+</dd>
+</dl>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui_landing.FILE_DIR" title="kid_ui_landing.FILE_DIR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FILE_DIR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui_landing.STATE_PRIORITY" title="kid_ui_landing.STATE_PRIORITY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STATE_PRIORITY</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui_landing.RESERVATION_TTL" title="kid_ui_landing.RESERVATION_TTL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RESERVATION_TTL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui_landing.PAGE" title="kid_ui_landing.PAGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAGE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui_landing.fetch_instance_status" title="kid_ui_landing.fetch_instance_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fetch_instance_status</span></code></a>(instance_id, port, multi_alive) → Dict</p></td>
+<td><p>Query a single kid_ui.py instance on localhost for its current status and user count.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui_landing.choose_best_instance" title="kid_ui_landing.choose_best_instance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">choose_best_instance</span></code></a>(instances) → Optional[Dict]</p></td>
+<td><p>Select the best online instance (fewest connected+reserved users, preferring ready over busy).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kid_ui_landing.create_landing_app" title="kid_ui_landing.create_landing_app"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_landing_app</span></code></a>(web_ports[, multi_proc]) → flask.Flask</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kid_ui_landing.main" title="kid_ui_landing.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>() → None</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui_landing.FILE_DIR">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">FILE_DIR</span></span><a class="headerlink" href="#kid_ui_landing.FILE_DIR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui_landing.STATE_PRIORITY">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">STATE_PRIORITY</span></span><a class="headerlink" href="#kid_ui_landing.STATE_PRIORITY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui_landing.RESERVATION_TTL">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">RESERVATION_TTL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5.0</span></em><a class="headerlink" href="#kid_ui_landing.RESERVATION_TTL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui_landing.fetch_instance_status">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">fetch_instance_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_alive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#kid_ui_landing.fetch_instance_status" title="Link to this definition"></a></dt>
+<dd><p>Query a single kid_ui.py instance on localhost for its current status and user count.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui_landing.choose_best_instance">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">choose_best_instance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui_landing.choose_best_instance" title="Link to this definition"></a></dt>
+<dd><p>Select the best online instance (fewest connected+reserved users, preferring ready over busy).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="kid_ui_landing.PAGE">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">PAGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Multiline-String</span></em><a class="headerlink" href="#kid_ui_landing.PAGE" title="Link to this definition"></a></dt>
+<dd><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;&lt;!doctype html&gt;</span>
+<span class="sd">&lt;html lang=&quot;cs&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span>
+<span class="sd">&lt;title&gt;pyCub – Výběr robota&lt;/title&gt;</span>
+<span class="sd">&lt;style&gt;</span>
+<span class="sd">  * { box-sizing: border-box; }</span>
+<span class="sd">  body { font-family: &quot;Comic Sans MS&quot;, &quot;Trebuchet MS&quot;, sans-serif; background: #eef6ff; margin: 0; padding: 14px; }</span>
+<span class="sd">  #container { max-width: 960px; margin: 0 auto; }</span>
+<span class="sd">  h1 { color: #1b4f8a; margin: 0; font-size: 1.5em; }</span>
+<span class="sd">  h2 { color: #1b4f8a; margin: 0 0 10px; font-size: 1.15em; }</span>
+<span class="sd">  #heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; }</span>
+<span class="sd">  #language { flex: 0 0 auto; padding: 6px 12px; font-size: 0.85em; }</span>
+<span class="sd">  section { background: #fff; border-radius: 12px; padding: 14px 16px; margin: 0 0 14px;</span>
+<span class="sd">            box-shadow: 0 2px 6px rgba(0,0,0,.15); }</span>
+<span class="sd">  button { font: inherit; font-size: 0.95em; padding: 8px 14px; border: 0; border-radius: 10px; cursor: pointer;</span>
+<span class="sd">           background: #4a9df8; color: #fff; box-shadow: 0 3px #2d6fb8; }</span>
+<span class="sd">  button:active { transform: translateY(2px); box-shadow: 0 1px #2d6fb8; }</span>
+<span class="sd">  button:disabled { background: #aaa; box-shadow: 0 3px #777; cursor: not-allowed; }</span>
+<span class="sd">  #auto-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }</span>
+<span class="sd">  #auto-info { flex: 1 1 260px; color: #1b4f8a; }</span>
+<span class="sd">  #auto-hint { font-size: 0.92em; color: #4a6785; margin-top: 4px; }</span>
+<span class="sd">  #auto-btn { background: #34a853; box-shadow: 0 4px #1f7a37; font-size: 1.15em; font-weight: bold;</span>
+<span class="sd">              padding: 12px 22px; flex: 0 0 auto; }</span>
+<span class="sd">  #auto-btn:active { box-shadow: 0 1px #1f7a37; }</span>
+<span class="sd">  #auto-btn:disabled { background: #aaa; box-shadow: 0 3px #777; }</span>
+<span class="sd">  #instances { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }</span>
+<span class="sd">  .card { border: 2px solid #d7e8fc; border-radius: 12px; padding: 12px 14px; background: #fafdff;</span>
+<span class="sd">          display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, box-shadow .15s; }</span>
+<span class="sd">  .card.best { border-color: #34a853; background: #f3fbf5; }</span>
+<span class="sd">  .card.offline { opacity: 0.7; background: #f5f7fa; border-color: #ddd; }</span>
+<span class="sd">  .card-header { display: flex; justify-content: space-between; align-items: center; gap: 6px; }</span>
+<span class="sd">  .card-title { font-weight: bold; font-size: 1.1em; color: #1b4f8a; }</span>
+<span class="sd">  .badge { font-size: 0.78em; padding: 3px 8px; border-radius: 999px; font-weight: bold; }</span>
+<span class="sd">  .badge.best { background: #34a853; color: #fff; }</span>
+<span class="sd">  .addr { font-family: monospace; font-size: 0.98em; background: #eef6ff; color: #1b4f8a;</span>
+<span class="sd">          padding: 5px 8px; border-radius: 8px; word-break: break-all; }</span>
+<span class="sd">  .meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.92em; color: #2c4c6e; }</span>
+<span class="sd">  .users-pill { font-weight: bold; padding: 3px 9px; border-radius: 999px; background: #e3f2fd; color: #1b4f8a; }</span>
+<span class="sd">  .users-pill.free { background: #e6f4ea; color: #1e7e34; }</span>
+<span class="sd">  .users-pill.occupied { background: #fff3cd; color: #856404; }</span>
+<span class="sd">  .connect-btn { width: 100%; margin-top: 4px; font-weight: bold; }</span>
+<span class="sd">&lt;/style&gt;&lt;/head&gt;&lt;body&gt;</span>
+<span class="sd">&lt;div id=&quot;container&quot;&gt;</span>
+<span class="sd">  &lt;div id=&quot;heading&quot;&gt;</span>
+<span class="sd">    &lt;h1 data-i18n=&quot;heading&quot;&gt;&lt;/h1&gt;</span>
+<span class="sd">    &lt;button id=&quot;language&quot; onclick=&quot;toggleLanguage()&quot;&gt;&lt;/button&gt;</span>
+<span class="sd">  &lt;/div&gt;</span>
+
+<span class="sd">  &lt;section id=&quot;auto-box&quot;&gt;</span>
+<span class="sd">    &lt;div id=&quot;auto-info&quot;&gt;</span>
+<span class="sd">      &lt;h2 data-i18n=&quot;autoTitle&quot; style=&quot;margin-bottom:2px&quot;&gt;&lt;/h2&gt;</span>
+<span class="sd">      &lt;div id=&quot;auto-hint&quot;&gt;…&lt;/div&gt;</span>
+<span class="sd">    &lt;/div&gt;</span>
+<span class="sd">    &lt;button id=&quot;auto-btn&quot; data-i18n=&quot;autoConnect&quot; onclick=&quot;autoConnect()&quot; disabled&gt;&lt;/button&gt;</span>
+<span class="sd">  &lt;/section&gt;</span>
+
+<span class="sd">  &lt;section&gt;</span>
+<span class="sd">    &lt;h2 data-i18n=&quot;instancesTitle&quot;&gt;&lt;/h2&gt;</span>
+<span class="sd">    &lt;div id=&quot;instances&quot;&gt;&lt;/div&gt;</span>
+<span class="sd">  &lt;/section&gt;</span>
+<span class="sd">&lt;/div&gt;</span>
+<span class="sd">&lt;script&gt;</span>
+<span class="sd">const TEXT = {</span>
+<span class="sd">  cs: {</span>
+<span class="sd">    pageTitle: &quot;pyCub – Výběr robota&quot;,</span>
+<span class="sd">    heading: &quot;🤖 pyCub – Výběr robota&quot;,</span>
+<span class="sd">    switchLanguage: &quot;English&quot;,</span>
+<span class="sd">    autoTitle: &quot;🚀 Rychlé připojení&quot;,</span>
+<span class="sd">    autoConnect: &quot;🚀 Automaticky připojit&quot;,</span>
+<span class="sd">    autoBest: &quot;Doporučená instance:&quot;,</span>
+<span class="sd">    autoWaiting: &quot;⏳ Spouštím instance, chvilku strpení…&quot;,</span>
+<span class="sd">    instancesTitle: &quot;🖥️ Běžící instance&quot;,</span>
+<span class="sd">    instanceName: &quot;Instance&quot;,</span>
+<span class="sd">    bestBadge: &quot;⭐ Nejlepší volba&quot;,</span>
+<span class="sd">    addressLabel: &quot;IP a port:&quot;,</span>
+<span class="sd">    usersLabel: &quot;👥 Připojení uživatelé:&quot;,</span>
+<span class="sd">    stateLabel: &quot;Stav:&quot;,</span>
+<span class="sd">    connectBtn: &quot;🔗 Připojit&quot;,</span>
+<span class="sd">    connectingSuffix: &quot;připojování&quot;,</span>
+<span class="sd">    usersCount: n =&gt; n === 1 ? &quot;1 uživatel&quot; : (n &gt;= 2 &amp;&amp; n &lt;= 4 ? n + &quot; uživatelé&quot; : n + &quot; uživatelů&quot;),</span>
+<span class="sd">    states: {</span>
+<span class="sd">      ready: &quot;✅ Připraveno&quot;,</span>
+<span class="sd">      busy: &quot;🏃 Robot se hýbe&quot;,</span>
+<span class="sd">      loading: &quot;⏳ Načítání…&quot;,</span>
+<span class="sd">      starting: &quot;⏳ Spouštění…&quot;,</span>
+<span class="sd">      stopped: &quot;⏹️ Zastaveno&quot;,</span>
+<span class="sd">      closed: &quot;🪟 Ukončeno&quot;,</span>
+<span class="sd">      offline: &quot;🔌 Offline&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  },</span>
+<span class="sd">  en: {</span>
+<span class="sd">    pageTitle: &quot;pyCub – Choose a robot&quot;,</span>
+<span class="sd">    heading: &quot;🤖 pyCub – Choose a robot&quot;,</span>
+<span class="sd">    switchLanguage: &quot;Čeština&quot;,</span>
+<span class="sd">    autoTitle: &quot;🚀 Quick connect&quot;,</span>
+<span class="sd">    autoConnect: &quot;🚀 Auto-connect&quot;,</span>
+<span class="sd">    autoBest: &quot;Recommended instance:&quot;,</span>
+<span class="sd">    autoWaiting: &quot;⏳ Starting instances, please wait…&quot;,</span>
+<span class="sd">    instancesTitle: &quot;🖥️ Running instances&quot;,</span>
+<span class="sd">    instanceName: &quot;Instance&quot;,</span>
+<span class="sd">    bestBadge: &quot;⭐ Best choice&quot;,</span>
+<span class="sd">    addressLabel: &quot;IP &amp; port:&quot;,</span>
+<span class="sd">    usersLabel: &quot;👥 Connected users:&quot;,</span>
+<span class="sd">    stateLabel: &quot;Status:&quot;,</span>
+<span class="sd">    connectBtn: &quot;🔗 Connect&quot;,</span>
+<span class="sd">    connectingSuffix: &quot;connecting&quot;,</span>
+<span class="sd">    usersCount: n =&gt; n === 1 ? &quot;1 user&quot; : n + &quot; users&quot;,</span>
+<span class="sd">    states: {</span>
+<span class="sd">      ready: &quot;✅ Ready&quot;,</span>
+<span class="sd">      busy: &quot;🏃 Busy&quot;,</span>
+<span class="sd">      loading: &quot;⏳ Loading…&quot;,</span>
+<span class="sd">      starting: &quot;⏳ Starting…&quot;,</span>
+<span class="sd">      stopped: &quot;⏹️ Stopped&quot;,</span>
+<span class="sd">      closed: &quot;🪟 Closed&quot;,</span>
+<span class="sd">      offline: &quot;🔌 Offline&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  }</span>
+<span class="sd">};</span>
+
+<span class="sd">let language = &quot;cs&quot;;</span>
+<span class="sd">let latestData = null;</span>
+
+<span class="sd">function applyLanguage() {</span>
+<span class="sd">  document.documentElement.lang = language;</span>
+<span class="sd">  document.title = TEXT[language].pageTitle;</span>
+<span class="sd">  for (const el of document.querySelectorAll(&quot;[data-i18n]&quot;))</span>
+<span class="sd">    el.textContent = TEXT[language][el.dataset.i18n];</span>
+<span class="sd">  document.getElementById(&quot;language&quot;).textContent = TEXT[language].switchLanguage;</span>
+<span class="sd">  if (latestData) render(latestData);</span>
+<span class="sd">}</span>
+
+<span class="sd">function toggleLanguage() {</span>
+<span class="sd">  language = language === &quot;cs&quot; ? &quot;en&quot; : &quot;cs&quot;;</span>
+<span class="sd">  applyLanguage();</span>
+<span class="sd">}</span>
+
+<span class="sd">function targetUrl(inst, resId) {</span>
+<span class="sd">  const host = (location.hostname &amp;&amp; location.hostname !== &quot;0.0.0.0&quot;) ? location.hostname : inst.ip;</span>
+<span class="sd">  const base = location.protocol + &quot;//&quot; + host + &quot;:&quot; + inst.port;</span>
+<span class="sd">  return resId ? base + &quot;/?res=&quot; + encodeURIComponent(resId) : base;</span>
+<span class="sd">}</span>
+
+<span class="sd">function displayAddress(inst) {</span>
+<span class="sd">  const addrs = (inst.addresses &amp;&amp; inst.addresses.length) ? inst.addresses : [inst.ip];</span>
+<span class="sd">  if (location.hostname &amp;&amp; location.hostname !== &quot;localhost&quot; &amp;&amp; location.hostname !== &quot;127.0.0.1&quot;) {</span>
+<span class="sd">    return location.hostname + &quot;:&quot; + inst.port;</span>
+<span class="sd">  }</span>
+<span class="sd">  return addrs.map(ip =&gt; ip + &quot;:&quot; + inst.port).join(&quot; / &quot;);</span>
+<span class="sd">}</span>
+
+<span class="sd">async function reserveAndGo(payload, fallbackInst) {</span>
+<span class="sd">  try {</span>
+<span class="sd">    const resp = await fetch(&quot;/api/reserve&quot;, {</span>
+<span class="sd">      method: &quot;POST&quot;,</span>
+<span class="sd">      headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},</span>
+<span class="sd">      body: JSON.stringify(payload || {})</span>
+<span class="sd">    });</span>
+<span class="sd">    if (resp.ok) {</span>
+<span class="sd">      const data = await resp.json();</span>
+<span class="sd">      if (data.instance) {</span>
+<span class="sd">        window.location.href = targetUrl(data.instance, data.res);</span>
+<span class="sd">        return;</span>
+<span class="sd">      }</span>
+<span class="sd">    }</span>
+<span class="sd">  } catch (e) {}</span>
+<span class="sd">  if (fallbackInst) {</span>
+<span class="sd">    window.location.href = targetUrl(fallbackInst);</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+
+<span class="sd">function connectTo(inst) {</span>
+<span class="sd">  reserveAndGo({id: inst.id}, inst);</span>
+<span class="sd">}</span>
+
+<span class="sd">function autoConnect() {</span>
+<span class="sd">  reserveAndGo({}, latestData &amp;&amp; latestData.best);</span>
+<span class="sd">}</span>
+
+<span class="sd">function render(data) {</span>
+<span class="sd">  const t = TEXT[language];</span>
+<span class="sd">  const autoBtn = document.getElementById(&quot;auto-btn&quot;);</span>
+<span class="sd">  const autoHint = document.getElementById(&quot;auto-hint&quot;);</span>
+
+<span class="sd">  if (data.best) {</span>
+<span class="sd">    autoBtn.disabled = false;</span>
+<span class="sd">    const count = data.best.effective_users ?? data.best.users;</span>
+<span class="sd">    autoHint.textContent = t.autoBest + &quot; &quot; + t.instanceName + &quot; &quot; + data.best.id +</span>
+<span class="sd">      &quot; (&quot; + displayAddress(data.best) + &quot; – &quot; + t.usersCount(count) + &quot;)&quot;;</span>
+<span class="sd">  } else {</span>
+<span class="sd">    autoBtn.disabled = true;</span>
+<span class="sd">    autoHint.textContent = t.autoWaiting;</span>
+<span class="sd">  }</span>
+
+<span class="sd">  const box = document.getElementById(&quot;instances&quot;);</span>
+<span class="sd">  box.innerHTML = &quot;&quot;;</span>
+<span class="sd">  for (const inst of data.instances) {</span>
+<span class="sd">    const isBest = data.best &amp;&amp; data.best.id === inst.id;</span>
+<span class="sd">    const effective = inst.effective_users ?? inst.users;</span>
+<span class="sd">    const pending = inst.pending || 0;</span>
+<span class="sd">    const card = document.createElement(&quot;div&quot;);</span>
+<span class="sd">    card.className = &quot;card&quot; + (isBest ? &quot; best&quot; : &quot;&quot;) + (!inst.online ? &quot; offline&quot; : &quot;&quot;);</span>
+
+<span class="sd">    const header = document.createElement(&quot;div&quot;);</span>
+<span class="sd">    header.className = &quot;card-header&quot;;</span>
+<span class="sd">    const title = document.createElement(&quot;span&quot;);</span>
+<span class="sd">    title.className = &quot;card-title&quot;;</span>
+<span class="sd">    title.textContent = &quot;🤖 &quot; + t.instanceName + &quot; &quot; + inst.id;</span>
+<span class="sd">    header.appendChild(title);</span>
+<span class="sd">    if (isBest) {</span>
+<span class="sd">      const badge = document.createElement(&quot;span&quot;);</span>
+<span class="sd">      badge.className = &quot;badge best&quot;;</span>
+<span class="sd">      badge.textContent = t.bestBadge;</span>
+<span class="sd">      header.appendChild(badge);</span>
+<span class="sd">    }</span>
+<span class="sd">    card.appendChild(header);</span>
+
+<span class="sd">    const addr = document.createElement(&quot;div&quot;);</span>
+<span class="sd">    addr.className = &quot;addr&quot;;</span>
+<span class="sd">    addr.textContent = displayAddress(inst);</span>
+<span class="sd">    card.appendChild(addr);</span>
+
+<span class="sd">    const usersRow = document.createElement(&quot;div&quot;);</span>
+<span class="sd">    usersRow.className = &quot;meta&quot;;</span>
+<span class="sd">    const usersLabel = document.createElement(&quot;span&quot;);</span>
+<span class="sd">    usersLabel.textContent = t.usersLabel;</span>
+<span class="sd">    const usersPill = document.createElement(&quot;span&quot;);</span>
+<span class="sd">    usersPill.className = &quot;users-pill &quot; + (effective === 0 ? &quot;free&quot; : &quot;occupied&quot;);</span>
+<span class="sd">    usersPill.textContent = pending &gt; 0 ? (inst.users + &quot; (+&quot; + pending + &quot; &quot; + t.connectingSuffix + &quot;)&quot;) : String(inst.users);</span>
+<span class="sd">    usersRow.appendChild(usersLabel);</span>
+<span class="sd">    usersRow.appendChild(usersPill);</span>
+<span class="sd">    card.appendChild(usersRow);</span>
+
+<span class="sd">    const stateRow = document.createElement(&quot;div&quot;);</span>
+<span class="sd">    stateRow.className = &quot;meta&quot;;</span>
+<span class="sd">    const stateLabel = document.createElement(&quot;span&quot;);</span>
+<span class="sd">    stateLabel.textContent = t.stateLabel;</span>
+<span class="sd">    const stateVal = document.createElement(&quot;span&quot;);</span>
+<span class="sd">    stateVal.textContent = t.states[inst.state] || inst.state;</span>
+<span class="sd">    stateRow.appendChild(stateLabel);</span>
+<span class="sd">    stateRow.appendChild(stateVal);</span>
+<span class="sd">    card.appendChild(stateRow);</span>
+
+<span class="sd">    const btn = document.createElement(&quot;button&quot;);</span>
+<span class="sd">    btn.className = &quot;connect-btn&quot;;</span>
+<span class="sd">    btn.textContent = t.connectBtn;</span>
+<span class="sd">    btn.disabled = !inst.online;</span>
+<span class="sd">    btn.onclick = () =&gt; connectTo(inst);</span>
+<span class="sd">    card.appendChild(btn);</span>
+
+<span class="sd">    box.appendChild(card);</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+
+<span class="sd">async function refresh() {</span>
+<span class="sd">  try {</span>
+<span class="sd">    latestData = await (await fetch(&quot;/api/instances&quot;)).json();</span>
+<span class="sd">    render(latestData);</span>
+<span class="sd">  } catch (e) {}</span>
+<span class="sd">}</span>
+
+<span class="sd">applyLanguage();</span>
+<span class="sd">refresh();</span>
+<span class="sd">setInterval(refresh, 1000);</span>
+<span class="sd">&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</details></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui_landing.create_landing_app">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">create_landing_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">web_ports</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_proc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">subprocess.Popen</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">flask.Flask</span></span></span><a class="headerlink" href="#kid_ui_landing.create_landing_app" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="kid_ui_landing.main">
+<span class="sig-prename descclassname"><span class="pre">kid_ui_landing.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#kid_ui_landing.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../icub_pybullet/visualizer/index.html" class="btn btn-neutral float-left" title="icub_pybullet.visualizer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../push_the_ball_cartesian/index.html" class="btn btn-neutral float-right" title="push_the_ball_cartesian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Lukas Rustler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -15,3 +15,6 @@ packaging/out/*
 STANDALONE_PLAN.md
 docs/handbook/.buildinfo*
 docs/source/autoapi/
+studio/website/dist/*
+studio/website/node_modules/*
+studio/website/.astro

@@ -1,0 +1,91 @@
+---
+interface Props {
+  class?: string;
+  content: string | Promise<string>;
+  duration?: number;
+  delay?: number;
+  stagger?: number;
+}
+
+let {
+  content,
+  duration = 0.6,
+  delay = 0,
+  stagger = 0.1,
+  ...rest
+} = Astro.props;
+
+let processedContent = "";
+if (content) {
+  // @ts-expect-error
+  const words = content.split(" "); // Split text into words
+  processedContent = words
+    .map(
+      (word: string) =>
+        `<span class="word" style="display: inline-block; will-change: transform; transform: translateY(10px); opacity: 0; filter: blur(10px);">${word}</span>`,
+    )
+    .join(" ");
+}
+---
+
+<div
+  class:list={["animated-text", Astro.props.class]}
+  set:html={processedContent}
+  data-duration={duration}
+  data-delay={delay}
+  data-stagger={stagger}
+  {...rest}
+/>
+
+<script>
+  import { animate, stagger, inView } from "motion";
+
+  const animatedTexts = document.querySelectorAll(".animated-text");
+
+  animatedTexts.forEach((animatedText) => {
+    const duration = parseFloat(
+      animatedText.getAttribute("data-duration") as string,
+    );
+    const delay = parseFloat(animatedText.getAttribute("data-delay") as string);
+    const dataStagger = parseFloat(
+      animatedText.getAttribute("data-stagger") as string,
+    );
+
+    // Get all words
+    const words = animatedText.querySelectorAll(".word");
+
+    // Set initial state (text remains visible with slight displacement and blur)
+    words.forEach((word) => {
+      // @ts-expect-error
+      word.style.opacity = "0";
+      // @ts-expect-error
+      word.style.transform = "translateY(10px)";
+      // @ts-expect-error
+      word.style.filter = "blur(10px)";
+    });
+
+    inView(animatedText, (element) => {
+      const words = element.querySelectorAll(".word");
+      animate(
+        words,
+        // @ts-expect-error
+        { opacity: 1, y: 0, filter: "blur(0px)" },
+        {
+          duration: duration,
+          delay: stagger(dataStagger, { startDelay: delay }), // Fixed here
+          easing: "ease-out",
+        },
+      );
+
+      // This will fire when the element leaves the viewport
+      return () => {
+        // animation.stop();
+        // animate(element.querySelectorAll(".word"), {
+        //   opacity: 0,
+        //   y: 20,
+        //   filter: "blur(10px)",
+        // });
+      };
+    });
+  });
+</script>

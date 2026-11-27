@@ -1,0 +1,46 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import Button from "@/components/ui/Button.astro";
+import { ArrowLeft, ShieldAlert } from "@lucide/astro";
+---
+
+<PageLayout
+  title="404 — Page Not Found · Stránka nenalezena | pyCub Studio"
+  description="The requested page could not be found."
+  lang="en"
+>
+  <section class="site-container py-20 md:py-28">
+    <div class="max-w-xl mx-auto text-center space-y-6" data-aos="fade-up-xs" data-aos-once="true">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-xs font-medium text-primary dark:text-primary-light">
+        <ShieldAlert size={14} />
+        Error 404
+      </div>
+
+      <h1 class="font-brand text-5xl sm:text-6xl text-neutral-900 dark:text-neutral-100">
+        Route not found
+      </h1>
+
+      <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed">
+        The requested route <code id="missing-path" class="text-primary font-mono">/unknown</code> does not exist.
+        <br />
+        Požadovaná stránka nebyla nalezena.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3 pt-2">
+        <Button url="/" type="fill">
+          <ArrowLeft size={16} /> English Home
+        </Button>
+        <Button url="/cs/" type="solid">
+          Česká verze
+        </Button>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  const missingPath = document.getElementById("missing-path");
+  if (missingPath) {
+    missingPath.textContent = window.location.pathname;
+  }
+</script>
