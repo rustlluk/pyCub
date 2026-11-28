@@ -55,19 +55,20 @@ def locate_handbook_dir() -> Optional[Path]:
     candidates: List[Path] = [
         Path(__file__).resolve().parents[2] / "docs" / "handbook",
     ]
+    if getattr(sys, "frozen", False):
+        exe_dir = Path(sys.executable).resolve().parent
+        candidates.append(exe_dir.parent / "Resources" / "docs" / "handbook")
+        candidates.append(exe_dir / "docs" / "handbook")
+        candidates.append(exe_dir / "_internal" / "docs" / "handbook")
     meipass = getattr(sys, "_MEIPASS", None)
     if meipass:
         candidates.append(Path(meipass) / "docs" / "handbook")
-    if getattr(sys, "frozen", False):
-        exe_dir = Path(sys.executable).resolve().parent
-        candidates.append(exe_dir / "docs" / "handbook")
-        candidates.append(exe_dir / "_internal" / "docs" / "handbook")
     for data_root in iter_studio_data_roots():
         candidates.append(data_root / "handbook")
 
     for cand in candidates:
         if (cand / "index.html").is_file():
-            return cand
+            return cand.resolve()
     return None
 
 
@@ -314,7 +315,7 @@ class HandbookViewer(QWidget):
         if not target.is_file():
             target = lang_dir / "index.html"
             self._current_rel_path = "index.html"
-        self.load_url(QUrl.fromLocalFile(str(target)))
+        self.load_url(QUrl.fromLocalFile(str(target.resolve())))
 
     def go_home(self) -> None:
         """Navigate to the handbook home page and reset the section selector."""

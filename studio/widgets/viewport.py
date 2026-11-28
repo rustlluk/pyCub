@@ -306,14 +306,18 @@ class _SkinCloudItem:
 
 
 def configure_default_gl_surface_format() -> None:
-    """Configure Qt's default OpenGL surface format with depth buffer (and MSAA off-Windows)."""
+    """Configure Qt's default OpenGL surface format with depth/stencil buffers."""
     if os.environ.get("QT_QPA_PLATFORM") in ("offscreen", "minimal"):
         return
     fmt = QSurfaceFormat()
     fmt.setDepthBufferSize(24)
+    fmt.setStencilBufferSize(8)
     fmt.setSwapBehavior(QSurfaceFormat.SwapBehavior.DoubleBuffer)
     if sys.platform == "darwin":
-        fmt.setVersion(3, 3)
+        # macOS native Core Profile is OpenGL 4.1 (supports GLSL 330 core shaders and QRhiGles2).
+        # Avoid global MSAA so QQuickWidget/QWebEngineView and QOpenGLWidget share identical formats.
+        fmt.setRenderableType(QSurfaceFormat.RenderableType.OpenGL)
+        fmt.setVersion(4, 1)
         fmt.setProfile(QSurfaceFormat.OpenGLContextProfile.CoreProfile)
     elif sys.platform != "win32":
         # Avoid setting global MSAA on Windows default format, which can cause QWebEngineView to render black;
@@ -480,10 +484,13 @@ class _HardwareGLCanvas(QOpenGLWidget):
     """Hardware-accelerated ``QOpenGLWidget`` canvas supporting OpenGL 3.3 Core and 2.1 fallback."""
 
     def __init__(self, state: _SceneState, parent: Optional[QWidget] = None):
-        """Configure 4x MSAA surface format and initialize GL state handles."""
+        """Configure OpenGL surface format and initialize GL state handles."""
         super().__init__(parent)
         fmt = QSurfaceFormat(QSurfaceFormat.defaultFormat())
-        fmt.setSamples(4)
+        if sys.platform != "darwin":
+            # On macOS, keep pixel format attributes identical to defaultFormat() so NSOpenGLContext
+            # sharing with QQuickWidget/QWebEngineView and _GLSurfaceAnchor never mismatches on MSAA.
+            fmt.setSamples(4)
         self.setFormat(fmt)
         self._st = state
         self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, True)

@@ -1,6 +1,7 @@
 """Unit tests for wheel/data-dir resource discovery outside a repository checkout."""
 from __future__ import annotations
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -28,7 +29,46 @@ class ResourcePathsTests(unittest.TestCase):
                 patch.object(handbook_viewer, "__file__", str(fake_module_file)),
                 patch.object(handbook_viewer, "iter_studio_data_roots", return_value=[tmp / "venv" / "share" / "pycub-studio"]),
             ):
-                self.assertEqual(handbook_viewer.locate_handbook_dir(), data_handbook)
+                self.assertEqual(handbook_viewer.locate_handbook_dir(), data_handbook.resolve())
+
+    def test_macos_app_bundle_resources_resolved_for_blockly_and_handbook(self):
+        """Ensure frozen macOS `.app` bundle resolves Blockly and Handbook inside `Contents/Resources`."""
+        from studio import resource_paths
+        from studio.widgets import handbook_viewer
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp = Path(tmp_dir)
+            app_contents = tmp / "pyCub.app" / "Contents"
+            fake_exe = app_contents / "MacOS" / "pyCub"
+            fake_exe.parent.mkdir(parents=True, exist_ok=True)
+            fake_exe.touch()
+
+            blockly_html = app_contents / "Resources" / "studio" / "assets" / "blockly" / "index.html"
+            blockly_html.parent.mkdir(parents=True, exist_ok=True)
+            blockly_html.write_text("<html></html>", encoding="utf-8")
+
+            handbook_dir = app_contents / "Resources" / "docs" / "handbook"
+            handbook_dir.mkdir(parents=True, exist_ok=True)
+            (handbook_dir / "index.html").write_text("<html></html>", encoding="utf-8")
+
+            fake_rp_file = tmp / "isolated" / "studio" / "resource_paths.py"
+            fake_hv_file = tmp / "isolated" / "studio" / "widgets" / "handbook_viewer.py"
+            fake_hv_file.parent.mkdir(parents=True, exist_ok=True)
+            fake_rp_file.touch()
+            fake_hv_file.touch()
+
+            with (
+                patch.object(resource_paths, "__file__", str(fake_rp_file)),
+                patch.object(handbook_viewer, "__file__", str(fake_hv_file)),
+                patch.object(sys, "frozen", True, create=True),
+                patch.object(sys, "executable", str(fake_exe)),
+                patch.object(sys, "_MEIPASS", None, create=True),
+            ):
+                self.assertEqual(
+                    resource_paths.locate_studio_asset("blockly", "index.html"),
+                    blockly_html.resolve(),
+                )
+                self.assertEqual(handbook_viewer.locate_handbook_dir(), handbook_dir.resolve())
 
     def test_locate_exercises_and_examples_fall_back_to_installed_data_dir(self):
         """Ensure exercises and examples fall back to `share/pycub-studio/{exercises,examples}`."""

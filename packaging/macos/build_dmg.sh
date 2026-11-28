@@ -24,15 +24,35 @@ echo "==> [1/3] Running PyInstaller for macOS (${ARCH_NAME})..."
   "${REPO_ROOT}/packaging/pycub.spec"
 
 APP_BUNDLE="${DIST_DIR}/pyCub.app"
+ENTITLEMENTS_PLIST="${SCRIPT_DIR}/entitlements.plist"
 
-echo "==> [2/3] Ad-hoc signing ${APP_BUNDLE}..."
-codesign --force --deep --sign - "${APP_BUNDLE}" || true
+echo "==> [2/3] Ad-hoc signing ${APP_BUNDLE} (inside-out for QtWebEngine)..."
+# Sign nested QtWebEngineProcess.app with JIT / executable-memory entitlements BEFORE sealing
+# QtWebEngineCore.framework and pyCub.app (codesign --deep strips nested helper entitlements,
+# causing QtWebEngineProcess to fail and render QWebEngineView black).
+while IFS= read -r -d '' helper_app; do
+  helper_exe="${helper_app}/Contents/MacOS/QtWebEngineProcess"
+  if [[ -f "${helper_exe}" ]]; then
+    codesign --force --sign - --entitlements "${ENTITLEMENTS_PLIST}" "${helper_exe}"
+  fi
+  codesign --force --sign - --entitlements "${ENTITLEMENTS_PLIST}" "${helper_app}"
+done < <(find "${APP_BUNDLE}/Contents/Frameworks" -type d -name "QtWebEngineProcess.app" -print0 2>/dev/null || true)
+
+while IFS= read -r -d '' we_fw; do
+  codesign --force --sign - "${we_fw}"
+done < <(find "${APP_BUNDLE}/Contents/Frameworks" -type d -name "QtWebEngineCore.framework" -print0 2>/dev/null || true)
+
+if [[ -f "${APP_BUNDLE}/Contents/MacOS/pyCub" ]]; then
+  codesign --force --sign - --entitlements "${ENTITLEMENTS_PLIST}" "${APP_BUNDLE}/Contents/MacOS/pyCub"
+fi
+codesign --force --sign - --entitlements "${ENTITLEMENTS_PLIST}" "${APP_BUNDLE}"
+codesign --verify --deep --strict --verbose=2 "${APP_BUNDLE}"
 
 echo "==> [3/3] Creating DMG installer..."
 DMG_STAGING="${WORK_DIR}/dmg_staging"
 rm -rf "${DMG_STAGING}"
 mkdir -p "${DMG_STAGING}"
-cp -R "${APP_BUNDLE}" "${DMG_STAGING}/pyCub.app"
+ditto "${APP_BUNDLE}" "${DMG_STAGING}/pyCub.app"
 ln -s /Applications "${DMG_STAGING}/Applications"
 
 DMG_OUT="${OUT_DIR}/pyCub-${VERSION}-macOS-${ARCH_NAME}.dmg"

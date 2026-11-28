@@ -245,11 +245,13 @@ coll = COLLECT(
 )
 
 if sys.platform == "darwin":
+    entitlements_plist = os.path.join(REPO_ROOT, "packaging", "macos", "entitlements.plist")
     app = BUNDLE(
         coll,
         name="pyCub.app",
         icon=icon_file,
         bundle_identifier="org.icub.pycub.studio",
+        entitlements_file=entitlements_plist if os.path.isfile(entitlements_plist) else None,
         info_plist={
             "CFBundleDisplayName": "pyCub Studio",
             "CFBundleShortVersionString": STUDIO_VERSION,

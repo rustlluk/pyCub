@@ -7,6 +7,20 @@ on:
         description: "Release version string (blank = read studio/VERSION)"
         required: false
         default: ""
+      target:
+        description: "Target OS/architecture to build"
+        required: false
+        type: choice
+        default: "all"
+        options:
+          - all
+          - macOS
+          - macOS-x86_64
+          - macOS-arm64
+          - Windows-x64
+          - Linux
+          - Linux-x86_64
+          - Linux-arm64
   push:
     tags:
       - "studio-v*"
@@ -18,28 +32,53 @@ permissions:
   actions: write
 
 jobs:
+  prepare:
+    name: Select Build Targets
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.targets.outputs.matrix }}
+    steps:
+      - name: Compute build matrix
+        id: targets
+        env:
+          SELECTED_TARGET: ${{ inputs.target || 'all' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+
+          selected = (os.environ.get("SELECTED_TARGET") or "all").strip()
+          all_targets = [
+              {"target": "Linux-x86_64", "os": "ubuntu-22.04", "arch": "x64"},
+              {"target": "Linux-arm64", "os": "ubuntu-22.04-arm", "arch": "arm64"},
+              {"target": "Windows-x64", "os": "windows-latest", "arch": "x64"},
+              {"target": "macOS-arm64", "os": "macos-15", "arch": "arm64"},
+              {"target": "macOS-x86_64", "os": "macos-15-intel", "arch": "x64"},
+          ]
+
+          if selected in ("", "all"):
+              chosen = all_targets
+          elif selected == "macOS":
+              chosen = [t for t in all_targets if t["target"].startswith("macOS-")]
+          elif selected == "Linux":
+              chosen = [t for t in all_targets if t["target"].startswith("Linux-")]
+          else:
+              chosen = [t for t in all_targets if t["target"] == selected]
+
+          if not chosen:
+              raise SystemExit(f"Unknown target selection: {selected!r}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"matrix={json.dumps({'include': chosen})}\n")
+          PY
+
   build-standalone:
     name: Build (${{ matrix.target }})
+    needs: prepare
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - target: Linux-x86_64
-            os: ubuntu-22.04
-            arch: x64
-          - target: Linux-arm64
-            os: ubuntu-22.04-arm
-            arch: arm64
-          - target: Windows-x64
-            os: windows-latest
-            arch: x64
-          - target: macOS-arm64
-            os: macos-15
-            arch: arm64
-          - target: macOS-x86_64
-            os: macos-15-intel
-            arch: x64
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
@@ -49,8 +88,8 @@ jobs:
         id: meta
         shell: bash
         run: |
-          if [[ -n "${{ github.event.inputs.version }}" ]]; then
-            VER="${{ github.event.inputs.version }}"
+          if [[ -n "${{ inputs.version || github.event.inputs.version }}" ]]; then
+            VER="${{ inputs.version || github.event.inputs.version }}"
           elif [[ "${GITHUB_REF}" == refs/tags/studio-v* ]]; then
             VER="${GITHUB_REF#refs/tags/studio-v}"
           elif [[ "${GITHUB_REF}" == refs/tags/v*-app* ]]; then
@@ -192,7 +231,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: draft-build-${{ github.run_id }}
-          name: Draft Build ${{ github.event.inputs.version || 'Studio' }} (#${{ github.run_number }})
+          name: Draft Build ${{ inputs.version || github.event.inputs.version || 'Studio' }} [${{ github.ref_name }} / ${{ inputs.target || 'all' }}] (#${{ github.run_number }})
           draft: true
           prerelease: true
           files: release-assets/*

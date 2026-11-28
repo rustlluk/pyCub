@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
 
 from icub_pybullet.runtime_paths import ensure_user_workspace
 from studio.i18n import I18nManager
+from studio.resource_paths import locate_studio_asset
 from studio.theme import get_active_theme, get_theme_tokens
 from studio.sim_bridge import SimProcessSupervisor, discover_all_worlds
 from studio.widgets.code_editor import PythonCodeEditor
@@ -83,11 +84,16 @@ class KidScratchMode(QWidget):
         self._custom_world_path: Optional[str] = None
         self._web_ready = False
         self._web_loaded = False
-        self._html_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "assets",
-            "blockly",
-            "index.html",
+        asset_html = locate_studio_asset("blockly", "index.html")
+        self._html_path = (
+            str(asset_html)
+            if asset_html is not None
+            else os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                "assets",
+                "blockly",
+                "index.html",
+            )
         )
 
         self._build_ui()
@@ -278,7 +284,7 @@ class KidScratchMode(QWidget):
             return
         if not self._web_loaded:
             self._web_loaded = True
-            self.web_view.load(QUrl.fromLocalFile(self._html_path))
+            self.web_view.load(QUrl.fromLocalFile(os.path.realpath(self._html_path)))
         elif self._web_ready:
             QTimer.singleShot(50, self._refresh_blockly_view)
 
