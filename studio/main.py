@@ -47,12 +47,17 @@ def _configure_platform_qt_environment() -> None:
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("org.icub.pycub.studio")
         except Exception:
             pass
-        # On Windows Qt 6, QWebEngineView uses Qt Quick (D3D11 by default) which conflicts with
-        # QOpenGLWidget in the same QMainWindow (black QWebEngineView, crash or black QOpenGLWidget
-        # after switching pages). Force Qt Quick / RHI to OpenGL before QApplication is created.
+
+    if sys.platform in ("win32", "darwin"):
+        # On Windows (D3D11) and macOS (Metal), Qt 6's QWebEngineView uses Qt Quick with a
+        # non-OpenGL RHI backend by default, which conflicts with QOpenGLWidget in the same
+        # QMainWindow (causing a black QWebEngineView in Scratch/Handbook or context teardown
+        # when switching stacked pages). Force Qt Quick / RHI to OpenGL before QApplication init.
         if not _is_headless_qt_platform():
             os.environ.setdefault("QSG_RHI_BACKEND", "opengl")
-        # Prevent Chromium ANGLE/WGL_NV_DX_interop conflicts & leaks with QOpenGLWidget on Windows
+        # Prevent Chromium GPU compositor (ANGLE/D3D11 on Windows, ANGLE/Metal IOSurface on macOS)
+        # from failing to composite into Qt Quick's OpenGL scene graph, and disable the Chromium
+        # sandbox inside frozen desktop bundles.
         flags = os.environ.get("QTWEBENGINE_CHROMIUM_FLAGS", "")
         for flag in ("--disable-gpu", "--disable-gpu-compositing"):
             if flag not in flags:
@@ -69,9 +74,14 @@ def _configure_lightweight_surface_format() -> None:
 
     fmt = QSurfaceFormat()
     fmt.setDepthBufferSize(24)
+    fmt.setStencilBufferSize(8)
     fmt.setSwapBehavior(QSurfaceFormat.SwapBehavior.DoubleBuffer)
     if sys.platform == "darwin":
-        fmt.setVersion(3, 3)
+        # macOS native Core Profile is OpenGL 4.1 (supports GLSL 330 core shaders and QRhiGles2).
+        # Avoid setting global MSAA on macOS/Windows so QQuickWidget/QWebEngineView, _GLSurfaceAnchor,
+        # and QOpenGLWidget share identical pixel format attributes under AA_ShareOpenGLContexts.
+        fmt.setRenderableType(QSurfaceFormat.RenderableType.OpenGL)
+        fmt.setVersion(4, 1)
         fmt.setProfile(QSurfaceFormat.OpenGLContextProfile.CoreProfile)
     elif sys.platform != "win32":
         fmt.setSamples(4)
@@ -150,7 +160,7 @@ def main(argv: list[str] | None = None) -> int:
     QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_ShareOpenGLContexts, True)
     _configure_lightweight_surface_format()
 
-    if sys.platform == "win32" and not _is_headless_qt_platform():
+    if sys.platform in ("win32", "darwin") and not _is_headless_qt_platform():
         try:
             from PySide6.QtQuick import QQuickWindow, QSGRendererInterface
 

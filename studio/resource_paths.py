@@ -43,14 +43,16 @@ def locate_studio_asset(*rel_parts: str) -> Optional[Path]:
     """Resolve a file inside ``studio/assets/`` across source, wheel, and frozen builds."""
     studio_dir = Path(__file__).resolve().parent
     candidates: List[Path] = [studio_dir.joinpath("assets", *rel_parts)]
+    if getattr(sys, "frozen", False):
+        exe_dir = Path(sys.executable).resolve().parent
+        # macOS .app bundles place data files in Contents/Resources/studio/assets
+        candidates.append(exe_dir.parent.joinpath("Resources", "studio", "assets", *rel_parts))
+        candidates.append(exe_dir.joinpath("_internal", "studio", "assets", *rel_parts))
+        candidates.append(exe_dir.joinpath("studio", "assets", *rel_parts))
     meipass = getattr(sys, "_MEIPASS", None)
     if meipass:
         candidates.append(Path(meipass).joinpath("studio", "assets", *rel_parts))
-    if getattr(sys, "frozen", False):
-        exe_dir = Path(sys.executable).resolve().parent
-        candidates.append(exe_dir.joinpath("_internal", "studio", "assets", *rel_parts))
-        candidates.append(exe_dir.joinpath("studio", "assets", *rel_parts))
     for cand in candidates:
         if cand.is_file():
-            return cand
+            return cand.resolve()
     return None

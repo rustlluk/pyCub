@@ -59,10 +59,10 @@ MODE_SPECS: List[Tuple[str, str, str, str]] = [
 
 
 def _should_use_gl_surface_anchor() -> bool:
-    """Return True on non-headless Windows setups unless software viewport is forced."""
+    """Return True on non-headless Windows and macOS setups unless software viewport is forced."""
     plat = (QGuiApplication.platformName() or "").lower()
     return (
-        sys.platform == "win32"
+        sys.platform in ("win32", "darwin")
         and plat not in ("offscreen", "minimal")
         and os.environ.get("PYCUB_FORCE_SW_VIEWPORT") != "1"
     )
@@ -70,10 +70,10 @@ def _should_use_gl_surface_anchor() -> bool:
 
 class _GLSurfaceAnchor(QOpenGLWidget):
     """
-    Minimal 1x1 OpenGL widget kept permanently visible inside the Windows header bar so Qt 6
+    Minimal 1x1 OpenGL widget kept permanently visible inside the Windows/macOS header bar so Qt 6
     initializes the top-level window as `OpenGLSurface` from startup and never destroys/recreates
-    the native HWND or tears down OpenGL composition when switching between Home, Simulator,
-    and Handbook pages in the `QStackedWidget`.
+    the native window surface or tears down OpenGL composition when switching between Home,
+    Scratch, Simulator, and Handbook pages in the `QStackedWidget`.
     """
 
     def __init__(self, parent: Optional[QWidget] = None):
@@ -547,6 +547,9 @@ class PyCubMainWindow(QMainWindow):
                 viewer = getattr(target_w, "viewer", None)
                 if viewer is not None:
                     viewer.update()
+                web_view = getattr(target_w, "web_view", None)
+                if web_view is not None:
+                    web_view.update()
         self._sync_handbook_btn()
 
     def _popout_handbook_window(self) -> None:

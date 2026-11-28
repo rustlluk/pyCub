@@ -1,11 +1,15 @@
-"""Tests for Windows OpenGL RHI configuration, WebEngine flags, and GL context lifecycle."""
+"""Tests for Windows & macOS OpenGL RHI configuration, WebEngine flags, and GL context lifecycle."""
 
 import os
+import plistlib
 import sys
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _ensure_qapp():
@@ -39,6 +43,18 @@ class WindowsGraphicsSetupTests(unittest.TestCase):
             self.assertIn("--disable-gpu-compositing", flags)
             self.assertEqual(os.environ.get("QTWEBENGINE_DISABLE_SANDBOX"), "1")
 
+    def test_darwin_sets_opengl_rhi_and_chromium_flags(self):
+        """Ensure macOS (Intel x86_64 & Apple Silicon arm64) sets OpenGL RHI and software WebEngine flags."""
+        from studio import main as app_main
+
+        with patch.object(sys, "platform", "darwin"), patch.dict(os.environ, {}, clear=True):
+            app_main._configure_platform_qt_environment()
+            self.assertEqual(os.environ.get("QSG_RHI_BACKEND"), "opengl")
+            flags = os.environ.get("QTWEBENGINE_CHROMIUM_FLAGS", "")
+            self.assertIn("--disable-gpu", flags)
+            self.assertIn("--disable-gpu-compositing", flags)
+            self.assertEqual(os.environ.get("QTWEBENGINE_DISABLE_SANDBOX"), "1")
+
     def test_win32_offscreen_skips_rhi_override(self):
         """Ensure offscreen Windows runs do not override ``QSG_RHI_BACKEND``."""
         from studio import main as app_main
@@ -50,8 +66,42 @@ class WindowsGraphicsSetupTests(unittest.TestCase):
             app_main._configure_platform_qt_environment()
             self.assertNotIn("QSG_RHI_BACKEND", os.environ)
 
+    def test_darwin_offscreen_skips_rhi_override(self):
+        """Ensure offscreen macOS runs do not override ``QSG_RHI_BACKEND``."""
+        from studio import main as app_main
+
+        with (
+            patch.object(sys, "platform", "darwin"),
+            patch.dict(os.environ, {"QT_QPA_PLATFORM": "offscreen"}, clear=True),
+        ):
+            app_main._configure_platform_qt_environment()
+            self.assertNotIn("QSG_RHI_BACKEND", os.environ)
+
+    def test_darwin_surface_format_uses_4_1_core_without_msaa_mismatch(self):
+        """Ensure macOS default QSurfaceFormat uses 4.1 CoreProfile and _HardwareGLCanvas matches samples."""
+        _ensure_qapp()
+        from PySide6.QtGui import QSurfaceFormat
+        from studio import main as app_main
+        from studio.widgets.viewport import _HardwareGLCanvas, _SceneState
+
+        orig_fmt = QSurfaceFormat(QSurfaceFormat.defaultFormat())
+        try:
+            with patch.object(sys, "platform", "darwin"), patch.dict(os.environ, {}, clear=True):
+                app_main._configure_lightweight_surface_format()
+                default_fmt = QSurfaceFormat.defaultFormat()
+                self.assertEqual(default_fmt.version(), (4, 1))
+                self.assertEqual(default_fmt.profile(), QSurfaceFormat.OpenGLContextProfile.CoreProfile)
+                self.assertEqual(default_fmt.depthBufferSize(), 24)
+                self.assertEqual(default_fmt.stencilBufferSize(), 8)
+                self.assertLessEqual(default_fmt.samples(), 0)
+
+                canvas = _HardwareGLCanvas(_SceneState())
+                self.assertEqual(canvas.format().samples(), default_fmt.samples())
+        finally:
+            QSurfaceFormat.setDefaultFormat(orig_fmt)
+
     def test_gl_surface_anchor_predicate(self):
-        """Verify GL surface anchoring is enabled only on native Windows platforms."""
+        """Verify GL surface anchoring is enabled on native Windows and macOS platforms."""
         _ensure_qapp()
         from studio import launcher
 
@@ -61,6 +111,20 @@ class WindowsGraphicsSetupTests(unittest.TestCase):
             patch.dict(os.environ, {}, clear=True),
         ):
             self.assertTrue(launcher._should_use_gl_surface_anchor())
+
+        with (
+            patch.object(launcher.sys, "platform", "darwin"),
+            patch.object(launcher.QGuiApplication, "platformName", return_value="cocoa"),
+            patch.dict(os.environ, {}, clear=True),
+        ):
+            self.assertTrue(launcher._should_use_gl_surface_anchor())
+
+        with (
+            patch.object(launcher.sys, "platform", "darwin"),
+            patch.object(launcher.QGuiApplication, "platformName", return_value="offscreen"),
+            patch.dict(os.environ, {}, clear=True),
+        ):
+            self.assertFalse(launcher._should_use_gl_surface_anchor())
 
         with (
             patch.object(launcher.sys, "platform", "win32"),
@@ -75,6 +139,23 @@ class WindowsGraphicsSetupTests(unittest.TestCase):
             patch.dict(os.environ, {}, clear=True),
         ):
             self.assertFalse(launcher._should_use_gl_surface_anchor())
+
+    def test_macos_packaging_uses_inside_out_webengine_signing_and_entitlements(self):
+        """Verify macOS DMG script signs QtWebEngineProcess with entitlements instead of --deep."""
+        entitlements_path = REPO_ROOT / "packaging" / "macos" / "entitlements.plist"
+        self.assertTrue(entitlements_path.is_file())
+        with entitlements_path.open("rb") as fh:
+            ent = plistlib.load(fh)
+        self.assertIs(ent.get("com.apple.security.cs.allow-jit"), True)
+        self.assertIs(ent.get("com.apple.security.cs.allow-unsigned-executable-memory"), True)
+        self.assertIs(ent.get("com.apple.security.cs.disable-library-validation"), True)
+
+        dmg_script = (REPO_ROOT / "packaging" / "macos" / "build_dmg.sh").read_text(encoding="utf-8")
+        self.assertNotIn("codesign --force --deep --sign -", dmg_script)
+        self.assertIn("QtWebEngineProcess.app", dmg_script)
+        self.assertIn("QtWebEngineCore.framework", dmg_script)
+        self.assertIn("--entitlements", dmg_script)
+        self.assertIn('ditto "${APP_BUNDLE}"', dmg_script)
 
     def test_hardware_gl_canvas_resets_handles_on_context_destroy(self):
         """Verify destroying the OpenGL context resets shader, VAO, and VBO handles."""
@@ -119,7 +200,7 @@ class WindowsGraphicsSetupTests(unittest.TestCase):
         self.assertEqual(mesh.vbo, 0)
 
     def test_win32_main_window_creates_gl_anchor_and_switches_handbook(self):
-        """Verify main window anchors GL surfaces on Windows and toggles the handbook view."""
+        """Verify main window anchors GL surfaces on Windows/macOS and toggles the handbook view."""
         _ensure_qapp()
         from studio.launcher import PyCubMainWindow, _GLSurfaceAnchor
 
