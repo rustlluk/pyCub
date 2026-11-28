@@ -3,9 +3,9 @@ import Button from "@/components/ui/Button.astro";
 import Badge from "@/components/ui/Badge.astro";
 import AnimatedText from "@/components/ui/AnimatedText.astro";
 import BrowserFrame from "@/components/ui/BrowserFrame.astro";
-import { siteConfig, releaseAssets } from "@/config/site";
+import BetaNotice from "@/components/pycub/BetaNotice.astro";
 import { translations, getRoutePrefix, type Locale } from "@/i18n/translations";
-import { ArrowRight, Check, Copy, Download, Terminal, Code, ExternalLink, Layers } from "@lucide/astro";
+import { ArrowRight, Download, Code, ExternalLink, Layers } from "@lucide/astro";
 
 interface Props {
   lang?: Locale;
@@ -20,8 +20,8 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
 ---
 
 <section class="relative site-container z-20 w-full mx-auto mt-6 px-4 md:mt-10 lg:mt-14 xl:px-0">
-  <div class="relative w-full flex flex-col items-center justify-between gap-10 lg:flex-row mb-10">
-    <!-- Left: Copy + Standalone Binary Chips + Copyable pip bar + CTAs -->
+  <div class="relative w-full flex flex-col items-center justify-between gap-10 lg:flex-row mb-8">
+    <!-- Left: Copy + CTAs -->
     <div class="relative w-full lg:w-[46%] text-center lg:text-left">
       <div
         class="flex flex-wrap gap-2 justify-center lg:justify-start mb-5"
@@ -46,7 +46,7 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
         />
       </h1>
 
-      <div class="mb-6">
+      <div class="mb-7">
         <AnimatedText
           content={t.hero.subtitle}
           delay={0.25}
@@ -56,81 +56,11 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
         />
       </div>
 
-      <!-- 1) Direct Latest-Release Binary Downloads (No Python Required) -->
-      <div
-        class="mb-4 space-y-2"
-        data-aos="fade-up-xs"
-        data-aos-delay="330"
-        data-aos-once="true"
-      >
-        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs font-medium text-neutral-600 dark:text-neutral-300">
-          <span>{t.hero.binariesLabel}</span>
-          <a
-            href={siteConfig.links.releasesLatest}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light hover:underline"
-          >
-            <span class="release-latest-tag">{siteConfig.releaseTag}</span>
-          </a>
-        </div>
-        <div class="flex flex-wrap gap-2 justify-center lg:justify-start">
-          {t.hero.binaryChips.map((chip) => {
-            const asset = releaseAssets[chip.assetKey as keyof typeof releaseAssets];
-            return (
-              <a
-                href={asset ? asset.url : siteConfig.links.releasesLatest}
-                data-release-asset={chip.assetKey}
-                title={asset ? `${asset.filename} (${asset.size})` : undefined}
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/20 dark:border-neutral-700 hover:border-primary text-xs font-medium text-neutral-800 dark:text-neutral-100 shadow-xs transition-all hover:-translate-y-0.5"
-              >
-                <Download class="w-3.5 h-3.5 text-primary dark:text-primary-light flex-shrink-0" />
-                <span>{chip.label}</span>
-                <span class="font-mono text-[11px] text-primary dark:text-primary-light">{chip.ext}</span>
-              </a>
-            );
-          })}
-          <a
-            href={`${prefix}/downloads#binaries`}
-            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-dashed border-primary/30 dark:border-neutral-600 hover:border-primary text-[11px] font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary-light transition-colors"
-          >
-            <span>{t.hero.allBuildsChip}</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- 2) Sleek Copyable pip install bar -->
-      <div
-        class="mb-7 flex flex-col items-center lg:items-start gap-1.5"
-        data-aos="fade-up-xs"
-        data-aos-delay="380"
-        data-aos-once="true"
-      >
-        <div class="text-[11px] text-neutral-500 dark:text-neutral-400">
-          {t.hero.pipAltLabel}
-        </div>
-        <button
-          type="button"
-          class="copy-install-btn group inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-neutral-900 dark:bg-neutral-950 text-neutral-100 border border-neutral-700/80 shadow-sm hover:border-primary/70 transition-all cursor-pointer"
-          data-copy="pip install pycub-studio"
-          data-label-default={t.hero.copyCmdLabel}
-          data-label-copied={t.hero.copiedLabel}
-        >
-          <Terminal class="w-4 h-4 text-primary-light flex-shrink-0" />
-          <code class="text-xs sm:text-sm font-mono tracking-tight text-neutral-100">$ pip install pycub-studio</code>
-          <span class="inline-flex items-center gap-1 pl-2 border-l border-neutral-700 text-xs text-neutral-400 group-hover:text-white transition-colors">
-            <Copy class="w-3.5 h-3.5 copy-icon" />
-            <Check class="w-3.5 h-3.5 text-emerald-400 hidden check-icon" />
-            <span class="copy-feedback hidden sm:inline">{lang === "cs" ? "Kopírovat" : "Copy"}</span>
-          </span>
-        </button>
-      </div>
-
       <!-- CTAs -->
       <div
         class="flex flex-wrap gap-3 justify-center lg:justify-start"
         data-aos="fade-up-sm"
-        data-aos-delay="450"
+        data-aos-delay="330"
         data-aos-once="true"
       >
         <Button url={`${prefix}/downloads`} type="fill" size="md">
@@ -143,32 +73,6 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
           <Code size={16} /> {t.hero.tertiaryCta}
         </Button>
       </div>
-
-      <!-- Beta & Maintainer Contact Note -->
-      <p
-        class="mt-4 text-xs text-neutral-500 dark:text-neutral-400 flex flex-wrap items-center justify-center lg:justify-start gap-x-1.5 gap-y-1"
-        data-aos="fade-up-xs"
-        data-aos-delay="500"
-        data-aos-once="true"
-      >
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0"></span>
-        <span>{t.beta.shortNote}</span>
-        <a
-          href={siteConfig.links.githubIssues}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="font-medium text-primary dark:text-primary-light hover:underline"
-        >
-          GitHub
-        </a>
-        <span>{lang === "cs" ? "nebo" : "or"}</span>
-        <a
-          href={`mailto:${siteConfig.mail}`}
-          class="font-medium text-primary dark:text-primary-light hover:underline"
-        >
-          {siteConfig.mail}
-        </a>
-      </p>
     </div>
 
     <!-- Right: Real Studio Screenshot (adapts automatically to Light / Dark website mode) -->
@@ -226,6 +130,9 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
     </div>
   </div>
 
+  <!-- Beta Notice Banner -->
+  <BetaNotice lang={lang} className="mb-8" />
+
   <!-- Signature pyCub Showcase Banner with iCub Render & Quick Links -->
   <div
     class="relative overflow-hidden rounded-2xl border border-primary/20 dark:border-primary-light/20 bg-gradient-to-br from-slate-900 via-[#0f1c34] to-[#1a1336] text-white p-5 sm:p-7 shadow-lg mb-8"
@@ -282,28 +189,3 @@ const scratchThumb = lang === "cs" ? "/assets/screenshots/kid-scratch-cs.png" : 
     </div>
   </div>
 </section>
-
-<script>
-  document.querySelectorAll<HTMLButtonElement>(".copy-install-btn").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const text = btn.dataset.copy || "pip install pycub-studio";
-      try {
-        await navigator.clipboard.writeText(text);
-        const copyIcon = btn.querySelector(".copy-icon");
-        const checkIcon = btn.querySelector(".check-icon");
-        const feedback = btn.querySelector(".copy-feedback");
-        const prev = feedback?.textContent || "";
-        copyIcon?.classList.add("hidden");
-        checkIcon?.classList.remove("hidden");
-        if (feedback) feedback.textContent = btn.dataset.labelCopied || "Copied!";
-        setTimeout(() => {
-          copyIcon?.classList.remove("hidden");
-          checkIcon?.classList.add("hidden");
-          if (feedback) feedback.textContent = prev;
-        }, 1800);
-      } catch {
-        /* ignore clipboard errors in restricted contexts */
-      }
-    });
-  });
-</script>

@@ -284,6 +284,10 @@ export interface SiteStrings {
       subheading: string;
       tags: string[];
       recommendedBadge: string;
+      macosGatekeeperNote: {
+        title: string;
+        description: string;
+      };
       binariesIncludedNote: string;
       exercisesZipLabel: string;
       pipSectionTitle: string;
@@ -768,7 +772,7 @@ pycub-studio`,
           arch: "arm64 (Apple Silicon M1–M4)",
           format: ".dmg",
           notes: "Native Apple Silicon bundle with bundled runtime and offline handbook.",
-          howTo: "Drag pyCub.app to Applications. First launch: Right-click -> Open.",
+          howTo: "Drag pyCub.app to Applications. First launch: allow in System Settings -> Privacy & Security.",
           downloads: [{ label: "Apple Silicon .dmg", assetKey: "macos-arm64" }],
         },
         {
@@ -776,7 +780,7 @@ pycub-studio`,
           arch: "x86_64 (Intel Mac)",
           format: ".dmg",
           notes: "Universal Intel Mac bundle including pinned Open3D 0.19.0 support.",
-          howTo: "Drag pyCub.app to Applications. First launch: Right-click -> Open.",
+          howTo: "Drag pyCub.app to Applications. First launch: allow in System Settings -> Privacy & Security.",
           downloads: [{ label: "Intel Mac .dmg", assetKey: "macos-x64" }],
         },
         {
@@ -813,7 +817,7 @@ pycub-studio`,
         {
           question: "How do I open pyCub.app on macOS if Gatekeeper shows an unidentified developer warning?",
           answer:
-            "Because the open-source .dmg builds use ad-hoc signing, Right-Click (or Control-Click) pyCub.app in Applications and choose Open on first launch, or run: xattr -cr /Applications/pyCub.app in Terminal.",
+            "Because the open-source .dmg builds use ad-hoc signing, macOS Gatekeeper blocks the first launch. Try opening pyCub.app, then go to System Settings -> Privacy & Security and click \"Open Anyway\" (on older macOS you can Right-Click -> Open), or run: xattr -cr /Applications/pyCub.app in Terminal.",
         },
         {
           question: "What is the difference between the pyCub Studio binary and the pip packages?",
@@ -946,6 +950,11 @@ pycub-studio`,
         installersTitle: "1. Standalone Desktop Binaries (Latest Release)",
         installersDesc:
           "Each download link resolves automatically to the latest GitHub Release asset and bundles Python, PyBullet, OpenGL, Blockly, and the offline EN/CS handbook:",
+        macosGatekeeperNote: {
+          title: "macOS (.dmg): Allow app in System Settings",
+          description:
+            "Because the open-source .dmg builds are ad-hoc signed, macOS Gatekeeper blocks the first launch. After dragging pyCub.app to Applications and trying to open it, go to System Settings -> Privacy & Security, scroll to Security, and click \"Open Anyway\" (or run: xattr -cr /Applications/pyCub.app in Terminal).",
+        },
         binariesIncludedNote:
           "Even without system Python, Mode 4 includes a built-in Packages / Python dialog to install extra PyPI packages into ~/Documents/pyCub/extra_packages/, or point to an external virtual environment later.",
         handbookTitle: "2. Bilingual Handbooks (HTML, PDF & Course Exercises)",
@@ -1512,7 +1521,7 @@ pycub-studio`,
           arch: "arm64 (Apple Silicon M1–M4)",
           format: ".dmg",
           notes: "Nativní aplikace pro čipy Apple M včetně přibalené příručky.",
-          howTo: "Přetáhněte pyCub.app do Aplikací. První spuštění: Pravý klik -> Otevřít.",
+          howTo: "Přetáhněte pyCub.app do Aplikací. První spuštění: povolte v Nastavení systému -> Soukromí a zabezpečení.",
           downloads: [{ label: "Apple Silicon .dmg", assetKey: "macos-arm64" }],
         },
         {
@@ -1520,7 +1529,7 @@ pycub-studio`,
           arch: "x86_64 (Intel Mac)",
           format: ".dmg",
           notes: "Nativní balíček pro Macy s procesory Intel (včetně Open3D 0.19.0).",
-          howTo: "Přetáhněte pyCub.app do Aplikací. První spuštění: Pravý klik -> Otevřít.",
+          howTo: "Přetáhněte pyCub.app do Aplikací. První spuštění: povolte v Nastavení systému -> Soukromí a zabezpečení.",
           downloads: [{ label: "Intel Mac .dmg", assetKey: "macos-x64" }],
         },
         {
@@ -1557,7 +1566,7 @@ pycub-studio`,
         {
           question: "Co dělat, když macOS při prvním spuštění zobrazí varování Gatekeeperu?",
           answer:
-            "Open-source balíčky .dmg jsou podepsané lokálně (ad-hoc). Klikněte na pyCub.app ve složce Aplikace pravým tlačítkem a zvolte Otevřít, případně v Terminálu spusťte: xattr -cr /Applications/pyCub.app.",
+            "Open-source balíčky .dmg jsou podepsané lokálně (ad-hoc), takže je macOS Gatekeeper při prvním spuštění zablokuje. Zkuste pyCub.app spustit, poté otevřete Nastavení systému -> Soukromí a zabezpečení a klikněte na „Přesto otevřít“ (na starších macOS stačí Pravý klik -> Otevřít), případně v Terminálu spusťte: xattr -cr /Applications/pyCub.app.",
         },
         {
           question: "Jaký je rozdíl mezi staženým pyCub Studiem a instalací přes pip?",
@@ -1690,6 +1699,11 @@ pycub-studio`,
         installersTitle: "1. Samostatné desktopové binárky (Nejnovější vydání)",
         installersDesc:
           "Všechny odkazy směřují přímo na soubory z nejnovějšího vydání na GitHubu a obsahují Python, PyBullet, OpenGL, Blockly i českou/anglickou příručku:",
+        macosGatekeeperNote: {
+          title: "macOS (.dmg): Povolení aplikace v Nastavení systému",
+          description:
+            "Open-source balíčky .dmg jsou podepsány pouze lokálně (ad-hoc), takže je macOS Gatekeeper při prvním spuštění zablokuje. Po přetažení pyCub.app do Aplikací a pokusu o spuštění otevřete Nastavení systému -> Soukromí a zabezpečení, sjeďte do sekce Zabezpečení a klikněte na „Přesto otevřít“ (nebo v Terminálu spusťte: xattr -cr /Applications/pyCub.app).",
+        },
         binariesIncludedNote:
           "Ani pro vlastní pokročilé skripty v Režimu 4 nepotřebujete systémový Python — v horní liště je okno Balíčky / Python, které umí doinstalovat další knihovny z PyPI přímo do ~/Documents/pyCub/extra_packages/.",
         handbookTitle: "2. Dvojjazyčné příručky a cvičení (HTML, PDF & .zip)",

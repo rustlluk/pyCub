@@ -7,7 +7,7 @@ import BetaNotice from "@/components/pycub/BetaNotice.astro";
 import { siteConfig, releaseAssets } from "@/config/site";
 import { translations, type Locale } from "@/i18n/translations";
 import { Code } from "astro:components";
-import { Download, BookOpen, ExternalLink, Package, Container, Wrench, Sparkles, CircleCheck } from "@lucide/astro";
+import { Download, BookOpen, ExternalLink, Package, Container, Wrench, Sparkles, CircleCheck, ShieldAlert } from "@lucide/astro";
 
 interface Props {
   lang?: Locale;
@@ -124,6 +124,19 @@ PYCUB_VERSION=1.0.0 bash packaging/macos/build_dmg.sh`;
             </div>
           </div>
         ))}
+      </div>
+
+      <!-- macOS Gatekeeper / System Settings note -->
+      <div class="rounded-xl p-4 bg-amber-50/80 dark:bg-amber-950/25 border border-amber-400/40 dark:border-amber-500/30 mb-4 flex items-start gap-3">
+        <ShieldAlert class="w-5 h-5 text-amber-700 dark:text-amber-300 flex-shrink-0 mt-0.5" />
+        <div class="space-y-1">
+          <p class="text-xs sm:text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+            {page.macosGatekeeperNote.title}
+          </p>
+          <p class="text-xs sm:text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            {page.macosGatekeeperNote.description}
+          </p>
+        </div>
       </div>
 
       <!-- Built-in workspace & extra packages note -->
